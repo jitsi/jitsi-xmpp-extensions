@@ -16,6 +16,7 @@
 package org.jitsi.xmpp.extensions.jingle;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * The <tt>reason</tt> element provides human or machine-readable information
@@ -173,25 +174,25 @@ public class ReasonPacketExtension
      */
     public String toXML()
     {
-        StringBuilder bldr = new StringBuilder("<" + getElementName() + ">");
+        XmlStringBuilder xml = new XmlStringBuilder();
+        xml.openElement(getElementName());
 
-        bldr.append("<" + getReason().toString() + "/>");
+        xml.emptyElement(getReason().toString());
 
         //add reason "text" if we have it
         if(getText() != null)
         {
-            bldr.append("<text>");
-            bldr.append(getText());
-            bldr.append("</text>");
+            xml.element("text", getText());
         }
 
         //add the extra element if it has been specified.
         if(getOtherExtension() != null)
         {
-            bldr.append(getOtherExtension().toXML());
+            xml.append(getOtherExtension().toXML());
         }
 
-        bldr.append("</" + getElementName() + ">");
-        return bldr.toString();
+        xml.closeElement(getElementName());
+
+        return xml.toString();
     }
 }

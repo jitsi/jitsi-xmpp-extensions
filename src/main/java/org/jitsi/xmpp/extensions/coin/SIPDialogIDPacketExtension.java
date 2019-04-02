@@ -15,11 +15,9 @@
  */
 package org.jitsi.xmpp.extensions.coin;
 
-import java.util.*;
-
 import org.jitsi.xmpp.extensions.*;
 
-import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * SIP Dialog ID packet extension.
@@ -88,59 +86,19 @@ public class SIPDialogIDPacketExtension
     }
 
     /**
-     * Returns an XML representation of this extension.
-     *
-     * @return an XML representation of this extension.
+     * The child elements content.
+     * @return the child elements content.
      */
     @Override
-    public String toXML()
+    public XmlStringBuilder getChildElementBuilder()
     {
-        StringBuilder bldr = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        bldr.append("<").append(getElementName()).append(" ");
+        xml.optElement(ELEMENT_DISPLAY_TEXT, displayText);
+        xml.optElement(ELEMENT_CALLID, callID);
+        xml.optElement(ELEMENT_FROMTAG, fromTag);
+        xml.optElement(ELEMENT_TOTAG, toTag);
 
-        if(getNamespace() != null)
-            bldr.append("xmlns='").append(getNamespace()).append("'");
-
-        //add the rest of the attributes if any
-        for(Map.Entry<String, Object> entry : attributes.entrySet())
-        {
-            bldr.append(" ")
-                    .append(entry.getKey())
-                        .append("='")
-                            .append(entry.getValue())
-                                .append("'");
-        }
-
-        bldr.append(">");
-
-        if(displayText != null)
-            bldr.append("<").append(ELEMENT_DISPLAY_TEXT).append(">").append(
-                    displayText).append("</").append(
-                            ELEMENT_DISPLAY_TEXT).append(">");
-
-        if(callID != null)
-            bldr.append("<").append(ELEMENT_CALLID).append(">").append(
-                    callID).append("</").append(
-                            ELEMENT_CALLID).append(">");
-
-        if(fromTag != null)
-            bldr.append("<").append(ELEMENT_FROMTAG).append(">").append(
-                    fromTag).append("</").append(
-                            ELEMENT_FROMTAG).append(">");
-
-        if(toTag != null)
-            bldr.append("<").append(ELEMENT_TOTAG).append(">").append(
-                    toTag).append("</").append(
-                            ELEMENT_TOTAG).append(">");
-
-        for(ExtensionElement ext : getChildExtensions())
-        {
-            bldr.append(ext.toXML());
-        }
-
-        bldr.append("</").append(getElementName()).append(">");
-
-        return bldr.toString();
+        return xml;
     }
 }

@@ -15,11 +15,9 @@
  */
 package org.jitsi.xmpp.extensions.coin;
 
-import java.util.*;
-
 import org.jitsi.xmpp.extensions.*;
 
-import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * Media packet extension.
@@ -206,63 +204,20 @@ public class MediaPacketExtension
     }
 
     /**
-     * Get an XML string representation.
-     *
-     * @return XML string representation
+     * The child elements content.
+     * @return the child elements content.
      */
     @Override
-    public String toXML()
+    public XmlStringBuilder getChildElementBuilder()
     {
-        StringBuilder bldr = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        bldr.append("<").append(getElementName()).append(" ");
+        xml.optElement(ELEMENT_DISPLAY_TEXT, displayText);
+        xml.optElement(ELEMENT_TYPE, type);
+        xml.optElement(ELEMENT_SRC_ID, srcId);
+        xml.optElement(ELEMENT_STATUS, status);
+        xml.optElement(ELEMENT_LABEL, label);
 
-        if(getNamespace() != null)
-            bldr.append("xmlns='").append(getNamespace()).append("'");
-
-        //add the rest of the attributes if any
-        for(Map.Entry<String, Object> entry : attributes.entrySet())
-        {
-            bldr.append(" ")
-                    .append(entry.getKey())
-                        .append("='")
-                            .append(entry.getValue())
-                                .append("'");
-        }
-
-        bldr.append(">");
-
-        if(displayText != null)
-            bldr.append("<").append(ELEMENT_DISPLAY_TEXT).append(">").append(
-                    displayText).append("</").append(
-                            ELEMENT_DISPLAY_TEXT).append(">");
-
-        if(type != null)
-            bldr.append("<").append(ELEMENT_TYPE).append(">").append(
-                    type).append("</").append(
-                            ELEMENT_TYPE).append(">");
-
-        if(srcId != null)
-            bldr.append("<").append(ELEMENT_SRC_ID).append(">").append(
-                    srcId).append("</").append(
-                            ELEMENT_SRC_ID).append(">");
-
-        if(status != null)
-            bldr.append("<").append(ELEMENT_STATUS).append(">").append(
-                    status).append("</").append(
-                            ELEMENT_STATUS).append(">");
-
-        if(label != null)
-            bldr.append("<").append(ELEMENT_LABEL).append(">").append(
-                    label).append("</").append(
-                            ELEMENT_LABEL).append(">");
-
-        for(ExtensionElement ext : getChildExtensions())
-        {
-            bldr.append(ext.toXML());
-        }
-
-        bldr.append("</").append(getElementName()).append(">");
-        return bldr.toString();
+        return xml;
     }
 }

@@ -15,11 +15,9 @@
  */
 package org.jitsi.xmpp.extensions.coin;
 
-import java.util.*;
-
 import org.jitsi.xmpp.extensions.*;
 
-import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * State packet extension.
@@ -138,53 +136,29 @@ public class StatePacketExtension
     }
 
     /**
-     * Get an XML string representation.
-     *
-     * @return XML string representation
+     * The child elements content.
+     * @return the child elements content.
      */
     @Override
-    public String toXML()
+    public XmlStringBuilder getChildElementBuilder()
     {
-       StringBuilder bldr = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-       bldr.append("<").append(getElementName()).append(" ");
+        if(userCount != 0)
+        {
+            xml.optElement(ELEMENT_USER_COUNT, userCount);
+        }
 
-       if(getNamespace() != null)
-           bldr.append("xmlns='").append(getNamespace()).append("'");
+        if(active != -1)
+        {
+            xml.optElement(ELEMENT_ACTIVE, (active > 0));
+        }
 
-       //add the rest of the attributes if any
-       for(Map.Entry<String, Object> entry : attributes.entrySet())
-       {
-           bldr.append(" ")
-                   .append(entry.getKey())
-                       .append("='")
-                           .append(entry.getValue())
-                               .append("'");
-       }
+        if(locked != -1)
+        {
+            xml.optElement(ELEMENT_LOCKED, (locked > 0));
+        }
 
-       bldr.append(">");
-
-       if(userCount != 0)
-           bldr.append("<").append(ELEMENT_USER_COUNT).append(">").append(
-                   userCount).append("</").append(ELEMENT_USER_COUNT).append(
-                           ">");
-
-       if(active != -1)
-           bldr.append("<").append(ELEMENT_ACTIVE).append(">").append(
-                   (active > 0)).append("</").append(ELEMENT_ACTIVE).append(
-                           ">");
-
-       if(locked != -1)
-           bldr.append("<").append(ELEMENT_LOCKED).append(">").append(
-                   (active > 0)).append("</").append(ELEMENT_LOCKED).append(
-                           ">");
-
-       for(ExtensionElement ext : getChildExtensions())
-       {
-           bldr.append(ext.toXML());
-       }
-
-       bldr.append("</").append(getElementName()).append(">");
-       return bldr.toString();
+        return xml;
     }
 }

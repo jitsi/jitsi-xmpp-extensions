@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions.jingleinfo;
 import org.jitsi.xmpp.extensions.*;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * Relay packet extension.
@@ -78,23 +79,22 @@ public class RelayPacketExtension
     @Override
     public String toXML()
     {
-        StringBuilder bld = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        bld.append("<").append(ELEMENT_NAME).append(">");
+        xml.halfOpenElement(ELEMENT_NAME);
 
         if(token != null)
         {
-            bld.append("<").append("token").append(">");
-            bld.append(token);
-            bld.append("</").append("token").append(">");
+            xml.element("token", token);
         }
 
         for(ExtensionElement pe : getChildExtensions())
         {
-            bld.append(pe.toXML());
+            xml.optAppend(pe);
         }
-        bld.append("</").append(ELEMENT_NAME).append(">");
 
-        return bld.toString();
+        xml.closeElement(ELEMENT_NAME);
+
+        return xml.toString();
     }
 }

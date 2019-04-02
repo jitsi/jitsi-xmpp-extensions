@@ -17,6 +17,7 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.util.*;
 import org.xmlpull.v1.*;
 
 /**
@@ -85,13 +86,9 @@ public class StatsId
      */
     public String toXML()
     {
-        final StringBuilder buf = new StringBuilder();
-
-        buf.append("<").append(ELEMENT_NAME).append(">");
-        buf.append(getStatsId());
-        buf.append("</").append(ELEMENT_NAME).append('>');
-
-        return buf.toString();
+        return new XmlStringBuilder()
+            .element(ELEMENT_NAME, getStatsId())
+            .toString();
     }
 
     /**

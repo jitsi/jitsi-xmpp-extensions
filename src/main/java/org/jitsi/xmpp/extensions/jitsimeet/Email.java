@@ -17,6 +17,7 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.util.*;
 import org.xmlpull.v1.*;
 
 /**
@@ -82,13 +83,9 @@ public class Email
      */
     public String toXML()
     {
-        final StringBuilder buf = new StringBuilder();
-
-        buf.append("<").append(ELEMENT_NAME).append(">");
-        buf.append(getAddress());
-        buf.append("</").append(ELEMENT_NAME).append('>');
-
-        return buf.toString();
+        return new XmlStringBuilder()
+            .element(ELEMENT_NAME, getAddress())
+            .toString();
     }
 
     /**

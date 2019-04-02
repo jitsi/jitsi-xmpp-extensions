@@ -177,7 +177,7 @@ public class ConferenceDescriptionExtension
      */
     public void setUri(String uri)
     {
-        setAttribute(URI_ATTR_NAME, StringUtils.escapeForXML(uri));
+        setAttribute(URI_ATTR_NAME, uri);
     }
 
     /**
@@ -213,7 +213,7 @@ public class ConferenceDescriptionExtension
      */
     public void setName(String name)
     {
-       setAttribute(CONFERENCE_NAME_ATTR_NAME, StringUtils.escapeForXML(name));
+       setAttribute(CONFERENCE_NAME_ATTR_NAME, name);
     }
 
     /**

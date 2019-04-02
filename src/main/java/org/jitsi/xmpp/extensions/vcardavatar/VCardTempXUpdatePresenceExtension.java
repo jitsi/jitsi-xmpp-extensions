@@ -129,20 +129,22 @@ public class VCardTempXUpdatePresenceExtension
      */
     private void computeXML()
     {
-        StringBuilder stringBuilder = new StringBuilder(
-                "<" + this.getElementName() +
-                " xmlns='" + this.getNamespace() + "'>");
+        XmlStringBuilder xml = new XmlStringBuilder();
+
+        xml.halfOpenElement(getElementName());
+        xml.xmlnsAttribute(getNamespace());
+
         if(imageSha1 == null)
         {
-            stringBuilder.append("<photo/>");
+            xml.emptyElement("photo");
         }
         else
         {
-            stringBuilder.append("<photo>" + imageSha1 + "</photo>");
+            xml.element("photo", imageSha1);
         }
-        stringBuilder.append("</" + this.getElementName() + ">");
+        xml.closeElement(getElementName());
 
-        this.xmlString = stringBuilder.toString();
+        this.xmlString = xml.toString();
     }
 
     /**

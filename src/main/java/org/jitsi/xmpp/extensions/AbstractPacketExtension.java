@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions;
 import java.net.*;
 import java.util.*;
 
+import org.jitsi.utils.StringUtils;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 
@@ -92,11 +93,6 @@ public abstract class AbstractPacketExtension
         = new LinkedHashMap<String, Object>();
 
     /**
-     * A list of all packets that are wrapped by this extension.
-     */
-    private final List<Stanza> packets = new LinkedList<>();
-
-    /**
      * The text content of this packet extension, if any.
      */
     private String textContent;
@@ -159,66 +155,69 @@ public abstract class AbstractPacketExtension
      */
     public String toXML()
     {
-        StringBuilder bldr = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        bldr.append("<").append(getElementName()).append(" ");
-
-        String namespace = getNamespace();
-
-        if(namespace != null)
-            bldr.append("xmlns='").append(namespace).append("'");
+        xml.halfOpenElement(getElementName());
+        xml.xmlnsAttribute(getNamespace());
 
         //add the rest of the attributes if any
         for(Map.Entry<String, Object> entry : attributes.entrySet())
         {
-            bldr.append(" ").append(entry.getKey()).append("='")
-                    .append(entry.getValue()).append("'");
+            xml.optAttribute(entry.getKey(), String.valueOf(entry.getValue()));
         }
 
         //add child elements if any
         List<? extends ExtensionElement> childElements = getChildExtensions();
         String text = getText();
-        List<Stanza> packets = getPackets();
+        XmlStringBuilder childBuilder = getChildElementBuilder();
 
-        if (childElements.size() == 0 && packets.size() == 0)
+        if (childElements.size() == 0 && childBuilder.length() == 0)
         {
-            if ((text == null) || (text.length() == 0))
+            if (StringUtils.isNullOrEmpty(text))
             {
-                bldr.append("/>");
-                return bldr.toString();
+                return xml.closeEmptyElement().toString();
             }
             else
-                bldr.append('>');
+                xml.rightAngleBracket();
         }
         else
         {
             synchronized(childElements)
             {
-                if (childElements.isEmpty() && packets.isEmpty()
-                        && ((text == null) || (text.length() == 0)))
+                if (childElements.isEmpty()
+                    && childBuilder.length() == 0
+                    && StringUtils.isNullOrEmpty(text))
                 {
-                    bldr.append("/>");
-                    return bldr.toString();
+                    return xml.closeEmptyElement().toString();
                 }
                 else
                 {
-                    bldr.append(">");
+                    xml.rightAngleBracket();
                     for(ExtensionElement packExt : childElements)
-                        bldr.append(packExt.toXML());
-                    for(Stanza packet : packets)
-                        bldr.append(packet.toXML());
+                        xml.optAppend(packExt);
+
+                    xml.append(childBuilder);
                 }
             }
         }
 
         //text content if any
-        if((text != null) && (text.trim().length() > 0))
-            bldr.append(StringUtils.escapeForXml(text));
+        if(!StringUtils.isNullOrEmpty(text))
+            xml.optEscape(text);
 
+        xml.closeElement(getElementName());
 
-        bldr.append("</").append(getElementName()).append(">");
+        return xml.toString();
+    }
 
-        return bldr.toString();
+    /**
+     * This method must be overwritten by subclasses to create their
+     * child content.
+     * @return the xml builder for the content.
+     */
+    public XmlStringBuilder getChildElementBuilder()
+    {
+        return new XmlStringBuilder();
     }
 
     /**
@@ -299,26 +298,6 @@ public abstract class AbstractPacketExtension
         }
 
         return removed;
-    }
-
-    /**
-     * Returns the list of packets.
-     *
-     * @return the list of packets.
-     */
-    public List<Stanza> getPackets()
-    {
-        return packets;
-    }
-
-    /**
-     * Adds packet to the list of packets.
-     *
-     * @param packet the packet to add.
-     */
-    public void addPacket(Stanza packet)
-    {
-        packets.add(packet);
     }
 
     /**

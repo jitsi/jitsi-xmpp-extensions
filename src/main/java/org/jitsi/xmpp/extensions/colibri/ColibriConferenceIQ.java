@@ -1577,7 +1577,7 @@ public class ColibriConferenceIQ
         /**
          * Appends an XML representation of this <tt>ChannelBundle</tt> to
          * <tt>xml</tt>.
-         * @param xml the <tt>StringBuilder</tt> to append to.
+         * @param xml the <tt>XmlStringBuilder </tt> to append to.
          */
         public IQChildElementXmlStringBuilder toXML(
             IQChildElementXmlStringBuilder xml)
@@ -1796,7 +1796,7 @@ public class ColibriConferenceIQ
         /**
          * Derived class implements this method in order to print additional
          * attributes to main XML element.
-         * @param xml <the <tt>StringBuilder</tt> to which the XML
+         * @param xml <the <tt>XmlStringBuilder </tt> to which the XML
          *            <tt>String</tt> representation of this <tt>Channel</tt>
          *            is to be appended</tt>
          */
@@ -1805,10 +1805,10 @@ public class ColibriConferenceIQ
 
         /**
          * Implement in order to print content child elements of this IQ using
-         * given <tt>StringBuilder</tt>. Called during construction of XML
+         * given <tt>XmlStringBuilder </tt>. Called during construction of XML
          * representation if {@link #hasContent()} returns <tt>true</tt>.
          *
-         * @param xml the <tt>StringBuilder</tt> to which the XML
+         * @param xml the <tt>XmlStringBuilder </tt> to which the XML
          *        <tt>String</tt> representation of this <tt>Channel</tt>
          *        is to be appended</tt></tt>.
          */
@@ -1895,9 +1895,9 @@ public class ColibriConferenceIQ
 
         /**
          * Appends the XML <tt>String</tt> representation of this
-         * <tt>Channel</tt> to a specific <tt>StringBuilder</tt>.
+         * <tt>Channel</tt> to a specific <tt>XmlStringBuilder </tt>.
          *
-         * @param xml the <tt>StringBuilder</tt> to which the XML
+         * @param xml the <tt>XmlStringBuilder </tt> to which the XML
          * <tt>String</tt> representation of this <tt>Channel</tt> is to be
          * appended
          */
@@ -2180,9 +2180,9 @@ public class ColibriConferenceIQ
 
         /**
          * Appends the XML <tt>String</tt> representation of this
-         * <tt>Content</tt> to a specific <tt>StringBuilder</tt>.
+         * <tt>Content</tt> to a specific <tt>XmlStringBuilder </tt>.
          *
-         * @param xml the <tt>StringBuilder</tt> to which the XML
+         * @param xml the <tt>XmlStringBuilder </tt> to which the XML
          * <tt>String</tt> representation of this <tt>Content</tt> is to be
          * appended
          */
@@ -2342,7 +2342,7 @@ public class ColibriConferenceIQ
          * Appends the XML <tt>String</tt> representation of this
          * <tt>Endpoint</tt> to <tt>xml</tt>.
          *
-         * @param xml the <tt>StringBuilder</tt> to which the XML
+         * @param xml the <tt>XmlStringBuilder </tt> to which the XML
          * <tt>String</tt> representation of this <tt>Endpoint</tt> is to be
          * appended
          */

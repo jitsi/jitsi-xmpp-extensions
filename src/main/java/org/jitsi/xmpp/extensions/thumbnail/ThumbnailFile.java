@@ -62,63 +62,53 @@ public class ThumbnailFile
     @Override
     public String toXML()
     {
-        StringBuilder buffer = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        buffer.append("<").append(getElementName()).append(" xmlns=\"")
-            .append(getNamespace()).append("\" ");
-
-        if (getName() != null)
-        {
-            buffer.append("name=\"").append(
-                StringUtils.escapeForXmlAttribute(getName())).append("\" ");
-        }
+        xml.halfOpenElement(getElementName());
+        xml.xmlnsAttribute(getNamespace());
 
         if (getSize() > 0)
         {
-            buffer.append("size=\"").append(getSize()).append("\" ");
+            xml.attribute("size", String.valueOf(getSize()));
         }
 
         if (getDate() != null)
         {
-            buffer.append("date=\"").append(
-                XmppDateTime.formatXEP0082Date(this.getDate())).append("\" ");
+            xml.attribute(
+                "date",
+                XmppDateTime.formatXEP0082Date(this.getDate()));
         }
 
-        if (getHash() != null)
-        {
-            buffer.append("hash=\"").append(getHash()).append("\" ");
-        }
+        xml.optAttribute("hash", getHash());
 
-        if ((this.getDesc() != null && getDesc().length() > 0)
+        String desc = this.getDesc();
+        if (!StringUtils.isNullOrEmpty(desc)
                 || isRanged()
                 || thumbnail != null)
         {
-            buffer.append(">");
-
-            if (getDesc() != null && getDesc().length() > 0)
+            if (!StringUtils.isNullOrEmpty(desc))
             {
-                buffer.append("<desc>").append(
-                    StringUtils.escapeForXmlText(getDesc())).append("</desc>");
+                xml.element("desc", desc);
             }
 
             if (isRanged())
             {
-                buffer.append("<range/>");
+                xml.emptyElement("range");
             }
 
             if (thumbnail != null)
             {
-                buffer.append(thumbnail.toXML());
+                xml.append(thumbnail.toXML());
             }
 
-            buffer.append("</").append(getElementName()).append(">");
+            xml.closeElement(getElementName());
         }
         else
         {
-            buffer.append("/>");
+            xml.closeEmptyElement();
         }
 
-        return buffer.toString();
+        return xml.toString();
     }
 
     /**
