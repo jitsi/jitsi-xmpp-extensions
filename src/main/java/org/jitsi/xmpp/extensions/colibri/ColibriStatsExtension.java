@@ -21,7 +21,7 @@ import org.jitsi.xmpp.extensions.*;
 
 import org.jitsi.utils.logging.*;
 import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.util.StringUtils;
+import org.jivesoftware.smack.util.*;
 
 /**
  * Implements the Jitsi Videobridge <tt>stats</tt> extension within COnferencing
@@ -291,11 +291,12 @@ public class ColibriStatsExtension
             }
             else
             {
-                return
-                    "<" + ELEMENT_NAME + " " + NAME_ATTR_NAME + "='"
-                        + StringUtils.escapeForXml(name) + "' "
-                        + VALUE_ATTR_NAME + "='"
-                        + StringUtils.escapeForXml(value.toString()) + "' />";
+                return new XmlStringBuilder()
+                    .halfOpenElement(ELEMENT_NAME)
+                    .attribute(NAME_ATTR_NAME, name)
+                    .attribute(VALUE_ATTR_NAME, value.toString())
+                    .closeEmptyElement()
+                    .toString();
             }
         }
     }

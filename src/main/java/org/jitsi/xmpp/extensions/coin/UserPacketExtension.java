@@ -15,11 +15,9 @@
  */
 package org.jitsi.xmpp.extensions.coin;
 
-import java.util.*;
-
 import org.jitsi.xmpp.extensions.*;
 
-import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * User packet extension.
@@ -90,43 +88,16 @@ public class UserPacketExtension
     }
 
     /**
-     * Get an XML string representation.
-     *
-     * @return XML string representation
+     * The child elements content.
+     * @return the child elements content.
      */
     @Override
-    public String toXML()
+    public XmlStringBuilder getChildElementBuilder()
     {
-        StringBuilder bldr = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        bldr.append("<").append(getElementName()).append(" ");
+        xml.optElement(ELEMENT_DISPLAY_TEXT, displayText);
 
-        if(getNamespace() != null)
-            bldr.append("xmlns='").append(getNamespace()).append("'");
-
-        //add the rest of the attributes if any
-        for(Map.Entry<String, Object> entry : attributes.entrySet())
-        {
-            bldr.append(" ")
-                    .append(entry.getKey())
-                        .append("='")
-                            .append(entry.getValue())
-                                .append("'");
-        }
-
-        bldr.append(">");
-
-        if(displayText != null)
-            bldr.append("<").append(ELEMENT_DISPLAY_TEXT).append(">").append(
-                    displayText).append("</").append(
-                            ELEMENT_DISPLAY_TEXT).append(">");
-
-        for(ExtensionElement ext : getChildExtensions())
-        {
-            bldr.append(ext.toXML());
-        }
-
-        bldr.append("</").append(getElementName()).append(">");
-        return bldr.toString();
+        return xml;
     }
 }

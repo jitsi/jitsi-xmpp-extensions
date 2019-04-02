@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 import org.jitsi.utils.logging.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.util.*;
 import org.xmlpull.v1.*;
 
 import java.io.*;
@@ -153,38 +154,28 @@ public class IdentityPacketExtension
     @Override
     public CharSequence toXML()
     {
-        final StringBuilder buf = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
         // begin identity
-        buf.append("<").append(ELEMENT_NAME).append(">");
+        xml.openElement(ELEMENT_NAME);
 
         //begin user
-        buf.append("<").append(USER_ELEMENT_NAME).append(">");
+        xml.openElement(USER_ELEMENT_NAME);
 
-        buf.append("<").append(USER_ID_ELEMENT_NAME).append(">");
-        buf.append(getUserId());
-        buf.append("</").append(USER_ID_ELEMENT_NAME).append(">");
-
-        buf.append("<").append(USER_NAME_ELEMENT_NAME).append(">");
-        buf.append(getUserName());
-        buf.append("</").append(USER_NAME_ELEMENT_NAME).append(">");
-
-        buf.append("<").append(USER_AVATAR_URL_ELEMENT_NAME).append(">");
-        buf.append(getUserAvatarUrl());
-        buf.append("</").append(USER_AVATAR_URL_ELEMENT_NAME).append(">");
+        xml.element(USER_ID_ELEMENT_NAME, getUserId());
+        xml.element(USER_NAME_ELEMENT_NAME, getUserName());
+        xml.element(USER_AVATAR_URL_ELEMENT_NAME, getUserAvatarUrl());
 
         // end user
-        buf.append("</").append(USER_ELEMENT_NAME).append(">");
+        xml.closeElement(USER_ELEMENT_NAME);
 
         // begin and end group
-        buf.append("<").append(GROUP_ELEMENT_NAME).append(">");
-        buf.append(getGroupId());
-        buf.append("</").append(GROUP_ELEMENT_NAME).append(">");
+        xml.element(GROUP_ELEMENT_NAME, getGroupId());
 
         // end identity
-        buf.append("</").append(ELEMENT_NAME).append('>');
+        xml.closeElement(ELEMENT_NAME);
 
-        return buf.toString();
+        return xml.toString();
     }
 
     /**

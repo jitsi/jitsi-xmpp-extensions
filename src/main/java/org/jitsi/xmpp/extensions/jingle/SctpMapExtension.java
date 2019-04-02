@@ -16,6 +16,7 @@
 package org.jitsi.xmpp.extensions.jingle;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * SctpMap extension in transport packet extension.
@@ -93,20 +94,18 @@ public class SctpMapExtension
     @Override
     public String toXML()
     {
-        StringBuilder builder = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        builder.append("<").append(getElementName());
-        builder.append(" ").append("xmlns").append("='").append(getNamespace())
-            .append("'");
-        builder.append(" ").append(PORT_ATTR_NAME).append("='").append(port)
-            .append("'");
-        builder.append(" ").append(PROTOCOL_ATTR_NAME).append("='")
-            .append(protocol).append("'");
-        builder.append(" ").append(STREAMS_ATTR_NAME).append("='")
-            .append(streams).append("'");
-        builder.append("/>");
+        xml.halfOpenElement(getElementName());
+        xml.xmlnsAttribute(getNamespace());
 
-        return builder.toString();
+        xml.optAttribute(PORT_ATTR_NAME, String.valueOf(port));
+        xml.optAttribute(PROTOCOL_ATTR_NAME, protocol);
+        xml.optAttribute(STREAMS_ATTR_NAME, String.valueOf(streams));
+
+        xml.closeEmptyElement();
+
+        return xml.toString();
     }
 
     public void setPort(int port)

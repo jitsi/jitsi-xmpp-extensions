@@ -15,11 +15,9 @@
  */
 package org.jitsi.xmpp.extensions.coin;
 
-import java.util.*;
-
 import org.jitsi.xmpp.extensions.*;
 
-import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
 
 /**
  * Description packet extension.
@@ -149,57 +147,22 @@ public class DescriptionPacketExtension
     }
 
     /**
-     * Get an XML string representation.
-     *
-     * @return XML string representation
+     * The child elements content.
+     * @return the child elements content.
      */
     @Override
-    public String toXML()
+    public XmlStringBuilder getChildElementBuilder()
     {
-        StringBuilder bldr = new StringBuilder();
+        XmlStringBuilder xml = new XmlStringBuilder();
 
-        bldr.append("<").append(getElementName()).append(" ");
-
-        if(getNamespace() != null)
-            bldr.append("xmlns='").append(getNamespace()).append("'");
-
-        //add the rest of the attributes if any
-        for(Map.Entry<String, Object> entry : attributes.entrySet())
-        {
-            bldr.append(" ")
-                    .append(entry.getKey())
-                        .append("='")
-                            .append(entry.getValue())
-                                .append("'");
-        }
-
-        bldr.append(">");
-
-        if(subject != null)
-            bldr.append("<").append(ELEMENT_SUBJECT).append(">").append(
-                    subject).append("</").append(ELEMENT_SUBJECT).append(">");
-
-        if(displayText != null)
-            bldr.append("<").append(ELEMENT_DISPLAY_TEXT).append(">").append(
-                    displayText).append("</").append(
-                            ELEMENT_DISPLAY_TEXT).append(">");
-
-        if(freeText != null)
-            bldr.append("<").append(ELEMENT_FREE_TEXT).append(">").append(
-                    freeText).append("</").append(
-                            ELEMENT_FREE_TEXT).append(">");
-
+        xml.optElement(ELEMENT_SUBJECT, subject);
+        xml.optElement(ELEMENT_DISPLAY_TEXT, displayText);
+        xml.optElement(ELEMENT_FREE_TEXT, freeText);
         if(maximumUserCount != 0)
-            bldr.append("<").append(ELEMENT_MAX_USER_COUNT).append(">").append(
-                    maximumUserCount).append("</").append(
-                            ELEMENT_MAX_USER_COUNT).append(">");
-
-        for(ExtensionElement ext : getChildExtensions())
         {
-            bldr.append(ext.toXML());
+            xml.optElement(ELEMENT_MAX_USER_COUNT, maximumUserCount);
         }
 
-        bldr.append("</").append(getElementName()).append(">");
-        return bldr.toString();
+        return xml;
     }
 }
