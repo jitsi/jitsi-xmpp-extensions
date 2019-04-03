@@ -163,7 +163,12 @@ public abstract class AbstractPacketExtension
         //add the rest of the attributes if any
         for(Map.Entry<String, Object> entry : attributes.entrySet())
         {
-            xml.optAttribute(entry.getKey(), String.valueOf(entry.getValue()));
+            Object value = entry.getValue();
+
+            if (value != null)
+            {
+                xml.attribute(entry.getKey(), value.toString());
+            }
         }
 
         //add child elements if any
@@ -312,7 +317,7 @@ public abstract class AbstractPacketExtension
         {
             if (value != null)
             {
-                this.attributes.put(name, value);
+                this.attributes.put(name, value.toString());
             }
             else
             {

@@ -68,7 +68,7 @@ public class JibriBusyStatusPacketExt
 
     public void setStatus(BusyStatus status)
     {
-        setAttribute(STATUS_ATTRIBUTE, String.valueOf(status));
+        setAttribute(STATUS_ATTRIBUTE, status);
     }
 
     public enum BusyStatus

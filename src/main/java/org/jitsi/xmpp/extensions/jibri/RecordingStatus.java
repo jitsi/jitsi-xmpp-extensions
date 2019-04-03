@@ -71,7 +71,7 @@ public class RecordingStatus
      */
     public void setStatus(JibriIq.Status status)
     {
-        setAttribute(STATUS_ATTRIBUTE, String.valueOf(status));
+        setAttribute(STATUS_ATTRIBUTE, status);
     }
 
     /**

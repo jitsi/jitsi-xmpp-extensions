@@ -64,7 +64,7 @@ public class HealthStatusPacketExt
 
     public void setStatus(Health health)
     {
-        setAttribute(HEALTH_ATTRIBUTE, String.valueOf(health));
+        setAttribute(HEALTH_ATTRIBUTE, health);
     }
 
     public enum Health
