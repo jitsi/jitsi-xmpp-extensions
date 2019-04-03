@@ -93,7 +93,7 @@ public class SipCallState
      */
     public void setState(JibriIq.Status status)
     {
-        setAttribute(STATE_ATTRIBUTE, String.valueOf(status));
+        setAttribute(STATE_ATTRIBUTE, status);
     }
 
     /**

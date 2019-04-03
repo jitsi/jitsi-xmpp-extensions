@@ -62,6 +62,8 @@ public class VideoMutedExtension
      */
     public void setVideoMuted(Boolean videoMuted)
     {
-        setText(String.valueOf(videoMuted));
+        setText(
+            videoMuted == null
+                ? "false" : videoMuted.toString());
     }
 }

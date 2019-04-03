@@ -57,7 +57,7 @@ public class TranscriptionStatusExtension
      */
     public void setStatus(Status status)
     {
-        setAttribute(STATUS_ATTRIBUTE, String.valueOf(status));
+        setAttribute(STATUS_ATTRIBUTE, status);
     }
 
     /**
