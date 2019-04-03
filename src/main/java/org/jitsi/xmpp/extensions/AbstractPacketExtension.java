@@ -171,39 +171,37 @@ public abstract class AbstractPacketExtension
         String text = getText();
         XmlStringBuilder childBuilder = getChildElementBuilder();
 
-        if (childElements.size() == 0 && childBuilder.length() == 0)
+        if (childElements.isEmpty() && childBuilder.length() == 0)
         {
             if (StringUtils.isNullOrEmpty(text))
             {
                 return xml.closeEmptyElement().toString();
             }
             else
+            {
                 xml.rightAngleBracket();
+            }
         }
         else
         {
             synchronized(childElements)
             {
-                if (childElements.isEmpty()
-                    && childBuilder.length() == 0
-                    && StringUtils.isNullOrEmpty(text))
-                {
-                    return xml.closeEmptyElement().toString();
-                }
-                else
-                {
-                    xml.rightAngleBracket();
-                    for(ExtensionElement packExt : childElements)
-                        xml.optAppend(packExt);
+                xml.rightAngleBracket();
 
-                    xml.append(childBuilder);
+                for(ExtensionElement packExt : childElements)
+                {
+                    xml.optAppend(packExt);
                 }
+
+                xml.append(childBuilder);
             }
         }
 
         //text content if any
         if(!StringUtils.isNullOrEmpty(text))
+        {
             xml.optEscape(text);
+        }
 
         xml.closeElement(getElementName());
 
