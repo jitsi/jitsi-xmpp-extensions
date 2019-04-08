@@ -25,7 +25,6 @@ import org.jitsi.xmpp.extensions.*;
 public class StartMutedPacketExtension
     extends AbstractPacketExtension
 {
-
     /**
      * Name space of start muted packet extension.
      */
@@ -78,7 +77,7 @@ public class StartMutedPacketExtension
      */
     public boolean getAudioMuted()
     {
-        return (Boolean)getAttribute(AUDIO_ATTRIBUTE_NAME);
+        return Boolean.valueOf(getAttributeAsString(AUDIO_ATTRIBUTE_NAME));
     }
 
     /**
@@ -87,7 +86,6 @@ public class StartMutedPacketExtension
      */
     public boolean getVideoMuted()
     {
-        return (Boolean)getAttribute(VIDEO_ATTRIBUTE_NAME);
+        return Boolean.valueOf(getAttributeAsString(VIDEO_ATTRIBUTE_NAME));
     }
-
 }
