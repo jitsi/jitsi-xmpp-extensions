@@ -1064,7 +1064,8 @@ public class ColibriConferenceIQ
         {
             // direction
             String direction = getDirection();
-            if ((direction != null) && (direction != SENDRECV))
+            if (direction != null
+                && !direction.equals(SENDRECV))
             {
                 xml.attribute(DIRECTION_ATTR_NAME, direction);
             }
