@@ -24,12 +24,14 @@
     </dependency>
     <dependency>
       <groupId>org.igniterealtime.smack</groupId>
-      <artifactId>smack-extensions</artifactId>
+      <!-- It appears that smack-core needs the base64 encoder to be set,
+           and this fails to happen unless we include smack-java7.  -->
+      <artifactId>smack-java7</artifactId>
       <version>${smack.version}</version>
     </dependency>
     <dependency>
       <groupId>org.igniterealtime.smack</groupId>
-      <artifactId>smack-tcp</artifactId>
+      <artifactId>smack-extensions</artifactId>
       <version>${smack.version}</version>
     </dependency>
     <dependency>
