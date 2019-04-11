@@ -131,8 +131,9 @@ public class VCardTempXUpdatePresenceExtension
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
-        xml.halfOpenElement(getElementName());
-        xml.xmlnsAttribute(getNamespace());
+        xml.halfOpenElement(getElementName())
+            .xmlnsAttribute(getNamespace())
+            .rightAngleBracket();
 
         if(imageSha1 == null)
         {
