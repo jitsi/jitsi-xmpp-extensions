@@ -15,11 +15,11 @@
  */
 package org.jitsi.xmpp.extensions.vcardavatar;
 
-import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.packet.Stanza;
 
-public class VCardTempXUpdateInterceptor implements StanzaListener
+public class VCardTempXUpdateInterceptor
+    implements StanzaListener
 {
     private VCardTempXUpdatePresenceExtension presenceExtension;
 
@@ -40,8 +40,6 @@ public class VCardTempXUpdateInterceptor implements StanzaListener
      */
     @Override
     public void processStanza(Stanza packet)
-        throws NotConnectedException,
-        InterruptedException
     {
         // remove the current if any, to no accumulate extensions
         // when updating presence
