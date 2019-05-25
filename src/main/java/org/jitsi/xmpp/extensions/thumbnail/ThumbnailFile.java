@@ -80,13 +80,14 @@ public class ThumbnailFile
         }
 
         xml.optAttribute("hash", getHash());
+        xml.rightAngleBracket();
 
         String desc = this.getDesc();
-        if (!StringUtils.isNullOrEmpty(desc)
+        if (!org.apache.commons.lang3.StringUtils.isEmpty(desc)
                 || isRanged()
                 || thumbnail != null)
         {
-            if (!StringUtils.isNullOrEmpty(desc))
+            if (!org.apache.commons.lang3.StringUtils.isEmpty(desc))
             {
                 xml.element("desc", desc);
             }
