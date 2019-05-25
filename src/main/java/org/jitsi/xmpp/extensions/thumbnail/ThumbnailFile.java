@@ -19,6 +19,8 @@ import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smackx.si.packet.StreamInitiation;
 import org.jxmpp.util.*;
 
+import com.google.common.base.Strings;
+
 /**
  * The <tt>FileElement</tt> extends the smackx <tt>StreamInitiation.File</tt>
  * in order to provide a file that supports thumbnails.
@@ -80,9 +82,10 @@ public class ThumbnailFile
         }
 
         xml.optAttribute("hash", getHash());
+        xml.rightAngleBracket();
 
         String desc = this.getDesc();
-        if (!StringUtils.isNullOrEmpty(desc)
+        if (!Strings.isNullOrEmpty(desc)
                 || isRanged()
                 || thumbnail != null)
         {

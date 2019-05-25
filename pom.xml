@@ -40,6 +40,13 @@
       <version>1.0-20190401.122850-7</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>r05</version>
+    </dependency>
+
     <!-- test -->
     <dependency>
       <groupId>junit</groupId>
