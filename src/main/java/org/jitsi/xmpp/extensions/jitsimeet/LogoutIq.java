@@ -15,7 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
 
 import java.io.*;
@@ -92,7 +92,7 @@ public class LogoutIq
             IQChildElementXmlStringBuilder xml)
     {
         xml.optAttribute(SESSION_ID_ATTR, sessionId);
-        if (!StringUtils.isNullOrEmpty(logoutUrl))
+        if (!StringUtils.isEmpty(logoutUrl))
         {
             try
             {

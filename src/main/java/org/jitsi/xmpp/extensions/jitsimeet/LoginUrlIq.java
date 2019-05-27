@@ -15,7 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.*;
 
@@ -93,7 +93,7 @@ public class LoginUrlIq
     protected IQChildElementXmlStringBuilder getIQChildElementBuilder(
             IQChildElementXmlStringBuilder xml)
     {
-        if (!StringUtils.isNullOrEmpty(url))
+        if (!StringUtils.isEmpty(url))
         {
             try
             {

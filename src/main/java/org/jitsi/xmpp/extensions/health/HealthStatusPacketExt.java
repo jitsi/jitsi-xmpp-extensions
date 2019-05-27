@@ -17,7 +17,7 @@ package org.jitsi.xmpp.extensions.health;
 
 import org.jitsi.xmpp.extensions.AbstractPacketExtension;
 import org.jitsi.xmpp.extensions.DefaultPacketExtensionProvider;
-import org.jitsi.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.provider.ProviderManager;
 
 /**
@@ -94,7 +94,7 @@ public class HealthStatusPacketExt
          */
         public static Health parse(String health)
         {
-            if (StringUtils.isNullOrEmpty(health))
+            if (StringUtils.isEmpty(health))
             {
                 return UNDEFINED;
             }

@@ -16,7 +16,7 @@
 package org.jitsi.xmpp.extensions.jitsimeet;
 
 
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.provider.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
@@ -65,27 +65,27 @@ public class LoginUrlIqProvider
 
             String url = parser.getAttributeValue(
                     "", LoginUrlIq.URL_ATTRIBUTE_NAME);
-            if (!StringUtils.isNullOrEmpty(url))
+            if (!StringUtils.isEmpty(url))
             {
                 authUrlIQ.setUrl(url);
             }
             String room = parser.getAttributeValue(
                     "", LoginUrlIq.ROOM_NAME_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(room))
+            if (!StringUtils.isEmpty(room))
             {
                 EntityBareJid roomJid = JidCreate.entityBareFrom(room);
                 authUrlIQ.setRoom(roomJid);
             }
             String popup = parser.getAttributeValue(
                     "", LoginUrlIq.POPUP_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(popup))
+            if (!StringUtils.isEmpty(popup))
             {
                 Boolean popupBool = Boolean.parseBoolean(popup);
                 authUrlIQ.setPopup(popupBool);
             }
             String machineUID = parser.getAttributeValue(
                     "", LoginUrlIq.MACHINE_UID_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(machineUID))
+            if (!StringUtils.isEmpty(machineUID))
             {
                 authUrlIQ.setMachineUID(machineUID);
             }

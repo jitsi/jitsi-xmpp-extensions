@@ -16,8 +16,8 @@
 package org.jitsi.xmpp.extensions.colibri;
 
 import org.jitsi.xmpp.extensions.jingle.*;
-
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
+import org.jitsi.utils.MediaType;
 import org.jitsi.utils.logging.*;
 
 import org.jivesoftware.smack.packet.*;
@@ -506,7 +506,7 @@ public class ColibriBuilder
         Objects.requireNonNull(transport, "transport");
 
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             // We are not initialized yet.
 
@@ -554,7 +554,7 @@ public class ColibriBuilder
 
         // Formulate the ColibriConferenceIQ request which is to be sent.
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             return false;
         }
@@ -716,7 +716,7 @@ public class ColibriBuilder
         Objects.requireNonNull(channel, "channel");
 
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             // We are not initialized yet
 
@@ -757,7 +757,7 @@ public class ColibriBuilder
         Objects.requireNonNull(localChannelsInfo, "localChannelsInfo");
 
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             // We are not initialized yet
             return false;
@@ -813,7 +813,7 @@ public class ColibriBuilder
         Objects.requireNonNull(localChannelsInfo, "localChannelsInfo");
 
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             // We are not initialized yet
             return false;
@@ -871,7 +871,7 @@ public class ColibriBuilder
         Objects.requireNonNull(localChannelsInfo, "localChannelsInfo");
 
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             // We are not initialized yet
             return false;
@@ -932,7 +932,7 @@ public class ColibriBuilder
         Objects.requireNonNull(localChannelsInfo, "localChannelsInfo");
 
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             // We are not initialized yet
             return false;
@@ -995,7 +995,7 @@ public class ColibriBuilder
         Objects.requireNonNull(localChannelsInfo, "localChannelsInfo");
 
         if (conferenceState == null
-            || StringUtils.isNullOrEmpty(conferenceState.getID()))
+            || StringUtils.isEmpty(conferenceState.getID()))
         {
             // We are not initialized yet
             return false;

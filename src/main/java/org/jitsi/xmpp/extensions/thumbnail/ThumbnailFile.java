@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.thumbnail;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smackx.si.packet.StreamInitiation;
 import org.jxmpp.util.*;
@@ -82,11 +83,11 @@ public class ThumbnailFile
         xml.optAttribute("hash", getHash());
 
         String desc = this.getDesc();
-        if (!StringUtils.isNullOrEmpty(desc)
+        if (!StringUtils.isEmpty(desc)
                 || isRanged()
                 || thumbnail != null)
         {
-            if (!StringUtils.isNullOrEmpty(desc))
+            if (!StringUtils.isEmpty(desc))
             {
                 xml.element("desc", desc);
             }

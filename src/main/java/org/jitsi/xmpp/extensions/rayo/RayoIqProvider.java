@@ -15,8 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.rayo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jitsi.xmpp.extensions.*;
-import org.jitsi.utils.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
 import org.jxmpp.jid.Jid;
@@ -103,7 +103,7 @@ public class RayoIqProvider
             String dst = parser.getAttributeValue("", DialIq.DST_ATTR_NAME);
 
             // Destination is mandatory
-            if (StringUtils.isNullOrEmpty(dst))
+            if (StringUtils.isEmpty(dst))
                 return null;
 
             dial.setSource(src);
@@ -114,7 +114,7 @@ public class RayoIqProvider
             iq = ref = new RefIq();
             String uri = parser.getAttributeValue("", RefIq.URI_ATTR_NAME);
 
-            if (StringUtils.isNullOrEmpty(uri))
+            if (StringUtils.isEmpty(uri))
                 return null;
 
             ref.setUri(uri);
@@ -198,7 +198,7 @@ public class RayoIqProvider
                             = parser.getAttributeValue(
                             "", ReasonPacketExtension.PLATFORM_CODE_ATTRIBUTE);
 
-                        if (!StringUtils.isNullOrEmpty(platformCode))
+                        if (!StringUtils.isEmpty(platformCode))
                         {
                             reason.setPlatformCode(platformCode);
                         }

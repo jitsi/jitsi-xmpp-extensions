@@ -18,7 +18,7 @@ package org.jitsi.xmpp.extensions;
 import java.net.*;
 import java.util.*;
 
-import org.jitsi.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 
@@ -178,7 +178,7 @@ public abstract class AbstractPacketExtension
 
         if (childElements.isEmpty() && childBuilder.length() == 0)
         {
-            if (StringUtils.isNullOrEmpty(text))
+            if (StringUtils.isEmpty(text))
             {
                 return xml.closeEmptyElement().toString();
             }
@@ -203,7 +203,7 @@ public abstract class AbstractPacketExtension
         }
 
         //text content if any
-        if(!StringUtils.isNullOrEmpty(text))
+        if(!StringUtils.isEmpty(text))
         {
             xml.optEscape(text);
         }

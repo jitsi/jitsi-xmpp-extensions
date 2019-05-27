@@ -15,8 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jitsi.xmpp.extensions.*;
-import org.jitsi.utils.*;
 
 /**
  * Packet extension included in Jitsi-Meet MUC presence to signal extra
@@ -60,7 +60,7 @@ public class UserInfoPacketExt
     public Boolean isRobot()
     {
         String isRobotStr = getAttributeAsString(ROBOT_ATTRIBUTE_NAME);
-        if (!StringUtils.isNullOrEmpty(isRobotStr))
+        if (!StringUtils.isEmpty(isRobotStr))
         {
             return Boolean.parseBoolean(isRobotStr);
         }

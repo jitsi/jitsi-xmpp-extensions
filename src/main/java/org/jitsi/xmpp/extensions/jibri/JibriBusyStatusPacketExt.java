@@ -17,7 +17,7 @@ package org.jitsi.xmpp.extensions.jibri;
 
 import org.jitsi.xmpp.extensions.AbstractPacketExtension;
 import org.jitsi.xmpp.extensions.DefaultPacketExtensionProvider;
-import org.jitsi.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.provider.ProviderManager;
 
 /**
@@ -101,7 +101,7 @@ public class JibriBusyStatusPacketExt
          */
         public static BusyStatus parse(String status)
         {
-            if (StringUtils.isNullOrEmpty(status))
+            if (StringUtils.isEmpty(status))
                 return UNDEFINED;
 
             try
