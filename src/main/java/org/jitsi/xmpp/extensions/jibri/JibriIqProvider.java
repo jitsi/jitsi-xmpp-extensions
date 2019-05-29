@@ -15,7 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jibri;
 
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
 
 import org.jivesoftware.smack.provider.*;
 import org.jxmpp.jid.*;
@@ -62,13 +62,13 @@ public class JibriIqProvider
             String recordingMode
                 = parser.getAttributeValue(
                         "", JibriIq.RECORDING_MODE_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(recordingMode))
+            if (StringUtils.isNotEmpty(recordingMode))
                 iq.setRecordingMode(
                         JibriIq.RecordingMode.parse(recordingMode));
 
             String room
                 = parser.getAttributeValue("", JibriIq.ROOM_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(room))
+            if (StringUtils.isNotEmpty(room))
             {
                 EntityBareJid roomJid = JidCreate.entityBareFrom(room);
                 iq.setRoom(roomJid);
@@ -76,40 +76,40 @@ public class JibriIqProvider
 
             String streamId
                 = parser.getAttributeValue("", JibriIq.STREAM_ID_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(streamId))
+            if (StringUtils.isNotEmpty(streamId))
                 iq.setStreamId(streamId);
 
             String youTubeBroadcastId
                     = parser.getAttributeValue("", JibriIq.YOUTUBE_BROADCAST_ID_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(youTubeBroadcastId))
+            if (StringUtils.isNotEmpty(youTubeBroadcastId))
                 iq.setYouTubeBroadcastId(youTubeBroadcastId);
 
             String sessionId = parser.getAttributeValue("", JibriIq.SESSION_ID_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(sessionId))
+            if (StringUtils.isNotEmpty(sessionId))
             {
                 iq.setSessionId(sessionId);
             }
 
             String appData = parser.getAttributeValue("", JibriIq.APP_DATA_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(appData)) {
+            if (StringUtils.isNotEmpty(appData)) {
                 iq.setAppData(appData);
             }
 
             String failureStr
                     = parser.getAttributeValue("", JibriIq.FAILURE_REASON_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(failureStr))
+            if (StringUtils.isNotEmpty(failureStr))
             {
                 iq.setFailureReason(JibriIq.FailureReason.parse(failureStr));
             }
 
             String displayName
                 = parser.getAttributeValue("", JibriIq.DISPLAY_NAME_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(displayName))
+            if (StringUtils.isNotEmpty(displayName))
                 iq.setDisplayName(displayName);
 
             String sipAddress
                 = parser.getAttributeValue("", JibriIq.SIP_ADDRESS_ATTR_NAME);
-            if (!StringUtils.isNullOrEmpty(sipAddress))
+            if (StringUtils.isNotEmpty(sipAddress))
                 iq.setSipAddress(sipAddress);
         }
         else

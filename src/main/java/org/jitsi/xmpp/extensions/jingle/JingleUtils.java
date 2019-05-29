@@ -15,8 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.jingle;
 
-import org.jitsi.utils.*;
-import org.jitsi.xmpp.extensions.jingle.*;
+import org.apache.commons.lang3.StringUtils;
+import org.jitsi.utils.MediaType;
 
 /**
  * The class contains a number of utility methods that are meant to facilitate
@@ -50,7 +50,7 @@ public class JingleUtils
         if (desc != null)
         {
             String rtpMedia = desc.getMedia().toLowerCase();
-            if (!StringUtils.isNullOrEmpty(rtpMedia))
+            if (StringUtils.isNotEmpty(rtpMedia))
             {
                 mediaTypeName = rtpMedia;
             }

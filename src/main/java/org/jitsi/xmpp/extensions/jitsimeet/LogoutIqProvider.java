@@ -16,7 +16,7 @@
 package org.jitsi.xmpp.extensions.jitsimeet;
 
 
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.provider.*;
 import org.xmlpull.v1.*;
 
@@ -63,7 +63,7 @@ public class LogoutIqProvider
             String sessionId = parser.getAttributeValue(
                     "", LogoutIq.SESSION_ID_ATTR);
 
-            if (!StringUtils.isNullOrEmpty(sessionId))
+            if (StringUtils.isNotEmpty(sessionId))
             {
                 logoutIq.setSessionId(sessionId);
             }
@@ -71,7 +71,7 @@ public class LogoutIqProvider
             String logoutUrl = parser.getAttributeValue(
                     "", LogoutIq.LOGOUT_URL_ATTR);
 
-            if (!StringUtils.isNullOrEmpty(logoutUrl))
+            if (StringUtils.isNotEmpty(logoutUrl))
             {
                 logoutIq.setLogoutUrl(logoutUrl);
             }

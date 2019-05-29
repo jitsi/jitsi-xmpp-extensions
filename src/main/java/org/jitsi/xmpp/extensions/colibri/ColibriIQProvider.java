@@ -19,7 +19,7 @@ import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 
 import org.jitsi.xmpp.extensions.jitsimeet.*;
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jitsi.utils.logging.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
@@ -285,7 +285,7 @@ public class ColibriIQProvider
             String conferenceName = parser
                 .getAttributeValue("", ColibriConferenceIQ.NAME_ATTR_NAME);
 
-            if (!StringUtils.isNullOrEmpty(conferenceName))
+            if (StringUtils.isNotEmpty(conferenceName))
                 conference.setName(Localpart.from(conferenceName));
 
             boolean done = false;
@@ -439,7 +439,7 @@ public class ColibriIQProvider
                                     ColibriConferenceIQ.Channel
                                             .ENDPOINT_ATTR_NAME);
 
-                        if (!StringUtils.isNullOrEmpty(endpoint))
+                        if (StringUtils.isNotEmpty(endpoint))
                         {
                             channel.setEndpoint(endpoint);
                         }
@@ -449,7 +449,7 @@ public class ColibriIQProvider
                                 "",
                                 ColibriConferenceIQ.ChannelCommon
                                         .CHANNEL_BUNDLE_ID_ATTR_NAME);
-                        if (!StringUtils.isNullOrEmpty(channelBundleId))
+                        if (StringUtils.isNotEmpty(channelBundleId))
                         {
                             channel.setChannelBundleId(channelBundleId);
                         }
@@ -469,7 +469,7 @@ public class ColibriIQProvider
                                     "",
                                     ColibriConferenceIQ.Channel
                                             .PACKET_DELAY_ATTR_NAME);
-                        if (!StringUtils.isNullOrEmpty(packetDelay))
+                        if (StringUtils.isNotEmpty(packetDelay))
                             channel.setPacketDelay(
                                     Integer.parseInt(packetDelay));
 
@@ -522,7 +522,7 @@ public class ColibriIQProvider
                                 ColibriConferenceIQ.Channel
                                         .SIMULCAST_MODE_ATTR_NAME);
 
-                        if (!StringUtils.isNullOrEmpty(simulcastMode))
+                        if (StringUtils.isNotEmpty(simulcastMode))
                         {
                             channel.setSimulcastMode(
                                     SimulcastMode.fromString(simulcastMode));
@@ -586,7 +586,7 @@ public class ColibriIQProvider
                                     ColibriConferenceIQ
                                         .ChannelBundle.ID_ATTR_NAME);
 
-                        if(!StringUtils.isNullOrEmpty(bundleId))
+                        if(StringUtils.isNotEmpty(bundleId))
                         {
                             bundle = new ColibriConferenceIQ
                                         .ChannelBundle(bundleId);
@@ -678,8 +678,8 @@ public class ColibriIQProvider
                             ColibriConferenceIQ.
                                 ChannelCommon.ID_ATTR_NAME);
 
-                        if(StringUtils.isNullOrEmpty(connID)
-                           && StringUtils.isNullOrEmpty(endpoint))
+                        if(StringUtils.isEmpty(connID)
+                           && StringUtils.isEmpty(endpoint))
                         {
                             sctpConnection = null;
                             continue;
@@ -688,10 +688,10 @@ public class ColibriIQProvider
                         sctpConnection
                             = new ColibriConferenceIQ.SctpConnection();
 
-                        if (!StringUtils.isNullOrEmpty(connID))
+                        if (StringUtils.isNotEmpty(connID))
                             sctpConnection.setID(connID);
 
-                        if (!StringUtils.isNullOrEmpty(endpoint))
+                        if (StringUtils.isNotEmpty(endpoint))
                         {
                             sctpConnection.setEndpoint(endpoint);
                         }
@@ -701,7 +701,7 @@ public class ColibriIQProvider
                             = parser.getAttributeValue(
                             "",
                             ColibriConferenceIQ.SctpConnection.PORT_ATTR_NAME);
-                        if (!StringUtils.isNullOrEmpty(port))
+                        if (StringUtils.isNotEmpty(port))
                             sctpConnection.setPort(Integer.parseInt(port));
 
                         String channelBundleId
@@ -709,7 +709,7 @@ public class ColibriIQProvider
                                 "",
                                 ColibriConferenceIQ.ChannelCommon
                                         .CHANNEL_BUNDLE_ID_ATTR_NAME);
-                        if (!StringUtils.isNullOrEmpty(channelBundleId))
+                        if (StringUtils.isNotEmpty(channelBundleId))
                         {
                             sctpConnection.setChannelBundleId(channelBundleId);
                         }
@@ -721,7 +721,7 @@ public class ColibriIQProvider
                             ColibriConferenceIQ.SctpConnection
                                 .INITIATOR_ATTR_NAME);
 
-                        if (!StringUtils.isNullOrEmpty(initiator))
+                        if (StringUtils.isNotEmpty(initiator))
                             sctpConnection.setInitiator(
                                 Boolean.valueOf(initiator));
 
@@ -732,7 +732,7 @@ public class ColibriIQProvider
                             ColibriConferenceIQ.SctpConnection
                                 .EXPIRE_ATTR_NAME);
 
-                        if (!StringUtils.isNullOrEmpty(expire))
+                        if (StringUtils.isNotEmpty(expire))
                             sctpConnection.setExpire(Integer.parseInt(expire));
                     }
                     else if (ColibriConferenceIQ.Endpoint.ELEMENT_NAME
@@ -755,7 +755,7 @@ public class ColibriIQProvider
                                 ColibriConferenceIQ.Endpoint
                                     .STATS_ID_ATTR_NAME);
 
-                        if(!StringUtils.isNullOrEmpty(id))
+                        if(StringUtils.isNotEmpty(id))
                         {
                             conferenceEndpoint
                                 = new ColibriConferenceIQ.Endpoint(

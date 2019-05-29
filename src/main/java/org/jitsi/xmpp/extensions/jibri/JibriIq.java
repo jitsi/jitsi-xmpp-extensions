@@ -15,7 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jibri;
 
-import org.jitsi.utils.*;
+import org.apache.commons.lang3.StringUtils;
 
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.EntityBareJid;
@@ -471,7 +471,7 @@ public class JibriIq
          */
         public static Action parse(String action)
         {
-            if (StringUtils.isNullOrEmpty(action))
+            if (StringUtils.isEmpty(action))
                 return UNDEFINED;
 
             try
@@ -541,7 +541,7 @@ public class JibriIq
          */
         public static RecordingMode parse(String status)
         {
-            if (StringUtils.isNullOrEmpty(status))
+            if (StringUtils.isEmpty(status))
                 return UNDEFINED;
 
             try
@@ -585,7 +585,7 @@ public class JibriIq
          */
         public static FailureReason parse(String status)
         {
-            if (StringUtils.isNullOrEmpty(status))
+            if (StringUtils.isEmpty(status))
                 return UNDEFINED;
 
             try
@@ -658,7 +658,7 @@ public class JibriIq
          */
         public static Status parse(String status)
         {
-            if (StringUtils.isNullOrEmpty(status))
+            if (StringUtils.isEmpty(status))
                 return UNDEFINED;
 
             try
