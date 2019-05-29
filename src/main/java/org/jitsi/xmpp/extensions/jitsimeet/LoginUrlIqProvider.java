@@ -65,27 +65,27 @@ public class LoginUrlIqProvider
 
             String url = parser.getAttributeValue(
                     "", LoginUrlIq.URL_ATTRIBUTE_NAME);
-            if (!StringUtils.isEmpty(url))
+            if (StringUtils.isNotEmpty(url))
             {
                 authUrlIQ.setUrl(url);
             }
             String room = parser.getAttributeValue(
                     "", LoginUrlIq.ROOM_NAME_ATTR_NAME);
-            if (!StringUtils.isEmpty(room))
+            if (StringUtils.isNotEmpty(room))
             {
                 EntityBareJid roomJid = JidCreate.entityBareFrom(room);
                 authUrlIQ.setRoom(roomJid);
             }
             String popup = parser.getAttributeValue(
                     "", LoginUrlIq.POPUP_ATTR_NAME);
-            if (!StringUtils.isEmpty(popup))
+            if (StringUtils.isNotEmpty(popup))
             {
                 Boolean popupBool = Boolean.parseBoolean(popup);
                 authUrlIQ.setPopup(popupBool);
             }
             String machineUID = parser.getAttributeValue(
                     "", LoginUrlIq.MACHINE_UID_ATTR_NAME);
-            if (!StringUtils.isEmpty(machineUID))
+            if (StringUtils.isNotEmpty(machineUID))
             {
                 authUrlIQ.setMachineUID(machineUID);
             }

@@ -92,7 +92,7 @@ public class LogoutIq
             IQChildElementXmlStringBuilder xml)
     {
         xml.optAttribute(SESSION_ID_ATTR, sessionId);
-        if (!StringUtils.isEmpty(logoutUrl))
+        if (StringUtils.isNotEmpty(logoutUrl))
         {
             try
             {

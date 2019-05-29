@@ -50,7 +50,7 @@ public class JingleUtils
         if (desc != null)
         {
             String rtpMedia = desc.getMedia().toLowerCase();
-            if (!StringUtils.isEmpty(rtpMedia))
+            if (StringUtils.isNotEmpty(rtpMedia))
             {
                 mediaTypeName = rtpMedia;
             }

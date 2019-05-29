@@ -203,7 +203,7 @@ public abstract class AbstractPacketExtension
         }
 
         //text content if any
-        if(!StringUtils.isEmpty(text))
+        if(StringUtils.isNotEmpty(text))
         {
             xml.optEscape(text);
         }

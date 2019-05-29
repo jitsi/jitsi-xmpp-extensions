@@ -83,11 +83,11 @@ public class ThumbnailFile
         xml.optAttribute("hash", getHash());
 
         String desc = this.getDesc();
-        if (!StringUtils.isEmpty(desc)
+        if (StringUtils.isNotEmpty(desc)
                 || isRanged()
                 || thumbnail != null)
         {
-            if (!StringUtils.isEmpty(desc))
+            if (StringUtils.isNotEmpty(desc))
             {
                 xml.element("desc", desc);
             }

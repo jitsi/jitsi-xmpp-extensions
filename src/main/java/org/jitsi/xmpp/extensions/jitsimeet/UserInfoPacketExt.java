@@ -60,7 +60,7 @@ public class UserInfoPacketExt
     public Boolean isRobot()
     {
         String isRobotStr = getAttributeAsString(ROBOT_ATTRIBUTE_NAME);
-        if (!StringUtils.isEmpty(isRobotStr))
+        if (StringUtils.isNotEmpty(isRobotStr))
         {
             return Boolean.parseBoolean(isRobotStr);
         }

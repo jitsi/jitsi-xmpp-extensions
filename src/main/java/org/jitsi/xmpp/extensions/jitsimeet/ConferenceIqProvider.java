@@ -75,33 +75,33 @@ public class ConferenceIqProvider
 
             String ready
                 = parser.getAttributeValue("", ConferenceIq.READY_ATTR_NAME);
-            if (!StringUtils.isEmpty(ready))
+            if (StringUtils.isNotEmpty(ready))
             {
                 iq.setReady(Boolean.valueOf(ready));
             }
             String focusJid
                 = parser.getAttributeValue(
                         "", ConferenceIq.FOCUS_JID_ATTR_NAME);
-            if (!StringUtils.isEmpty(focusJid))
+            if (StringUtils.isNotEmpty(focusJid))
             {
                 iq.setFocusJid(focusJid);
             }
             String sessionId
                 = parser.getAttributeValue(
                         "", ConferenceIq.SESSION_ID_ATTR_NAME);
-            if (!StringUtils.isEmpty(sessionId))
+            if (StringUtils.isNotEmpty(sessionId))
             {
                 iq.setSessionId(sessionId);
             }
             String machineUID = parser.getAttributeValue(
                     "", ConferenceIq.MACHINE_UID_ATTR_NAME);
-            if (!StringUtils.isEmpty(machineUID))
+            if (StringUtils.isNotEmpty(machineUID))
             {
                 iq.setMachineUID(machineUID);
             }
             String identity = parser.getAttributeValue(
                     "", ConferenceIq.IDENTITY_ATTR_NAME);
-            if (!StringUtils.isEmpty(identity))
+            if (StringUtils.isNotEmpty(identity))
             {
                 iq.setIdentity(identity);
             }
@@ -151,7 +151,7 @@ public class ConferenceIqProvider
                             = parser.getAttributeValue(
                                     "",
                                     ConferenceIq.Property.NAME_ATTR_NAME);
-                        if (!StringUtils.isEmpty(propName))
+                        if (StringUtils.isNotEmpty(propName))
                         {
                             property.setName(propName);
                         }
@@ -161,7 +161,7 @@ public class ConferenceIqProvider
                             = parser.getAttributeValue(
                                     "",
                                     ConferenceIq.Property.VALUE_ATTR_NAME);
-                        if (!StringUtils.isEmpty(propValue))
+                        if (StringUtils.isNotEmpty(propValue))
                         {
                             property.setValue(propValue);
                         }

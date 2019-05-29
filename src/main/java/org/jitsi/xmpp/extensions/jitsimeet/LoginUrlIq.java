@@ -93,7 +93,7 @@ public class LoginUrlIq
     protected IQChildElementXmlStringBuilder getIQChildElementBuilder(
             IQChildElementXmlStringBuilder xml)
     {
-        if (!StringUtils.isEmpty(url))
+        if (StringUtils.isNotEmpty(url))
         {
             try
             {

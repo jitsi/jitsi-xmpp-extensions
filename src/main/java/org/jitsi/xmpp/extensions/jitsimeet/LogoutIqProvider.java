@@ -63,7 +63,7 @@ public class LogoutIqProvider
             String sessionId = parser.getAttributeValue(
                     "", LogoutIq.SESSION_ID_ATTR);
 
-            if (!StringUtils.isEmpty(sessionId))
+            if (StringUtils.isNotEmpty(sessionId))
             {
                 logoutIq.setSessionId(sessionId);
             }
@@ -71,7 +71,7 @@ public class LogoutIqProvider
             String logoutUrl = parser.getAttributeValue(
                     "", LogoutIq.LOGOUT_URL_ATTR);
 
-            if (!StringUtils.isEmpty(logoutUrl))
+            if (StringUtils.isNotEmpty(logoutUrl))
             {
                 logoutIq.setLogoutUrl(logoutUrl);
             }

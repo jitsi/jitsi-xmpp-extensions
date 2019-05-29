@@ -198,7 +198,7 @@ public class RayoIqProvider
                             = parser.getAttributeValue(
                             "", ReasonPacketExtension.PLATFORM_CODE_ATTRIBUTE);
 
-                        if (!StringUtils.isEmpty(platformCode))
+                        if (StringUtils.isNotEmpty(platformCode))
                         {
                             reason.setPlatformCode(platformCode);
                         }
