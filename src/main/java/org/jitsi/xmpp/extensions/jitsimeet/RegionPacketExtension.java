@@ -50,4 +50,13 @@ public class RegionPacketExtension
     {
         return getAttributeAsString("id");
     }
+
+    /**
+     * Sets the value for the region in the id attribute.
+     * @param value
+     */
+    public void setRegionId(String value)
+    {
+        setAttribute("id", value);
+    }
 }
