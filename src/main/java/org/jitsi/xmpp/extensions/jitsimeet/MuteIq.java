@@ -43,9 +43,19 @@ public class MuteIq
     public static final String JID_ATTR_NAME = "jid";
 
     /**
+     * Attribute name of "actor".
+     */
+    public static final String ACTOR_ATTR_NAME = "actor";
+
+    /**
      * Muted peer MUC jid.
      */
     private Jid jid;
+
+    /**
+     * The jid of the peer tha initiated the mute, optional.
+     */
+    private Jid actor;
 
     /**
      * To mute or unmute.
@@ -64,9 +74,19 @@ public class MuteIq
     protected IQChildElementXmlStringBuilder getIQChildElementBuilder(
             IQChildElementXmlStringBuilder xml)
     {
-        xml.attribute(JID_ATTR_NAME, jid)
-                .rightAngleBracket()
-                .append(mute.toString());
+        if (jid != null)
+        {
+            xml.attribute(JID_ATTR_NAME, jid);
+        }
+
+        if (actor != null)
+        {
+            xml.attribute(ACTOR_ATTR_NAME, actor);
+        }
+
+        xml.rightAngleBracket()
+            .append(mute.toString());
+
         return xml;
     }
 
@@ -105,5 +125,23 @@ public class MuteIq
     public Boolean getMute()
     {
         return mute;
+    }
+
+    /**
+     * Returns the peer jid that initiated the mute, if any.
+     * @return the peer jid that initiated the mute.
+     */
+    public Jid getActor()
+    {
+        return actor;
+    }
+
+    /**
+     * Sets jid for the peer that initiated the mute.
+     * @param actor the jid of the peer doing the mute.
+     */
+    public void setActor(Jid actor)
+    {
+        this.actor = actor;
     }
 }
