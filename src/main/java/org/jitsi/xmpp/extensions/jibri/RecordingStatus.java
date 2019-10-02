@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions.jibri;
 import org.jitsi.xmpp.extensions.*;
 
 import org.jivesoftware.smack.packet.*;
+import org.jxmpp.jid.*;
 
 import java.util.*;
 
@@ -48,6 +49,16 @@ public class RecordingStatus
      * The name of XML attribute which holds the recording status.
      */
     private static final String STATUS_ATTRIBUTE = "status";
+
+    /**
+     * The name of the argument that contains the "initiator" jid.
+     */
+    public static final String INITIATOR_ATTR_NAME = "initiator";
+
+    /**
+     * The full JID of the entity that has initiated the recording flow.
+     */
+    private Jid initiator;
 
     public RecordingStatus()
     {
@@ -171,5 +182,28 @@ public class RecordingStatus
             // Remove error PE
             getChildExtensions().remove(getErrorPE());
         }
+    }
+
+
+    /**
+     * Sets the full JID of the entity that has initiated the recording flow.
+     *
+     * @param initiator the full JID of the initiator.
+     */
+    public void setInitiator(Jid initiator)
+    {
+        setAttribute(INITIATOR_ATTR_NAME, initiator);
+
+        this.initiator = initiator;
+    }
+
+    /**
+     * Returns the full JID of the entity that has initiated the recording flow.
+     *
+     * @return the full JID of the initiator.
+     */
+    public Jid getInitiator()
+    {
+        return initiator;
     }
 }
