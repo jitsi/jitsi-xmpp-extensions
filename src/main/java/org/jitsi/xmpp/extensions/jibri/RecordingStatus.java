@@ -120,6 +120,7 @@ public class RecordingStatus
      */
     public JibriIq.FailureReason getFailureReason()
     {
+        //TODO: do we need to put shouldRetry here as well?
         String failureReasonStr = getAttributeAsString(JibriIq.FAILURE_REASON_ATTR_NAME);
         return JibriIq.FailureReason.parse(failureReasonStr);
     }
