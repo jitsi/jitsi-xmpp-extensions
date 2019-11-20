@@ -442,7 +442,7 @@ public class JibriIq
 
     public void setShouldRetry(Boolean shouldRetry) { this.shouldRetry = shouldRetry; }
 
-    public Boolean shouldRetry() { return this.shouldRetry; }
+    public Boolean getShouldRetry() { return this.shouldRetry; }
 
     public static JibriIq createResult(JibriIq request, String sessionId)
     {
