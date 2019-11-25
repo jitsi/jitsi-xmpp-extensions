@@ -364,7 +364,8 @@ public class JibriIq
         xml.optAttribute(FAILURE_REASON_ATTR_NAME, failureReason);
         if (failureReason != null && failureReason != FailureReason.UNDEFINED) {
             if (shouldRetry == null) {
-                throw new RuntimeException("shouldRetry field must be filled out when a failure reason is set");
+                throw new RuntimeException("shouldRetry field must be filled " +
+                    "out when a failure reason is set");
             }
             xml.attribute(SHOULD_RETRY_ATTR_NAME, shouldRetry);
         }
