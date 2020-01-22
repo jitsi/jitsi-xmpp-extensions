@@ -362,7 +362,10 @@ public class JibriIq
         xml.optAttribute(SIP_ADDRESS_ATTR_NAME, sipAddress);
         xml.optAttribute(SESSION_ID_ATTR_NAME, sessionId);
         xml.optAttribute(FAILURE_REASON_ATTR_NAME, failureReason);
-        xml.attribute(SHOULD_RETRY_ATTR_NAME, shouldRetry);
+        if (shouldRetry != null)
+        {
+            xml.attribute(SHOULD_RETRY_ATTR_NAME, shouldRetry);
+        }
         xml.optAttribute(APP_DATA_ATTR_NAME, appData);
 
         xml.setEmptyElement();
