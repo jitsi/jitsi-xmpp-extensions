@@ -123,6 +123,11 @@ public class ColibriStatsExtension
     public static final String PARTICIPANTS = "participants";
 
     /**
+     * The name of the stat used to indicate the stress level.
+     */
+    public static final String STRESS_LEVEL = "stress_level";
+
+    /**
      * The name of the "region" statistic.
      */
     public static final String REGION = "region";
@@ -394,6 +399,33 @@ public class ColibriStatsExtension
     }
 
     /**
+     * Tries to parse an object as an float, returns null on failure.
+     * @param obj the object to parse.
+     */
+    private static Float getFloat(Object obj)
+    {
+        if (obj == null)
+        {
+            return null;
+        }
+        if (obj instanceof Float)
+        {
+            return (Float) obj;
+        }
+
+        String str = obj.toString();
+        try
+        {
+            return Float.valueOf(str);
+        }
+        catch (NumberFormatException e)
+        {
+            logger.error("Error parsing an int: " + obj);
+        }
+        return null;
+    }
+
+    /**
      * Creates a deep copy of a {@link ColibriStatsExtension}.
      * @param source the {@link ColibriStatsExtension} to copy.
      * @return the copy.
@@ -502,6 +534,11 @@ public class ColibriStatsExtension
     public Integer getValueAsInt(String name)
     {
         return getInt(getValue(name));
+    }
+
+    public Float getValueAsFloat(String name)
+    {
+        return getFloat(getValue(name));
     }
 
     @Override
