@@ -434,6 +434,37 @@ public class ColibriStatsExtension
     public static final String TOTAL_DOMINANT_SPEAKER_CHANGES = "total_dominant_speaker_changes";
 
     /**
+     * The current number of jitsi-videobridge instances.
+     */
+    public static final String BREWERY_JVB_COUNT = "brewery_jvb_count";
+
+    /**
+     * The current number of jitsi-videobridge instances that are operational
+     * (not failed).
+     */
+    public static final String BREWERY_JVB_OPERATIONAL_COUNT = "brewery_jvb_operational_count";
+
+    /**
+     * The current number of jigasi instances that support SIP.
+     */
+    public static final String BREWERY_JIGASI_SIP_COUNT = "brewery_jigasi_sip_count";
+
+    /**
+     * The current number of jigasi instances that support transcription.
+     */
+    public static final String BREWERY_JIGASI_TRANSCRIBER_COUNT = "brewery_jigasi_transcriber_count";
+
+    /**
+     * The current number of jibri instances for streaming.
+     */
+    public static final String BREWERY_JIBRI_COUNT = "brewery_jibri_count";
+
+    /**
+     * The current number of jibri instances for SIP.
+     */
+    public static final String BREWERY_JIBRI_SIP_COUNT = "brewery_jibri_sip_count";
+
+    /**
      * Tries to parse an object as an integer, returns null on failure.
      * @param obj the object to parse.
      */
