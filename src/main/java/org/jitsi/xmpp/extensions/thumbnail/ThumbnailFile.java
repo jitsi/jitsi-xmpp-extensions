@@ -80,6 +80,7 @@ public class ThumbnailFile
         }
 
         xml.optAttribute("hash", getHash());
+        xml.rightAngleBracket();
 
         String desc = this.getDesc();
         if (!StringUtils.isNullOrEmpty(desc)
