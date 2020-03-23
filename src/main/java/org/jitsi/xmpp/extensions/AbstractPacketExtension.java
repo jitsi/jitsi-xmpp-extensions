@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions;
 
+import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
 
@@ -54,9 +55,9 @@ public abstract class AbstractPacketExtension
         T dst = null;
         try
         {
-            dst = (T) src.getClass().newInstance();
+            dst = (T) src.getClass().getConstructor().newInstance();
         }
-        catch (InstantiationException | IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new RuntimeException(e);
         }
