@@ -68,7 +68,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
     @Override
     public C parse(XmlPullParser parser, int depth) throws Exception
     {
-        C packetExtension = packetClass.newInstance();
+        C packetExtension = packetClass.getConstructor().newInstance();
 
         //first, set all attributes
         int attrCount = parser.getAttributeCount();
@@ -99,7 +99,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                ExtensionElementProvider provider = ProviderManager
+                ExtensionElementProvider<ExtensionElement> provider = ProviderManager
                         .getExtensionProvider( elementName, namespace );
 
                 if(provider == null)
@@ -110,8 +110,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
                 }
                 else
                 {
-                    ExtensionElement childExtension
-                        = (ExtensionElement)provider.parse(parser);
+                    ExtensionElement childExtension = provider.parse(parser);
 
                     if(namespace != null)
                     {
