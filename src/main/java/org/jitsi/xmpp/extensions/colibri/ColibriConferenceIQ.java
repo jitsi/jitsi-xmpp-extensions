@@ -145,9 +145,9 @@ public class ColibriConferenceIQ
      */
     public static IQ createGracefulShutdownErrorResponse(final IQ request)
     {
-        final XMPPError error = XMPPError.getBuilder()
-            .setCondition(XMPPError.Condition.service_unavailable)
-            .setType(XMPPError.Type.CANCEL)
+        final StanzaError error = StanzaError.getBuilder()
+            .setCondition(StanzaError.Condition.service_unavailable)
+            .setType(StanzaError.Type.CANCEL)
             .addExtension(new GracefulShutdown())
             .build();
 
@@ -313,7 +313,7 @@ public class ColibriConferenceIQ
             if (rtcpTerminationStrategy != null)
                 rtcpTerminationStrategy.toXML(xml);
             if (gracefulShutdown)
-                xml.append(new GracefulShutdown().toXML());
+                xml.append(new GracefulShutdown().toXML(null));
         }
 
         return xml;
@@ -1128,17 +1128,17 @@ public class ColibriConferenceIQ
             int[] ssrcs = getSSRCs();
 
             for (PayloadTypePacketExtension payloadType : payloadTypes)
-                xml.append(payloadType.toXML());
+                xml.append(payloadType.toXML(null));
 
             for (RTPHdrExtPacketExtension ext : rtpHdrExtPacketExtensions)
-                xml.append(ext.toXML());
+                xml.append(ext.toXML(null));
 
             for (SourcePacketExtension source : sources)
-                xml.append(source.toXML());
+                xml.append(source.toXML(null));
 
             if (sourceGroups != null && sourceGroups.size() != 0)
                 for (SourceGroupPacketExtension sourceGroup : sourceGroups)
-                    xml.append(sourceGroup.toXML());
+                    xml.append(sourceGroup.toXML(null));
 
             for (int i = 0; i < ssrcs.length; i++)
             {
@@ -1589,7 +1589,7 @@ public class ColibriConferenceIQ
             if (transport != null)
             {
                 xml.rightAngleBracket();
-                xml.append(transport.toXML());
+                xml.append(transport.toXML(null));
                 xml.closeElement(ELEMENT_NAME);
             }
             else
@@ -1931,7 +1931,7 @@ public class ColibriConferenceIQ
 
                 if (hasTransport)
                 {
-                    xml.append(transport.toXML());
+                    xml.append(transport.toXML(null));
                 }
 
                 xml.closeElement(elementName);
@@ -2547,6 +2547,7 @@ public class ColibriConferenceIQ
         {
             super(ColibriConferenceIQ.NAMESPACE, ELEMENT_NAME);
         }
+
     }
 
     public static class RTCPTerminationStrategy

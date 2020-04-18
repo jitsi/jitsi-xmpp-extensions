@@ -92,7 +92,7 @@ public class InputEvtIQ extends IQ
             // FIXME use extensions list of IQ
             for(RemoteControlExtension p : remoteControls)
             {
-                bldr.append(p.toXML());
+                bldr.append(p.toXML(null));
             }
         }
         else

@@ -77,7 +77,7 @@ public class RelayPacketExtension
      * @return XML string representation
      */
     @Override
-    public String toXML()
+    public String toXML(String s)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 

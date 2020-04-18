@@ -662,7 +662,7 @@ public class ColibriStatsExtension
         }
 
         @Override
-        public String toXML()
+        public String toXML(String s)
         {
             String name = getName();
             Object value = getValue();

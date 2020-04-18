@@ -61,7 +61,7 @@ public class ThumbnailFile
      * Represents this <tt>FileElement</tt> in an XML.
      */
     @Override
-    public String toXML()
+    public String toXML(String s)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 

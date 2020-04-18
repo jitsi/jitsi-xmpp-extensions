@@ -120,7 +120,7 @@ public class RemoteControlExtension
      *
      * @return XML representation of the item
      */
-    public String toXML()
+    public String toXML(String s)
     {
         String ret = null;
 

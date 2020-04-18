@@ -51,7 +51,7 @@ public class ColibriStatsIQ
     protected IQ.IQChildElementXmlStringBuilder getIQChildElementBuilder(IQ.IQChildElementXmlStringBuilder buf)
     {
         buf.rightAngleBracket();
-        buf.append(backEnd.toXML());
+        buf.append(backEnd.toXML(null));
         return buf;
     }
 

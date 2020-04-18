@@ -81,7 +81,7 @@ public class Email
      * Returns xml representation of this extension.
      * @return xml representation of this extension.
      */
-    public String toXML()
+    public String toXML(String s)
     {
         return new XmlStringBuilder()
             .element(ELEMENT_NAME, getAddress())
