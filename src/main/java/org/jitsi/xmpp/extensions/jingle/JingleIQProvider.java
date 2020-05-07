@@ -102,14 +102,6 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                         <CryptoPacketExtension>
                         (CryptoPacketExtension.class));
 
-        // <bundle/> provider
-        ProviderManager.addExtensionProvider(
-                BundlePacketExtension.ELEMENT_NAME,
-                BundlePacketExtension.NAMESPACE,
-                new DefaultPacketExtensionProvider
-                        <BundlePacketExtension>
-                        (BundlePacketExtension.class));
-
         // <group/> provider
         ProviderManager.addExtensionProvider(
                 GroupPacketExtension.ELEMENT_NAME,
