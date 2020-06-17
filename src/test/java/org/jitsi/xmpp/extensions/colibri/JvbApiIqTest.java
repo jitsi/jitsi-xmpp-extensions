@@ -26,7 +26,6 @@ public class JvbApiIqTest extends TestCase
     {
         JvbApiIq iq = new JvbApiIq();
         assertTrue(iq.toXML().toString().contains("<jvb-api xmlns='http://jitsi.org/protocol/colibri/v2'/>"));
-
     }
 
     public void testJsonChild()
