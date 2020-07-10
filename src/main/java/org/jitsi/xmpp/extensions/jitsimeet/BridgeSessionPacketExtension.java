@@ -48,6 +48,13 @@ public class BridgeSessionPacketExtension
     public static final String REGION_ATTR_NAME = "region";
 
     /**
+     * The name for the "restart" attribute. The {@code BridgeSessionPacketExtension} is included in 'session-terminate'
+     * sent by the client to Jicofo. If this attribute is set to {@code true} it means that the client is interested
+     * in getting a new session from Jicofo after terminating the current one.
+     */
+    private static final String RESTART_ATTR_NAME = "restart";
+
+    /**
      * Creates new instance of {@code BridgeSessionPacketExtension}.
      */
     public BridgeSessionPacketExtension()
@@ -77,6 +84,21 @@ public class BridgeSessionPacketExtension
     public void setRegion(String region)
     {
         setAttribute(REGION_ATTR_NAME, region);
+    }
+
+    /**
+     * @return the value of {@link #RESTART_ATTR_NAME} or {@code null} if not set.
+     */
+    public Boolean isRestart() {
+        return Boolean.parseBoolean(getAttributeAsString(RESTART_ATTR_NAME));
+    }
+
+    /**
+     * Sets new value for {@link #RESTART_ATTR_NAME}.
+     * @param restart the new value to set or {@code null} to remove.
+     */
+    public void setRestart(Boolean restart) {
+        setAttribute(RESTART_ATTR_NAME, restart);
     }
 
     /**
