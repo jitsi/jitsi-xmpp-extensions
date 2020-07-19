@@ -108,6 +108,12 @@ public class JibriIqProvider
             {
                 iq.setShouldRetry(Boolean.valueOf(shouldRetryStr));
             }
+            else if (iq.getFailureReason() != null
+                && iq.getFailureReason() != JibriIq.FailureReason.UNDEFINED)
+            {
+                throw new RuntimeException("shouldRetry must be set if a " +
+                    "failure reason is given");
+            }
 
             String displayName
                 = parser.getAttributeValue("", JibriIq.DISPLAY_NAME_ATTR_NAME);
