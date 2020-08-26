@@ -132,7 +132,7 @@ public class ColibriConferenceIQ
     /**
      * World readable name for the conference.
      */
-    private Localpart name;
+    private String name;
 
     /**
      * Returns an error response for given <tt>IQ</tt> that is returned by
@@ -492,7 +492,7 @@ public class ColibriConferenceIQ
      * The world readable name of the conference.
      * @return name of the conference.
      */
-    public Localpart getName()
+    public String getName()
     {
         return name;
     }
@@ -501,7 +501,7 @@ public class ColibriConferenceIQ
      * Sets name.
      * @param name the name to set.
      */
-    public void setName(Localpart name)
+    public void setName(String name)
     {
         this.name = name;
     }
