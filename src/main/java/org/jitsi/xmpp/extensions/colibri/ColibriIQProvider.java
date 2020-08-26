@@ -286,7 +286,7 @@ public class ColibriIQProvider
                 .getAttributeValue("", ColibriConferenceIQ.NAME_ATTR_NAME);
 
             if (StringUtils.isNotEmpty(conferenceName))
-                conference.setName(Localpart.from(conferenceName));
+                conference.setName(conferenceName);
 
             boolean done = false;
             ColibriConferenceIQ.Channel channel = null;
