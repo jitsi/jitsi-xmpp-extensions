@@ -24,7 +24,7 @@ import org.jitsi.xmpp.extensions.jingle.*;
 import org.jitsi.utils.logging.*;
 
 import org.jivesoftware.smack.packet.*;
-import org.jxmpp.jid.parts.*;
+import org.jxmpp.jid.*;
 
 /**
  * Implements the Jitsi Videobridge <tt>conference</tt> IQ within the
@@ -132,7 +132,7 @@ public class ColibriConferenceIQ
     /**
      * World readable name for the conference.
      */
-    private String name;
+    private EntityBareJid name;
 
     /**
      * Returns an error response for given <tt>IQ</tt> that is returned by
@@ -492,7 +492,7 @@ public class ColibriConferenceIQ
      * The world readable name of the conference.
      * @return name of the conference.
      */
-    public String getName()
+    public EntityBareJid getName()
     {
         return name;
     }
@@ -501,7 +501,7 @@ public class ColibriConferenceIQ
      * Sets name.
      * @param name the name to set.
      */
-    public void setName(String name)
+    public void setName(EntityBareJid name)
     {
         this.name = name;
     }

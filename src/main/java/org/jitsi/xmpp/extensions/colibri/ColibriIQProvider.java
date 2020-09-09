@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jitsi.utils.logging.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
-import org.jxmpp.jid.parts.Localpart;
+import org.jxmpp.jid.impl.*;
 import org.xmlpull.v1.*;
 
 /**
@@ -286,7 +286,7 @@ public class ColibriIQProvider
                 .getAttributeValue("", ColibriConferenceIQ.NAME_ATTR_NAME);
 
             if (StringUtils.isNotEmpty(conferenceName))
-                conference.setName(conferenceName);
+                conference.setName(JidCreate.entityBareFrom(conferenceName));
 
             boolean done = false;
             ColibriConferenceIQ.Channel channel = null;
