@@ -61,6 +61,11 @@ public class ConferenceProperties
     public static final String KEY_BRIDGE_COUNT = "bridge-count";
 
     /**
+     * The property key used to signal support for session restart to the current conference.
+     */
+    public static final String KEY_SUPPORTS_SESSION_RESTART = "support-terminate-restart";
+
+    /**
      * Creates a deep copy of a {@link ConferenceProperties} instance.
      * @param source the {@link ConferenceProperties} to copy.
      * @return the copy.
