@@ -63,7 +63,8 @@ public class SourcePacketExtension
 
     /**
      * A temporary flag used by jicofo to keep track of which sources have been advertised by clients or injected by
-     * jicofo.
+     * jicofo. This is only necessary until we update Colibri to not require SSRCs for Octo endpoints, and should be
+     * removed afterwards.
      */
     private boolean injected = false;
 
