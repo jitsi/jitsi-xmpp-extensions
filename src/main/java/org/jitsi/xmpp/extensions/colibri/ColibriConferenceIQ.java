@@ -67,6 +67,8 @@ public class ColibriConferenceIQ
      */
     public static final String NAME_ATTR_NAME = "name";
 
+    public static final String MEETING_ID_ATTR_NAME = "meeting-id";
+
     /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
      * Videobridge <tt>conference</tt> IQ.
@@ -133,6 +135,8 @@ public class ColibriConferenceIQ
      * World readable name for the conference.
      */
     private EntityBareJid name;
+
+    private String meetingId;
 
     /**
      * Returns an error response for given <tt>IQ</tt> that is returned by
@@ -282,6 +286,7 @@ public class ColibriConferenceIQ
         xml.optAttribute(ID_ATTR_NAME, getID());
         xml.optAttribute(GID_ATTR_NAME, getGID());
         xml.optAttribute(NAME_ATTR_NAME, name);
+        xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
 
         List<Content> contents = getContents();
         List<ChannelBundle> channelBundles = getChannelBundles();
@@ -504,6 +509,16 @@ public class ColibriConferenceIQ
     public void setName(EntityBareJid name)
     {
         this.name = name;
+    }
+
+    public String getMeetingId()
+    {
+        return meetingId;
+    }
+
+    public void setMeetingId(String meetingId)
+    {
+        this.meetingId = meetingId;
     }
 
     /**
