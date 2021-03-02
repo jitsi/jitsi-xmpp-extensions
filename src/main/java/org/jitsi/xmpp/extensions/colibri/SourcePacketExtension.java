@@ -61,6 +61,12 @@ public class SourcePacketExtension
      */
     public static final String RID_ATTR_NAME = "rid";
 
+    /**
+     * A temporary flag used by jicofo to keep track of which sources have been advertised by clients or injected by
+     * jicofo.
+     */
+    private boolean injected = false;
+
     /** Initializes a new <tt>SourcePacketExtension</tt> instance. */
     public SourcePacketExtension()
     {
@@ -209,8 +215,7 @@ public class SourcePacketExtension
      */
     public SourcePacketExtension copy()
     {
-        SourcePacketExtension copy
-            = AbstractPacketExtension.clone(this);
+        SourcePacketExtension copy = AbstractPacketExtension.clone(this);
 
         for (ExtensionElement ppe : getChildExtensions())
         {
@@ -226,6 +231,7 @@ public class SourcePacketExtension
             }
         }
 
+        copy.setInjected(injected);
         return copy;
     }
 
@@ -245,4 +251,13 @@ public class SourcePacketExtension
         }
     }
 
+    public boolean isInjected()
+    {
+        return injected;
+    }
+
+    public void setInjected(boolean injected)
+    {
+        this.injected = injected;
+    }
 }
