@@ -275,6 +275,7 @@ public class ColibriBuilder
         request.setID(conferenceState.getID());
         request.setName(conferenceState.getName());
         request.setGID(conferenceState.getGID());
+        request.setMeetingId(conferenceState.getMeetingId());
 
         request.setType(IQ.Type.set);
     }

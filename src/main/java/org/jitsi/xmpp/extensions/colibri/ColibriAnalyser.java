@@ -140,6 +140,7 @@ public class ColibriAnalyser
         conferenceResult.setID(conferenceResponse.getID());
         conferenceResult.setGID(conferenceResponse.getGID());
         conferenceResult.setName(conferenceResponse.getName());
+        conferenceResult.setMeetingId(conferenceResponse.getMeetingId());
 
         // FIXME: we support single bundle for all channels
         String bundleId = null;

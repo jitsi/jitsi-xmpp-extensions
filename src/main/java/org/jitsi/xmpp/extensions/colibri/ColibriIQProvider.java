@@ -19,12 +19,14 @@ import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 
 import org.jitsi.xmpp.extensions.jitsimeet.*;
-import org.apache.commons.lang3.StringUtils;
 import org.jitsi.utils.logging.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
 import org.jxmpp.jid.impl.*;
 import org.xmlpull.v1.*;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Implements an <tt>org.jivesoftware.smack.provider.IQProvider</tt> for the
@@ -270,28 +272,35 @@ public class ColibriIQProvider
                 && ColibriConferenceIQ.NAMESPACE.equals(namespace))
         {
             ColibriConferenceIQ conference = new ColibriConferenceIQ();
-            String conferenceID = parser
-                    .getAttributeValue("", ColibriConferenceIQ.ID_ATTR_NAME);
+            String conferenceID = parser.getAttributeValue("", ColibriConferenceIQ.ID_ATTR_NAME);
 
             if ((conferenceID != null) && (conferenceID.length() != 0))
+            {
                 conference.setID(conferenceID);
+            }
 
-            String conferenceGID = parser
-                .getAttributeValue("", ColibriConferenceIQ.GID_ATTR_NAME);
+            String conferenceGID = parser.getAttributeValue("", ColibriConferenceIQ.GID_ATTR_NAME);
 
             if ((conferenceGID != null) && (conferenceGID.length() != 0))
+            {
                 conference.setGID(conferenceGID);
+            }
 
-            String conferenceName = parser
-                .getAttributeValue("", ColibriConferenceIQ.NAME_ATTR_NAME);
-
-            if (StringUtils.isNotEmpty(conferenceName))
+            String conferenceName = parser.getAttributeValue("", ColibriConferenceIQ.NAME_ATTR_NAME);
+            if (isNotEmpty(conferenceName))
+            {
                 conference.setName(JidCreate.entityBareFrom(conferenceName));
+            }
+
+            String meetingId = parser.getAttributeValue("", ColibriConferenceIQ.MEETING_ID_ATTR_NAME);
+            if (isNotEmpty(meetingId))
+            {
+                conference.setMeetingId(meetingId);
+            }
 
             boolean done = false;
             ColibriConferenceIQ.Channel channel = null;
-            ColibriConferenceIQ.RTCPTerminationStrategy rtcpTerminationStrategy
-                    = null;
+            ColibriConferenceIQ.RTCPTerminationStrategy rtcpTerminationStrategy = null;
             ColibriConferenceIQ.SctpConnection sctpConnection = null;
             ColibriConferenceIQ.ChannelBundle bundle = null;
             ColibriConferenceIQ.Content content = null;
@@ -439,7 +448,7 @@ public class ColibriIQProvider
                                     ColibriConferenceIQ.Channel
                                             .ENDPOINT_ATTR_NAME);
 
-                        if (StringUtils.isNotEmpty(endpoint))
+                        if (isNotEmpty(endpoint))
                         {
                             channel.setEndpoint(endpoint);
                         }
@@ -449,7 +458,7 @@ public class ColibriIQProvider
                                 "",
                                 ColibriConferenceIQ.ChannelCommon
                                         .CHANNEL_BUNDLE_ID_ATTR_NAME);
-                        if (StringUtils.isNotEmpty(channelBundleId))
+                        if (isNotEmpty(channelBundleId))
                         {
                             channel.setChannelBundleId(channelBundleId);
                         }
@@ -469,7 +478,7 @@ public class ColibriIQProvider
                                     "",
                                     ColibriConferenceIQ.Channel
                                             .PACKET_DELAY_ATTR_NAME);
-                        if (StringUtils.isNotEmpty(packetDelay))
+                        if (isNotEmpty(packetDelay))
                             channel.setPacketDelay(
                                     Integer.parseInt(packetDelay));
 
@@ -522,7 +531,7 @@ public class ColibriIQProvider
                                 ColibriConferenceIQ.Channel
                                         .SIMULCAST_MODE_ATTR_NAME);
 
-                        if (StringUtils.isNotEmpty(simulcastMode))
+                        if (isNotEmpty(simulcastMode))
                         {
                             channel.setSimulcastMode(
                                     SimulcastMode.fromString(simulcastMode));
@@ -586,7 +595,7 @@ public class ColibriIQProvider
                                     ColibriConferenceIQ
                                         .ChannelBundle.ID_ATTR_NAME);
 
-                        if(StringUtils.isNotEmpty(bundleId))
+                        if(isNotEmpty(bundleId))
                         {
                             bundle = new ColibriConferenceIQ
                                         .ChannelBundle(bundleId);
@@ -678,8 +687,7 @@ public class ColibriIQProvider
                             ColibriConferenceIQ.
                                 ChannelCommon.ID_ATTR_NAME);
 
-                        if(StringUtils.isEmpty(connID)
-                           && StringUtils.isEmpty(endpoint))
+                        if(isEmpty(connID) && isEmpty(endpoint))
                         {
                             sctpConnection = null;
                             continue;
@@ -688,10 +696,10 @@ public class ColibriIQProvider
                         sctpConnection
                             = new ColibriConferenceIQ.SctpConnection();
 
-                        if (StringUtils.isNotEmpty(connID))
+                        if (isNotEmpty(connID))
                             sctpConnection.setID(connID);
 
-                        if (StringUtils.isNotEmpty(endpoint))
+                        if (isNotEmpty(endpoint))
                         {
                             sctpConnection.setEndpoint(endpoint);
                         }
@@ -701,7 +709,7 @@ public class ColibriIQProvider
                             = parser.getAttributeValue(
                             "",
                             ColibriConferenceIQ.SctpConnection.PORT_ATTR_NAME);
-                        if (StringUtils.isNotEmpty(port))
+                        if (isNotEmpty(port))
                             sctpConnection.setPort(Integer.parseInt(port));
 
                         String channelBundleId
@@ -709,7 +717,7 @@ public class ColibriIQProvider
                                 "",
                                 ColibriConferenceIQ.ChannelCommon
                                         .CHANNEL_BUNDLE_ID_ATTR_NAME);
-                        if (StringUtils.isNotEmpty(channelBundleId))
+                        if (isNotEmpty(channelBundleId))
                         {
                             sctpConnection.setChannelBundleId(channelBundleId);
                         }
@@ -721,7 +729,7 @@ public class ColibriIQProvider
                             ColibriConferenceIQ.SctpConnection
                                 .INITIATOR_ATTR_NAME);
 
-                        if (StringUtils.isNotEmpty(initiator))
+                        if (isNotEmpty(initiator))
                             sctpConnection.setInitiator(
                                 Boolean.valueOf(initiator));
 
@@ -732,7 +740,7 @@ public class ColibriIQProvider
                             ColibriConferenceIQ.SctpConnection
                                 .EXPIRE_ATTR_NAME);
 
-                        if (StringUtils.isNotEmpty(expire))
+                        if (isNotEmpty(expire))
                             sctpConnection.setExpire(Integer.parseInt(expire));
                     }
                     else if (ColibriConferenceIQ.Endpoint.ELEMENT_NAME
@@ -755,7 +763,7 @@ public class ColibriIQProvider
                                 ColibriConferenceIQ.Endpoint
                                     .STATS_ID_ATTR_NAME);
 
-                        if(StringUtils.isNotEmpty(id))
+                        if(isNotEmpty(id))
                         {
                             conferenceEndpoint
                                 = new ColibriConferenceIQ.Endpoint(
