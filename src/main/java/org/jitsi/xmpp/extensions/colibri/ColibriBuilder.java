@@ -727,8 +727,9 @@ public class ColibriBuilder
 
         assertRequestType(RequestType.CHANNEL_INFO_UPDATE);
 
-        ColibriConferenceIQ.Channel requestChannel
-            = getRequestChannel(contentName, channel);
+        ColibriConferenceIQ.Channel requestChannel = getRequestChannel(contentName, channel);
+        requestChannel.setDirection(channel.getDirection());
+
         return copyDescription(description, requestChannel);
     }
 
@@ -779,8 +780,8 @@ public class ColibriBuilder
             hasAnyChanges = true;
 
             // Ok we have channel for this content, let's add sources
-            ColibriConferenceIQ.Channel requestChannel
-                = getRequestChannel(contentName, channel);
+            ColibriConferenceIQ.Channel requestChannel = getRequestChannel(contentName, channel);
+            requestChannel.setDirection(channel.getDirection());
 
             addSources(requestChannel, sourceMap.get(contentName));
         }
@@ -835,9 +836,8 @@ public class ColibriBuilder
             }
 
             ColibriConferenceIQ.OctoChannel requestChannel
-                = getRequestChannel(
-                    contentName,
-                    (ColibriConferenceIQ.OctoChannel) channel);
+                = getRequestChannel(contentName, (ColibriConferenceIQ.OctoChannel) channel);
+            requestChannel.setDirection(channel.getDirection());
 
             requestChannel.setRelays(octoRelays);
             hasAnyChanges = true;
@@ -891,8 +891,8 @@ public class ColibriBuilder
             }
 
             // Ok we have channel for this content, let's add sources
-            ColibriConferenceIQ.Channel requestChannel
-                = getRequestChannel(contentName, channel);
+            ColibriConferenceIQ.Channel requestChannel = getRequestChannel(contentName, channel);
+            requestChannel.setDirection(channel.getDirection());
 
             hasAnyChanges
                 |= addSourceGroups(
@@ -1010,8 +1010,8 @@ public class ColibriBuilder
             {
                 for (ColibriConferenceIQ.Channel channel : content.getChannels())
                 {
-                    ColibriConferenceIQ.Channel requestChannel
-                        = getRequestChannel(contentName, channel);
+                    ColibriConferenceIQ.Channel requestChannel = getRequestChannel(contentName, channel);
+                    requestChannel.setDirection(channel.getDirection());
 
                     Object directionValue = mediaDirectionMap.get(contentName);
                     requestChannel.setDirection(
