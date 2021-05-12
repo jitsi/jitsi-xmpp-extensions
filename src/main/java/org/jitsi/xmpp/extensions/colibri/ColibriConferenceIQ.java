@@ -21,7 +21,7 @@ import java.util.concurrent.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.*;
@@ -73,14 +73,12 @@ public class ColibriConferenceIQ
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
      * Videobridge <tt>conference</tt> IQ.
      */
-    public static final String NAMESPACE
-        = "http://jitsi.org/protocol/colibri";
+    public static final String NAMESPACE = "http://jitsi.org/protocol/colibri";
 
     /**
      * The logger instance used by this class.
      */
-    private final static Logger logger
-            = Logger.getLogger(ColibriConferenceIQ.class);
+    private final static Logger logger = new LoggerImpl(ColibriConferenceIQ.class.getName());
 
     /**
      * An array of <tt>int</tt>s which represents the lack of any (RTP) SSRCs
@@ -93,8 +91,7 @@ public class ColibriConferenceIQ
      * The {@link ChannelBundle}s included in this {@link ColibriConferenceIQ},
      * mapped by their ID.
      */
-    private final Map<String, ChannelBundle> channelBundles
-        = new ConcurrentHashMap<>();
+    private final Map<String, ChannelBundle> channelBundles = new ConcurrentHashMap<>();
 
     /**
      * The list of {@link Content}s included into this <tt>conference</tt> IQ.

@@ -15,7 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.thumbnail;
 
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smackx.si.packet.*;
 import org.jivesoftware.smackx.xdata.packet.*;
@@ -29,8 +29,7 @@ import java.util.*;
 public class ThumbnailStreamInitiationProvider
     extends IQProvider<StreamInitiation>
 {
-    private static final Logger logger
-        = Logger.getLogger(ThumbnailStreamInitiationProvider.class);
+    private static final Logger logger = new LoggerImpl(ThumbnailStreamInitiationProvider.class.getName());
 
     /**
      * Parses the given <tt>parser</tt> in order to create a

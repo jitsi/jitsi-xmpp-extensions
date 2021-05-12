@@ -19,7 +19,7 @@ import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 
 import org.jitsi.xmpp.extensions.jitsimeet.*;
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
 import org.jxmpp.jid.impl.*;
@@ -41,8 +41,7 @@ public class ColibriIQProvider
     /**
      * The logger instance used by this class.
      */
-    private final static Logger logger
-        = Logger.getLogger(ColibriIQProvider.class);
+    private final static Logger logger = new LoggerImpl(ColibriIQProvider.class.getName());
 
     /** Initializes a new <tt>ColibriIQProvider</tt> instance. */
     public ColibriIQProvider()

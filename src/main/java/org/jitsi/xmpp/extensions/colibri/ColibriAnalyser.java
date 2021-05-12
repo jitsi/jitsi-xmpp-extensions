@@ -17,7 +17,7 @@ package org.jitsi.xmpp.extensions.colibri;
 
 import org.jitsi.xmpp.extensions.jingle.*;
 import org.jitsi.utils.MediaType;
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 
 import java.util.*;
 
@@ -32,8 +32,7 @@ public class ColibriAnalyser
     /**
      * The logger used by this instance.
      */
-    private final static Logger logger
-        = Logger.getLogger(ColibriAnalyser.class);
+    private final static Logger logger = new LoggerImpl(ColibriAnalyser.class.getName());
 
     /**
      * Colibri IQ instance used to store conference state.

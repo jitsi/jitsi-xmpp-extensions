@@ -19,7 +19,7 @@ import java.util.*;
 
 import org.jitsi.xmpp.extensions.*;
 
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 
@@ -36,8 +36,7 @@ public class ColibriStatsExtension
     /**
      * The logger instance used by this class.
      */
-    private final static Logger logger
-        = Logger.getLogger(ColibriConferenceIQ.class);
+    private final static Logger logger = new LoggerImpl(ColibriConferenceIQ.class.getName());
 
     /**
      * The XML element name of the Jitsi Videobridge <tt>stats</tt> extension.
@@ -48,8 +47,7 @@ public class ColibriStatsExtension
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
      * Videobridge <tt>stats</tt> extension.
      */
-    public static final String NAMESPACE
-        = "http://jitsi.org/protocol/colibri";
+    public static final String NAMESPACE = "http://jitsi.org/protocol/colibri";
 
     /**
      * The name of the bit rate statistic for download.
