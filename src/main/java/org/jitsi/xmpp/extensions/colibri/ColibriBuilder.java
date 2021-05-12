@@ -779,8 +779,8 @@ public class ColibriBuilder
             hasAnyChanges = true;
 
             // Ok we have channel for this content, let's add sources
-            ColibriConferenceIQ.Channel requestChannel
-                = getRequestChannel(contentName, channel);
+            ColibriConferenceIQ.Channel requestChannel = getRequestChannel(contentName, channel);
+            requestChannel.setDirection(channel.getDirection());
 
             addSources(requestChannel, sourceMap.get(contentName));
         }
