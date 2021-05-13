@@ -15,7 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.util.*;
@@ -51,8 +51,7 @@ public class IdentityPacketExtension
     /**
      * The Logger of this class
      */
-    public static final Logger logger
-        = Logger.getLogger(IdentityPacketExtension.class);
+    public static final Logger logger = new LoggerImpl(IdentityPacketExtension.class.getName());
 
     /**
      * The namespace (xmlns attribute) of this identity presence element
@@ -288,10 +287,7 @@ public class IdentityPacketExtension
             }
             catch (XmlPullParserException | IOException e)
             {
-                if(logger.isDebugEnabled())
-                {
-                    logger.debug("failed to parse IdentityExtension", e);
-                }
+                logger.warn("failed to parse IdentityExtension", e);
             }
 
 

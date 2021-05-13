@@ -17,7 +17,7 @@ package org.jitsi.xmpp.extensions.colibri;
 
 import java.util.*;
 
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 
@@ -34,8 +34,7 @@ import org.jivesoftware.smack.packet.*;
 public class SourcePacketExtension
     extends AbstractPacketExtension
 {
-    private final static Logger logger
-        = Logger.getLogger(SourcePacketExtension.class);
+    private final static Logger logger = new LoggerImpl(SourcePacketExtension.class.getName());
 
     /**
      * The XML name of the <tt>setup</tt> element defined by Source-Specific

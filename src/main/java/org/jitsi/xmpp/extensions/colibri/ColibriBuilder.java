@@ -18,7 +18,7 @@ package org.jitsi.xmpp.extensions.colibri;
 import org.jitsi.xmpp.extensions.jingle.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jitsi.utils.MediaType;
-import org.jitsi.utils.logging.*;
+import org.jitsi.utils.logging2.*;
 
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.*;
@@ -67,7 +67,7 @@ public class ColibriBuilder
     /**
      * The logger used by this instance.
      */
-    private final static Logger logger = Logger.getLogger(ColibriBuilder.class);
+    private final static Logger logger = new LoggerImpl(ColibriBuilder.class.getName());
 
     /**
      * Copies the transport info from a {@link ContentPacketExtension} to a
