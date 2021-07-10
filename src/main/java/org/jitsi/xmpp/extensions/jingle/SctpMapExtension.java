@@ -92,7 +92,7 @@ public class SctpMapExtension
      * {@inheritDoc}
      */
     @Override
-    public String toXML()
+    public String toXML(String s)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 

@@ -151,7 +151,7 @@ public class IdentityPacketExtension
      * {@inheritDoc}
      */
     @Override
-    public CharSequence toXML()
+    public CharSequence toXML(String s)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 

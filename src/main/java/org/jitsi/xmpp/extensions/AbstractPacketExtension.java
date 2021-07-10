@@ -154,7 +154,7 @@ public abstract class AbstractPacketExtension
      *
      * @return an XML representation of this extension.
      */
-    public String toXML()
+    public String toXML(String s)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 

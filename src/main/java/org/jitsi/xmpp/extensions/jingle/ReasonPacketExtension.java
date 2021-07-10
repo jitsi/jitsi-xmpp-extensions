@@ -172,7 +172,7 @@ public class ReasonPacketExtension
      *
      * @return the packet extension as XML.
      */
-    public String toXML()
+    public String toXML(String s)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
         xml.openElement(getElementName());
@@ -188,7 +188,7 @@ public class ReasonPacketExtension
         //add the extra element if it has been specified.
         if(getOtherExtension() != null)
         {
-            xml.append(getOtherExtension().toXML());
+            xml.append(getOtherExtension().toXML(null));
         }
 
         xml.closeElement(getElementName());
