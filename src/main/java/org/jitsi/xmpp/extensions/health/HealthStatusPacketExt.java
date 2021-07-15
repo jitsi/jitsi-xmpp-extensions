@@ -101,7 +101,8 @@ public class HealthStatusPacketExt
             try
             {
                 return Health.valueOf(health.toUpperCase());
-            } catch (IllegalArgumentException e)
+            }
+            catch (IllegalArgumentException e)
             {
                 return UNDEFINED;
             }
