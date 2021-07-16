@@ -86,11 +86,11 @@ public class InputEvtIQ extends IQ
     protected IQ.IQChildElementXmlStringBuilder getIQChildElementBuilder(IQ.IQChildElementXmlStringBuilder bldr)
     {
         bldr.attribute(ACTION_ATTR_NAME, getAction().toString());
-        if(remoteControls.size() > 0)
+        if (remoteControls.size() > 0)
         {
             bldr.rightAngleBracket();
             // FIXME use extensions list of IQ
-            for(RemoteControlExtension p : remoteControls)
+            for (RemoteControlExtension p : remoteControls)
             {
                 bldr.append(p.toXML());
             }

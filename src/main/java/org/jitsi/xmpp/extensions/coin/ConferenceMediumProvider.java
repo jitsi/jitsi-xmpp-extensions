@@ -52,7 +52,7 @@ public class ConferenceMediumProvider
                 "",
                 ConferenceMediumPacketExtension.LABEL_ATTR_NAME);
 
-        if(label == null)
+        if (label == null)
         {
             throw new Exception(
                     "Coin medium element must contain entity attribute");
@@ -68,17 +68,17 @@ public class ConferenceMediumProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(
+                if (elementName.equals(
                         MediaPacketExtension.ELEMENT_DISPLAY_TEXT))
                 {
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_STATUS))
                 {
                     ext.setStatus(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_TYPE))
                 {
                     ext.setType(CoinIQProvider.parseText(parser));

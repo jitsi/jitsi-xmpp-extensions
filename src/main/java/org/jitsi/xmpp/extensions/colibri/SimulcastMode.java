@@ -33,10 +33,14 @@ public enum SimulcastMode
         return this.text;
     }
 
-    public static SimulcastMode fromString(String text) {
-        if (text != null) {
-            for (SimulcastMode b : SimulcastMode.values()) {
-                if (text.equalsIgnoreCase(b.text)) {
+    public static SimulcastMode fromString(String text)
+    {
+        if (text != null)
+        {
+            for (SimulcastMode b : SimulcastMode.values())
+            {
+                if (text.equalsIgnoreCase(b.text))
+                {
                     return b;
                 }
             }

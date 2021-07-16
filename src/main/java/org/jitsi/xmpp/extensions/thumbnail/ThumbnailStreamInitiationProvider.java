@@ -111,7 +111,7 @@ public class ThumbnailStreamInitiationProvider
                 {
                     long fileSize = 0;
 
-                    if(size != null && size.trim().length() !=0)
+                    if (size != null && size.trim().length() !=0)
                     {
                         try
                         {

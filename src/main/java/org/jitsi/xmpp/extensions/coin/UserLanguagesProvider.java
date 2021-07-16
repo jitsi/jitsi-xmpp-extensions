@@ -58,7 +58,7 @@ public class UserLanguagesProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(
+                if (elementName.equals(
                         UserLanguagesPacketExtension.ELEMENT_LANGUAGES))
                 {
                     ext.setLanguages(CoinIQProvider.parseText(parser));

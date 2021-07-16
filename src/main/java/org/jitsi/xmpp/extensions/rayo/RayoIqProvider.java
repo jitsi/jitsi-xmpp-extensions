@@ -261,13 +261,13 @@ public class RayoIqProvider
 
         private HeaderExtension findHeader(String name)
         {
-            for(ExtensionElement ext: getExtensions())
+            for (ExtensionElement ext: getExtensions())
             {
                 if (ext instanceof HeaderExtension)
                 {
                     HeaderExtension header = (HeaderExtension) ext;
 
-                    if(name.equals(header.getName()))
+                    if (name.equals(header.getName()))
                         return header;
                 }
             }

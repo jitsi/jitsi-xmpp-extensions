@@ -58,7 +58,7 @@ public class RelayProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(ServerPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(ServerPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElementProvider provider = (ExtensionElementProvider)
                         ProviderManager.getExtensionProvider(
@@ -68,7 +68,7 @@ public class RelayProvider
                             (ExtensionElement) provider.parse(parser);
                     ext.addChildExtension(childExtension);
                 }
-                else if(elementName.equals("token"))
+                else if (elementName.equals("token"))
                 {
                     ext.setToken(parseText(parser));
                 }

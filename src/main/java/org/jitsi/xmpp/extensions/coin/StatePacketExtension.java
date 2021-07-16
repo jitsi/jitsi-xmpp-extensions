@@ -144,17 +144,17 @@ public class StatePacketExtension
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
-        if(userCount != 0)
+        if (userCount != 0)
         {
             xml.optElement(ELEMENT_USER_COUNT, userCount);
         }
 
-        if(active != -1)
+        if (active != -1)
         {
             xml.optElement(ELEMENT_ACTIVE, (active > 0));
         }
 
-        if(locked != -1)
+        if (locked != -1)
         {
             xml.optElement(ELEMENT_LOCKED, (locked > 0));
         }

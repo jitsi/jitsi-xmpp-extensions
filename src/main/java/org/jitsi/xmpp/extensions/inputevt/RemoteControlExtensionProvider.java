@@ -113,11 +113,11 @@ public class RemoteControlExtensionProvider
 
                 if (eventType == XmlPullParser.START_TAG)
                 {
-                    if(parser.getName().equals(ELEMENT_MOUSE_MOVE))
+                    if (parser.getName().equals(ELEMENT_MOUSE_MOVE))
                     {
                         String attr = parser.getAttributeValue("", "x");
                         String attr2 = parser.getAttributeValue("", "y");
-                        if(attr != null && attr2 != null)
+                        if (attr != null && attr2 != null)
                         {
                             int x = (int)(Double.
                                     parseDouble(attr) * 1000);
@@ -134,10 +134,10 @@ public class RemoteControlExtensionProvider
                         }
                     }
 
-                    if(parser.getName().equals(ELEMENT_MOUSE_WHEEL))
+                    if (parser.getName().equals(ELEMENT_MOUSE_WHEEL))
                     {
                         String attr = parser.getAttributeValue("", "notch");
-                        if(attr != null)
+                        if (attr != null)
                         {
                             MouseWheelEvent me = new MouseWheelEvent(
                                     component, MouseEvent.MOUSE_WHEEL,
@@ -151,10 +151,10 @@ public class RemoteControlExtensionProvider
                         }
                     }
 
-                    if(parser.getName().equals(ELEMENT_MOUSE_PRESS))
+                    if (parser.getName().equals(ELEMENT_MOUSE_PRESS))
                     {
                         String attr = parser.getAttributeValue("", "btns");
-                        if(attr != null)
+                        if (attr != null)
                         {
                             MouseEvent me = new MouseEvent(component,
                                 MouseEvent.MOUSE_PRESSED,
@@ -167,10 +167,10 @@ public class RemoteControlExtensionProvider
                         }
                     }
 
-                    if(parser.getName().equals(ELEMENT_MOUSE_RELEASE))
+                    if (parser.getName().equals(ELEMENT_MOUSE_RELEASE))
                     {
                         String attr = parser.getAttributeValue("", "btns");
-                        if(attr != null)
+                        if (attr != null)
                         {
                             MouseEvent me = new MouseEvent(component,
                                 MouseEvent.MOUSE_RELEASED,
@@ -183,10 +183,10 @@ public class RemoteControlExtensionProvider
                         }
                     }
 
-                    if(parser.getName().equals(ELEMENT_KEY_PRESS))
+                    if (parser.getName().equals(ELEMENT_KEY_PRESS))
                     {
                         String attr = parser.getAttributeValue("", "keycode");
-                        if(attr != null)
+                        if (attr != null)
                         {
                             KeyEvent ke = new KeyEvent(component,
                                     KeyEvent.KEY_PRESSED,
@@ -200,10 +200,10 @@ public class RemoteControlExtensionProvider
                         }
                     }
 
-                    if(parser.getName().equals(ELEMENT_KEY_RELEASE))
+                    if (parser.getName().equals(ELEMENT_KEY_RELEASE))
                     {
                         String attr = parser.getAttributeValue("", "keycode");
-                        if(attr != null)
+                        if (attr != null)
                         {
                             KeyEvent ke = new KeyEvent(component,
                                     KeyEvent.KEY_RELEASED,
@@ -217,10 +217,10 @@ public class RemoteControlExtensionProvider
                         }
                     }
 
-                    if(parser.getName().equals(ELEMENT_KEY_TYPE))
+                    if (parser.getName().equals(ELEMENT_KEY_TYPE))
                     {
                         String attr = parser.getAttributeValue("", "keychar");
-                        if(attr != null)
+                        if (attr != null)
                         {
                             KeyEvent ke = new KeyEvent(component,
                                     KeyEvent.KEY_TYPED,
@@ -250,7 +250,7 @@ public class RemoteControlExtensionProvider
             }
         }
 
-        if(result == null)
+        if (result == null)
         {
             /* we are not allowed to return null otherwise the parser goes
              * crazy

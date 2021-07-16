@@ -158,7 +158,7 @@ public class DescriptionPacketExtension
         xml.optElement(ELEMENT_SUBJECT, subject);
         xml.optElement(ELEMENT_DISPLAY_TEXT, displayText);
         xml.optElement(ELEMENT_FREE_TEXT, freeText);
-        if(maximumUserCount != 0)
+        if (maximumUserCount != 0)
         {
             xml.optElement(ELEMENT_MAX_USER_COUNT, maximumUserCount);
         }

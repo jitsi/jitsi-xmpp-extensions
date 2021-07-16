@@ -126,7 +126,7 @@ public class LogoutIq
         try
         {
             this.logoutUrl = logoutUrl != null
-                    ? URLDecoder.decode(logoutUrl,"UTF-8") : null;
+                    ? URLDecoder.decode(logoutUrl, "UTF-8") : null;
         }
         catch (UnsupportedEncodingException e)
         {

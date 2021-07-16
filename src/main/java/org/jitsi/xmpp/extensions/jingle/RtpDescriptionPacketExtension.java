@@ -176,7 +176,7 @@ public class RtpDescriptionPacketExtension
     @Override
     public List<? extends ExtensionElement> getChildExtensions()
     {
-        if(children == null)
+        if (children == null)
             children = new ArrayList<ExtensionElement>();
         else
             children.clear();
@@ -210,7 +210,7 @@ public class RtpDescriptionPacketExtension
     @Override
     public void addChildExtension(ExtensionElement childExtension)
     {
-        if(childExtension instanceof PayloadTypePacketExtension)
+        if (childExtension instanceof PayloadTypePacketExtension)
             this.addPayloadType((PayloadTypePacketExtension)childExtension);
 
         else if (childExtension instanceof EncryptionPacketExtension)

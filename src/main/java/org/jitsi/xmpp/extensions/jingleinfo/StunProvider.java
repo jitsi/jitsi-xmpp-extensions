@@ -58,7 +58,7 @@ public class StunProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(ServerPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(ServerPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElementProvider provider = (ExtensionElementProvider)
                         ProviderManager.getExtensionProvider(

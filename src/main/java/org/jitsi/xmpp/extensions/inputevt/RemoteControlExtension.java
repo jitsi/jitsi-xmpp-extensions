@@ -124,12 +124,12 @@ public class RemoteControlExtension
     {
         String ret = null;
 
-        if(event == null)
+        if (event == null)
         {
             return null;
         }
 
-        if(event instanceof MouseEvent)
+        if (event instanceof MouseEvent)
         {
             MouseEvent e = (MouseEvent)event;
 
@@ -137,7 +137,7 @@ public class RemoteControlExtension
             {
             case MouseEvent.MOUSE_DRAGGED:
             case MouseEvent.MOUSE_MOVED:
-                if(videoPanelSize != null)
+                if (videoPanelSize != null)
                 {
                     Point p = e.getPoint();
                     double x = (p.getX() / videoPanelSize.width);
@@ -162,13 +162,13 @@ public class RemoteControlExtension
                 break;
             }
         }
-        else if(event instanceof KeyEvent)
+        else if (event instanceof KeyEvent)
         {
             KeyEvent e = (KeyEvent)event;
             int keycode = e.getKeyCode();
             int key = e.getKeyChar();
 
-            if(key != KeyEvent.CHAR_UNDEFINED)
+            if (key != KeyEvent.CHAR_UNDEFINED)
             {
                 keycode = e.getKeyChar();
             }
@@ -177,7 +177,7 @@ public class RemoteControlExtension
                 keycode = e.getKeyCode();
             }
 
-            if(keycode == 0)
+            if (keycode == 0)
             {
                 return null;
             }

@@ -218,7 +218,7 @@ public class JinglePacketFactory
         sessionAccept.setResponder(from);
         sessionAccept.setType(IQ.Type.set);
 
-        for(ContentPacketExtension content : contentList)
+        for (ContentPacketExtension content : contentList)
             sessionAccept.addContent(content);
 
         return sessionAccept;
@@ -253,7 +253,7 @@ public class JinglePacketFactory
         descriptionInfo.setResponder(from);
         descriptionInfo.setType(IQ.Type.set);
 
-        for(ContentPacketExtension content : contentList)
+        for (ContentPacketExtension content : contentList)
             descriptionInfo.addContent(content);
 
         return descriptionInfo;
@@ -289,7 +289,7 @@ public class JinglePacketFactory
         transportInfo.setInitiator(from);
         transportInfo.setType(IQ.Type.set);
 
-        for(ContentPacketExtension content : contentList)
+        for (ContentPacketExtension content : contentList)
             transportInfo.addContent(content);
 
         return transportInfo;
@@ -321,7 +321,7 @@ public class JinglePacketFactory
         sessionInitiate.setInitiator(from);
         sessionInitiate.setType(IQ.Type.set);
 
-        for(ContentPacketExtension content : contentList)
+        for (ContentPacketExtension content : contentList)
         {
             sessionInitiate.addContent(content);
         }
@@ -354,7 +354,7 @@ public class JinglePacketFactory
         contentAdd.setFrom(from);
         contentAdd.setType(IQ.Type.set);
 
-        for(ContentPacketExtension content : contentList)
+        for (ContentPacketExtension content : contentList)
             contentAdd.addContent(content);
 
         return contentAdd;
@@ -385,7 +385,7 @@ public class JinglePacketFactory
         contentAccept.setFrom(from);
         contentAccept.setType(IQ.Type.set);
 
-        for(ContentPacketExtension content : contentList)
+        for (ContentPacketExtension content : contentList)
             contentAccept.addContent(content);
 
         return contentAccept;
@@ -418,7 +418,7 @@ public class JinglePacketFactory
 
         if (contentList != null)
         {
-            for(ContentPacketExtension content : contentList)
+            for (ContentPacketExtension content : contentList)
                 contentReject.addContent(content);
         }
 
@@ -480,7 +480,7 @@ public class JinglePacketFactory
         contentRemove.setFrom(from);
         contentRemove.setType(IQ.Type.set);
 
-        for(ContentPacketExtension content : contentList)
+        for (ContentPacketExtension content : contentList)
             contentRemove.addContent(content);
 
         return contentRemove;

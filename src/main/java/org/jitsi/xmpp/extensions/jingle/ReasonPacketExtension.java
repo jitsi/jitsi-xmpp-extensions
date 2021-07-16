@@ -180,13 +180,13 @@ public class ReasonPacketExtension
         xml.emptyElement(getReason().toString());
 
         //add reason "text" if we have it
-        if(getText() != null)
+        if (getText() != null)
         {
             xml.element("text", getText());
         }
 
         //add the extra element if it has been specified.
-        if(getOtherExtension() != null)
+        if (getOtherExtension() != null)
         {
             xml.append(getOtherExtension().toXML());
         }

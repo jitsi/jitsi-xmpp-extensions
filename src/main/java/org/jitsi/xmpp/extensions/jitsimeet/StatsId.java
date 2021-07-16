@@ -105,7 +105,7 @@ public class StatsId
             final String address = parser.getText();
 
             // Advance to end of extension.
-            while(parser.getEventType() != XmlPullParser.END_TAG)
+            while (parser.getEventType() != XmlPullParser.END_TAG)
             {
                 parser.next();
             }

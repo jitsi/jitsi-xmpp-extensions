@@ -290,7 +290,7 @@ public class CryptoPacketExtension
     @Override
     public boolean equals(Object obj)
     {
-        if(obj instanceof CryptoPacketExtension)
+        if (obj instanceof CryptoPacketExtension)
         {
             CryptoPacketExtension crypto = (CryptoPacketExtension) obj;
 
