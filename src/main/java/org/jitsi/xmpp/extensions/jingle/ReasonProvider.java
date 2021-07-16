@@ -61,7 +61,7 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
             if (eventType == XmlPullParser.START_TAG)
             {
                 // the reason itself.
-                if( reason == null)
+                if ( reason == null)
                 {
                     //let the parse exception fly as it would mean we have
                     //some weird element first in the list.

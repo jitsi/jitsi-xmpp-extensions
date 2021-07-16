@@ -594,7 +594,7 @@ public class ColibriIQProvider
                                     ColibriConferenceIQ
                                         .ChannelBundle.ID_ATTR_NAME);
 
-                        if(isNotEmpty(bundleId))
+                        if (isNotEmpty(bundleId))
                         {
                             bundle = new ColibriConferenceIQ
                                         .ChannelBundle(bundleId);
@@ -686,7 +686,7 @@ public class ColibriIQProvider
                             ColibriConferenceIQ.
                                 ChannelCommon.ID_ATTR_NAME);
 
-                        if(isEmpty(connID) && isEmpty(endpoint))
+                        if (isEmpty(connID) && isEmpty(endpoint))
                         {
                             sctpConnection = null;
                             continue;
@@ -762,7 +762,7 @@ public class ColibriIQProvider
                                 ColibriConferenceIQ.Endpoint
                                     .STATS_ID_ATTR_NAME);
 
-                        if(isNotEmpty(id))
+                        if (isNotEmpty(id))
                         {
                             conferenceEndpoint
                                 = new ColibriConferenceIQ.Endpoint(
@@ -863,7 +863,7 @@ public class ColibriIQProvider
 
                             if (extension != null)
                             {
-                                if(channel != null)
+                                if (channel != null)
                                 {
                                     addChildExtension(channel, extension);
                                 }

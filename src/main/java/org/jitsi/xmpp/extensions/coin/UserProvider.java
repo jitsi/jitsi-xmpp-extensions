@@ -54,12 +54,12 @@ public class UserProvider
         String stateStr = parser.getAttributeValue("",
                 UserPacketExtension.STATE_ATTR_NAME);
 
-        if(stateStr != null)
+        if (stateStr != null)
         {
             state = StateType.parseString(stateStr);
         }
 
-        if(entity == null)
+        if (entity == null)
         {
             throw new Exception(
                     "Coin user element must contain entity attribute");
@@ -75,11 +75,11 @@ public class UserProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(UserPacketExtension.ELEMENT_DISPLAY_TEXT))
+                if (elementName.equals(UserPacketExtension.ELEMENT_DISPLAY_TEXT))
                 {
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         EndpointPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElementProvider provider

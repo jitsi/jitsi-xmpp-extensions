@@ -296,7 +296,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                     jingleIQ.addContent(content);
                 }
                 // <reason/>
-                else if(elementName.equals(ReasonPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(ReasonPacketExtension.ELEMENT_NAME))
                 {
                     ReasonPacketExtension reason
                         = reasonProvider.parse(parser);
@@ -310,7 +310,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                     jingleIQ.addExtension(transferProvider.parse(parser));
                 }
                 // <conference-info/>
-                else if(elementName.equals(CoinPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(CoinPacketExtension.ELEMENT_NAME))
                 {
                     jingleIQ.addExtension(coinProvider.parse(parser));
                 }
@@ -331,7 +331,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                     SessionInfoType type = SessionInfoType.valueOf(elementName);
 
                     //<mute/>
-                    if( type == SessionInfoType.mute
+                    if ( type == SessionInfoType.mute
                         || type == SessionInfoType.unmute)
                     {
                         String name = parser.getAttributeValue("",

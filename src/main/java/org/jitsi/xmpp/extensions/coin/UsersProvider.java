@@ -52,7 +52,7 @@ public class UsersProvider
         String stateStr = parser.getAttributeValue("",
                 UserPacketExtension.STATE_ATTR_NAME);
 
-        if(stateStr != null)
+        if (stateStr != null)
         {
             state = StateType.parseString(stateStr);
         }
@@ -69,7 +69,7 @@ public class UsersProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(UserPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(UserPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElementProvider provider
                         = new UserProvider();

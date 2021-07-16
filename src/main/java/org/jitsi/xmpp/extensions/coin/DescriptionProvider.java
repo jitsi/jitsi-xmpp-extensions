@@ -58,17 +58,17 @@ public class DescriptionProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(
+                if (elementName.equals(
                         DescriptionPacketExtension.ELEMENT_SUBJECT))
                 {
                     ext.setSubject(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         DescriptionPacketExtension.ELEMENT_FREE_TEXT))
                 {
                     ext.setFreeText(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         DescriptionPacketExtension.ELEMENT_DISPLAY_TEXT))
                 {
                     ext.setDisplayText(CoinIQProvider.parseText(parser));

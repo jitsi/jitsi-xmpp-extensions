@@ -51,7 +51,7 @@ public class MediaProvider
                 "",
                 MediaPacketExtension.ID_ATTR_NAME);
 
-        if(id == null)
+        if (id == null)
         {
             throw new Exception("Coin media must contains src-id element");
         }
@@ -66,27 +66,27 @@ public class MediaProvider
 
             if (eventType == XmlPullParser.START_TAG)
             {
-                if(elementName.equals(
+                if (elementName.equals(
                         MediaPacketExtension.ELEMENT_DISPLAY_TEXT))
                 {
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_LABEL))
                 {
                     ext.setLabel(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_SRC_ID))
                 {
                     ext.setSrcID(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_STATUS))
                 {
                     ext.setStatus(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_TYPE))
                 {
                     ext.setType(CoinIQProvider.parseText(parser));
