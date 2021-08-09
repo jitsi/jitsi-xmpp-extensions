@@ -95,6 +95,11 @@ public class JibriIqProvider
                 iq.setAppData(appData);
             }
 
+            String baseUrl = parser.getAttributeValue("", JibriIq.BASE_URL);
+            if (StringUtils.isNotEmpty(baseUrl)) {
+                iq.setBaseUrl(baseUrl);
+            }
+
             String failureStr
                     = parser.getAttributeValue("", JibriIq.FAILURE_REASON_ATTR_NAME);
             if (StringUtils.isNotEmpty(failureStr))

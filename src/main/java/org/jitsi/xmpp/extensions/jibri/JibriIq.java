@@ -111,6 +111,12 @@ public class JibriIq
     static final String APP_DATA_ATTR_NAME = "app_data";
 
     /**
+     * The name of the XML attribute which stores the {@link #baseUrl}
+     * field.
+     */
+    static final String BASE_URL = "base_url";
+
+    /**
      * The name of XML attribute which stores the recording mode which can be
      * either 'stream' or 'file'. If the attribute is not present, but
      * {@link #STREAM_ID_ATTR_NAME} is, then it defaults to 'stream'. But if
@@ -203,6 +209,11 @@ public class JibriIq
      */
     private EntityBareJid room = null;
 
+    /**
+     * Jibri base url
+     */
+    private String baseUrl = null;
+
     public JibriIq()
     {
         super(ELEMENT_NAME, NAMESPACE);
@@ -293,6 +304,15 @@ public class JibriIq
     public String getAppData() { return appData; }
 
     /**
+     * Gets the value of the {@link #BASE_URL} attribute
+     *
+     * @return the JSON-encoded application data
+     */
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    /**
      * Sets the value of the {@link #SESSION_ID_ATTR_NAME} attribute
      * @param sessionId the session ID
      */
@@ -335,6 +355,16 @@ public class JibriIq
     public boolean isFailure() { return this.failureReason != null; }
 
     /**
+     * Sets the value of the {@link #BASE_URL} attribute
+     *
+     * @param baseUrl a JSON-encoded string containing arbitrary application
+     * data
+     */
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -367,7 +397,7 @@ public class JibriIq
             xml.attribute(SHOULD_RETRY_ATTR_NAME, shouldRetry);
         }
         xml.optAttribute(APP_DATA_ATTR_NAME, appData);
-
+        xml.optAttribute(BASE_URL, baseUrl);
         xml.setEmptyElement();
 
         return xml;
