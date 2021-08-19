@@ -35,6 +35,11 @@ public class WebSocketPacketExtension extends AbstractPacketExtension
     public static final String URL_ATTR_NAME = "url";
 
     /**
+     * The name of the "active" attribute.
+     */
+    public static final String ACTIVE_ATTR_NAME = "active";
+
+    /**
      * Creates a new {@link WebSocketPacketExtension}
      */
     public WebSocketPacketExtension()
@@ -65,5 +70,32 @@ public class WebSocketPacketExtension extends AbstractPacketExtension
     public String getUrl()
     {
         return super.getAttributeAsString(URL_ATTR_NAME);
+    }
+
+    /**
+     * Sets whether an active connection to a remote websocket will/should be used.
+     */
+    public void setActive(Boolean active) {
+        if (!active)
+        {
+            super.removeAttribute(ACTIVE_ATTR_NAME);
+        }
+        else
+        {
+            super.setAttribute(ACTIVE_ATTR_NAME, active);
+        }
+    }
+
+    /**
+     * @return The active flag.
+     */
+    public boolean getActive() {
+        Object active = super.getAttribute(ACTIVE_ATTR_NAME);
+        if (!(active instanceof Boolean))
+        {
+            return false;
+        }
+
+        return (Boolean)active;
     }
 }
