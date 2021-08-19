@@ -1518,6 +1518,26 @@ public class ColibriConferenceIQ
     }
 
     /**
+     * Represents a {@link Channel} of type "secure-octo".
+     */
+    public static class SecureOctoChannel
+        extends Channel
+    {
+        /**
+         * The value of the "type" attribute which corresponds to Octo channels.
+         */
+        public static final String TYPE = "secure-octo";
+
+        /**
+         * Initializes a new {@link OctoChannel} instance.
+         */
+        public SecureOctoChannel()
+        {
+            setType(TYPE);
+        }
+    }
+
+    /**
      * Represents a "channel-bundle" element.
      */
     public static class ChannelBundle
