@@ -75,7 +75,7 @@ public class WebSocketPacketExtension extends AbstractPacketExtension
     /**
      * Sets whether an active connection to a remote websocket will/should be used.
      */
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         if (!active)
         {
             super.removeAttribute(ACTIVE_ATTR_NAME);

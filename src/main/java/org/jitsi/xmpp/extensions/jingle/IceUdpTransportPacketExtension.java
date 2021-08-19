@@ -140,7 +140,7 @@ public class IceUdpTransportPacketExtension
      * Sets whether a unique candidate port should be used.  Only meaningful
      * in a channel-allocate request.
      */
-    public void setUseUniquePort(Boolean use)
+    public void setUseUniquePort(boolean use)
     {
         if (!use)
         {
