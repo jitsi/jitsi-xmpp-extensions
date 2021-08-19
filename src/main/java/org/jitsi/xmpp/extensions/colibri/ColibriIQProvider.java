@@ -423,6 +423,10 @@ public class ColibriIQProvider
                         {
                             channel = new ColibriConferenceIQ.OctoChannel();
                         }
+                        else if (ColibriConferenceIQ.SecureOctoChannel.TYPE.equals(type))
+                        {
+                            channel = new ColibriConferenceIQ.SecureOctoChannel();
+                        }
                         else
                         {
                             channel = new ColibriConferenceIQ.Channel();

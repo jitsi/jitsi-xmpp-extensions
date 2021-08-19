@@ -91,11 +91,15 @@ public class WebSocketPacketExtension extends AbstractPacketExtension
      */
     public boolean getActive() {
         Object active = super.getAttribute(ACTIVE_ATTR_NAME);
-        if (!(active instanceof Boolean))
+        if (active instanceof Boolean)
         {
-            return false;
+            return (Boolean)active;
         }
+        else if (active instanceof String)
+        {
+            return Boolean.parseBoolean((String)active);
+        }
+        return false;
 
-        return (Boolean)active;
     }
 }

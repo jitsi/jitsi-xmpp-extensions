@@ -159,11 +159,15 @@ public class IceUdpTransportPacketExtension
     public boolean getUseUniquePort()
     {
         Object use = super.getAttribute(USE_UNIQUE_PORT_ATTR_NAME);
-        if (!(use instanceof Boolean))
+        if (use instanceof Boolean)
         {
-            return false;
+            return (Boolean)use;
         }
-        return (Boolean)use;
+        else if (use instanceof String)
+        {
+            return Boolean.parseBoolean((String)use);
+        }
+        return false;
     }
 
     /**
