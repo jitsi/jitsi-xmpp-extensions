@@ -206,7 +206,7 @@ public abstract class AbstractPacketExtension
         //text content if any
         if(StringUtils.isNotEmpty(text))
         {
-            xml.optEscape(text);
+            xml.append(org.jivesoftware.smack.util.StringUtils.escapeForXmlText(text));
         }
 
         xml.closeElement(getElementName());
