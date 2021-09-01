@@ -15,8 +15,12 @@
  */
 package org.jitsi.xmpp.extensions.condesc;
 
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.ExtensionElementProvider;
-import org.xmlpull.v1.XmlPullParser;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Parses elements with the {@value ConferenceDescriptionExtension#NAMESPACE}
@@ -33,8 +37,8 @@ public class ConferenceDescriptionExtensionProvider
      * @throws Exception
      */
     @Override
-    public ConferenceDescriptionExtension parse(XmlPullParser parser, int depth)
-            throws Exception
+    public ConferenceDescriptionExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         ConferenceDescriptionExtension packetExtension
                 = new ConferenceDescriptionExtension();
@@ -58,7 +62,7 @@ public class ConferenceDescriptionExtensionProvider
         {
             switch (parser.next())
             {
-                case XmlPullParser.START_TAG:
+                case START_ELEMENT:
                     elementName = parser.getName();
                     if (TransportExtension.ELEMENT_NAME.equals(elementName))
                     {
@@ -71,7 +75,7 @@ public class ConferenceDescriptionExtensionProvider
 
                     break;
 
-                case XmlPullParser.END_TAG:
+                case END_ELEMENT:
                     switch (parser.getName())
                     {
                         case ConferenceDescriptionExtension.ELEMENT_NAME:

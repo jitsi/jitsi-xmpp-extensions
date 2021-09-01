@@ -137,10 +137,10 @@ public class RecordingStatus
     }
 
     /**
-     * Returns <tt>XMPPError</tt> associated with current
+     * Returns <tt>StanzaError</tt> associated with current
      * {@link RecordingStatus}.
      */
-    public XMPPError getError()
+    public StanzaError getError()
     {
         XMPPErrorPE errorPe = getErrorPE();
         return errorPe != null ? errorPe.getError() : null;
@@ -160,15 +160,15 @@ public class RecordingStatus
     }
 
     /**
-     * Sets <tt>XMPPError</tt> on this <tt>RecordingStatus</tt>.
-     * @param error <tt>XMPPError</tt> to add error details to this
+     * Sets <tt>StanzaError</tt> on this <tt>RecordingStatus</tt>.
+     * @param error <tt>StanzaError</tt> to add error details to this
      * <tt>RecordingStatus</tt> instance or <tt>null</tt> to have it removed.
      */
-    public void setError(XMPPError error)
+    public void setError(StanzaError error)
     {
         if (error != null)
         {
-            // Wrap and add XMPPError as packet extension
+            // Wrap and add StanzaError as packet extension
             XMPPErrorPE errorPe = getErrorPE();
             if (errorPe == null)
             {

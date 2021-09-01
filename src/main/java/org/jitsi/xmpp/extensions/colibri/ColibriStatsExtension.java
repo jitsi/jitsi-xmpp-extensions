@@ -660,7 +660,7 @@ public class ColibriStatsExtension
         }
 
         @Override
-        public String toXML()
+        public String toXML(XmlEnvironment enclosingNamespace)
         {
             String name = getName();
             Object value = getValue();

@@ -15,8 +15,12 @@
  */
 package org.jitsi.xmpp.extensions.jingle;
 
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * The <tt>ReasonProvider</tt> parses "reason" elements into {@link
@@ -42,15 +46,15 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ReasonPacketExtension parse(XmlPullParser parser, int depth)
-        throws Exception
+    public ReasonPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         String text = null;
         Reason reason = null;
 
         boolean done = false;
 
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName;
 
         while (!done)
@@ -58,7 +62,7 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 // the reason itself.
                 if( reason == null)
@@ -77,7 +81,7 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
                     //this is an element that we don't currently support.
                 }
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(ReasonPacketExtension.ELEMENT_NAME))
                 {
@@ -104,22 +108,22 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     public String parseText(XmlPullParser parser)
-        throws Exception
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
 
-        int eventType;
+        XmlPullParser.Event eventType;
         String text = null;
 
         while (!done)
         {
             eventType = parser.next();
 
-            if (eventType == XmlPullParser.TEXT)
+            if (eventType == XmlPullParser.Event.TEXT_CHARACTERS)
             {
                 text = parser.getText();
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 done = true;
             }

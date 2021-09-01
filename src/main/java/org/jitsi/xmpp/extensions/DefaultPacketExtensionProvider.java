@@ -15,11 +15,14 @@
  */
 package org.jitsi.xmpp.extensions;
 
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.logging.*;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
 
 /**
  * A provider that parses incoming packet extensions into instances of the
@@ -66,9 +69,18 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public C parse(XmlPullParser parser, int depth) throws Exception
+    public C parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
-        C packetExtension = packetClass.getConstructor().newInstance();
+        C packetExtension;
+        try
+        {
+            packetExtension = packetClass.getConstructor().newInstance();
+        }
+        catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e)
+        {
+            throw new SmackParsingException(e.getMessage());
+        }
 
         //first, set all attributes
         int attrCount = parser.getAttributeCount();
@@ -82,7 +94,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
 
         //now parse the sub elements
         boolean done = false;
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName;
         String namespace;
 
@@ -97,7 +109,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
                     + " ns=" + namespace
                     + " class=" + packetExtension.getClass().getSimpleName());
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 ExtensionElementProvider<ExtensionElement> provider = ProviderManager
                         .getExtensionProvider( elementName, namespace );
@@ -123,14 +135,14 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
                     packetExtension.addChildExtension(childExtension);
                 }
             }
-            if (eventType == XmlPullParser.END_TAG)
+            if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(packetExtension.getElementName()))
                 {
                     done = true;
                 }
             }
-            if (eventType == XmlPullParser.TEXT)
+            if (eventType == XmlPullParser.Event.TEXT_CHARACTERS)
             {
                 String text = parser.getText();
                 packetExtension.setText(text);

@@ -15,9 +15,10 @@
  */
 package org.jitsi.xmpp.extensions.thumbnail;
 
+import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
+import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smackx.bob.*;
-import org.xmlpull.v1.*;
 
 /**
  * The <tt>ThumbnailElement</tt> represents a "thumbnail" XML element, that is
@@ -123,7 +124,7 @@ public class Thumbnail
      *
      * @return the packet extension as XML.
      */
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         StringBuffer buf = new StringBuffer();
 

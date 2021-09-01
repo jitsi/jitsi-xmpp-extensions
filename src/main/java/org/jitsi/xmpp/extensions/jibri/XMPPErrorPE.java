@@ -20,42 +20,42 @@ import org.jivesoftware.smack.packet.*;
 import java.util.*;
 
 /**
- * Wraps Smack's <tt>XMPPError</tt> into <tt>ExtensionElement</tt>, so that it
+ * Wraps Smack's <tt>StanzaError</tt> into <tt>ExtensionElement</tt>, so that it
  * can be easily inserted into {@link RecordingStatus}.
  */
 public class XMPPErrorPE
     implements ExtensionElement
 {
     /**
-     * <tt>XMPPError</tt> wrapped into this <tt>XMPPErrorPE</tt>.
+     * <tt>StanzaError</tt> wrapped into this <tt>XMPPErrorPE</tt>.
      */
-    private XMPPError error;
+    private StanzaError error;
 
     /**
      * Creates new instance of <tt>XMPPErrorPE</tt>.
-     * @param xmppError the instance of <tt>XMPPError</tt> that will be wrapped
+     * @param StanzaError the instance of <tt>StanzaError</tt> that will be wrapped
      * by the newly created <tt>XMPPErrorPE</tt>.
      */
-    public XMPPErrorPE(XMPPError xmppError)
+    public XMPPErrorPE(StanzaError StanzaError)
     {
-        setError(xmppError);
+        setError(StanzaError);
     }
 
     /**
-     * Returns the underlying instance of <tt>XMPPError</tt>.
+     * Returns the underlying instance of <tt>StanzaError</tt>.
      */
-    public XMPPError getError()
+    public StanzaError getError()
     {
         return error;
     }
 
     /**
-     * Sets new instance of <tt>XMPPError</tt> to be wrapped by this
+     * Sets new instance of <tt>StanzaError</tt> to be wrapped by this
      * <tt>XMPPErrorPE</tt>.
-     * @param error <tt>XMPPError</tt> that will be wrapped by this
+     * @param error <tt>StanzaError</tt> that will be wrapped by this
      * <TT>XMPPErrorPE</TT>.
      */
-    public void setError(XMPPError error)
+    public void setError(StanzaError error)
     {
         Objects.requireNonNull(error, "error");
 
@@ -84,7 +84,7 @@ public class XMPPErrorPE
      * {@inheritDoc}
      */
     @Override
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         return error.toXML().toString();
     }

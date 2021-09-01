@@ -134,14 +134,14 @@ public class ColibriIQProviderTest extends TestCase
         // Step forward to the the 'iq' element
         int eventType = xmlPullParser.next();
         String name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.START_TAG, eventType);
+        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
         assertEquals("iq", name);
 
         // Move forward to the 'conference' element, which is what
         // ColibriIQProvider::parse expects
         eventType = xmlPullParser.next();
         name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.START_TAG, eventType);
+        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
         assertEquals(ColibriConferenceIQ.ELEMENT_NAME, name);
 
         IQ result = colibriIQProvider.parse(xmlPullParser, 0);
