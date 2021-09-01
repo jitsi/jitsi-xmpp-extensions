@@ -20,9 +20,9 @@ package org.jitsi.xmpp.extensions.colibri;
 
 import junit.framework.TestCase;
 import org.jivesoftware.smack.packet.IQ;
+import org.jivesoftware.smack.util.*;
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.impl.*;
-import org.xmlpull.mxp1.MXParser;
-import org.xmlpull.v1.XmlPullParser;
 
 import org.jitsi.xmpp.extensions.jitsimeet.*;
 
@@ -107,32 +107,21 @@ public class ColibriIQProviderTest extends TestCase
               "</conference>" +
             "</iq>";
 
-//    XmlPullParserFactory xmlPullParserFactory;
-    XmlPullParser xmlPullParser;
     ColibriIQProvider colibriIQProvider;
 
     public void setUp()
             throws Exception
     {
-//        xmlPullParserFactory = XmlPullParserFactory.newInstance();
-//        xmlPullParserFactory.setNamespaceAware(true);
-//
-//        xmlPullParser = xmlPullParserFactory.newPullParser();
-        xmlPullParser = new MXParser();
-        xmlPullParser.setFeature(
-            "http://xmlpull.org/v1/doc/features.html#process-namespaces",
-            true);
-
         colibriIQProvider = new ColibriIQProvider();
     }
 
     public void testParseSource()
             throws Exception
     {
+        XmlPullParser xmlPullParser = SmackXmlParser.newXmlParser(new StringReader(testXml));
         // Make sure that both ssrc and rid sources are parsed correctly
-        xmlPullParser.setInput(new StringReader(testXml));
         // Step forward to the the 'iq' element
-        int eventType = xmlPullParser.next();
+        XmlPullParser.Event eventType = xmlPullParser.next();
         String name = xmlPullParser.getName();
         assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
         assertEquals("iq", name);
@@ -144,7 +133,7 @@ public class ColibriIQProviderTest extends TestCase
         assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
         assertEquals(ColibriConferenceIQ.ELEMENT_NAME, name);
 
-        IQ result = colibriIQProvider.parse(xmlPullParser, 0);
+        IQ result = colibriIQProvider.parse(xmlPullParser);
         List<SourcePacketExtension> sources =
                 ((ColibriConferenceIQ) result)
                         .getContent("video")

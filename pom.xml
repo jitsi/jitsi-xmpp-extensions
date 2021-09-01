@@ -46,6 +46,12 @@
       <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.igniterealtime.smack</groupId>
+      <artifactId>smack-xmlparser-stax</artifactId>
+      <version>${smack.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
