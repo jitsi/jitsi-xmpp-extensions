@@ -291,7 +291,7 @@ public class ColibriIQProvider
             String conferenceName = parser.getAttributeValue("", ColibriConferenceIQ.NAME_ATTR_NAME);
             if (isNotEmpty(conferenceName))
             {
-                conference.setName(JidCreate.entityBareFrom(conferenceName));
+                conference.setName(JidCreate.bareFrom(conferenceName));
             }
 
             String meetingId = parser.getAttributeValue("", ColibriConferenceIQ.MEETING_ID_ATTR_NAME);
