@@ -24,11 +24,20 @@
     </dependency>
     <dependency>
       <groupId>org.igniterealtime.smack</groupId>
+      <!-- It appears that smack-core needs the base64 encoder to be set,
+           and this fails to happen unless we include smack-java8.  -->
+      <artifactId>smack-java8</artifactId>
+      <version>${smack.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.igniterealtime.smack</groupId>
       <artifactId>smack-extensions</artifactId>
       <version>${smack.version}</version>
     </dependency>
     <dependency>
       <groupId>org.igniterealtime.smack</groupId>
+      <!-- Similarly, smack-core needs the xmlparser to be set,
+           and this fails to happen unless we include smack-xmlparser-stax.  -->
       <artifactId>smack-xmlparser-stax</artifactId>
       <version>${smack.version}</version>
     </dependency>
