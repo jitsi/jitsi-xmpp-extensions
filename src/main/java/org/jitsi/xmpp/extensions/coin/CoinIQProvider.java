@@ -202,7 +202,7 @@ public class CoinIQProvider
      * @return the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element we
      * come across or <tt>null</tt> if we encounter a closing tag first.
      *
-     * @throws XmlPullParserException, IOException, SmackParsingException if an error occurs parsing the XML.
+     * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     public static String parseText(XmlPullParser parser)
         throws XmlPullParserException, IOException, SmackParsingException
