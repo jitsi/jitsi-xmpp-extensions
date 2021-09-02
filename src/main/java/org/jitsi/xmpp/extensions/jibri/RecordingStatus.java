@@ -142,21 +142,21 @@ public class RecordingStatus
      */
     public StanzaError getError()
     {
-        XMPPErrorPE errorPe = getErrorPE();
+        StanzaErrorPE errorPe = getErrorPE();
         return errorPe != null ? errorPe.getError() : null;
     }
 
     /**
-     * Gets <tt>{@link XMPPErrorPE}</tt> from the list of child packet
+     * Gets <tt>{@link StanzaErrorPE}</tt> from the list of child packet
      * extensions.
-     * @return {@link XMPPErrorPE} or <tt>null</tt> if not found.
+     * @return {@link StanzaErrorPE} or <tt>null</tt> if not found.
      */
-    private XMPPErrorPE getErrorPE()
+    private StanzaErrorPE getErrorPE()
     {
         List<? extends ExtensionElement> errorPe
-            = getChildExtensionsOfType(XMPPErrorPE.class);
+            = getChildExtensionsOfType(StanzaErrorPE.class);
 
-        return (XMPPErrorPE) (!errorPe.isEmpty() ? errorPe.get(0) : null);
+        return (StanzaErrorPE) (!errorPe.isEmpty() ? errorPe.get(0) : null);
     }
 
     /**
@@ -169,10 +169,10 @@ public class RecordingStatus
         if (error != null)
         {
             // Wrap and add StanzaError as packet extension
-            XMPPErrorPE errorPe = getErrorPE();
+            StanzaErrorPE errorPe = getErrorPE();
             if (errorPe == null)
             {
-                errorPe = new XMPPErrorPE(error);
+                errorPe = new StanzaErrorPE(error);
                 addChildExtension(errorPe);
             }
             errorPe.setError(error);

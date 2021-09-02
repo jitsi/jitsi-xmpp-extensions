@@ -23,22 +23,22 @@ import java.util.*;
  * Wraps Smack's <tt>StanzaError</tt> into <tt>ExtensionElement</tt>, so that it
  * can be easily inserted into {@link RecordingStatus}.
  */
-public class XMPPErrorPE
+public class StanzaErrorPE
     implements ExtensionElement
 {
     /**
-     * <tt>StanzaError</tt> wrapped into this <tt>XMPPErrorPE</tt>.
+     * <tt>StanzaError</tt> wrapped into this <tt>StanzaErrorPE</tt>.
      */
     private StanzaError error;
 
     /**
-     * Creates new instance of <tt>XMPPErrorPE</tt>.
-     * @param StanzaError the instance of <tt>StanzaError</tt> that will be wrapped
-     * by the newly created <tt>XMPPErrorPE</tt>.
+     * Creates new instance of <tt>StanzaErrorPE</tt>.
+     * @param stanzaError the instance of <tt>StanzaError</tt> that will be wrapped
+     * by the newly created <tt>StanzaErrorPE</tt>.
      */
-    public XMPPErrorPE(StanzaError StanzaError)
+    public StanzaErrorPE(StanzaError stanzaError)
     {
-        setError(StanzaError);
+        setError(stanzaError);
     }
 
     /**
@@ -51,9 +51,9 @@ public class XMPPErrorPE
 
     /**
      * Sets new instance of <tt>StanzaError</tt> to be wrapped by this
-     * <tt>XMPPErrorPE</tt>.
+     * <tt>StanzaErrorPE</tt>.
      * @param error <tt>StanzaError</tt> that will be wrapped by this
-     * <TT>XMPPErrorPE</TT>.
+     * <TT>StanzaErrorPE</TT>.
      */
     public void setError(StanzaError error)
     {
