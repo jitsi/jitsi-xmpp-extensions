@@ -34,7 +34,7 @@ public class ColibriIQProviderTest extends TestCase
     private static final String testXml
         = "\n" +
             "<iq type=\"set\" to=\"jvb-0.brian2.jitsi.net\" from=\"focus@auth.brian2.jitsi.net/focus358522582823562\" id=\"qV8NP-1407\">" +
-              "<conference xmlns=\"http://jitsi.org/protocol/colibri\" id=\"cce6f2fe74002273\" name=\"test\" gid=\"ff62ef\">" +
+              "<conference xmlns=\"http://jitsi.org/protocol/colibri\" id=\"cce6f2fe74002273\" name=\"test@conference.brian2.jitsi.net\" gid=\"ff62ef\">" +
                 "<content name=\"audio\">" +
                   "<channel id=\"b9007c3af259d44e\">" +
                     "<payload-type name=\"opus\" clockrate=\"48000\" id=\"111\" channels=\"2\">" +

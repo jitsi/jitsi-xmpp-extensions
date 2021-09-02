@@ -131,7 +131,7 @@ public class ColibriConferenceIQ
     /**
      * World readable name for the conference.
      */
-    private BareJid name;
+    private EntityBareJid name;
 
     private String meetingId;
 
@@ -494,7 +494,7 @@ public class ColibriConferenceIQ
      * The world readable name of the conference.
      * @return name of the conference.
      */
-    public BareJid getName()
+    public EntityBareJid getName()
     {
         return name;
     }
@@ -503,7 +503,7 @@ public class ColibriConferenceIQ
      * Sets name.
      * @param name the name to set.
      */
-    public void setName(BareJid name)
+    public void setName(EntityBareJid name)
     {
         this.name = name;
     }
