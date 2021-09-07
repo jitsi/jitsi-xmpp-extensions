@@ -95,17 +95,21 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
         //now parse the sub elements
         boolean done = false;
         XmlPullParser.Event eventType;
-        String elementName;
+        String elementName = null;
         String namespace;
 
         while (!done)
         {
             eventType = parser.next();
-            elementName = parser.getName();
+            if (eventType == XmlPullParser.Event.START_ELEMENT || eventType == XmlPullParser.Event.END_ELEMENT)
+            {
+                elementName = parser.getName();
+            }
             namespace = parser.getNamespace();
 
             if (logger.isLoggable(Level.FINEST))
-                logger.finest("Will parse " + elementName
+                logger.finest("Will parse event " + eventType
+                    + " for " + elementName
                     + " ns=" + namespace
                     + " class=" + packetExtension.getClass().getSimpleName());
 
@@ -148,7 +152,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
                 packetExtension.setText(text);
             }
 
-            if (logger.isLoggable(Level.FINEST))
+            if (logger.isLoggable(Level.FINEST) && elementName != null)
                 logger.finest("Done parsing " + elementName);
         }
 
