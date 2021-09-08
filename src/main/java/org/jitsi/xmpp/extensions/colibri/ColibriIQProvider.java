@@ -21,9 +21,12 @@ import org.jitsi.xmpp.extensions.jingle.*;
 import org.jitsi.xmpp.extensions.jitsimeet.*;
 import org.jitsi.utils.logging2.*;
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.impl.*;
-import org.xmlpull.v1.*;
+
+import java.io.*;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -226,7 +229,7 @@ public class ColibriIQProvider
             XmlPullParser parser,
             String name,
             String namespace)
-        throws Exception
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         ExtensionElementProvider extensionProvider
             = ProviderManager.getExtensionProvider(
@@ -261,8 +264,8 @@ public class ColibriIQProvider
      */
     @SuppressWarnings("deprecation") // Compatibility with legacy Jitsi and
                                      // Jitsi Videobridge
-    public IQ parse(XmlPullParser parser, int depth)
-        throws Exception
+    public IQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
         IQ iq;
@@ -311,7 +314,7 @@ public class ColibriIQProvider
             {
                 switch (parser.next())
                 {
-                case XmlPullParser.END_TAG:
+                case END_ELEMENT:
                 {
                     String name = parser.getName();
 
@@ -408,7 +411,7 @@ public class ColibriIQProvider
                     break;
                 }
 
-                case XmlPullParser.START_TAG:
+                case START_ELEMENT:
                 {
                     String name = parser.getName();
 
@@ -882,7 +885,7 @@ public class ColibriIQProvider
                     break;
                 }
 
-                case XmlPullParser.TEXT:
+                case TEXT_CHARACTERS:
                 {
                     if (ssrc != null)
                         ssrc.append(parser.getText());
@@ -906,7 +909,7 @@ public class ColibriIQProvider
             {
                 switch (parser.next())
                 {
-                    case XmlPullParser.END_TAG:
+                    case END_ELEMENT:
                     {
                         String name = parser.getName();
 
@@ -934,7 +937,7 @@ public class ColibriIQProvider
             {
                 switch (parser.next())
                 {
-                    case XmlPullParser.START_TAG:
+                    case START_ELEMENT:
                     {
                         String name = parser.getName();
 
@@ -957,7 +960,7 @@ public class ColibriIQProvider
                         }
                         break;
                     }
-                    case XmlPullParser.END_TAG:
+                    case END_ELEMENT:
                     {
                         String name = parser.getName();
 
@@ -998,9 +1001,9 @@ public class ColibriIQProvider
      * @throws Exception if an errors occurs while parsing the XML content
      */
     private void throwAway(XmlPullParser parser, String name)
-        throws Exception
+        throws XmlPullParserException, IOException, SmackParsingException
     {
-        while ((XmlPullParser.END_TAG != parser.next())
+        while ((XmlPullParser.Event.END_ELEMENT != parser.next())
                 || !name.equals(parser.getName()));
     }
 }

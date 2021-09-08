@@ -15,9 +15,10 @@
  */
 package org.jitsi.xmpp.extensions.thumbnail;
 
+import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
+import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smackx.bob.*;
-import org.xmlpull.v1.*;
 
 /**
  * The <tt>ThumbnailElement</tt> represents a "thumbnail" XML element, that is
@@ -58,7 +59,7 @@ public class Thumbnail
      */
     public final static String HEIGHT = "height";
 
-    private BoBHash cid;
+    private ContentId cid;
 
     private String mimeType;
 
@@ -107,7 +108,7 @@ public class Thumbnail
         }
     }
 
-    private BoBHash parseCid(String cid)
+    private ContentId parseCid(String cid)
     {
         // previous Jitsi versions used to send <hashType>-<hash>@<server>
         if (!cid.endsWith("@bob.xmpp.org"))
@@ -115,7 +116,7 @@ public class Thumbnail
             cid = cid.substring(0, cid.indexOf('@')) + "@bob.xmpp.org";
         }
 
-        return BoBHash.fromCid(cid);
+        return ContentId.fromCid(cid);
     }
 
     /**
@@ -123,7 +124,7 @@ public class Thumbnail
      *
      * @return the packet extension as XML.
      */
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         StringBuffer buf = new StringBuffer();
 
@@ -147,7 +148,7 @@ public class Thumbnail
      * Returns the Content-ID, corresponding to this <tt>ThumbnailElement</tt>.
      * @return the Content-ID, corresponding to this <tt>ThumbnailElement</tt>
      */
-    public BoBHash getCid()
+    public ContentId getCid()
     {
         return cid;
     }
@@ -183,7 +184,7 @@ public class Thumbnail
      * Sets the content-ID of this <tt>ThumbnailElement</tt>.
      * @param cid the content-ID to set
      */
-    public void setCid(BoBHash cid)
+    public void setCid(ContentId cid)
     {
         this.cid = cid;
     }
@@ -260,8 +261,8 @@ public class Thumbnail
      * @param thumbnailData the byte array containing the data
      * @return the cid attribute value for the thumbnail extension
      */
-    private BoBHash createCid(byte[] thumbnailData)
+    private ContentId createCid(byte[] thumbnailData)
     {
-        return new BoBHash(SHA1.hex(thumbnailData), "sha1");
+        return new ContentId(SHA1.hex(thumbnailData), "sha1");
     }
 }

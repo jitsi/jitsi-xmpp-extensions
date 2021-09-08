@@ -16,9 +16,12 @@
 package org.jitsi.xmpp.extensions.health;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * The <tt>IQProvider</tt> for {@link HealthCheckIQ}.
@@ -47,8 +50,8 @@ public class HealthCheckIQProvider
      * {@inheritDoc}
      */
     @Override
-    public IQ parse(XmlPullParser parser, int depth)
-        throws Exception
+    public IQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
         IQ iq;
@@ -66,7 +69,7 @@ public class HealthCheckIQProvider
             {
                 switch (parser.next())
                 {
-                    case XmlPullParser.END_TAG:
+                    case END_ELEMENT:
                     {
                         String name = parser.getName();
 

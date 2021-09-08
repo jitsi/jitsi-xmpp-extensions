@@ -18,9 +18,12 @@ package org.jitsi.xmpp.extensions.rayo;
 import org.apache.commons.lang3.StringUtils;
 import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.Jid;
-import org.xmlpull.v1.*;
+
+import java.io.*;
 
 /**
  * Provider handles parsing of Rayo IQ stanzas and converting objects back to
@@ -78,8 +81,8 @@ public class RayoIqProvider
      * {@inheritDoc}
      */
     @Override
-    public RayoIq parse(XmlPullParser parser, int depth)
-        throws Exception
+    public RayoIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
 
@@ -140,7 +143,7 @@ public class RayoIqProvider
         {
             switch (parser.next())
             {
-                case XmlPullParser.END_TAG:
+                case END_ELEMENT:
                 {
                     String name = parser.getName();
 
@@ -170,7 +173,7 @@ public class RayoIqProvider
                     break;
                 }
 
-                case XmlPullParser.START_TAG:
+                case START_ELEMENT:
                 {
                     String name = parser.getName();
 
@@ -206,7 +209,7 @@ public class RayoIqProvider
                     break;
                 }
 
-                case XmlPullParser.TEXT:
+                case TEXT_CHARACTERS:
                 {
                     // Parse some text here
                     break;

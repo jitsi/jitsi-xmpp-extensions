@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions;
 import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
@@ -154,12 +155,15 @@ public abstract class AbstractPacketExtension
      *
      * @return an XML representation of this extension.
      */
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
         xml.halfOpenElement(getElementName());
-        xml.xmlnsAttribute(getNamespace());
+        if (enclosingNamespace == null || !Objects.equals(enclosingNamespace.getNamespace(), getNamespace()))
+        {
+            xml.xmlnsAttribute(getNamespace());
+        }
 
         //add the rest of the attributes if any
         for(Map.Entry<String, Object> entry : attributes.entrySet())

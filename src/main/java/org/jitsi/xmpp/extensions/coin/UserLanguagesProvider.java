@@ -16,8 +16,11 @@
 package org.jitsi.xmpp.extensions.coin;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Parser for UserLanguagesPacketExtension.
@@ -42,11 +45,11 @@ public class UserLanguagesProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth)
-        throws Exception
+    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName = null;
 
         UserLanguagesPacketExtension ext = new UserLanguagesPacketExtension();
@@ -56,7 +59,7 @@ public class UserLanguagesProvider
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 if(elementName.equals(
                         UserLanguagesPacketExtension.ELEMENT_LANGUAGES))
@@ -64,7 +67,7 @@ public class UserLanguagesProvider
                     ext.setLanguages(CoinIQProvider.parseText(parser));
                 }
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
                         UserLanguagesPacketExtension.ELEMENT_NAME))

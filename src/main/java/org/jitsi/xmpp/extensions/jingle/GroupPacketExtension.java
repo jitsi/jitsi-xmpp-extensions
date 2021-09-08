@@ -16,8 +16,11 @@
 package org.jitsi.xmpp.extensions.jingle;
 
 import org.jitsi.xmpp.extensions.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
+import org.jivesoftware.smack.xml.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -131,8 +134,8 @@ public class GroupPacketExtension
      * contents list.
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
-    public static GroupPacketExtension parseExtension(XmlPullParser parser)
-        throws Exception
+    public static GroupPacketExtension parseExtension(XmlPullParser parser, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         GroupPacketExtension group = new GroupPacketExtension();
 
@@ -141,7 +144,7 @@ public class GroupPacketExtension
             group.setSemantics(semantics);
 
         boolean done = false;
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName;
         DefaultPacketExtensionProvider<ContentPacketExtension> contentProvider
             = new DefaultPacketExtensionProvider<ContentPacketExtension>(
@@ -154,11 +157,11 @@ public class GroupPacketExtension
             if (elementName.equals(ContentPacketExtension.ELEMENT_NAME))
             {
                 ContentPacketExtension content
-                    = contentProvider.parse(parser, 0);
+                    = contentProvider.parse(parser, xmlEnvironment);
                 group.addChildExtension(content);
             }
 
-            if ((eventType == XmlPullParser.END_TAG)
+            if ((eventType == XmlPullParser.Event.END_ELEMENT)
                 && parser.getName().equals(ELEMENT_NAME))
             {
                 done = true;

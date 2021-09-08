@@ -92,7 +92,7 @@ public class SctpMapExtension
      * {@inheritDoc}
      */
     @Override
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 

@@ -16,6 +16,7 @@
 package org.jitsi.xmpp.extensions.thumbnail;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smackx.si.packet.StreamInitiation;
 import org.jxmpp.util.*;
@@ -61,7 +62,7 @@ public class ThumbnailFile
      * Represents this <tt>FileElement</tt> in an XML.
      */
     @Override
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
@@ -100,7 +101,7 @@ public class ThumbnailFile
 
             if (thumbnail != null)
             {
-                xml.append(thumbnail.toXML());
+                xml.append(thumbnail.toXML(enclosingNamespace));
             }
 
             xml.closeElement(getElementName());

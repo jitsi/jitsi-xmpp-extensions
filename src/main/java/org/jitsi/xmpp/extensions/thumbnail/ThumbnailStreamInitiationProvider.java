@@ -16,13 +16,16 @@
 package org.jitsi.xmpp.extensions.thumbnail;
 
 import org.jitsi.utils.logging2.*;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smackx.si.packet.*;
 import org.jivesoftware.smackx.xdata.packet.*;
 import org.jivesoftware.smackx.xdata.provider.*;
 import org.jxmpp.util.XmppDateTime;
-import org.xmlpull.v1.*;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
@@ -37,8 +40,8 @@ public class ThumbnailStreamInitiationProvider
      * @param parser the parser to parse
      */
     @Override
-    public StreamInitiation parse(final XmlPullParser parser, int depth)
-        throws Exception
+    public StreamInitiation parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
 
@@ -60,7 +63,7 @@ public class ThumbnailStreamInitiationProvider
         DataForm form = null;
         DataFormProvider dataFormProvider = new DataFormProvider();
 
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName;
         String namespace;
 
@@ -70,7 +73,7 @@ public class ThumbnailStreamInitiationProvider
             elementName = parser.getName();
             namespace = parser.getNamespace();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 if (elementName.equals("file"))
                 {
@@ -97,7 +100,7 @@ public class ThumbnailStreamInitiationProvider
                     thumbnail = new Thumbnail(parser);
                 }
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (elementName.equals("si"))
                 {

@@ -15,11 +15,15 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
-import org.xmlpull.v1.*;
+
+import java.io.*;
 
 /**
  * The parser of {@link MuteIq}.
@@ -44,8 +48,8 @@ public class MuteIqProvider
      * {@inheritDoc}
      */
     @Override
-    public MuteIq parse(XmlPullParser parser, int initialDepth)
-        throws Exception
+    public MuteIq parse(XmlPullParser parser, int initialDepth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
 
@@ -88,7 +92,7 @@ public class MuteIqProvider
         {
             switch (parser.next())
             {
-                case XmlPullParser.END_TAG:
+                case END_ELEMENT:
                 {
                     String name = parser.getName();
 
@@ -99,7 +103,7 @@ public class MuteIqProvider
                     break;
                 }
 
-                case XmlPullParser.TEXT:
+                case TEXT_CHARACTERS:
                 {
                     Boolean mute = Boolean.parseBoolean(parser.getText());
                     iq.setMute(mute);

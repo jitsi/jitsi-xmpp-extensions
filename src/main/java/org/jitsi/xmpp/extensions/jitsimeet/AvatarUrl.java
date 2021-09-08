@@ -16,9 +16,12 @@
 package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.util.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * A implementation of a {@link PacketExtension} for the jitsi-meet "avatar-url"
@@ -84,7 +87,7 @@ public class AvatarUrl
      * Returns xml representation of this extension.
      * @return xml representation of this extension.
      */
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         return new XmlStringBuilder()
             .element(getElementName(), getAvatarUrl())
@@ -98,13 +101,14 @@ public class AvatarUrl
         extends ExtensionElementProvider<AvatarUrl>
     {
         @Override
-        public AvatarUrl parse(XmlPullParser parser, int depth) throws Exception
+        public AvatarUrl parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+            throws XmlPullParserException, IOException, SmackParsingException
         {
             parser.next();
             final String address = parser.getText();
 
             // Advance to end of extension.
-            while(parser.getEventType() != XmlPullParser.END_TAG)
+            while(parser.getEventType() != XmlPullParser.Event.END_ELEMENT)
             {
                 parser.next();
             }

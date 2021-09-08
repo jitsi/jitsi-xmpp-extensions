@@ -16,8 +16,11 @@
 package org.jitsi.xmpp.extensions.coin;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Parser for ConferenceMediumProvider.
@@ -42,11 +45,11 @@ public class ConferenceMediumProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth)
-        throws Exception
+    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName = null;
         String label = parser.getAttributeValue(
                 "",
@@ -54,7 +57,7 @@ public class ConferenceMediumProvider
 
         if(label == null)
         {
-            throw new Exception(
+            throw new SmackParsingException.RequiredAttributeMissingException(
                     "Coin medium element must contain entity attribute");
         }
 
@@ -66,7 +69,7 @@ public class ConferenceMediumProvider
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 if(elementName.equals(
                         MediaPacketExtension.ELEMENT_DISPLAY_TEXT))
@@ -84,7 +87,7 @@ public class ConferenceMediumProvider
                     ext.setType(CoinIQProvider.parseText(parser));
                 }
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
                         ConferenceMediumPacketExtension.ELEMENT_NAME))

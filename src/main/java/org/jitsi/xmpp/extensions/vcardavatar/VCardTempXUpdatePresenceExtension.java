@@ -176,7 +176,7 @@ public class VCardTempXUpdatePresenceExtension
      * @return the packet extension as XML.
      */
     @Override
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         return this.xmlString;
     }

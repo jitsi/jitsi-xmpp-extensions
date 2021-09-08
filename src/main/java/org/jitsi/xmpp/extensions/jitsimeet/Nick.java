@@ -68,6 +68,6 @@ public class Nick
      */
     public static void registerNickProvider()
     {
-        ProviderManager.addExtensionProvider(ELEMENT_NAME, NAMESPACE, new DefaultPacketExtensionProvider<>(Nick.class));
+        ProviderManager.addExtensionProvider(QNAME.getLocalPart(), NAMESPACE, new DefaultPacketExtensionProvider<>(Nick.class));
     }
 }
