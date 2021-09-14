@@ -17,10 +17,14 @@ package org.jitsi.xmpp.extensions.jibri;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
-import org.xmlpull.v1.*;
+
+import java.io.*;
 
 /**
  * Parses {@link JibriIq}.
@@ -32,8 +36,8 @@ public class JibriIqProvider
      * {@inheritDoc}
      */
     @Override
-    public JibriIq parse(XmlPullParser parser, int depth)
-        throws Exception
+    public JibriIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
 

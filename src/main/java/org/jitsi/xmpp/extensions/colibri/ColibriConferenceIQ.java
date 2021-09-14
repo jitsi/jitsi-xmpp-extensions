@@ -146,9 +146,9 @@ public class ColibriConferenceIQ
      */
     public static IQ createGracefulShutdownErrorResponse(final IQ request)
     {
-        final XMPPError error = XMPPError.getBuilder()
-            .setCondition(XMPPError.Condition.service_unavailable)
-            .setType(XMPPError.Type.CANCEL)
+        final StanzaError error = StanzaError.getBuilder()
+            .setCondition(StanzaError.Condition.service_unavailable)
+            .setType(StanzaError.Type.CANCEL)
             .addExtension(new GracefulShutdown())
             .build();
 

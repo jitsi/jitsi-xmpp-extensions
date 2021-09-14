@@ -20,9 +20,9 @@ package org.jitsi.xmpp.extensions.colibri;
 
 import junit.framework.TestCase;
 import org.jivesoftware.smack.packet.IQ;
+import org.jivesoftware.smack.util.*;
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.impl.*;
-import org.xmlpull.mxp1.MXParser;
-import org.xmlpull.v1.XmlPullParser;
 
 import org.jitsi.xmpp.extensions.jitsimeet.*;
 
@@ -34,7 +34,7 @@ public class ColibriIQProviderTest extends TestCase
     private static final String testXml
         = "\n" +
             "<iq type=\"set\" to=\"jvb-0.brian2.jitsi.net\" from=\"focus@auth.brian2.jitsi.net/focus358522582823562\" id=\"qV8NP-1407\">" +
-              "<conference xmlns=\"http://jitsi.org/protocol/colibri\" id=\"cce6f2fe74002273\" name=\"test\" gid=\"ff62ef\">" +
+              "<conference xmlns=\"http://jitsi.org/protocol/colibri\" id=\"cce6f2fe74002273\" name=\"test@conference.brian2.jitsi.net\" gid=\"ff62ef\">" +
                 "<content name=\"audio\">" +
                   "<channel id=\"b9007c3af259d44e\">" +
                     "<payload-type name=\"opus\" clockrate=\"48000\" id=\"111\" channels=\"2\">" +
@@ -107,44 +107,33 @@ public class ColibriIQProviderTest extends TestCase
               "</conference>" +
             "</iq>";
 
-//    XmlPullParserFactory xmlPullParserFactory;
-    XmlPullParser xmlPullParser;
     ColibriIQProvider colibriIQProvider;
 
     public void setUp()
             throws Exception
     {
-//        xmlPullParserFactory = XmlPullParserFactory.newInstance();
-//        xmlPullParserFactory.setNamespaceAware(true);
-//
-//        xmlPullParser = xmlPullParserFactory.newPullParser();
-        xmlPullParser = new MXParser();
-        xmlPullParser.setFeature(
-            "http://xmlpull.org/v1/doc/features.html#process-namespaces",
-            true);
-
         colibriIQProvider = new ColibriIQProvider();
     }
 
     public void testParseSource()
             throws Exception
     {
+        XmlPullParser xmlPullParser = SmackXmlParser.newXmlParser(new StringReader(testXml));
         // Make sure that both ssrc and rid sources are parsed correctly
-        xmlPullParser.setInput(new StringReader(testXml));
         // Step forward to the the 'iq' element
-        int eventType = xmlPullParser.next();
+        XmlPullParser.Event eventType = xmlPullParser.next();
         String name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.START_TAG, eventType);
+        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
         assertEquals("iq", name);
 
         // Move forward to the 'conference' element, which is what
         // ColibriIQProvider::parse expects
         eventType = xmlPullParser.next();
         name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.START_TAG, eventType);
+        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
         assertEquals(ColibriConferenceIQ.ELEMENT_NAME, name);
 
-        IQ result = colibriIQProvider.parse(xmlPullParser, 0);
+        IQ result = colibriIQProvider.parse(xmlPullParser);
         List<SourcePacketExtension> sources =
                 ((ColibriConferenceIQ) result)
                         .getContent("video")

@@ -16,8 +16,11 @@
 package org.jitsi.xmpp.extensions.jingleinfo;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Parser for RelayPacketExtension.
@@ -42,11 +45,11 @@ public class RelayProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth)
-        throws Exception
+    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName = null;
         RelayPacketExtension ext
             = new RelayPacketExtension();
@@ -56,7 +59,7 @@ public class RelayProvider
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 if(elementName.equals(ServerPacketExtension.ELEMENT_NAME))
                 {
@@ -73,7 +76,7 @@ public class RelayProvider
                     ext.setToken(parseText(parser));
                 }
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
                         RelayPacketExtension.ELEMENT_NAME))
@@ -87,33 +90,33 @@ public class RelayProvider
     }
 
     /**
-     * Returns the content of the next {@link XmlPullParser#TEXT} element that
+     * Returns the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element that
      * we encounter in <tt>parser</tt>.
      *
      * @param parser the parse that we'll be probing for text.
      *
-     * @return the content of the next {@link XmlPullParser#TEXT} element we
+     * @return the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element we
      * come across or <tt>null</tt> if we encounter a closing tag first.
      *
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     public static String parseText(XmlPullParser parser)
-        throws Exception
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
 
-        int eventType;
+        XmlPullParser.Event eventType;
         String text = null;
 
         while (!done)
         {
             eventType = parser.next();
 
-            if (eventType == XmlPullParser.TEXT)
+            if (eventType == XmlPullParser.Event.TEXT_CHARACTERS)
             {
                 text = parser.getText();
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 done = true;
             }

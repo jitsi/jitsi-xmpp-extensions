@@ -1,5 +1,5 @@
 <project
-    xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -10,7 +10,7 @@
   <packaging>bundle</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <smack.version>4.2.4-47d17fc</smack.version>
+    <smack.version>4.4.3</smack.version>
   </properties>
 
   <name>jitsi-xmpp-extensions</name>
@@ -25,13 +25,20 @@
     <dependency>
       <groupId>org.igniterealtime.smack</groupId>
       <!-- It appears that smack-core needs the base64 encoder to be set,
-           and this fails to happen unless we include smack-java7.  -->
-      <artifactId>smack-java7</artifactId>
+           and this fails to happen unless we include smack-java8.  -->
+      <artifactId>smack-java8</artifactId>
       <version>${smack.version}</version>
     </dependency>
     <dependency>
       <groupId>org.igniterealtime.smack</groupId>
       <artifactId>smack-extensions</artifactId>
+      <version>${smack.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.igniterealtime.smack</groupId>
+      <!-- Similarly, smack-core needs the xmlparser to be set,
+           and this fails to happen unless we include smack-xmlparser-stax.  -->
+      <artifactId>smack-xmlparser-stax</artifactId>
       <version>${smack.version}</version>
     </dependency>
     <dependency>
