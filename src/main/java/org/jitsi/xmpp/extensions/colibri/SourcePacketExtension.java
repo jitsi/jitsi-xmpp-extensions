@@ -121,7 +121,8 @@ public class SourcePacketExtension
      *
      * @return the name of this source.
      */
-    public String getName() {
+    public String getName()
+    {
         return getAttributeAsString(NAME_ATTR_NAME);
     }
 
@@ -130,7 +131,8 @@ public class SourcePacketExtension
      *
      * @return true if this source has a name.
      */
-    public boolean hasName() {
+    public boolean hasName()
+    {
         return getName() != null;
     }
 
@@ -138,7 +140,8 @@ public class SourcePacketExtension
      * Sets the name of this source.
      * @param name the name to be set or null to remove the attribute.
      */
-    public void setName(String name) {
+    public void setName(String name)
+    {
         if (name == null)
         {
             removeAttribute(NAME_ATTR_NAME);
