@@ -42,7 +42,6 @@ public class MediaProvider
      * <tt>Media</tt> element.
      *
      * @return a new {@link MediaPacketExtension} instance.
-     * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
     public MediaPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
@@ -50,14 +49,15 @@ public class MediaProvider
     {
         boolean done = false;
         XmlPullParser.Event eventType;
-        String elementName = null;
+        String elementName;
         String id = parser.getAttributeValue(
                 "",
                 MediaPacketExtension.ID_ATTR_NAME);
 
         if (id == null)
         {
-            throw new SmackParsingException.RequiredAttributeMissingException("Coin media must contains src-id element");
+            throw new SmackParsingException.RequiredAttributeMissingException(
+                "Coin media must contains src-id element");
         }
 
         MediaPacketExtension ext
