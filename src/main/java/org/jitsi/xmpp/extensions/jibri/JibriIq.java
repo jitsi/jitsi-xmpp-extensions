@@ -257,7 +257,10 @@ public class JibriIq
      * @return a <tt>String</tt> which contains the value of the
      * {@link #YOUTUBE_BROADCAST_ID_ATTR_NAME} attribute, or null if empty.
      */
-    public String getYoutubeBroadcastId() { return youTubeBroadcastId; }
+    public String getYoutubeBroadcastId()
+    {
+        return youTubeBroadcastId;
+    }
 
     /**
      * Sets the value for {@link #STREAM_ID_ATTR_NAME} attribute.
@@ -283,20 +286,29 @@ public class JibriIq
      * Gets the value of the {@link #SESSION_ID_ATTR_NAME} attribute
      * @return the session ID
      */
-    public String getSessionId() { return sessionId; }
+    public String getSessionId()
+    {
+        return sessionId;
+    }
 
     /**
      * Gets the value of the {@link #APP_DATA_ATTR_NAME} attribute
      *
      * @return the JSON-encoded application data
      */
-    public String getAppData() { return appData; }
+    public String getAppData()
+    {
+        return appData;
+    }
 
     /**
      * Sets the value of the {@link #SESSION_ID_ATTR_NAME} attribute
      * @param sessionId the session ID
      */
-    public void setSessionId(String sessionId) { this.sessionId = sessionId; }
+    public void setSessionId(String sessionId)
+    {
+        this.sessionId = sessionId;
+    }
 
     /**
      * Sets the value of the {@link #APP_DATA_ATTR_NAME} attribute
@@ -304,7 +316,10 @@ public class JibriIq
      * @param appData a JSON-encoded string containing arbitrary application
      * data
      */
-    public void setAppData(String appData) { this.appData = appData; }
+    public void setAppData(String appData)
+    {
+        this.appData = appData;
+    }
 
     /**
      * Returns the value of {@link #ROOM_ATTR_NAME} attribute.
@@ -332,7 +347,10 @@ public class JibriIq
      * Whether or not this IQ represents a failure from Jibri
      * @return true if it represents failure, false otherwise
      */
-    public boolean isFailure() { return this.failureReason != null; }
+    public boolean isFailure()
+    {
+        return this.failureReason != null;
+    }
 
     /**
      * {@inheritDoc}
@@ -438,9 +456,15 @@ public class JibriIq
         return this.failureReason;
     }
 
-    public void setShouldRetry(Boolean shouldRetry) { this.shouldRetry = shouldRetry; }
+    public void setShouldRetry(Boolean shouldRetry)
+    {
+        this.shouldRetry = shouldRetry;
+    }
 
-    public Boolean getShouldRetry() { return this.shouldRetry; }
+    public Boolean getShouldRetry()
+    {
+        return this.shouldRetry;
+    }
 
     public static JibriIq createResult(JibriIq request, String sessionId)
     {

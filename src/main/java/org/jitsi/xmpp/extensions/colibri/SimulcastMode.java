@@ -25,11 +25,13 @@ public enum SimulcastMode
 
     private String text;
 
-    SimulcastMode(String text) {
+    SimulcastMode(String text)
+    {
         this.text = text;
     }
 
-    public String getText() {
+    public String getText()
+    {
         return this.text;
     }
 
