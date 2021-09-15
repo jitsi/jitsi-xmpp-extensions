@@ -106,11 +106,11 @@ public class ConferenceDescriptionExtension
     {
         super(NAMESPACE, ELEMENT_NAME);
 
-        if(uri != null)
+        if (uri != null)
             setUri(uri);
-        if(callId != null)
+        if (callId != null)
             setCallId(callId);
-        if(password != null)
+        if (password != null)
             setAuth(password);
     }
 
@@ -135,10 +135,10 @@ public class ConferenceDescriptionExtension
     {
         this(uri, callId, password);
         setAvailable(available);
-        if(displayName != null)
+        if (displayName != null)
             setName(displayName);
 
-        for(String transport : transports)
+        for (String transport : transports)
         {
             addChildExtension(new TransportExtension(transport));
         }

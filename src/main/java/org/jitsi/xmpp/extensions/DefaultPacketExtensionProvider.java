@@ -118,7 +118,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
                 ExtensionElementProvider<ExtensionElement> provider = ProviderManager
                         .getExtensionProvider( elementName, namespace );
 
-                if(provider == null)
+                if (provider == null)
                 {
                     //we don't know how to handle this kind of extensions.
                     logger.fine("Could not add a provider for element "
@@ -128,9 +128,9 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
                 {
                     ExtensionElement childExtension = provider.parse(parser);
 
-                    if(namespace != null)
+                    if (namespace != null)
                     {
-                        if(childExtension instanceof AbstractPacketExtension)
+                        if (childExtension instanceof AbstractPacketExtension)
                         {
                             ((AbstractPacketExtension)childExtension).
                                 setNamespace(namespace);

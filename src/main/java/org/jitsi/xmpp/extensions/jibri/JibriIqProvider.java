@@ -95,7 +95,8 @@ public class JibriIqProvider
             }
 
             String appData = parser.getAttributeValue("", JibriIq.APP_DATA_ATTR_NAME);
-            if (StringUtils.isNotEmpty(appData)) {
+            if (StringUtils.isNotEmpty(appData))
+            {
                 iq.setAppData(appData);
             }
 

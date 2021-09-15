@@ -153,7 +153,7 @@ public class JingleIQ extends IQ
 
             //FIXME use extensions list of IQ
             //content
-            for(ContentPacketExtension cpe : contentList)
+            for (ContentPacketExtension cpe : contentList)
             {
                 bldr.append(cpe.toXML());
             }
@@ -324,7 +324,7 @@ public class JingleIQ extends IQ
     public boolean containsContentChildOfType(
             Class<? extends ExtensionElement> contentType)
     {
-        if(getContentForType(contentType) != null)
+        if (getContentForType(contentType) != null)
             return true;
 
         return false;
@@ -347,11 +347,11 @@ public class JingleIQ extends IQ
     {
         synchronized(contentList)
         {
-            for(ContentPacketExtension content : contentList)
+            for (ContentPacketExtension content : contentList)
             {
                 ExtensionElement child
                         = content.getFirstChildOfType(contentType);
-                if(child != null)
+                if (child != null)
                     return content;
             }
         }
@@ -371,7 +371,7 @@ public class JingleIQ extends IQ
     {
         synchronized(contentList)
         {
-            for(ContentPacketExtension content : contentList)
+            for (ContentPacketExtension content : contentList)
             {
                 if (contentName.equals(content.getName()))
                 {

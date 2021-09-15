@@ -42,7 +42,6 @@ public class MediaProvider
      * <tt>Media</tt> element.
      *
      * @return a new {@link MediaPacketExtension} instance.
-     * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
     public MediaPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
@@ -50,14 +49,15 @@ public class MediaProvider
     {
         boolean done = false;
         XmlPullParser.Event eventType;
-        String elementName = null;
+        String elementName;
         String id = parser.getAttributeValue(
                 "",
                 MediaPacketExtension.ID_ATTR_NAME);
 
-        if(id == null)
+        if (id == null)
         {
-            throw new SmackParsingException.RequiredAttributeMissingException("Coin media must contains src-id element");
+            throw new SmackParsingException.RequiredAttributeMissingException(
+                "Coin media must contains src-id element");
         }
 
         MediaPacketExtension ext
@@ -70,27 +70,27 @@ public class MediaProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if(elementName.equals(
+                if (elementName.equals(
                         MediaPacketExtension.ELEMENT_DISPLAY_TEXT))
                 {
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_LABEL))
                 {
                     ext.setLabel(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_SRC_ID))
                 {
                     ext.setSrcID(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_STATUS))
                 {
                     ext.setStatus(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         MediaPacketExtension.ELEMENT_TYPE))
                 {
                     ext.setType(CoinIQProvider.parseText(parser));

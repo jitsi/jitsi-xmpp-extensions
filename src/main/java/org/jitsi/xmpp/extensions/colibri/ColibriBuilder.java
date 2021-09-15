@@ -939,7 +939,7 @@ public class ColibriBuilder
 
         assertRequestType(RequestType.CHANNEL_INFO_UPDATE);
 
-        for (Map.Entry<String,IceUdpTransportPacketExtension> e
+        for (Map.Entry<String, IceUdpTransportPacketExtension> e
             : transportMap.entrySet())
         {
             String contentName = e.getKey();

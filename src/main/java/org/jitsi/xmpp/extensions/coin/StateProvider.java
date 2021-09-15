@@ -62,17 +62,17 @@ public class StateProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if(elementName.equals(StatePacketExtension.ELEMENT_ACTIVE))
+                if (elementName.equals(StatePacketExtension.ELEMENT_ACTIVE))
                 {
                     ext.setActive(
                             Boolean.parseBoolean(CoinIQProvider.parseText(parser)) ? 1 : 0);
                 }
-                else if(elementName.equals(StatePacketExtension.ELEMENT_LOCKED))
+                else if (elementName.equals(StatePacketExtension.ELEMENT_LOCKED))
                 {
                     ext.setLocked(
                             Boolean.parseBoolean(CoinIQProvider.parseText(parser)) ? 1 : 0);
                 }
-                if(elementName.equals(StatePacketExtension.ELEMENT_USER_COUNT))
+                if (elementName.equals(StatePacketExtension.ELEMENT_USER_COUNT))
                 {
                     ext.setUserCount(Integer.parseInt(CoinIQProvider.parseText(parser)));
                 }

@@ -86,7 +86,7 @@ public class UserRolesPacketExtension
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
-        for(String role : roles)
+        for (String role : roles)
         {
             xml.optElement(ELEMENT_ROLE, role);
         }

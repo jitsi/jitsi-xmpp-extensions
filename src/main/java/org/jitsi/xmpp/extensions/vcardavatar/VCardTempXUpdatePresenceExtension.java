@@ -84,7 +84,7 @@ public class VCardTempXUpdatePresenceExtension
             VCardTempXUpdatePresenceExtension.getImageSha1(imageBytes);
 
         // If the image has changed, then recomputes the XML string.
-        if(tmpImageSha1 != imageSha1)
+        if (tmpImageSha1 != imageSha1)
         {
             imageSha1 = tmpImageSha1;
             this.computeXML();
@@ -110,7 +110,7 @@ public class VCardTempXUpdatePresenceExtension
 
         try
         {
-            if(image != null)
+            if (image != null)
             {
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA1");
                 imageSha1 = StringUtils.encodeHex(messageDigest.digest(image));
@@ -135,7 +135,7 @@ public class VCardTempXUpdatePresenceExtension
             .xmlnsAttribute(getNamespace())
             .rightAngleBracket();
 
-        if(imageSha1 == null)
+        if (imageSha1 == null)
         {
             xml.emptyElement("photo");
         }
