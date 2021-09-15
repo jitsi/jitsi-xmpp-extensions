@@ -49,7 +49,7 @@ public class SourcePacketExtension
     public static final String NAMESPACE = "urn:xmpp:jingle:apps:rtp:ssma:0";
 
     /**
-     * The XML name of the <tt>setup</tt> element's attribute which corresponds
+     * The XML name of the <tt>ssrc</tt> element's attribute which corresponds
      * to the <tt>ssrc</tt> media attribute in SDP.
      */
     public static final String SSRC_ATTR_NAME = "ssrc";
@@ -59,6 +59,11 @@ public class SourcePacketExtension
      * attribute in SDP.
      */
     public static final String RID_ATTR_NAME = "rid";
+
+    /**
+     * The attribute which holds the source name - used to identify a source.
+     */
+    public static final String NAME_ATTR_NAME = "name";
 
     /**
      * A temporary flag used by jicofo to keep track of which sources have been advertised by clients or injected by
@@ -109,6 +114,39 @@ public class SourcePacketExtension
                 return param.getValue();
         }
         return null;
+    }
+
+    /**
+     * Gets the name of this source.
+     *
+     * @return the name of this source.
+     */
+    public String getName() {
+        return getAttributeAsString(NAME_ATTR_NAME);
+    }
+
+    /**
+     * Checks if this source has a name.
+     *
+     * @return true if this source has a name.
+     */
+    public boolean hasName() {
+        return getName() != null;
+    }
+
+    /**
+     * Sets the name of this source.
+     * @param name the name to be set or null to remove the attribute.
+     */
+    public void setName(String name) {
+        if (name == null)
+        {
+            removeAttribute(NAME_ATTR_NAME);
+        }
+        else
+        {
+            setAttribute(NAME_ATTR_NAME, name);
+        }
     }
 
     /**
@@ -244,6 +282,10 @@ public class SourcePacketExtension
         else if (hasSSRC())
         {
             return "ssrc=" + getAttributeAsString(SSRC_ATTR_NAME);
+        }
+        else if (hasName())
+        {
+            return "name=" + getName();
         }
         else
         {
