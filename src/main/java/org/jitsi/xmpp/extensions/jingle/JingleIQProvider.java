@@ -20,11 +20,15 @@ import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.colibri.*;
 import org.jitsi.xmpp.extensions.condesc.*;
 import org.jitsi.xmpp.extensions.jitsimeet.*;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.util.*;
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
-import org.xmlpull.v1.*;
+
+import java.io.*;
 
 /**
  * An implementation of a Jingle IQ provider that parses incoming Jingle IQs.
@@ -232,8 +236,8 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
      * @throws Exception if an error occurs parsing the XML.
      */
     @Override
-    public JingleIQ parse(XmlPullParser parser, int depth)
-        throws Exception
+    public JingleIQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         //let's first handle the "jingle" element params.
         JingleAction action = JingleAction.parseString(parser
@@ -276,7 +280,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                     CallIdExtension.class);
 
         // Now go on and parse the jingle element's content.
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName;
         String namespace;
 
@@ -286,7 +290,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
             elementName = parser.getName();
             namespace = parser.getNamespace();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 // <content/>
                 if (elementName.equals(ContentPacketExtension.ELEMENT_NAME))
@@ -323,7 +327,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                         GroupPacketExtension.ELEMENT_NAME))
                 {
                     jingleIQ.addExtension(
-                        GroupPacketExtension.parseExtension(parser));
+                        GroupPacketExtension.parseExtension(parser, xmlEnvironment));
                 }
                 //<mute/> <active/> and other session-info elements
                 else if (namespace.equals(SessionInfoPacketExtension.NAMESPACE))
@@ -350,11 +354,11 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                 }
                 else
                 {
-                    PacketParserUtils.addExtensionElement(jingleIQ, parser);
+                    PacketParserUtils.addExtensionElement(jingleIQ, parser, xmlEnvironment);
                 }
             }
 
-            if ((eventType == XmlPullParser.END_TAG)
+            if ((eventType == XmlPullParser.Event.END_ELEMENT)
                     && parser.getName().equals(JingleIQ.ELEMENT_NAME))
             {
                     done = true;

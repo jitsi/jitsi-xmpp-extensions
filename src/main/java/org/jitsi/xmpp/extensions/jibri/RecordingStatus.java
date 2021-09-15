@@ -137,42 +137,42 @@ public class RecordingStatus
     }
 
     /**
-     * Returns <tt>XMPPError</tt> associated with current
+     * Returns <tt>StanzaError</tt> associated with current
      * {@link RecordingStatus}.
      */
-    public XMPPError getError()
+    public StanzaError getError()
     {
-        XMPPErrorPE errorPe = getErrorPE();
+        StanzaErrorPE errorPe = getErrorPE();
         return errorPe != null ? errorPe.getError() : null;
     }
 
     /**
-     * Gets <tt>{@link XMPPErrorPE}</tt> from the list of child packet
+     * Gets <tt>{@link StanzaErrorPE}</tt> from the list of child packet
      * extensions.
-     * @return {@link XMPPErrorPE} or <tt>null</tt> if not found.
+     * @return {@link StanzaErrorPE} or <tt>null</tt> if not found.
      */
-    private XMPPErrorPE getErrorPE()
+    private StanzaErrorPE getErrorPE()
     {
         List<? extends ExtensionElement> errorPe
-            = getChildExtensionsOfType(XMPPErrorPE.class);
+            = getChildExtensionsOfType(StanzaErrorPE.class);
 
-        return (XMPPErrorPE) (!errorPe.isEmpty() ? errorPe.get(0) : null);
+        return (StanzaErrorPE) (!errorPe.isEmpty() ? errorPe.get(0) : null);
     }
 
     /**
-     * Sets <tt>XMPPError</tt> on this <tt>RecordingStatus</tt>.
-     * @param error <tt>XMPPError</tt> to add error details to this
+     * Sets <tt>StanzaError</tt> on this <tt>RecordingStatus</tt>.
+     * @param error <tt>StanzaError</tt> to add error details to this
      * <tt>RecordingStatus</tt> instance or <tt>null</tt> to have it removed.
      */
-    public void setError(XMPPError error)
+    public void setError(StanzaError error)
     {
         if (error != null)
         {
-            // Wrap and add XMPPError as packet extension
-            XMPPErrorPE errorPe = getErrorPE();
+            // Wrap and add StanzaError as packet extension
+            StanzaErrorPE errorPe = getErrorPE();
             if (errorPe == null)
             {
-                errorPe = new XMPPErrorPE(error);
+                errorPe = new StanzaErrorPE(error);
                 addChildExtension(errorPe);
             }
             errorPe.setError(error);

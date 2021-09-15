@@ -17,10 +17,14 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
-import org.xmlpull.v1.*;
+
+import java.io.*;
 
 /**
  * Provider handles parsing of {@link ConferenceIq} and {@link LoginUrlIq}
@@ -45,8 +49,8 @@ public class LoginUrlIqProvider
      * {@inheritDoc}
      */
     @Override
-    public LoginUrlIq parse(XmlPullParser parser, int initialDepth)
-        throws Exception
+    public LoginUrlIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
 

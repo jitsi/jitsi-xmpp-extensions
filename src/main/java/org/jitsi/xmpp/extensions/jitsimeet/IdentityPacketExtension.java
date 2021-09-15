@@ -19,7 +19,7 @@ import org.jitsi.utils.logging2.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.util.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
 
 import java.io.*;
 
@@ -151,7 +151,7 @@ public class IdentityPacketExtension
      * {@inheritDoc}
      */
     @Override
-    public CharSequence toXML()
+    public CharSequence toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
@@ -230,7 +230,7 @@ public class IdentityPacketExtension
          */
         @Override
         public IdentityPacketExtension parse(XmlPullParser parser,
-                                             int depth)
+                                             int depth, XmlEnvironment xmlEnvironment)
         {
             String currentTag = parser.getName();
 
@@ -254,11 +254,11 @@ public class IdentityPacketExtension
                 {
                     parser.next();
 
-                    if (parser.getEventType() == XmlPullParser.START_TAG)
+                    if (parser.getEventType() == XmlPullParser.Event.START_ELEMENT)
                     {
                         currentTag = parser.getName();
                     }
-                    else if (parser.getEventType() == XmlPullParser.TEXT)
+                    else if (parser.getEventType() == XmlPullParser.Event.TEXT_CHARACTERS)
                     {
                         switch (currentTag)
                         {
@@ -278,7 +278,7 @@ public class IdentityPacketExtension
                                 break;
                             }
                     }
-                    else if (parser.getEventType() == XmlPullParser.END_TAG)
+                    else if (parser.getEventType() == XmlPullParser.Event.END_ELEMENT)
                     {
                         currentTag = parser.getName();
                     }

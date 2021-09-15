@@ -17,10 +17,12 @@ package org.jitsi.xmpp.extensions.inputevt;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
 
 /**
  * This class parses incoming remote-control XML element and extracts
@@ -99,8 +101,8 @@ public class RemoteControlExtensionProvider
      * @throws Exception if an error occurs during XML parsing
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth)
-        throws Exception
+    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         RemoteControlExtension result = null;
         boolean done = false;
@@ -109,9 +111,9 @@ public class RemoteControlExtensionProvider
         {
             try
             {
-                int eventType = parser.next();
+                XmlPullParser.Event eventType = parser.next();
 
-                if (eventType == XmlPullParser.START_TAG)
+                if (eventType == XmlPullParser.Event.START_ELEMENT)
                 {
                     if (parser.getName().equals(ELEMENT_MOUSE_MOVE))
                     {
@@ -234,7 +236,7 @@ public class RemoteControlExtensionProvider
                         }
                     }
                 }
-                else if (eventType == XmlPullParser.END_TAG)
+                else if (eventType == XmlPullParser.Event.END_ELEMENT)
                 {
                     if (parser.getName().equals(
                             RemoteControlExtensionProvider.

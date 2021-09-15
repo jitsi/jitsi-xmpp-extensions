@@ -15,8 +15,12 @@
  */
 package org.jitsi.xmpp.extensions.inputevt;
 
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Implements an <tt>IQProvider</tt> which parses incoming <tt>InputEvtIQ</tt>s.
@@ -35,7 +39,8 @@ public class InputEvtIQProvider
      * @throws Exception if something goes wrong during parsing
      */
     @Override
-    public InputEvtIQ parse(XmlPullParser parser, int depth) throws Exception
+    public InputEvtIQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         InputEvtIQ inputEvtIQ = new InputEvtIQ();
         InputEvtAction action
@@ -50,7 +55,7 @@ public class InputEvtIQProvider
         {
             switch (parser.next())
             {
-            case XmlPullParser.START_TAG:
+            case START_ELEMENT:
                 // <remote-control>
                 if (RemoteControlExtensionProvider.ELEMENT_REMOTE_CONTROL
                         .equals(parser.getName()))
@@ -65,7 +70,7 @@ public class InputEvtIQProvider
                 }
                 break;
 
-            case XmlPullParser.END_TAG:
+            case END_ELEMENT:
                 if (InputEvtIQ.ELEMENT_NAME.equals(parser.getName()))
                     done = true;
                 break;

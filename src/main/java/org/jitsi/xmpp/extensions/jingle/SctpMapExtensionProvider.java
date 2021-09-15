@@ -16,8 +16,11 @@
 package org.jitsi.xmpp.extensions.jingle;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * The <tt>SctpMapExtensionProvider</tt> parses "sctpmap" elements into
@@ -34,8 +37,8 @@ public class SctpMapExtensionProvider
      * {@inheritDoc}
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth)
-        throws Exception
+    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         SctpMapExtension result = new SctpMapExtension();
 

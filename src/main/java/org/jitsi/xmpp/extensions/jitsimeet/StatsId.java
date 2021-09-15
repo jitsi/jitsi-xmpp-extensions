@@ -16,9 +16,12 @@
 package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.util.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * A implementation of a {@link ExtensionElement} for the jitsi-meet "stats-id"
@@ -84,7 +87,7 @@ public class StatsId
      * Returns xml representation of this extension.
      * @return xml representation of this extension.
      */
-    public String toXML()
+    public String toXML(XmlEnvironment enclosingNamespace)
     {
         return new XmlStringBuilder()
             .element(ELEMENT_NAME, getStatsId())
@@ -98,14 +101,14 @@ public class StatsId
         extends ExtensionElementProvider<StatsId>
     {
         @Override
-        public StatsId parse(XmlPullParser parser, int depth)
-            throws Exception
+        public StatsId parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+            throws XmlPullParserException, IOException, SmackParsingException
         {
             parser.next();
             final String address = parser.getText();
 
             // Advance to end of extension.
-            while (parser.getEventType() != XmlPullParser.END_TAG)
+            while (parser.getEventType() != XmlPullParser.Event.END_ELEMENT)
             {
                 parser.next();
             }

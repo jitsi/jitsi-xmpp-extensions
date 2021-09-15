@@ -15,8 +15,12 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * The parser of {@link StartMutedPacketExtension}
@@ -38,8 +42,8 @@ public class StartMutedProvider
     }
 
     @Override
-    public StartMutedPacketExtension parse(XmlPullParser parser, int depth)
-            throws Exception
+    public StartMutedPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         StartMutedPacketExtension packetExtension
             = new StartMutedPacketExtension();
@@ -51,7 +55,7 @@ public class StartMutedProvider
         {
             switch (parser.getEventType())
             {
-            case XmlPullParser.START_TAG:
+            case START_ELEMENT:
             {
                 elementName = parser.getName();
                 if (StartMutedPacketExtension.ELEMENT_NAME.equals(
@@ -70,7 +74,7 @@ public class StartMutedProvider
                 parser.next();
                 break;
             }
-            case XmlPullParser.END_TAG:
+            case END_ELEMENT:
             {
                 elementName = parser.getName();
                 if (StartMutedPacketExtension.ELEMENT_NAME.equals(

@@ -18,8 +18,11 @@ package org.jitsi.xmpp.extensions.coin;
 import org.jitsi.xmpp.extensions.*;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * An implementation of a Coin IQ provider that parses incoming Coin IQs.
@@ -110,8 +113,8 @@ public class CoinIQProvider
      * @throws Exception if something goes wrong during parsing
      */
     @Override
-    public CoinIQ parse(XmlPullParser parser, int depth)
-        throws Exception
+    public CoinIQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         CoinIQ coinIQ = new CoinIQ();
 
@@ -134,7 +137,7 @@ public class CoinIQProvider
         coinIQ.setSID(sid);
 
         // Now go on and parse the jingle element's content.
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName;
         boolean done = false;
 
@@ -143,7 +146,7 @@ public class CoinIQProvider
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 if (elementName.equals(DescriptionPacketExtension.ELEMENT_NAME))
                 {
@@ -178,7 +181,7 @@ public class CoinIQProvider
                 }
             }
 
-            if (eventType == XmlPullParser.END_TAG)
+            if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(CoinIQ.ELEMENT_NAME))
                 {
@@ -191,33 +194,33 @@ public class CoinIQProvider
     }
 
     /**
-     * Returns the content of the next {@link XmlPullParser#TEXT} element that
+     * Returns the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element that
      * we encounter in <tt>parser</tt>.
      *
      * @param parser the parse that we'll be probing for text.
      *
-     * @return the content of the next {@link XmlPullParser#TEXT} element we
+     * @return the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element we
      * come across or <tt>null</tt> if we encounter a closing tag first.
      *
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     public static String parseText(XmlPullParser parser)
-        throws Exception
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
 
-        int eventType;
+        XmlPullParser.Event eventType;
         String text = null;
 
         while (!done)
         {
             eventType = parser.next();
 
-            if (eventType == XmlPullParser.TEXT)
+            if (eventType == XmlPullParser.Event.TEXT_CHARACTERS)
             {
                 text = parser.getText();
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 done = true;
             }

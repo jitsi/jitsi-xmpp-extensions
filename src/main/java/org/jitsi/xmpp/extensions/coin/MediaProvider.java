@@ -15,8 +15,12 @@
  */
 package org.jitsi.xmpp.extensions.coin;
 
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Parser for MediaPacketExtension.
@@ -41,11 +45,11 @@ public class MediaProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public MediaPacketExtension parse(XmlPullParser parser, int depth)
-        throws Exception
+    public MediaPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName = null;
         String id = parser.getAttributeValue(
                 "",
@@ -53,7 +57,7 @@ public class MediaProvider
 
         if (id == null)
         {
-            throw new Exception("Coin media must contains src-id element");
+            throw new SmackParsingException.RequiredAttributeMissingException("Coin media must contains src-id element");
         }
 
         MediaPacketExtension ext
@@ -64,7 +68,7 @@ public class MediaProvider
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 if (elementName.equals(
                         MediaPacketExtension.ELEMENT_DISPLAY_TEXT))
@@ -92,7 +96,7 @@ public class MediaProvider
                     ext.setType(CoinIQProvider.parseText(parser));
                 }
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
                         MediaPacketExtension.ELEMENT_NAME))

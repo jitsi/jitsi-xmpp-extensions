@@ -18,8 +18,11 @@ package org.jitsi.xmpp.extensions.coin;
 import org.jitsi.xmpp.extensions.*;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
-import org.xmlpull.v1.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Parser for EndpointPacketExtension.
@@ -44,11 +47,11 @@ public class EndpointProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth)
-        throws Exception
+    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+        throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
-        int eventType;
+        XmlPullParser.Event eventType;
         String elementName = null;
         String entity = parser.getAttributeValue("",
                 EndpointPacketExtension.ENTITY_ATTR_NAME);
@@ -71,7 +74,7 @@ public class EndpointProvider
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (eventType == XmlPullParser.START_TAG)
+            if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 if (elementName.equals(
                         EndpointPacketExtension.ELEMENT_DISPLAY_TEXT))
@@ -115,7 +118,7 @@ public class EndpointProvider
                     ext.addChildExtension(childExtension);
                 }
             }
-            else if (eventType == XmlPullParser.END_TAG)
+            else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
                         EndpointPacketExtension.ELEMENT_NAME))
