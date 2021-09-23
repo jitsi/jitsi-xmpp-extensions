@@ -126,7 +126,7 @@ public class CoinIQProvider
                 EndpointPacketExtension.STATE_ATTR_NAME);
         String sid = parser.getAttributeValue("", CoinIQ.SID_ATTR_NAME);
 
-        if(stateStr != null)
+        if (stateStr != null)
         {
             state = StateType.parseString(stateStr);
         }
@@ -148,31 +148,31 @@ public class CoinIQProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if(elementName.equals(DescriptionPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(DescriptionPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)descriptionProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
-                else if(elementName.equals(UsersPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(UsersPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)usersProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
-                else if(elementName.equals(StatePacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(StatePacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)stateProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
-                else if(elementName.equals(URIsPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(URIsPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)urisProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         SidebarsByValPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElement childExtension =

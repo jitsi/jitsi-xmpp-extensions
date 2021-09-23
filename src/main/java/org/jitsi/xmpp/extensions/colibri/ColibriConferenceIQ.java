@@ -1956,7 +1956,7 @@ public class ColibriConferenceIQ
             if (hasTransport || hasContent())
             {
                 xml.rightAngleBracket();
-                if(hasContent())
+                if (hasContent())
                 {
                     printContent(xml);
                 }
@@ -2240,7 +2240,7 @@ public class ColibriConferenceIQ
                     channel.toXML(xml);
                 }
 
-                for(SctpConnection conn : connections)
+                for (SctpConnection conn : connections)
                 {
                     conn.toXML(xml);
                 }

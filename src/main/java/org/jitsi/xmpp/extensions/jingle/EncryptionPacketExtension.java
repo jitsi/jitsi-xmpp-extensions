@@ -67,7 +67,7 @@ public class EncryptionPacketExtension
      */
     public void addCrypto(CryptoPacketExtension crypto)
     {
-        if(!cryptoList.contains(crypto))
+        if (!cryptoList.contains(crypto))
         {
             cryptoList.add(crypto);
         }
@@ -93,7 +93,7 @@ public class EncryptionPacketExtension
      */
     public void setRequired(boolean required)
     {
-        if(required)
+        if (required)
             super.setAttribute(REQUIRED_ATTR_NAME, required);
         else
             super.removeAttribute(REQUIRED_ATTR_NAME);
@@ -142,7 +142,7 @@ public class EncryptionPacketExtension
     {
         super.addChildExtension(childExtension);
 
-        if(childExtension instanceof CryptoPacketExtension)
+        if (childExtension instanceof CryptoPacketExtension)
         {
             this.addCrypto(((CryptoPacketExtension) childExtension));
         }

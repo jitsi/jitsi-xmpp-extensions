@@ -89,7 +89,8 @@ public class BridgeSessionPacketExtension
     /**
      * @return the value of {@link #RESTART_ATTR_NAME} or {@code null} if not set.
      */
-    public Boolean isRestart() {
+    public Boolean isRestart()
+    {
         return Boolean.parseBoolean(getAttributeAsString(RESTART_ATTR_NAME));
     }
 
@@ -97,7 +98,8 @@ public class BridgeSessionPacketExtension
      * Sets new value for {@link #RESTART_ATTR_NAME}.
      * @param restart the new value to set or {@code null} to remove.
      */
-    public void setRestart(Boolean restart) {
+    public void setRestart(Boolean restart)
+    {
         setAttribute(RESTART_ATTR_NAME, restart);
     }
 

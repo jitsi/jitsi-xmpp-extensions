@@ -397,7 +397,7 @@ public class CandidatePacketExtension extends AbstractPacketExtension
     public int compareTo(CandidatePacketExtension candidatePacketExtension)
     {
         // If the types are different.
-        if(this.getType() != candidatePacketExtension.getType())
+        if (this.getType() != candidatePacketExtension.getType())
         {
             CandidateType[] types = {
                 CandidateType.host,
@@ -407,15 +407,15 @@ public class CandidatePacketExtension extends AbstractPacketExtension
                 CandidateType.stun,
                 CandidateType.relay
             };
-            for(int i = 0; i < types.length; ++i)
+            for (int i = 0; i < types.length; ++i)
             {
                 // this object is preferred.
-                if(types[i] == this.getType())
+                if (types[i] == this.getType())
                 {
                     return -1;
                 }
                 // the candidatePacketExtension is preferred.
-                else if(types[i] == candidatePacketExtension.getType())
+                else if (types[i] == candidatePacketExtension.getType())
                 {
                     return 1;
                 }

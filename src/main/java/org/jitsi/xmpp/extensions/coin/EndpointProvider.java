@@ -59,7 +59,7 @@ public class EndpointProvider
         String stateStr = parser.getAttributeValue("",
                 EndpointPacketExtension.STATE_ATTR_NAME);
 
-        if(stateStr != null)
+        if (stateStr != null)
         {
             state = StateType.parseString(stateStr);
         }
@@ -76,30 +76,30 @@ public class EndpointProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if(elementName.equals(
+                if (elementName.equals(
                         EndpointPacketExtension.ELEMENT_DISPLAY_TEXT))
                 {
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         EndpointPacketExtension.ELEMENT_DISCONNECTION))
                 {
                     ext.setDisconnectionType(
                             DisconnectionType.parseString(parser.getText()));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         EndpointPacketExtension.ELEMENT_JOINING))
                 {
                     ext.setJoiningType(JoiningType.parseString(
                             CoinIQProvider.parseText(parser)));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         EndpointPacketExtension.ELEMENT_STATUS))
                 {
                     ext.setStatus(EndpointStatusType.parseString(
                             CoinIQProvider.parseText(parser)));
                 }
-                else if(elementName.equals(
+                else if (elementName.equals(
                         CallInfoPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElementProvider provider
@@ -109,7 +109,7 @@ public class EndpointProvider
                             parser);
                     ext.addChildExtension(childExtension);
                 }
-                else if(elementName.equals(MediaPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(MediaPacketExtension.ELEMENT_NAME))
                 {
                     ExtensionElementProvider provider
                         = new MediaProvider();

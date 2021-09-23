@@ -83,12 +83,12 @@ public class RelayPacketExtension
 
         xml.halfOpenElement(ELEMENT_NAME);
 
-        if(token != null)
+        if (token != null)
         {
             xml.element("token", token);
         }
 
-        for(ExtensionElement pe : getChildExtensions())
+        for (ExtensionElement pe : getChildExtensions())
         {
             xml.optAppend(pe);
         }

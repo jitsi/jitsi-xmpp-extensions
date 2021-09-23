@@ -166,7 +166,7 @@ public abstract class AbstractPacketExtension
         }
 
         //add the rest of the attributes if any
-        for(Map.Entry<String, Object> entry : attributes.entrySet())
+        for (Map.Entry<String, Object> entry : attributes.entrySet())
         {
             Object value = entry.getValue();
 
@@ -198,7 +198,7 @@ public abstract class AbstractPacketExtension
             {
                 xml.rightAngleBracket();
 
-                for(ExtensionElement packExt : childElements)
+                for (ExtensionElement packExt : childElements)
                 {
                     xml.optAppend(packExt);
                 }
@@ -208,7 +208,7 @@ public abstract class AbstractPacketExtension
         }
 
         //text content if any
-        if(StringUtils.isNotEmpty(text))
+        if (StringUtils.isNotEmpty(text))
         {
             xml.append(org.jivesoftware.smack.util.StringUtils.escapeForXmlText(text));
         }
@@ -508,9 +508,9 @@ public abstract class AbstractPacketExtension
 
         synchronized (childExtensions)
         {
-            for(ExtensionElement extension : childExtensions)
+            for (ExtensionElement extension : childExtensions)
             {
-                if(type.isInstance(extension))
+                if (type.isInstance(extension))
                 {
                     @SuppressWarnings("unchecked")
                     T extensionAsType = (T) extension;
@@ -545,9 +545,9 @@ public abstract class AbstractPacketExtension
 
         synchronized (childExtensions)
         {
-            for(ExtensionElement extension : childExtensions)
+            for (ExtensionElement extension : childExtensions)
             {
-                if(type.isInstance(extension))
+                if (type.isInstance(extension))
                 {
                     @SuppressWarnings("unchecked")
                     T extensionAsType = (T) extension;

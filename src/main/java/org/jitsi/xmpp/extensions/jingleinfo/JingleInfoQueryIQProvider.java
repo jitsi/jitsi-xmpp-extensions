@@ -80,11 +80,11 @@ public class JingleInfoQueryIQProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if(elementName.equals(StunPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(StunPacketExtension.ELEMENT_NAME))
                 {
                     iq.addExtension((StunPacketExtension)stunProvider.parse(parser));
                 }
-                else if(elementName.equals(RelayPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(RelayPacketExtension.ELEMENT_NAME))
                 {
                     iq.addExtension((RelayPacketExtension)relayProvider.parse(parser));
                 }

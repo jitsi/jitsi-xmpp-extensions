@@ -25,18 +25,24 @@ public enum SimulcastMode
 
     private String text;
 
-    SimulcastMode(String text) {
+    SimulcastMode(String text)
+    {
         this.text = text;
     }
 
-    public String getText() {
+    public String getText()
+    {
         return this.text;
     }
 
-    public static SimulcastMode fromString(String text) {
-        if (text != null) {
-            for (SimulcastMode b : SimulcastMode.values()) {
-                if (text.equalsIgnoreCase(b.text)) {
+    public static SimulcastMode fromString(String text)
+    {
+        if (text != null)
+        {
+            for (SimulcastMode b : SimulcastMode.values())
+            {
+                if (text.equalsIgnoreCase(b.text))
+                {
                     return b;
                 }
             }

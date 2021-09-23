@@ -274,10 +274,10 @@ public class IceUdpTransportPacketExtension
     public void addChildExtension(ExtensionElement childExtension)
     {
         //first check for RemoteCandidate because they extend Candidate.
-        if(childExtension instanceof RemoteCandidatePacketExtension)
+        if (childExtension instanceof RemoteCandidatePacketExtension)
             setRemoteCandidate((RemoteCandidatePacketExtension) childExtension);
 
-        else if(childExtension instanceof CandidatePacketExtension)
+        else if (childExtension instanceof CandidatePacketExtension)
             addCandidate((CandidatePacketExtension) childExtension);
 
         else
