@@ -200,6 +200,12 @@ public class ConferenceIqProvider
         String domainPart = unescapedValue.substring(ix + 1);
         String localPart = unescapedValue.substring(0, ix);
 
+        // Work around bug in stringprep in jxmpp 1.0.1 - it throws ArrayOutOfBoundsException in this case.
+        if (localPart.contains("@"))
+        {
+            throw new XmppStringprepException(unescapedValue, "Localpart must not contain '@'");
+        }
+
         return JidCreate.entityBareFrom(
             Localpart.from(localPart), Domainpart.from(domainPart));
     }
