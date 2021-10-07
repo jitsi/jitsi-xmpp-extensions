@@ -53,11 +53,6 @@ public class IceUdpTransportPacketExtension
     public static final String UFRAG_ATTR_NAME = "ufrag";
 
     /**
-     * The name of the <tt>use-unique-port</tt> attribute.
-     */
-    public static final String USE_UNIQUE_PORT_ATTR_NAME = "use-unique-port";
-
-    /**
      * A list of one or more candidates representing each of the initiator's
      * higher-priority transport candidates as determined in accordance with
      * the ICE methodology.
@@ -136,41 +131,7 @@ public class IceUdpTransportPacketExtension
         return super.getAttributeAsString(UFRAG_ATTR_NAME);
     }
 
-    /**
-     * Sets whether a unique candidate port should be used.  Only meaningful
-     * in a channel-allocate request.
-     */
-    public void setUseUniquePort(boolean use)
-    {
-        if (!use)
-        {
-            super.removeAttribute(USE_UNIQUE_PORT_ATTR_NAME);
-        }
-        else
-        {
-            super.setAttribute(USE_UNIQUE_PORT_ATTR_NAME, use);
-        }
-    }
-
-    /**
-     * Gets whether a unique candidate port should be used.  Only meaningful
-     * in a channel-allocate request.
-     */
-    public boolean getUseUniquePort()
-    {
-        Object use = super.getAttribute(USE_UNIQUE_PORT_ATTR_NAME);
-        if (use instanceof Boolean)
-        {
-            return (Boolean)use;
-        }
-        else if (use instanceof String)
-        {
-            return Boolean.parseBoolean((String)use);
-        }
-        return false;
-    }
-
-    /**
+   /**
      * Returns this element's child (local or remote) candidate elements.
      *
      * @return this element's child (local or remote) candidate elements.

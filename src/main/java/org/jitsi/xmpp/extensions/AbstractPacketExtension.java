@@ -160,7 +160,7 @@ public abstract class AbstractPacketExtension
         XmlStringBuilder xml = new XmlStringBuilder();
 
         xml.halfOpenElement(getElementName());
-        if (enclosingNamespace == null || !Objects.equals(enclosingNamespace.getNamespace(), getNamespace()))
+        if (enclosingNamespace == null || !enclosingNamespace.effectiveNamespaceEquals(getNamespace()))
         {
             xml.xmlnsAttribute(getNamespace());
         }
