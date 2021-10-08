@@ -52,7 +52,8 @@ public class ConferenceModifyIQ
     protected final List<AbstractConferenceEntity.Source> feedbackSources;
 
     /** Initializes a new <tt>ColibriConferenceIQ</tt> instance. */
-    private ConferenceModifyIQ(List<AbstractConferenceEntity> conferenceEntities, List<AbstractConferenceEntity.Source> feedbackSources)
+    private ConferenceModifyIQ(List<AbstractConferenceEntity> conferenceEntities,
+        List<AbstractConferenceEntity.Source> feedbackSources)
     {
         super(ELEMENT, NAMESPACE);
 
@@ -81,11 +82,13 @@ public class ConferenceModifyIQ
         return null;
     }
 
-    public static Builder getBuilder() {
+    public static Builder getBuilder()
+    {
         return new Builder();
     }
 
-    public static final class Builder {
+    public static final class Builder
+    {
         private List<AbstractConferenceEntity> conferenceEntities;
 
         private List<AbstractConferenceEntity.Source> feedbackSources;

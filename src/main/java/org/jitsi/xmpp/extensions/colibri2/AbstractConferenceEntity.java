@@ -34,7 +34,8 @@ public abstract class AbstractConferenceEntity
 
     private List<Source> sources;
 
-    public static class Media {
+    public static class Media
+    {
         public static final String TYPE_ATTR_NAME = "type";
 
         MediaType type;
@@ -54,7 +55,8 @@ public abstract class AbstractConferenceEntity
             = new HashMap<>();
     }
 
-    public static class Source {
+    public static class Source
+    {
 
     }
 

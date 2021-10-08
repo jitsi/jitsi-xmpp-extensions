@@ -44,11 +44,13 @@ public class Transport
     {
         super(NAMESPACE, ELEMENT);
 
-        if (b.useUniquePort) {
+        if (b.useUniquePort)
+        {
             super.setAttribute(USE_UNIQUE_PORT_ATTR_NAME, true);
         }
 
-        if (b.iceUdpExtension != null) {
+        if (b.iceUdpExtension != null)
+        {
             super.addChildExtension(b.iceUdpExtension);
         }
     }
@@ -94,7 +96,8 @@ public class Transport
     /**
      * Get a builder for Transport objects.
      */
-    public static Builder getBuilder() {
+    public static Builder getBuilder()
+    {
         return new Builder();
     }
 
