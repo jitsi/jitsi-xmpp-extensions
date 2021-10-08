@@ -72,7 +72,7 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
                     reason = Reason.parseString(elementName);
                 }
                 else if (elementName.equals(
-                                ReasonPacketExtension.TEXT_ELEMENT_NAME))
+                                ReasonPacketExtension.TEXT_ELEMENT))
                 {
                     text = parseText(parser);
                 }
@@ -83,7 +83,7 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
-                if (parser.getName().equals(ReasonPacketExtension.ELEMENT_NAME))
+                if (parser.getName().equals(ReasonPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

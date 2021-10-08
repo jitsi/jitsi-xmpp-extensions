@@ -83,7 +83,7 @@ public class UserProvider
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
                 }
                 else if (elementName.equals(
-                        EndpointPacketExtension.ELEMENT_NAME))
+                        EndpointPacketExtension.ELEMENT))
                 {
                     ExtensionElementProvider provider
                         = new EndpointProvider();
@@ -95,7 +95,7 @@ public class UserProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        UserPacketExtension.ELEMENT_NAME))
+                        UserPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

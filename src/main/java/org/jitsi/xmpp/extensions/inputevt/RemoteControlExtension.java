@@ -18,7 +18,10 @@ package org.jitsi.xmpp.extensions.inputevt;
 import java.awt.*;
 import java.awt.event.*;
 
+import org.jitsi.xmpp.extensions.rayo.*;
 import org.jivesoftware.smack.packet.*;
+
+import javax.xml.namespace.*;
 
 /**
  * This class implements input event extension.
@@ -37,6 +40,12 @@ public class RemoteControlExtension
      * Size of the panel that contains video
      */
     private final Dimension videoPanelSize;
+
+    /**
+     * Qualified name of element.
+     */
+    public static final QName QNAME = new QName(RemoteControlExtensionProvider.NAMESPACE,
+        RemoteControlExtensionProvider.ELEMENT_REMOTE_CONTROL);
 
     /**
      * Constructor.

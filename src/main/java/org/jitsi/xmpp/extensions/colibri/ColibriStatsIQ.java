@@ -29,8 +29,8 @@ public class ColibriStatsIQ
     /**
      * The XML element name of the Jitsi Videobridge <tt>stats</tt> extension.
      */
-    public static final String ELEMENT_NAME
-        = ColibriStatsExtension.ELEMENT_NAME;
+    public static final String ELEMENT
+        = ColibriStatsExtension.ELEMENT;
 
     /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
@@ -44,7 +44,7 @@ public class ColibriStatsIQ
 
     public ColibriStatsIQ()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     @Override

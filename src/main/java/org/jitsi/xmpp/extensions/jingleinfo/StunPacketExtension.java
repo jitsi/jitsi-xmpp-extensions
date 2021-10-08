@@ -33,13 +33,13 @@ public class StunPacketExtension
     /**
      * The element name.
      */
-    public static final String ELEMENT_NAME = "stun";
+    public static final String ELEMENT = "stun";
 
     /**
      * Constructor.
      */
     public StunPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

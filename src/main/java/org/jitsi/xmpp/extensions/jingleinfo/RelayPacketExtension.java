@@ -36,7 +36,7 @@ public class RelayPacketExtension
     /**
      * The element name.
      */
-    public static final String ELEMENT_NAME = "relay";
+    public static final String ELEMENT = "relay";
 
     /**
      * The token.
@@ -48,7 +48,7 @@ public class RelayPacketExtension
      */
     public RelayPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -81,7 +81,7 @@ public class RelayPacketExtension
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
-        xml.halfOpenElement(ELEMENT_NAME);
+        xml.halfOpenElement(ELEMENT);
 
         if (token != null)
         {
@@ -93,7 +93,7 @@ public class RelayPacketExtension
             xml.optAppend(pe);
         }
 
-        xml.closeElement(ELEMENT_NAME);
+        xml.closeElement(ELEMENT);
 
         return xml.toString();
     }

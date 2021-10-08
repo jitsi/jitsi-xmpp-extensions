@@ -30,7 +30,7 @@ public class UserInfoPacketExt
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "userinfo";
+    public static final String ELEMENT = "userinfo";
 
     /**
      * Name space of start muted packet extension.
@@ -49,7 +49,7 @@ public class UserInfoPacketExt
      */
     public UserInfoPacketExt()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

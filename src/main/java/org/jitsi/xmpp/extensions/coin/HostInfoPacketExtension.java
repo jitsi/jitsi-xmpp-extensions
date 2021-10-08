@@ -35,7 +35,7 @@ public class HostInfoPacketExtension
     /**
      * The name of the element that contains the media data.
      */
-    public static final String ELEMENT_NAME = "host-info";
+    public static final String ELEMENT = "host-info";
 
     /**
      * Display text element name.
@@ -62,7 +62,7 @@ public class HostInfoPacketExtension
      */
     public HostInfoPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

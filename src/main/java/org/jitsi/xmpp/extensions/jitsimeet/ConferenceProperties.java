@@ -17,6 +17,7 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jitsi.xmpp.extensions.*;
 
+import javax.xml.namespace.*;
 import java.util.*;
 
 /**
@@ -38,7 +39,7 @@ public class ConferenceProperties
     /**
      * The XML name of the conference-properties element.
      */
-    public static final String ELEMENT_NAME = "conference-properties";
+    public static final String ELEMENT = "conference-properties";
 
     /**
      * The property key used for the conference creation timestamp (in
@@ -88,7 +89,7 @@ public class ConferenceProperties
      */
     public ConferenceProperties()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -155,7 +156,12 @@ public class ConferenceProperties
         /**
          * The XML name of the conference property element.
          */
-        public static final String ELEMENT_NAME = "property";
+        public static final String ELEMENT = "property";
+
+        /**
+         * The qualified name of the conference property element.
+         */
+        public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
         /**
          * The name of the "key" attribute.
@@ -174,7 +180,7 @@ public class ConferenceProperties
          */
         public ConferenceProperty()
         {
-            super(NAMESPACE, ELEMENT_NAME);
+            super(NAMESPACE, ELEMENT);
         }
 
         /**
@@ -185,7 +191,7 @@ public class ConferenceProperties
          */
         public ConferenceProperty(String key, String value)
         {
-            super(NAMESPACE, ELEMENT_NAME);
+            super(NAMESPACE, ELEMENT);
 
             setAttribute(KEY_ATTR_NAME, key);
             setAttribute(VALUE_ATTR_NAME, value);

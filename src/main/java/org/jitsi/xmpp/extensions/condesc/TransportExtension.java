@@ -26,7 +26,7 @@ public class TransportExtension
     /**
      * The name of the "transport" element.
      */
-    public static final String ELEMENT_NAME = "transport";
+    public static final String ELEMENT = "transport";
 
     /**
      * Creates a new instance and sets the XML namespace to
@@ -36,6 +36,6 @@ public class TransportExtension
      */
     public TransportExtension(String namespace)
     {
-        super(namespace, TransportExtension.ELEMENT_NAME);
+        super(namespace, TransportExtension.ELEMENT);
     }
 }

@@ -33,7 +33,7 @@ public class LoginUrlIq
 {
     public static final String NAMESPACE = ConferenceIq.NAMESPACE;
 
-    public static final String ELEMENT_NAME = "login-url";
+    public static final String ELEMENT = "login-url";
 
     /**
      * The name of the attribute that holds authentication URL value.
@@ -86,7 +86,7 @@ public class LoginUrlIq
      */
     public LoginUrlIq()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     @Override

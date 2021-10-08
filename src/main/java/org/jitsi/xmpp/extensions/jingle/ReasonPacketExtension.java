@@ -38,12 +38,12 @@ public class ReasonPacketExtension
     /**
      * The name of the "content" element.
      */
-    public static final String ELEMENT_NAME = "reason";
+    public static final String ELEMENT = "reason";
 
     /**
      * The name of the text element.
      */
-    public static final String TEXT_ELEMENT_NAME = "text";
+    public static final String TEXT_ELEMENT = "text";
 
     /**
      * The reason that this packet extension is transporting.
@@ -154,7 +154,7 @@ public class ReasonPacketExtension
      */
     public String getElementName()
     {
-        return ELEMENT_NAME;
+        return ELEMENT;
     }
 
     /**

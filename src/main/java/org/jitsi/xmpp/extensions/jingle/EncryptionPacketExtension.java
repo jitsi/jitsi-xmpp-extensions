@@ -38,7 +38,7 @@ public class EncryptionPacketExtension
     /**
      * The name of the "encryption" element.
      */
-    public static final String ELEMENT_NAME = "encryption";
+    public static final String ELEMENT = "encryption";
 
     /**
      * The name of the <tt>required</tt> attribute.
@@ -57,7 +57,7 @@ public class EncryptionPacketExtension
      */
     public EncryptionPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

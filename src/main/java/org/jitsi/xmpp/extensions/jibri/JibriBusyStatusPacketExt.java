@@ -40,7 +40,7 @@ public class JibriBusyStatusPacketExt
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "busy-status";
+    public static final String ELEMENT = "busy-status";
 
     private static final String STATUS_ATTRIBUTE = "status";
 
@@ -49,13 +49,13 @@ public class JibriBusyStatusPacketExt
      */
     public JibriBusyStatusPacketExt()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     static public void registerExtensionProvider()
     {
         ProviderManager.addExtensionProvider(
-                ELEMENT_NAME,
+                ELEMENT,
                 NAMESPACE,
                 new DefaultPacketExtensionProvider<>(JibriBusyStatusPacketExt.class)
         );

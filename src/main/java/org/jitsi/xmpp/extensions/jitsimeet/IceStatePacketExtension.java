@@ -34,13 +34,13 @@ public class IceStatePacketExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "ice-state";
+    public static final String ELEMENT = "ice-state";
 
     /**
      * Creates new instance of <tt>IceStatePacketExtension</tt>
      */
     public IceStatePacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

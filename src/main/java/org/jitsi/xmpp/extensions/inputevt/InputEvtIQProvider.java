@@ -71,7 +71,7 @@ public class InputEvtIQProvider
                 break;
 
             case END_ELEMENT:
-                if (InputEvtIQ.ELEMENT_NAME.equals(parser.getName()))
+                if (InputEvtIQ.ELEMENT.equals(parser.getName()))
                     done = true;
                 break;
             }

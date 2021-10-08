@@ -131,7 +131,7 @@ public class ColibriIQProviderTest extends TestCase
         eventType = xmlPullParser.next();
         name = xmlPullParser.getName();
         assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
-        assertEquals(ColibriConferenceIQ.ELEMENT_NAME, name);
+        assertEquals(ColibriConferenceIQ.ELEMENT, name);
 
         IQ result = colibriIQProvider.parse(xmlPullParser);
         List<SourcePacketExtension> sources =

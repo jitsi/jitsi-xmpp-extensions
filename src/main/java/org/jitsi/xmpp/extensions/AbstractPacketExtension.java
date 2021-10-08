@@ -160,10 +160,8 @@ public abstract class AbstractPacketExtension
         XmlStringBuilder xml = new XmlStringBuilder();
 
         xml.halfOpenElement(getElementName());
-        if (enclosingNamespace == null || !Objects.equals(enclosingNamespace.getNamespace(), getNamespace()))
-        {
-            xml.xmlnsAttribute(getNamespace());
-        }
+        xml.xmlnsAttribute(getNamespace()); // Only gets written if the namespace != the enclosing namespace
+
 
         //add the rest of the attributes if any
         for (Map.Entry<String, Object> entry : attributes.entrySet())

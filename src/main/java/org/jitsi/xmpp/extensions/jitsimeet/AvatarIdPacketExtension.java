@@ -32,12 +32,13 @@ public class AvatarIdPacketExtension
     /**
      * The namespace (xmlns attribute) of this avatar-id presence element
      */
-    public static final String NAME_SPACE = "jabber:client";
+    public static final String NAMESPACE = "jabber:client";
 
     /**
      * The element name of this avatar-id presence element
+     *
      */
-    public static final String ELEMENT_NAME = "avatar-id";
+    public static final String ELEMENT = "avatar-id";
 
     /**
      * Default constructor.
@@ -46,7 +47,7 @@ public class AvatarIdPacketExtension
      */
     public AvatarIdPacketExtension()
     {
-        super(NAME_SPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -57,7 +58,7 @@ public class AvatarIdPacketExtension
      */
     public AvatarIdPacketExtension(String avatarId)
     {
-        super(NAME_SPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
 
         setText(avatarId);
     }

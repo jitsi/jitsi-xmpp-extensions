@@ -37,7 +37,7 @@ public class RtpDescriptionPacketExtension
     /**
      * The name of the "description" element.
      */
-    public static final String ELEMENT_NAME = "description";
+    public static final String ELEMENT = "description";
 
     /**
      * The name of the <tt>media</tt> description argument.
@@ -83,7 +83,7 @@ public class RtpDescriptionPacketExtension
      */
     public RtpDescriptionPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -94,7 +94,7 @@ public class RtpDescriptionPacketExtension
      */
     public RtpDescriptionPacketExtension(String namespace)
     {
-        super(namespace, ELEMENT_NAME);
+        super(namespace, ELEMENT);
     }
 
     /**

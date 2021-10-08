@@ -69,36 +69,36 @@ public class CoinIQProvider
     public CoinIQProvider()
     {
         ProviderManager.addExtensionProvider(
-                UserRolesPacketExtension.ELEMENT_NAME,
+                UserRolesPacketExtension.ELEMENT,
                 UserRolesPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                     <>(UserRolesPacketExtension.class));
 
         ProviderManager.addExtensionProvider(
-                URIPacketExtension.ELEMENT_NAME,
+                URIPacketExtension.ELEMENT,
                 URIPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                     <>(URIPacketExtension.class));
 
         ProviderManager.addExtensionProvider(
-                SIPDialogIDPacketExtension.ELEMENT_NAME,
+                SIPDialogIDPacketExtension.ELEMENT,
                 SIPDialogIDPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                     <>(SIPDialogIDPacketExtension.class));
 
         ProviderManager.addExtensionProvider(
-                ConferenceMediumPacketExtension.ELEMENT_NAME,
+                ConferenceMediumPacketExtension.ELEMENT,
                 ConferenceMediumPacketExtension.NAMESPACE,
                 new ConferenceMediumProvider());
 
         ProviderManager.addExtensionProvider(
-                ConferenceMediaPacketExtension.ELEMENT_NAME,
+                ConferenceMediaPacketExtension.ELEMENT,
                 ConferenceMediaPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <>(ConferenceMediaPacketExtension.class));
 
         ProviderManager.addExtensionProvider(
-                CallInfoPacketExtension.ELEMENT_NAME,
+                CallInfoPacketExtension.ELEMENT,
                 CallInfoPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <>(CallInfoPacketExtension.class));
@@ -148,32 +148,32 @@ public class CoinIQProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(DescriptionPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(DescriptionPacketExtension.ELEMENT))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)descriptionProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
-                else if (elementName.equals(UsersPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(UsersPacketExtension.ELEMENT))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)usersProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
-                else if (elementName.equals(StatePacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(StatePacketExtension.ELEMENT))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)stateProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
-                else if (elementName.equals(URIsPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(URIsPacketExtension.ELEMENT))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)urisProvider.parse(parser);
                     coinIQ.addExtension(childExtension);
                 }
                 else if (elementName.equals(
-                        SidebarsByValPacketExtension.ELEMENT_NAME))
+                        SidebarsByValPacketExtension.ELEMENT))
                 {
                     ExtensionElement childExtension =
                             (ExtensionElement)sidebarsByValProvider.parse(parser);
@@ -183,7 +183,7 @@ public class CoinIQProvider
 
             if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
-                if (parser.getName().equals(CoinIQ.ELEMENT_NAME))
+                if (parser.getName().equals(CoinIQ.ELEMENT))
                 {
                     done = true;
                 }

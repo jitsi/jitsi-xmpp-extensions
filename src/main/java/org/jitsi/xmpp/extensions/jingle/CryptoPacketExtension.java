@@ -32,7 +32,7 @@ public class CryptoPacketExtension
     /**
      * The name of the "crypto" element.
      */
-    public static final String ELEMENT_NAME = "crypto";
+    public static final String ELEMENT = "crypto";
 
     /**
      * The namespace for the "crypto" element.
@@ -65,7 +65,7 @@ public class CryptoPacketExtension
      */
     public CryptoPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

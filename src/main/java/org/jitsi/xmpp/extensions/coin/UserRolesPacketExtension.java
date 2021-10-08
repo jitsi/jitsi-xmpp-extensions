@@ -37,7 +37,7 @@ public class UserRolesPacketExtension
     /**
      * The name of the element that contains the user roles data.
      */
-    public static final String ELEMENT_NAME = "roles";
+    public static final String ELEMENT = "roles";
 
     /**
      * Subject element name.
@@ -54,7 +54,7 @@ public class UserRolesPacketExtension
      */
     public UserRolesPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

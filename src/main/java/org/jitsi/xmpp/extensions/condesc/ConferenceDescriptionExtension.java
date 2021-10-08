@@ -37,7 +37,7 @@ public class ConferenceDescriptionExtension
     /**
      * The name of the "conference" XML element.
      */
-    public static final String ELEMENT_NAME = "conference";
+    public static final String ELEMENT = "conference";
 
     /**
      * The name of the "uri" attribute.
@@ -104,7 +104,7 @@ public class ConferenceDescriptionExtension
     public ConferenceDescriptionExtension(
             String uri, String callId, String password)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
 
         if (uri != null)
             setUri(uri);

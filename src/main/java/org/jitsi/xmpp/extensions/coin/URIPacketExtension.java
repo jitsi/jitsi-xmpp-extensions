@@ -35,7 +35,7 @@ public class URIPacketExtension
     /**
      * The name of the element that contains the URI data.
      */
-    public static final String ELEMENT_NAME = "uri";
+    public static final String ELEMENT = "uri";
 
     /**
      * Display text element name.

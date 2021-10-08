@@ -25,7 +25,7 @@ public class WebSocketPacketExtension extends AbstractPacketExtension
     /**
      * The name of the "web-socket" element.
      */
-    public static final String ELEMENT_NAME = "web-socket";
+    public static final String ELEMENT = "web-socket";
 
     public static final String NAMESPACE = ColibriConferenceIQ.NAMESPACE;
 
@@ -39,7 +39,7 @@ public class WebSocketPacketExtension extends AbstractPacketExtension
      */
     public WebSocketPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -47,7 +47,7 @@ public class WebSocketPacketExtension extends AbstractPacketExtension
      */
     public WebSocketPacketExtension(String url)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
         setUrl(url);
     }
 

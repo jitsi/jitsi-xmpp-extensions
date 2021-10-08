@@ -35,7 +35,7 @@ public class MediaPacketExtension
     /**
      * The name of the element that contains the media data.
      */
-    public static final String ELEMENT_NAME = "media";
+    public static final String ELEMENT = "media";
 
     /**
      * Display text element name.
@@ -99,7 +99,7 @@ public class MediaPacketExtension
      */
     public MediaPacketExtension(String id)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
 
         setAttribute(ID_ATTR_NAME, id);
     }

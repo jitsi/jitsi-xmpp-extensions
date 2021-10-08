@@ -28,7 +28,7 @@ public class CoinPacketExtension
     /**
      * Name of the XML element representing the extension.
      */
-    public final static String ELEMENT_NAME = "conference-info";
+    public final static String ELEMENT = "conference-info";
 
     /**
      * Namespace.
@@ -46,7 +46,7 @@ public class CoinPacketExtension
      */
     public CoinPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -57,7 +57,7 @@ public class CoinPacketExtension
      */
     public CoinPacketExtension(boolean isFocus)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
         setAttribute(ISFOCUS_ATTR_NAME, isFocus);
     }
 }

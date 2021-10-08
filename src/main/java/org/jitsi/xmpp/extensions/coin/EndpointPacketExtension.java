@@ -35,7 +35,7 @@ public class EndpointPacketExtension
     /**
      * The name of the element that contains the endpoint data.
      */
-    public static final String ELEMENT_NAME = "endpoint";
+    public static final String ELEMENT = "endpoint";
 
     /**
      * Entity attribute name.
@@ -94,7 +94,7 @@ public class EndpointPacketExtension
      */
     public EndpointPacketExtension(String entity)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
         setAttribute("entity", entity);
     }
 

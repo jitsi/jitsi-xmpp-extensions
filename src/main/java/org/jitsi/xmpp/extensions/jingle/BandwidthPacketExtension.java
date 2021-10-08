@@ -29,7 +29,7 @@ public class BandwidthPacketExtension
     /**
      * The name of the "bandwidth" element.
      */
-    public static final String ELEMENT_NAME = "bandwidth";
+    public static final String ELEMENT = "bandwidth";
 
     /**
      * The name of the type argument.
@@ -41,7 +41,7 @@ public class BandwidthPacketExtension
      */
     public BandwidthPacketExtension()
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
     }
 
     /**

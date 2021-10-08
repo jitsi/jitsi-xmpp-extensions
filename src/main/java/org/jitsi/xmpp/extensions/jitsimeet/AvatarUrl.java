@@ -34,7 +34,7 @@ public class AvatarUrl
 {
     public static final String NAMESPACE = "jabber:client";
 
-    public static final String ELEMENT_NAME = "avatar-url";
+    public static final String ELEMENT = "avatar-url";
 
     private String avatarUrl = null;
 
@@ -71,7 +71,7 @@ public class AvatarUrl
      */
     public String getElementName()
     {
-        return ELEMENT_NAME;
+        return ELEMENT;
     }
 
     /**

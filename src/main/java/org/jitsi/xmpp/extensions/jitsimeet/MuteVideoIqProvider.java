@@ -39,7 +39,7 @@ public class MuteVideoIqProvider
     public static void registerMuteVideoIqProvider()
     {
         ProviderManager.addIQProvider(
-            MuteVideoIq.ELEMENT_NAME,
+            MuteVideoIq.ELEMENT,
             MuteVideoIq.NAMESPACE,
             new MuteVideoIqProvider());
     }
@@ -63,7 +63,7 @@ public class MuteVideoIqProvider
 
         MuteVideoIq iq;
 
-        if (MuteVideoIq.ELEMENT_NAME.equals(rootElement))
+        if (MuteVideoIq.ELEMENT.equals(rootElement))
         {
             iq = new MuteVideoIq();
             String jidStr = parser.getAttributeValue("", MuteVideoIq.JID_ATTR_NAME);

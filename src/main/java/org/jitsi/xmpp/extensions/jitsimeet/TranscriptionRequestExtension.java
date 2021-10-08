@@ -33,7 +33,7 @@ public class TranscriptionRequestExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME
+    public static final String ELEMENT
             = "jitsi_participant_requestingTranscription";
 
     /**
@@ -41,6 +41,6 @@ public class TranscriptionRequestExtension
      */
     public TranscriptionRequestExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

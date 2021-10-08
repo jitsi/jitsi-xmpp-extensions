@@ -33,13 +33,13 @@ public class SidebarsByValPacketExtension
     /**
      * The name of the element that contains the sidebars by val.
      */
-    public static final String ELEMENT_NAME = "sidebars-by-val";
+    public static final String ELEMENT = "sidebars-by-val";
 
     /**
      * Constructor.
      */
     public SidebarsByValPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

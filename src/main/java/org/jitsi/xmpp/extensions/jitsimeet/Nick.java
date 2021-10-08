@@ -18,6 +18,8 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.provider.*;
 
+import javax.xml.namespace.*;
+
 import static org.jivesoftware.smackx.nick.packet.Nick.*;
 
 /**
@@ -31,6 +33,11 @@ public class Nick
      * The display name.
      */
     private String name = null;
+
+    /**
+     * The qualified name of the element.
+     */
+    private static final QName QNAME = org.jivesoftware.smackx.nick.packet.Nick.QNAME;
 
     /**
      * Constructs Nick extension using original namespace and element name.

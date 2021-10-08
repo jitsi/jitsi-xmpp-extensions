@@ -28,7 +28,7 @@ public class RedirectPacketExtension
     /**
      * The name of the "redirect" element.
      */
-    public static final String ELEMENT_NAME = "redirect";
+    public static final String ELEMENT = "redirect";
 
     /**
      * The namespace.
@@ -45,7 +45,7 @@ public class RedirectPacketExtension
      */
     public RedirectPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
