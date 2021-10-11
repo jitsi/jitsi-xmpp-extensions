@@ -15,9 +15,6 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
-import org.jitsi.utils.*;
-import org.jitsi.xmpp.extensions.jingle.*;
-
 import java.util.*;
 
 /**
@@ -33,27 +30,6 @@ public abstract class AbstractConferenceEntity
     /* Do we need SctpConnection here? */
 
     private List<Source> sources;
-
-    public static class Media
-    {
-        public static final String TYPE_ATTR_NAME = "type";
-
-        MediaType type;
-
-        /**
-         * The <tt>payload-type</tt> elements defined by XEP-0167: Jingle RTP
-         * Sessions associated with this <tt>channel</tt>.
-         */
-        private final List<PayloadTypePacketExtension> payloadTypes
-            = new ArrayList<>();
-
-        /**
-         * The <tt>rtp-hdrext</tt> elements defined by XEP-0294: Jingle RTP
-         * Header Extensions Negotiation associated with this channel.
-         */
-        private final Map<Integer, RTPHdrExtPacketExtension> rtpHeaderExtensions
-            = new HashMap<>();
-    }
 
     public static class Source
     {
