@@ -144,7 +144,7 @@ public class Media
         private Builder()
         {
         }
-        
+
         public Media build()
         {
             return new Media(this);

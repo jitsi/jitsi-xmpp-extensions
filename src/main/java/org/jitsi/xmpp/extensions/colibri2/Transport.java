@@ -120,7 +120,7 @@ public class Transport
             this.useUniquePort = useUniquePort;
         }
 
-        Builder()
+        private Builder()
         {
         }
 
