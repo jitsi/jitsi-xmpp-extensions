@@ -144,22 +144,6 @@ public class MediaSource
         String id = null;
 
         /**
-         * Sets the media type for the media source being built.
-         */
-        public void setType(MediaType t)
-        {
-            type = t;
-        }
-
-        /**
-         * Sets the ID for the media source being built.
-         */
-        public void setId(String id)
-        {
-            this.id = id;
-        }
-
-        /**
          * The <tt>source</tt> elements defined by XEP-0339: Source-Specific
          * Media Attributes associated with this <tt>media-source</tt>.
          */
@@ -174,19 +158,39 @@ public class MediaSource
             = new ArrayList<>();
 
         /**
+         * Sets the media type for the media source being built.
+         */
+        public Builder setType(MediaType t)
+        {
+            type = t;
+            return this;
+        }
+
+        /**
+         * Sets the ID for the media source being built.
+         */
+        public Builder setId(String id)
+        {
+            this.id = id;
+            return this;
+        }
+
+        /**
          * Adds a payload type to the media being built.
          */
-        public void addSource(SourcePacketExtension pt)
+        public Builder addSource(SourcePacketExtension pt)
         {
             sources.add(pt);
+            return this;
         }
 
         /**
          * Adds an RTP header extension to the media being built.
          */
-        public void addSsrcGroup(SourceGroupPacketExtension ext)
+        public Builder addSsrcGroup(SourceGroupPacketExtension ext)
         {
             ssrcGroups.add(ext);
+            return this;
         }
 
         /* TODO: add something to set values from higher-level Jingle structures. */

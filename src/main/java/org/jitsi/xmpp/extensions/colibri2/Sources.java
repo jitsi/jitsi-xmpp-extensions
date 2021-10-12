@@ -92,9 +92,10 @@ public class Sources
         /**
          * Add  a payload type to the media being built.
          */
-        public void addMediaSource(MediaSource pt)
+        public Builder addMediaSource(MediaSource pt)
         {
             mediaSources.add(pt);
+            return this;
         }
 
 

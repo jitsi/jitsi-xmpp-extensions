@@ -125,14 +125,16 @@ public class Transport
 
         private IceUdpTransportPacketExtension iceUdpExtension;
 
-        public void setIceUdpExtension(IceUdpTransportPacketExtension iceUdpExtension)
+        public Builder setIceUdpExtension(IceUdpTransportPacketExtension iceUdpExtension)
         {
             this.iceUdpExtension = iceUdpExtension;
+            return this;
         }
 
-        public void setUseUniquePort(boolean useUniquePort)
+        public Builder setUseUniquePort(boolean useUniquePort)
         {
             this.useUniquePort = useUniquePort;
+            return this;
         }
 
         private Builder()

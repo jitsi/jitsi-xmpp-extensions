@@ -136,25 +136,28 @@ public class Media
         /**
          * Sets the media type for the media being built.
          */
-        public void setType(MediaType t)
+        public Builder setType(MediaType t)
         {
             type = t;
+            return this;
         }
 
         /**
          * Adds a payload type to the media being built.
          */
-        public void addPayloadType(PayloadTypePacketExtension pt)
+        public Builder addPayloadType(PayloadTypePacketExtension pt)
         {
             payloadTypes.add(pt);
+            return this;
         }
 
         /**
          * Adds an RTP header extension to the media being built.
          */
-        public void addRtpHdrExt(RTPHdrExtPacketExtension ext)
+        public Builder addRtpHdrExt(RTPHdrExtPacketExtension ext)
         {
             rtpHeaderExtensions.add(ext);
+            return this;
         }
 
         /* TODO: add something to set values from higher-level Jingle structures. */
