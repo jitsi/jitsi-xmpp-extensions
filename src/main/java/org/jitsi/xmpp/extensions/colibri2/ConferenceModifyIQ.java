@@ -49,11 +49,11 @@ public class ConferenceModifyIQ
 
     protected final List<AbstractConferenceEntity> conferenceEntities;
 
-    protected final List<AbstractConferenceEntity.Source> feedbackSources;
+    protected final Sources feedbackSources;
 
     /** Initializes a new <tt>ColibriConferenceIQ</tt> instance. */
     private ConferenceModifyIQ(List<AbstractConferenceEntity> conferenceEntities,
-        List<AbstractConferenceEntity.Source> feedbackSources)
+        Sources feedbackSources)
     {
         super(ELEMENT, NAMESPACE);
 
@@ -68,7 +68,7 @@ public class ConferenceModifyIQ
 
         if (feedbackSources != null)
         {
-            this.feedbackSources = Collections.unmodifiableList(feedbackSources);
+            this.feedbackSources = feedbackSources;
         }
         else
         {
@@ -91,7 +91,7 @@ public class ConferenceModifyIQ
     {
         private List<AbstractConferenceEntity> conferenceEntities;
 
-        private List<AbstractConferenceEntity.Source> feedbackSources;
+        private Sources feedbackSources;
 
         Builder() {
 
@@ -109,14 +109,9 @@ public class ConferenceModifyIQ
             return this;
         }
 
-        public Builder addFeedbackSource(AbstractConferenceEntity.Source source)
+        public Builder setFeedbackSources(Sources s)
         {
-            if (feedbackSources == null)
-            {
-                feedbackSources = new ArrayList<>();
-            }
-
-            feedbackSources.add(source);
+            feedbackSources = s ;
 
             return this;
         }

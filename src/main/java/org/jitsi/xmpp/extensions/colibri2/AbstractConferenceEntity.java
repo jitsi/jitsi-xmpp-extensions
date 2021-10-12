@@ -29,11 +29,6 @@ public abstract class AbstractConferenceEntity
 
     /* Do we need SctpConnection here? */
 
-    private List<Source> sources;
-
-    public static class Source
-    {
-
-    }
+    private Sources sources;
 
 }
