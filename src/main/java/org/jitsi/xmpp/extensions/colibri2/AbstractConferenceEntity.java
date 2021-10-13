@@ -15,6 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jitsi.xmpp.extensions.*;
+
 import java.util.*;
 
 /**
@@ -22,13 +24,104 @@ import java.util.*;
  * This is the base class of both Endpoint and Relay.
  */
 public abstract class AbstractConferenceEntity
+    extends AbstractPacketExtension
 {
-    private Transport transport;
+    /**
+     * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
+     * Videobridge <tt>conference-modify</tt> IQ.
+     */
+    public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 
-    private List<Media> medias;
+    protected AbstractConferenceEntity(String element)
+    {
+        super(NAMESPACE, element);
+    }
 
-    /* Do we need SctpConnection here? */
+    /**
+     * Construct a source from a builder - used by Builder#build().
+     */
+    protected AbstractConferenceEntity(Builder b, String element)
+    {
+        super(NAMESPACE, element);
 
-    private Sources sources;
+        for (Media m: b.medias)
+        {
+            super.addChildExtension(m);
+        }
 
+        if (b.transport != null)
+        {
+            super.addChildExtension(b.transport);
+        }
+
+        if (b.sources != null)
+        {
+            super.addChildExtension(b.sources);
+        }
+    }
+
+    /**
+     * Get the media associated with this conference entity.
+     */
+    public List<Media> getMedia()
+    {
+        return super.getChildExtensionsOfType(Media.class);
+    }
+
+    /**
+     * Get the transport associated with this conference entity.
+     */
+    public Transport getTransport()
+    {
+        return super.getFirstChildOfType(Transport.class);
+    }
+
+    /**
+     * Get the sources associated with this conference entity.
+     */
+    public Sources getSources()
+    {
+        return super.getFirstChildOfType(Sources.class);
+    }
+
+    /**
+     * Builder for conference entities.
+     */
+    protected abstract static class Builder
+    {
+        private Transport transport;
+
+        private final List<Media> medias = new ArrayList<>();
+
+        /* Do we need SctpConnection here? */
+
+        private Sources sources;
+
+        protected Builder()
+        {
+        }
+
+        public Builder addMedia(Media m)
+        {
+            medias.add(m);
+
+            return this;
+        }
+
+        public Builder setTransport(Transport t)
+        {
+            transport = t;
+
+            return this;
+        }
+
+        public Builder setSources(Sources s)
+        {
+            sources = s;
+
+            return this;
+        }
+
+        public abstract AbstractPacketExtension build();
+    }
 }

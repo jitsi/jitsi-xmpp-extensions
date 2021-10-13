@@ -43,7 +43,7 @@ public class Sources
     public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
     /**
-     * Construct a MediaSource.  Needs to be public for DefaultPacketExtensionProvider to work.
+     * Construct Sources.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
     public Sources()
     {
@@ -51,7 +51,7 @@ public class Sources
     }
 
     /**
-     * Construct a source from a builder - used by Builder#build().
+     * Construct sources from a builder - used by Builder#build().
      */
     private Sources(Builder b)
     {
@@ -63,7 +63,7 @@ public class Sources
     }
 
     /**
-     * Get the sources of this media source.
+     * Get the media sources.
      */
     public List<MediaSource> getMediaSources()
     {
@@ -71,7 +71,7 @@ public class Sources
     }
 
     /**
-     * Get a builder for MediaSource objects.
+     * Get a builder for Sources objects.
      */
     public static Builder getBuilder()
     {
@@ -84,7 +84,7 @@ public class Sources
     public static final class Builder
     {
         /**
-         * The <tt>meida-source</tt> elements included in this <tt>sources</tt>.
+         * The <tt>media-source</tt> elements included in this <tt>sources</tt>.
          */
         private final List<MediaSource> mediaSources
             = new ArrayList<>();
