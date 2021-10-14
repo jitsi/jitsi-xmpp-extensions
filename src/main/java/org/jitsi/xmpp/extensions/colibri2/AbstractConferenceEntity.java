@@ -32,6 +32,8 @@ public abstract class AbstractConferenceEntity
      */
     public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 
+    public static final String EXPIRE_ATTR_NAME = "expire";
+
     protected AbstractConferenceEntity(String element)
     {
         super(NAMESPACE, element);
@@ -43,6 +45,10 @@ public abstract class AbstractConferenceEntity
     protected AbstractConferenceEntity(Builder b, String element)
     {
         super(NAMESPACE, element);
+
+        if (b.expire) {
+            super.setAttribute(EXPIRE_ATTR_NAME, b.toString());
+        }
 
         for (Media m: b.medias)
         {
@@ -85,6 +91,22 @@ public abstract class AbstractConferenceEntity
     }
 
     /**
+     * Get whether this conference entity was marked to expire.
+     */
+    public boolean getExpire()
+    {
+        String attr = super.getAttributeAsString(EXPIRE_ATTR_NAME);
+
+        if (attr == null)
+        {
+            return false;
+        }
+
+        /* TODO: validate string when parsing. */
+        return Boolean.parseBoolean(super.getAttributeAsString(EXPIRE_ATTR_NAME));
+    }
+
+    /**
      * Builder for conference entities.
      */
     protected abstract static class Builder
@@ -92,6 +114,8 @@ public abstract class AbstractConferenceEntity
         private Transport transport;
 
         private final List<Media> medias = new ArrayList<>();
+
+        private boolean expire = false;
 
         /* Do we need SctpConnection here? */
 
@@ -118,6 +142,13 @@ public abstract class AbstractConferenceEntity
         public Builder setSources(Sources s)
         {
             sources = s;
+
+            return this;
+        }
+
+        public Builder setExpire(boolean e)
+        {
+            expire = e;
 
             return this;
         }
