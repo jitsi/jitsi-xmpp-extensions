@@ -16,6 +16,7 @@
 package org.jitsi.xmpp.extensions.colibri2;
 
 import javax.xml.namespace.*;
+import java.util.*;
 
 public class Relay
     extends AbstractConferenceEntity
@@ -54,6 +55,10 @@ public class Relay
         {
             super.setAttribute(ID_ATTR_NAME, b.id);
         }
+
+        for (AbstractEndpointSet e: b.endpointSets) {
+            super.addChildExtension(e);
+        }
     }
 
     /**
@@ -82,9 +87,20 @@ public class Relay
          */
         private String id;
 
+        /**
+         * Remote endpoints sent from the relay.
+         */
+        private final List<AbstractEndpointSet> endpointSets = new ArrayList<>();
+
         public Builder setId(String id)
         {
             this.id = id;
+
+            return this;
+        }
+
+        public Builder addEndpointSet(AbstractEndpointSet e) {
+            endpointSets.add(e);
 
             return this;
         }
