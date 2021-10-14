@@ -19,31 +19,31 @@ import org.jivesoftware.smack.packet.*;
 
 import java.util.*;
 
-public class ConferenceModifyIQ
+public class ConferenceModifiedIQ
     extends IQ
 {
     /**
-     * The XML element name of the Jitsi Videobridge <tt>conference-modify</tt> IQ.
+     * The XML element name of the Jitsi Videobridge <tt>conference-modified</tt> IQ.
      */
-    public static final String ELEMENT = "conference-modify";
+    public static final String ELEMENT = "conference-modified";
 
     /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
-     * Videobridge <tt>conference-modify</tt> IQ.
+     * Videobridge <tt>conference-modified</tt> IQ.
      */
     public static final String NAMESPACE = "http://jitsi.org/protocol/colibri2";
 
     /**
      * The XML name of the <tt>name</tt> attribute of the Jitsi Videobridge
      * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifyIQ</tt> if available.
+     * property of <tt>ConferenceModifiedIQ</tt> if available.
      */
     public static final String NAME_ATTR_NAME = "name";
 
     /**
      * The XML name of the <tt>meeting-id</tt> attribute of the Jitsi Videobridge
      * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifyIQ</tt> if available.
+     * property of <tt>ConferenceModifiedIQ</tt> if available.
      */
     public static final String MEETING_ID_ATTR_NAME = "meeting-id";
 
@@ -57,25 +57,29 @@ public class ConferenceModifyIQ
      */
     public String name;
 
-    /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
-    private ConferenceModifyIQ(Builder b)
+    /** Initializes a new <tt>ConferenceModifiedIQ</tt> instance. */
+    private ConferenceModifiedIQ(Builder b)
     {
         super(ELEMENT, NAMESPACE);
 
         if (b.meetingId == null)
         {
-            throw new IllegalArgumentException("meeting-id must be set for conference-modify IQ");
+            throw new IllegalArgumentException("meeting-id must be set for conference-modified IQ");
         }
         meetingId = b.meetingId;
 
         if (b.conferenceName == null)
         {
-            throw new IllegalArgumentException("name must be set for conference-modify IQ");
+            throw new IllegalArgumentException("name must be set for conference-modified IQ");
         }
         name = b.conferenceName;
 
         for (AbstractConferenceEntity ce: b.conferenceEntities) {
             super.addExtension(ce);
+        }
+
+        if (b.sources != null) {
+            super.addExtension(b.sources);
         }
     }
 
@@ -98,11 +102,13 @@ public class ConferenceModifyIQ
 
     public static final class Builder
     {
-        private final List<AbstractConferenceEntity> conferenceEntities = new ArrayList<>();
-
         private String conferenceName;
 
         private String meetingId;
+
+        private final List<AbstractConferenceEntity> conferenceEntities = new ArrayList<>();
+
+        private Sources sources;
 
         private Builder() {
         }
@@ -128,9 +134,16 @@ public class ConferenceModifyIQ
             return this;
         }
 
-        public ConferenceModifyIQ build()
+        public Builder setSources(Sources s)
         {
-            return new ConferenceModifyIQ(this);
+            sources = s;
+
+            return this;
+        }
+
+        public ConferenceModifiedIQ build()
+        {
+            return new ConferenceModifiedIQ(this);
         }
     }
 }
