@@ -15,10 +15,11 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
-import org.jitsi.xmpp.extensions.*;
-
 import javax.xml.namespace.*;
 
+/**
+ * An endpoint in Colibri2 signaling.
+ */
 public class Endpoint
     extends AbstractConferenceEntity
 {
