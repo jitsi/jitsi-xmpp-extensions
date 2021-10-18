@@ -46,7 +46,8 @@ public abstract class AbstractConferenceEntity
     {
         super(NAMESPACE, element);
 
-        if (b.expire) {
+        if (b.expire)
+        {
             super.setAttribute(EXPIRE_ATTR_NAME, b.toString());
         }
 

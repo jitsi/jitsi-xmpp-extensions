@@ -99,7 +99,8 @@ public class Relay
             return this;
         }
 
-        public Builder addEndpointSet(AbstractEndpointSet e) {
+        public Builder addEndpointSet(AbstractEndpointSet e)
+        {
             endpointSets.add(e);
 
             return this;

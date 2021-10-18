@@ -78,7 +78,8 @@ public class ConferenceModifiedIQ
             super.addExtension(ce);
         }
 
-        if (b.sources != null) {
+        if (b.sources != null)
+        {
             super.addExtension(b.sources);
         }
     }
