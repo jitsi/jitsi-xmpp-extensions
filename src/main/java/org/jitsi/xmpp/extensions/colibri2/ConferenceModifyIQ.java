@@ -50,12 +50,12 @@ public class ConferenceModifyIQ
     /**
      * The id of the conference
      */
-    public String meetingId;
+    private String meetingId;
 
     /**
      * The name of the conference
      */
-    public String name;
+    private String name;
 
     /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
     private ConferenceModifyIQ(Builder b)
@@ -77,6 +77,38 @@ public class ConferenceModifyIQ
         for (AbstractConferenceEntity ce: b.conferenceEntities) {
             super.addExtension(ce);
         }
+    }
+
+    /**
+     * Get the name of the conference.
+     */
+    public String getConferenceName()
+    {
+        return name;
+    }
+
+    /**
+     * Get the ID of the conference.
+     */
+    public String getMeetingId()
+    {
+        return meetingId;
+    }
+
+    /**
+     * Get endpoints described by the message
+     */
+    public List<Endpoint> getEndpoints()
+    {
+        return super.getExtensions(Endpoint.class);
+    }
+
+    /**
+     * Get relays described by the message.
+     */
+    public List<Relay> getRelays()
+    {
+        return super.getExtensions(Relay.class);
     }
 
     @Override
@@ -112,6 +144,16 @@ public class ConferenceModifyIQ
             conferenceEntities.add(entity);
 
             return this;
+        }
+
+        public Builder addEndpoint(Endpoint ep)
+        {
+            return addConferenceEntity(ep);
+        }
+
+        public Builder addRelay(Relay r)
+        {
+            return addConferenceEntity(r);
         }
 
         public Builder setConferenceName(String name)
