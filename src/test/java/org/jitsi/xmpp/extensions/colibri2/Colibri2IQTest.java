@@ -28,6 +28,9 @@ public class Colibri2IQTest
     private static final String CONFERENCE_NAME = "myconference@jitsi.example";
     private static final String MEETING_ID = "88ff288c-5eeb-4ea9-bc2f-93ea38c43b78";
 
+    private static final String ENDPOINT_ID = "bd9b6765";
+    private static final String STATS_ID = "Jayme-Clv";
+
     @Test
     public void buildColibriConferenceModifyTest()
     {
@@ -38,8 +41,8 @@ public class Colibri2IQTest
 
         Endpoint.Builder endpointBuilder = Endpoint.getBuilder();
 
-        endpointBuilder.setId("bd9b6765");
-        endpointBuilder.setStatsId("Jayme-Clv");
+        endpointBuilder.setId(ENDPOINT_ID);
+        endpointBuilder.setStatsId(STATS_ID);
 
         Media.Builder mediaBuilder = Media.getBuilder();
         mediaBuilder.setType(MediaType.AUDIO);
@@ -49,12 +52,25 @@ public class Colibri2IQTest
         pt.setChannels(2);
         mediaBuilder.addPayloadType(pt);
 
+        Transport.Builder transportBuilder = Transport.getBuilder();
+        transportBuilder.setInitiator(true);
+        transportBuilder.setUseUniquePort(false);
+
         endpointBuilder.addMedia(mediaBuilder.build());
+        endpointBuilder.setTransport(transportBuilder.build());
+
         iqBuilder.addEndpoint(endpointBuilder.build());
         ConferenceModifyIQ iq = iqBuilder.build();
 
-        assertEquals("Conference name", iq.getConferenceName(), CONFERENCE_NAME);
-        assertEquals("Meeting ID", iq.getMeetingId(), MEETING_ID);
+        assertEquals("Conference name",CONFERENCE_NAME, iq.getConferenceName());
+        assertEquals("Meeting ID", MEETING_ID, iq.getMeetingId());
+
+        assertEquals("Endpoint ID", ENDPOINT_ID, iq.getEndpoints().get(0).getId());
+        assertEquals("Stats ID", STATS_ID, iq.getEndpoints().get(0).getStatsId());
+
+        assertEquals("Media type", MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType());
+        assertEquals("Payload type name", "opus",
+            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName());
 
         CharSequence xml = iq.toXML();
 
@@ -66,10 +82,11 @@ public class Colibri2IQTest
                 + "<media type='audio'>"
                 + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
                 + "</media>"
+                + "<transport initiator='true'/>"
                 + "</endpoint>"
                 + "</conference-modify>"
                 + "</iq>";
 
-        assertEquals("XML serialized as expected", expectedXml, xml.toString());
+        assertEquals("XML not serialized as expected", expectedXml, xml.toString());
     }
 }
