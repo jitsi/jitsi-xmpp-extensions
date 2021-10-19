@@ -16,6 +16,7 @@
 package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jitsi.utils.*;
+import org.jitsi.xmpp.extensions.colibri.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smackx.jingle.element.*;
@@ -30,6 +31,9 @@ public class Colibri2IQTest
 
     private static final String ENDPOINT_ID = "bd9b6765";
     private static final String STATS_ID = "Jayme-Clv";
+
+    private static final int SSRC = 803354056;
+    private static final String SOURCE_ID = ENDPOINT_ID + "-v1";
 
     @Test
     public void buildColibriConferenceModifyTest()
@@ -56,8 +60,17 @@ public class Colibri2IQTest
         transportBuilder.setInitiator(true);
         transportBuilder.setUseUniquePort(false);
 
+        Sources.Builder sourcesBuilder = Sources.getBuilder();
+        SourcePacketExtension ssrc = new SourcePacketExtension();
+        ssrc.setSSRC(SSRC);
+        sourcesBuilder.addMediaSource(MediaSource.getBuilder().
+            setType(MediaType.VIDEO).
+            setId(SOURCE_ID).
+            addSource(ssrc).build());
+
         endpointBuilder.addMedia(mediaBuilder.build());
         endpointBuilder.setTransport(transportBuilder.build());
+        endpointBuilder.setSources(sourcesBuilder.build());
 
         iqBuilder.addEndpoint(endpointBuilder.build());
         ConferenceModifyIQ iq = iqBuilder.build();
@@ -72,6 +85,9 @@ public class Colibri2IQTest
         assertEquals("Payload type name", "opus",
             iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName());
 
+        assertEquals("Source type", MediaType.VIDEO, iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType());
+        assertEquals("SSRC", SSRC, iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC());
+
         CharSequence xml = iq.toXML();
 
         String expectedXml =
@@ -83,6 +99,11 @@ public class Colibri2IQTest
                 + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
                 + "</media>"
                 + "<transport initiator='true'/>"
+                + "<sources>"
+                + "<media-source type='video' id='bd9b6765-v1'>"
+                + "<source xmlns='urn:xmpp:jingle:apps:rtp:ssma:0' ssrc='803354056'/>"
+                + "</media-source>"
+                + "</sources>"
                 + "</endpoint>"
                 + "</conference-modify>"
                 + "</iq>";
