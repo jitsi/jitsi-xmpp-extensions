@@ -31,7 +31,7 @@ public class Colibri2IQTest
     @Test
     public void buildColibriConferenceModifyTest()
     {
-        ConferenceModifyIQ.Builder iqBuilder = ConferenceModifyIQ.getBuilder();
+        ConferenceModifyIQ.Builder iqBuilder = ConferenceModifyIQ.builder("id");
 
         iqBuilder.setConferenceName(CONFERENCE_NAME);
         iqBuilder.setMeetingId(MEETING_ID);
@@ -58,7 +58,18 @@ public class Colibri2IQTest
 
         CharSequence xml = iq.toXML();
 
-        /* TODO: test this once we're sure its form is stable. */
-        assertNotNull(xml);
+        String expectedXml =
+            "<iq xmlns='jabber:client' id='id' type='get'>"
+                + "<conference-modify xmlns='http://jitsi.org/protocol/colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example'>"
+                /* Smack 4.4.4 will remove the redundant xmlns from this line. */
+                + "<endpoint xmlns='http://jitsi.org/protocol/colibri2' id='bd9b6765' stats-id='Jayme-Clv'>"
+                + "<media type='audio'>"
+                + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
+                + "</media>"
+                + "</endpoint>"
+                + "</conference-modify>"
+                + "</iq>";
+
+        assertEquals("XML serialized as expected", expectedXml, xml.toString());
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.*;
 
 import java.util.*;
@@ -60,7 +61,7 @@ public class ConferenceModifiedIQ
     /** Initializes a new <tt>ConferenceModifiedIQ</tt> instance. */
     private ConferenceModifiedIQ(Builder b)
     {
-        super(ELEMENT, NAMESPACE);
+        super(b, ELEMENT, NAMESPACE);
 
         if (b.meetingId == null)
         {
@@ -128,12 +129,23 @@ public class ConferenceModifiedIQ
         return xml;
     }
 
-    public static Builder getBuilder()
+    public static Builder builder(XMPPConnection connection)
     {
-        return new Builder();
+        return new Builder(connection);
+    }
+
+    public static Builder builder(IqData iqData)
+    {
+        return new Builder(iqData);
+    }
+
+    public static Builder builder(String stanzaId)
+    {
+        return new Builder(stanzaId);
     }
 
     public static final class Builder
+        extends IqBuilder<Builder, ConferenceModifiedIQ>
     {
         private String conferenceName;
 
@@ -143,7 +155,16 @@ public class ConferenceModifiedIQ
 
         private Sources sources;
 
-        private Builder() {
+        private Builder(IqData iqCommon) {
+            super(iqCommon);
+        }
+
+        private Builder(XMPPConnection connection) {
+            super(connection);
+        }
+
+        private Builder(String stanzaId) {
+            super(stanzaId);
         }
 
         public Builder addConferenceEntity(AbstractConferenceEntity entity)
@@ -184,9 +205,16 @@ public class ConferenceModifiedIQ
             return this;
         }
 
+        @Override
         public ConferenceModifiedIQ build()
         {
             return new ConferenceModifiedIQ(this);
+        }
+
+        @Override
+        public Builder getThis()
+        {
+            return this;
         }
     }
 }
