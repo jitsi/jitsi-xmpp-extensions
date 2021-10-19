@@ -157,13 +157,7 @@ public abstract class AbstractPacketExtension
      */
     public String toXML(XmlEnvironment enclosingNamespace)
     {
-        XmlStringBuilder xml = new XmlStringBuilder();
-
-        xml.halfOpenElement(getElementName());
-        if (enclosingNamespace == null || !enclosingNamespace.effectiveNamespaceEquals(getNamespace()))
-        {
-            xml.xmlnsAttribute(getNamespace());
-        }
+        XmlStringBuilder xml = new XmlStringBuilder(this, enclosingNamespace);
 
         //add the rest of the attributes if any
         for (Map.Entry<String, Object> entry : attributes.entrySet())
