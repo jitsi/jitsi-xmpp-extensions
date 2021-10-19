@@ -40,6 +40,11 @@ public class Transport
     public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
     /**
+     * The name of the <tt>initiator</tt> attribute.
+     */
+    public static final String INITIATOR_ATTR_NAME = "initiator";
+
+    /**
      * The name of the <tt>use-unique-port</tt> attribute.
      */
     public static final String USE_UNIQUE_PORT_ATTR_NAME = "use-unique-port";
@@ -58,6 +63,11 @@ public class Transport
     private Transport(Builder b)
     {
         super(NAMESPACE, ELEMENT);
+
+        if (b.initiator != null)
+        {
+            super.setAttribute(INITIATOR_ATTR_NAME, b.initiator);
+        }
 
         if (b.useUniquePort)
         {
@@ -80,6 +90,27 @@ public class Transport
     protected Transport(String namespace, String elementName)
     {
         super(namespace, elementName);
+    }
+
+    /**
+     * Gets whether the transport is the initiator.  Return may be null if not set.
+     */
+    public Boolean getInitiator()
+    {
+        Object initiator = super.getAttribute(INITIATOR_ATTR_NAME);
+        if (initiator == null)
+        {
+            return null;
+        }
+        else if (initiator instanceof Boolean)
+        {
+            return (Boolean) initiator;
+        }
+        else if (initiator instanceof String)
+        {
+            return Boolean.parseBoolean((String) initiator);
+        }
+        return null;
     }
 
     /**
@@ -123,6 +154,8 @@ public class Transport
     {
         private boolean useUniquePort;
 
+        private Boolean initiator = null;
+
         private IceUdpTransportPacketExtension iceUdpExtension;
 
         public Builder setIceUdpExtension(IceUdpTransportPacketExtension iceUdpExtension)
@@ -134,6 +167,12 @@ public class Transport
         public Builder setUseUniquePort(boolean useUniquePort)
         {
             this.useUniquePort = useUniquePort;
+            return this;
+        }
+
+        public Builder setInitiator(boolean i)
+        {
+            this.initiator = i;
             return this;
         }
 
