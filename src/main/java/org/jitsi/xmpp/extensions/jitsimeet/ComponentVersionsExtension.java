@@ -36,12 +36,6 @@ public class ComponentVersionsExtension
     public static final String ELEMENT = "versions";
 
     /**
-     * The name of XML sub-elements which carry the info about particular
-     * component's version.
-     */
-    public static final String COMPONENT_ELEMENT = "component";
-
-    /**
      * Constant for {@link Component} name used to signal the version of
      * conference focus.
      */
@@ -100,6 +94,12 @@ public class ComponentVersionsExtension
         extends AbstractPacketExtension
     {
         /**
+         * The name of XML sub-elements which carry the info about particular
+         * component's version.
+         */
+        public static final String ELEMENT = "component";
+
+        /**
          * The name of that attribute that carries component's name.
          */
         private final String NAME_ATTR_NAME = "name";
@@ -107,14 +107,14 @@ public class ComponentVersionsExtension
         /**
          * The qualified name of the element.
          */
-        public static final QName QNAME = new QName(NAMESPACE, COMPONENT_ELEMENT);
+        public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
         /**
          * Creates new instance of {@link Component} packet extension.
          */
         public Component()
         {
-            super(NAMESPACE, COMPONENT_ELEMENT);
+            super(NAMESPACE, ELEMENT);
         }
 
         /**
