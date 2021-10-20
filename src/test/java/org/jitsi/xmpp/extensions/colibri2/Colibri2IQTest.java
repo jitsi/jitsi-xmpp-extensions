@@ -19,6 +19,8 @@ import org.jitsi.utils.*;
 import org.jitsi.xmpp.extensions.colibri.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.util.*;
+import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smackx.jingle.element.*;
 import org.jivesoftware.smackx.jingle.element.JingleAction;
 import org.junit.*;
@@ -34,6 +36,30 @@ public class Colibri2IQTest
 
     private static final int SSRC = 803354056;
     private static final String SOURCE_ID = ENDPOINT_ID + "-v1";
+
+    private static final String expectedXml =
+        "<iq xmlns='jabber:client' id='id' type='get'>"
+            + "<conference-modify xmlns='http://jitsi.org/protocol/colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example'>"
+            /* Smack 4.4.4 will remove the redundant xmlns from this line. */
+            + "<endpoint xmlns='http://jitsi.org/protocol/colibri2' id='bd9b6765' stats-id='Jayme-Clv'>"
+            + "<media type='audio'>"
+            + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
+            + "</media>"
+            + "<transport initiator='true'/>"
+            + "<sources>"
+            + "<media-source type='video' id='bd9b6765-v1'>"
+            + "<source xmlns='urn:xmpp:jingle:apps:rtp:ssma:0' ssrc='803354056'/>"
+            + "</media-source>"
+            + "</sources>"
+            + "</endpoint>"
+            + "</conference-modify>"
+            + "</iq>";
+
+    @Before
+    public void registerProviders()
+    {
+        ConferenceModifyIQProvider.registerProviders();
+    }
 
     @Test
     public void buildColibriConferenceModifyTest()
@@ -75,7 +101,7 @@ public class Colibri2IQTest
         iqBuilder.addEndpoint(endpointBuilder.build());
         ConferenceModifyIQ iq = iqBuilder.build();
 
-        assertEquals("Conference name",CONFERENCE_NAME, iq.getConferenceName());
+        assertEquals("Conference name", CONFERENCE_NAME, iq.getConferenceName());
         assertEquals("Meeting ID", MEETING_ID, iq.getMeetingId());
 
         assertEquals("Endpoint ID", ENDPOINT_ID, iq.getEndpoints().get(0).getId());
@@ -85,29 +111,40 @@ public class Colibri2IQTest
         assertEquals("Payload type name", "opus",
             iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName());
 
-        assertEquals("Source type", MediaType.VIDEO, iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType());
-        assertEquals("SSRC", SSRC, iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC());
+        assertEquals("Source type", MediaType.VIDEO,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType());
+        assertEquals("SSRC", SSRC,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC());
 
         CharSequence xml = iq.toXML();
 
-        String expectedXml =
-            "<iq xmlns='jabber:client' id='id' type='get'>"
-                + "<conference-modify xmlns='http://jitsi.org/protocol/colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example'>"
-                /* Smack 4.4.4 will remove the redundant xmlns from this line. */
-                + "<endpoint xmlns='http://jitsi.org/protocol/colibri2' id='bd9b6765' stats-id='Jayme-Clv'>"
-                + "<media type='audio'>"
-                + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
-                + "</media>"
-                + "<transport initiator='true'/>"
-                + "<sources>"
-                + "<media-source type='video' id='bd9b6765-v1'>"
-                + "<source xmlns='urn:xmpp:jingle:apps:rtp:ssma:0' ssrc='803354056'/>"
-                + "</media-source>"
-                + "</sources>"
-                + "</endpoint>"
-                + "</conference-modify>"
-                + "</iq>";
-
         assertEquals("XML serialization", expectedXml, xml.toString());
+    }
+
+    @Test
+    public void parseColibriConferenceModifyTest()
+        throws Exception
+    {
+        XmlPullParser parser = PacketParserUtils.getParserFor(expectedXml);
+        IQ parsedIq = PacketParserUtils.parseIQ(parser);
+
+        assertTrue(parsedIq instanceof ConferenceModifyIQ);
+
+        ConferenceModifyIQ iq = (ConferenceModifyIQ)parsedIq;
+
+        assertEquals("Conference name", CONFERENCE_NAME, iq.getConferenceName());
+        assertEquals("Meeting ID", MEETING_ID, iq.getMeetingId());
+
+        assertEquals("Endpoint ID", ENDPOINT_ID, iq.getEndpoints().get(0).getId());
+        assertEquals("Stats ID", STATS_ID, iq.getEndpoints().get(0).getStatsId());
+
+        assertEquals("Media type", MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType());
+        assertEquals("Payload type name", "opus",
+            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName());
+
+        assertEquals("Source type", MediaType.VIDEO,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType());
+        assertEquals("SSRC", SSRC,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC());
     }
 }
