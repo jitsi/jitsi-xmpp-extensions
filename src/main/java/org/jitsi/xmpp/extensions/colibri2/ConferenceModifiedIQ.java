@@ -21,63 +21,17 @@ import org.jivesoftware.smack.packet.*;
 import java.util.*;
 
 public class ConferenceModifiedIQ
-    extends IQ
+    extends AbstractConferenceModificationIQ
 {
     /**
      * The XML element name of the Jitsi Videobridge <tt>conference-modified</tt> IQ.
      */
     public static final String ELEMENT = "conference-modified";
 
-    /**
-     * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
-     * Videobridge <tt>conference-modified</tt> IQ.
-     */
-    public static final String NAMESPACE = "http://jitsi.org/protocol/colibri2";
-
-    /**
-     * The XML name of the <tt>name</tt> attribute of the Jitsi Videobridge
-     * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifiedIQ</tt> if available.
-     */
-    public static final String NAME_ATTR_NAME = "name";
-
-    /**
-     * The XML name of the <tt>meeting-id</tt> attribute of the Jitsi Videobridge
-     * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifiedIQ</tt> if available.
-     */
-    public static final String MEETING_ID_ATTR_NAME = "meeting-id";
-
-    /**
-     * The id of the conference
-     */
-    private String meetingId;
-
-    /**
-     * The name of the conference
-     */
-    private String name;
-
     /** Initializes a new <tt>ConferenceModifiedIQ</tt> instance. */
     private ConferenceModifiedIQ(Builder b)
     {
-        super(b, ELEMENT, NAMESPACE);
-
-        if (b.meetingId == null)
-        {
-            throw new IllegalArgumentException("meeting-id must be set for conference-modified IQ");
-        }
-        meetingId = b.meetingId;
-
-        if (b.conferenceName == null)
-        {
-            throw new IllegalArgumentException("name must be set for conference-modified IQ");
-        }
-        name = b.conferenceName;
-
-        for (AbstractConferenceEntity ce: b.conferenceEntities) {
-            super.addExtension(ce);
-        }
+        super(b, ELEMENT);
 
         if (b.sources != null)
         {
@@ -86,47 +40,11 @@ public class ConferenceModifiedIQ
     }
 
     /**
-     * Get the name of the conference.
+     * Get source list in the message.
      */
-    public String getConferenceName()
+    public Sources getSources()
     {
-        return name;
-    }
-
-    /**
-     * Get the ID of the conference.
-     */
-    public String getMeetingId()
-    {
-        return meetingId;
-    }
-
-    /**
-     * Get endpoints described by the message
-     */
-    public List<Endpoint> getEndpoints()
-    {
-        return super.getExtensions(Endpoint.class);
-    }
-
-    /**
-     * Get relays described by the message.
-     */
-    public List<Relay> getRelays()
-    {
-        return super.getExtensions(Relay.class);
-    }
-
-    @Override
-    protected IQChildElementXmlStringBuilder getIQChildElementBuilder(IQChildElementXmlStringBuilder xml)
-    {
-        xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
-        xml.optAttribute(NAME_ATTR_NAME, name);
-
-        /* All our elements are extensions, so we just need to return empty here. */
-        xml.setEmptyElement();
-
-        return xml;
+        return super.getExtension(Sources.class);
     }
 
     public static Builder builder(XMPPConnection connection)
@@ -145,14 +63,8 @@ public class ConferenceModifiedIQ
     }
 
     public static final class Builder
-        extends IqBuilder<Builder, ConferenceModifiedIQ>
+        extends AbstractConferenceModificationIQ.Builder
     {
-        private String conferenceName;
-
-        private String meetingId;
-
-        private final List<AbstractConferenceEntity> conferenceEntities = new ArrayList<>();
-
         private Sources sources;
 
         private Builder(IqData iqCommon) {
@@ -167,37 +79,6 @@ public class ConferenceModifiedIQ
             super(stanzaId);
         }
 
-        public Builder addConferenceEntity(AbstractConferenceEntity entity)
-        {
-            conferenceEntities.add(entity);
-
-            return this;
-        }
-
-        public Builder addEndpoint(Endpoint ep)
-        {
-            return addConferenceEntity(ep);
-        }
-
-        public Builder addRelay(Relay r)
-        {
-            return addConferenceEntity(r);
-        }
-
-        public Builder setConferenceName(String name)
-        {
-            conferenceName = name;
-
-            return this;
-        }
-
-        public Builder setMeetingId(String id)
-        {
-            meetingId = id;
-
-            return this;
-        }
-
         public Builder setSources(Sources s)
         {
             sources = s;
@@ -209,12 +90,6 @@ public class ConferenceModifiedIQ
         public ConferenceModifiedIQ build()
         {
             return new ConferenceModifiedIQ(this);
-        }
-
-        @Override
-        public Builder getThis()
-        {
-            return this;
         }
     }
 }

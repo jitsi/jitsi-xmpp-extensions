@@ -108,6 +108,6 @@ public class Colibri2IQTest
                 + "</conference-modify>"
                 + "</iq>";
 
-        assertEquals("XML not serialized as expected", expectedXml, xml.toString());
+        assertEquals("XML serialization", expectedXml, xml.toString());
     }
 }
