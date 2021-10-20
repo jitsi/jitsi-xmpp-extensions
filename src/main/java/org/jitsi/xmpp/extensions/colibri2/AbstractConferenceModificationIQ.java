@@ -20,7 +20,7 @@ import org.jivesoftware.smack.packet.*;
 
 import java.util.*;
 
-public abstract class AbstractConferenceModificationIQ
+public abstract class AbstractConferenceModificationIQ<I extends AbstractConferenceModificationIQ>
     extends IQ
 {
     /**
@@ -54,7 +54,7 @@ public abstract class AbstractConferenceModificationIQ
     private String name;
 
     /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
-    protected AbstractConferenceModificationIQ(Builder b, String element)
+    protected AbstractConferenceModificationIQ(Builder<I> b, String element)
     {
         super(b, element, NAMESPACE);
 
@@ -119,8 +119,8 @@ public abstract class AbstractConferenceModificationIQ
         return xml;
     }
 
-    public abstract static class Builder
-        extends IqBuilder<Builder, AbstractConferenceModificationIQ>
+    public abstract static class Builder<I extends AbstractConferenceModificationIQ>
+        extends IqBuilder<Builder<I>, I>
     {
         private final List<AbstractConferenceEntity> conferenceEntities = new ArrayList<>();
 
@@ -140,39 +140,41 @@ public abstract class AbstractConferenceModificationIQ
             super(stanzaId);
         }
 
-        public Builder addConferenceEntity(AbstractConferenceEntity entity)
+        public Builder<I> addConferenceEntity(AbstractConferenceEntity entity)
         {
             conferenceEntities.add(entity);
 
             return this;
         }
 
-        public Builder addEndpoint(Endpoint ep)
+        public Builder<I> addEndpoint(Endpoint ep)
         {
             return addConferenceEntity(ep);
         }
 
-        public Builder addRelay(Relay r)
+        public Builder<I> addRelay(Relay r)
         {
             return addConferenceEntity(r);
         }
 
-        public Builder setConferenceName(String name)
+        public Builder<I> setConferenceName(String name)
         {
             conferenceName = name;
 
             return this;
         }
 
-        public Builder setMeetingId(String id)
+        public Builder<I> setMeetingId(String id)
         {
             meetingId = id;
 
             return this;
         }
 
+        public abstract I build();
+
         @Override
-        public Builder getThis()
+        public Builder<I> getThis()
         {
             return this;
         }

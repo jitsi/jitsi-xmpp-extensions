@@ -63,7 +63,7 @@ public class ConferenceModifiedIQ
     }
 
     public static final class Builder
-        extends AbstractConferenceModificationIQ.Builder
+        extends AbstractConferenceModificationIQ.Builder<ConferenceModifiedIQ>
     {
         private Sources sources;
 

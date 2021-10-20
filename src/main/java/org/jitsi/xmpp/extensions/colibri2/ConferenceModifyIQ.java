@@ -21,7 +21,7 @@ import org.jivesoftware.smack.packet.*;
 import java.util.*;
 
 public class ConferenceModifyIQ
-    extends AbstractConferenceModificationIQ
+    extends AbstractConferenceModificationIQ<ConferenceModifyIQ>
 {
     /**
      * The XML element name of the Jitsi Videobridge <tt>conference-modify</tt> IQ.
@@ -50,7 +50,7 @@ public class ConferenceModifyIQ
     }
 
     public static final class Builder
-        extends AbstractConferenceModificationIQ.Builder
+        extends AbstractConferenceModificationIQ.Builder<ConferenceModifyIQ>
     {
         private Builder(IqData iqCommon) {
             super(iqCommon);

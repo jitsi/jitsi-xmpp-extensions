@@ -21,12 +21,12 @@ import org.jivesoftware.smack.packet.*;
 /**
  * Provider for Colibri2 conference-modify IQs.
  */
-public class ConferenceModifyIQProvider
-    extends AbstractConferenceModificationIQProvider<ConferenceModifyIQ>
+public class ConferenceModifiedIQProvider
+    extends AbstractConferenceModificationIQProvider<ConferenceModifiedIQ>
 {
     @Override
-    protected ConferenceModifyIQ.Builder getBuilder(IqData iqData)
+    protected ConferenceModifiedIQ.Builder getBuilder(IqData iqData)
     {
-        return ConferenceModifyIQ.builder(iqData);
+        return ConferenceModifiedIQ.builder(iqData);
     }
 }
