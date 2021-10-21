@@ -165,14 +165,14 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
             new DefaultPacketExtensionProvider<>(Transport.class));
 
         /* Colibri2 shares extensions with original colibri, so register both. */
-        ProviderManager.addIQProvider(ColibriConferenceIQ.ELEMENT_NAME, ColibriConferenceIQ.NAMESPACE,
+        ProviderManager.addIQProvider(ColibriConferenceIQ.ELEMENT, ColibriConferenceIQ.NAMESPACE,
             new ColibriIQProvider());
 
         /* Original colibri does something weird with these elements' namespaces, so register them here. */
-        ProviderManager.addExtensionProvider(PayloadTypePacketExtension.ELEMENT_NAME,
+        ProviderManager.addExtensionProvider(PayloadTypePacketExtension.ELEMENT,
             PayloadTypePacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(PayloadTypePacketExtension.class));
-        ProviderManager.addExtensionProvider(RTPHdrExtPacketExtension.ELEMENT_NAME,
+        ProviderManager.addExtensionProvider(RTPHdrExtPacketExtension.ELEMENT,
             RTPHdrExtPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(RTPHdrExtPacketExtension.class));
     }
