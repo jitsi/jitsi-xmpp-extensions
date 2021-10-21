@@ -103,7 +103,7 @@ public abstract class AbstractConferenceEntity
             return false;
         }
 
-        /* TODO: validate string when parsing. */
+        /* Anything other than "true" parses as "false" to parseBoolean, which is fine. */
         return Boolean.parseBoolean(super.getAttributeAsString(EXPIRE_ATTR_NAME));
     }
 

@@ -37,7 +37,7 @@ public class Relay
     public static final String ID_ATTR_NAME = "id";
 
     /**
-     * Construct Endpoint.  Needs to be public for DefaultPacketExtensionProvider to work.
+     * Construct Relay.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
     public Relay()
     {

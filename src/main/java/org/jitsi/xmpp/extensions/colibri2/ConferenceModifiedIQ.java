@@ -21,7 +21,7 @@ import org.jivesoftware.smack.packet.*;
 import java.util.*;
 
 public class ConferenceModifiedIQ
-    extends AbstractConferenceModificationIQ
+    extends AbstractConferenceModificationIQ<ConferenceModifiedIQ>
 {
     /**
      * The XML element name of the Jitsi Videobridge <tt>conference-modified</tt> IQ.

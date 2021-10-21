@@ -41,16 +41,20 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
         AbstractConferenceModificationIQ.Builder<I> builder = getBuilder(iqData);
 
         String meetingId = parser.getAttributeValue(AbstractConferenceModificationIQ.MEETING_ID_ATTR_NAME);
-        if (meetingId != null)
+        if (meetingId == null)
         {
-            builder.setMeetingId(meetingId);
+            throw new SmackParsingException.RequiredAttributeMissingException(
+                AbstractConferenceModificationIQ.MEETING_ID_ATTR_NAME);
         }
+        builder.setMeetingId(meetingId);
 
         String conferenceName = parser.getAttributeValue(AbstractConferenceModificationIQ.NAME_ATTR_NAME);
-        if (conferenceName != null)
+        if (conferenceName == null)
         {
-            builder.setConferenceName(conferenceName);
+            throw new SmackParsingException.RequiredAttributeMissingException(
+                AbstractConferenceModificationIQ.NAME_ATTR_NAME);
         }
+        builder.setConferenceName(conferenceName);
 
         I iq = builder.build();
 
@@ -153,10 +157,10 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
         ProviderManager.addExtensionProvider(Sources.ELEMENT, Sources.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Sources.class));
         ProviderManager.addExtensionProvider(MediaSource.ELEMENT, MediaSource.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(MediaSource.class));
+            new MediaSource.Provider());
 
         ProviderManager.addExtensionProvider(Media.ELEMENT, Media.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(Media.class));
+            new Media.Provider());
         ProviderManager.addExtensionProvider(Transport.ELEMENT, Transport.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Transport.class));
 

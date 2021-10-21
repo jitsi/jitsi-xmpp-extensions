@@ -60,13 +60,13 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
 
         if (b.meetingId == null)
         {
-            throw new IllegalArgumentException("meeting-id must be set for conference-modify IQ");
+            throw new IllegalArgumentException("meeting-id must be set for " + element + " IQ");
         }
         meetingId = b.meetingId;
 
         if (b.conferenceName == null)
         {
-            throw new IllegalArgumentException("name must be set for conference-modify IQ");
+            throw new IllegalArgumentException("name must be set for " + element + " IQ");
         }
         name = b.conferenceName;
 

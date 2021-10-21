@@ -18,8 +18,12 @@ package org.jitsi.xmpp.extensions.colibri2;
 import org.jitsi.utils.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
+import org.jivesoftware.smack.xml.*;
 
 import javax.xml.namespace.*;
+import java.io.*;
 import java.util.*;
 
 public class Media
@@ -81,7 +85,6 @@ public class Media
      */
     public MediaType getType()
     {
-        /* TODO: handle invalid media types at XML parse time?  This will throw at get-time. */
         return MediaType.parseString(super.getAttributeAsString(TYPE_ATTR_NAME));
     }
 
@@ -169,6 +172,41 @@ public class Media
         public Media build()
         {
             return new Media(this);
+        }
+    }
+
+    public static class Provider extends DefaultPacketExtensionProvider<Media>
+    {
+
+        /**
+         * Creates a new packet provider for MediaSource packet extensions.
+         */
+        public Provider()
+        {
+            super(Media.class);
+        }
+
+        @Override
+        public Media parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+            throws XmlPullParserException, IOException, SmackParsingException
+        {
+            Media m = super.parse(parser, depth, xmlEnvironment);
+
+            /* Validate parameters */
+            String type = m.getAttributeAsString(TYPE_ATTR_NAME);
+            if (type == null)
+            {
+                throw new SmackParsingException.RequiredAttributeMissingException(TYPE_ATTR_NAME);
+            }
+            try
+            {
+                MediaType.parseString(type);
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new SmackParsingException(TYPE_ATTR_NAME + ":" + e.getMessage());
+            }
+            return m;
         }
     }
 }
