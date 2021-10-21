@@ -42,7 +42,7 @@ public class SctpMapExtensionProvider
     {
         SctpMapExtension result = new SctpMapExtension();
 
-        if (parser.getName().equals(SctpMapExtension.ELEMENT_NAME)
+        if (parser.getName().equals(SctpMapExtension.ELEMENT)
             && parser.getNamespace().equals(SctpMapExtension.NAMESPACE))
         {
             result.setPort(Integer.parseInt(parser.getAttributeValue(null,

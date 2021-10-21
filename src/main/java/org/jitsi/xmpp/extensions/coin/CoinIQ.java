@@ -29,7 +29,7 @@ public class CoinIQ
     /**
      * The name of the element that contains the coin data.
      */
-    public static final String ELEMENT_NAME = "conference-info";
+    public static final String ELEMENT = "conference-info";
 
     /**
      * Entity attribute name.
@@ -79,7 +79,7 @@ public class CoinIQ
 
     public CoinIQ()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     /**

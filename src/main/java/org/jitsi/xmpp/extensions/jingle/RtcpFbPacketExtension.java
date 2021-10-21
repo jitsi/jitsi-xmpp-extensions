@@ -34,7 +34,7 @@ public class RtcpFbPacketExtension
     /**
      * The name of the RTCP feedback element.
      */
-    public static final String ELEMENT_NAME = "rtcp-fb";
+    public static final String ELEMENT = "rtcp-fb";
 
     /**
      * The name the attribute that holds the feedback type.
@@ -51,7 +51,7 @@ public class RtcpFbPacketExtension
      */
     public RtcpFbPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

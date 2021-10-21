@@ -81,7 +81,7 @@ public class DescriptionProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        DescriptionPacketExtension.ELEMENT_NAME))
+                        DescriptionPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

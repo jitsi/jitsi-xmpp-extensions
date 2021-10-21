@@ -44,7 +44,7 @@ public class RTPHdrExtPacketExtension
     /**
      * The name of the "candidate" element.
      */
-    public static final String ELEMENT_NAME = "rtp-hdrext";
+    public static final String ELEMENT = "rtp-hdrext";
 
     /**
      * The name of the ID attribute.
@@ -72,7 +72,7 @@ public class RTPHdrExtPacketExtension
      */
     public RTPHdrExtPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

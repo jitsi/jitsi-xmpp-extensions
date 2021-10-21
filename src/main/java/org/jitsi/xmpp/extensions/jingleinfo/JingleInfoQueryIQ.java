@@ -34,11 +34,11 @@ public class JingleInfoQueryIQ
     /**
      * The element name.
      */
-    public static final String ELEMENT_NAME = "query";
+    public static final String ELEMENT = "query";
 
     public JingleInfoQueryIQ()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     /**

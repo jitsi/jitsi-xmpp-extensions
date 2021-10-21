@@ -19,6 +19,8 @@ import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.Jid;
 
+import javax.xml.namespace.*;
+
 /**
  * 'End' Rayo packet extension used to notify the client about call ended event.
  *
@@ -30,8 +32,13 @@ public class EndExtension
     /**
      * XML element name of this extension.
      */
-    public static final String ELEMENT_NAME = "end";
+    public static final String ELEMENT = "end";
 
+    /**
+     * Qualified name of element.
+     */
+    public static final QName QNAME = new QName(RayoIqProvider.NAMESPACE, ELEMENT);
+    
     /**
      * End reason.
      */
@@ -42,7 +49,7 @@ public class EndExtension
      */
     protected EndExtension()
     {
-        super(RayoIqProvider.NAMESPACE, ELEMENT_NAME);
+        super(RayoIqProvider.NAMESPACE, ELEMENT);
     }
 
     /**

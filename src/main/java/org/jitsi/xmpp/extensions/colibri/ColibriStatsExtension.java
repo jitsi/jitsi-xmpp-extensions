@@ -23,6 +23,8 @@ import org.jitsi.utils.logging2.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 
+import javax.xml.namespace.*;
+
 /**
  * Implements the Jitsi Videobridge <tt>stats</tt> extension within COnferencing
  * with LIghtweight BRIdging that will provide various statistics.
@@ -41,7 +43,7 @@ public class ColibriStatsExtension
     /**
      * The XML element name of the Jitsi Videobridge <tt>stats</tt> extension.
      */
-    public static final String ELEMENT_NAME = "stats";
+    public static final String ELEMENT = "stats";
 
     /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
@@ -482,7 +484,7 @@ public class ColibriStatsExtension
      */
     public ColibriStatsExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -582,7 +584,12 @@ public class ColibriStatsExtension
          * The XML element name of a <tt>content</tt> of a Jitsi Videobridge
          * <tt>stats</tt> IQ.
          */
-        public static final String ELEMENT_NAME = "stat";
+        public static final String ELEMENT = "stat";
+
+        /**
+         * The qualified name of this element.
+         */
+        public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
         /**
          * The XML name of the <tt>name</tt> attribute of a <tt>stat</tt> of a
@@ -600,7 +607,7 @@ public class ColibriStatsExtension
 
         public Stat()
         {
-            super(NAMESPACE, ELEMENT_NAME);
+            super(NAMESPACE, ELEMENT);
         }
 
         /**
@@ -618,7 +625,7 @@ public class ColibriStatsExtension
         @Override
         public String getElementName()
         {
-            return ELEMENT_NAME;
+            return ELEMENT;
         }
 
         /**
@@ -672,7 +679,7 @@ public class ColibriStatsExtension
             else
             {
                 return new XmlStringBuilder()
-                    .halfOpenElement(ELEMENT_NAME)
+                    .halfOpenElement(ELEMENT)
                     .attribute(NAME_ATTR_NAME, name)
                     .attribute(VALUE_ATTR_NAME, value.toString())
                     .closeEmptyElement()

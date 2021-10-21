@@ -33,7 +33,7 @@ public class Email
 {
     public static final String NAMESPACE = "jabber:client";
 
-    public static final String ELEMENT_NAME = "email";
+    public static final String ELEMENT = "email";
 
     private String address = null;
 
@@ -68,7 +68,7 @@ public class Email
      */
     public String getElementName()
     {
-        return ELEMENT_NAME;
+        return ELEMENT;
     }
 
     /**
@@ -87,7 +87,7 @@ public class Email
     public String toXML(XmlEnvironment enclosingNamespace)
     {
         return new XmlStringBuilder()
-            .element(ELEMENT_NAME, getAddress())
+            .element(ELEMENT, getAddress())
             .toString();
     }
 

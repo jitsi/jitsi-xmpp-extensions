@@ -34,7 +34,7 @@ public class StatsId
 {
     public static final String NAMESPACE = "jabber:client";
 
-    public static final String ELEMENT_NAME = "stats-id";
+    public static final String ELEMENT = "stats-id";
 
     private String statsId = null;
 
@@ -71,7 +71,7 @@ public class StatsId
      */
     public String getElementName()
     {
-        return ELEMENT_NAME;
+        return ELEMENT;
     }
 
     /**
@@ -90,7 +90,7 @@ public class StatsId
     public String toXML(XmlEnvironment enclosingNamespace)
     {
         return new XmlStringBuilder()
-            .element(ELEMENT_NAME, getStatsId())
+            .element(ELEMENT, getStatsId())
             .toString();
     }
 

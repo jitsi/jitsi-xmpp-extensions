@@ -32,7 +32,7 @@ public class TransferPacketExtension
     /**
      * The name of the "transfer" element.
      */
-    public static final String ELEMENT_NAME = "transfer";
+    public static final String ELEMENT = "transfer";
 
     /**
      * The name of the "from" attribute of the "transfer" element.
@@ -59,7 +59,7 @@ public class TransferPacketExtension
      */
     public TransferPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

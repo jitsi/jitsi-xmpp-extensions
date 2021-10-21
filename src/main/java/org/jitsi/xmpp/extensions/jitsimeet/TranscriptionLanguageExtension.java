@@ -41,7 +41,7 @@ public class TranscriptionLanguageExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME
+    public static final String ELEMENT
         = "jitsi_participant_transcription_language";
 
     /**
@@ -49,7 +49,7 @@ public class TranscriptionLanguageExtension
      */
     public TranscriptionLanguageExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

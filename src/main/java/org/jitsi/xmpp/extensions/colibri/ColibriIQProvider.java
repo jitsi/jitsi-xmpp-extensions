@@ -50,32 +50,32 @@ public class ColibriIQProvider
     public ColibriIQProvider()
     {
         ProviderManager.addExtensionProvider(
-                PayloadTypePacketExtension.ELEMENT_NAME,
+                PayloadTypePacketExtension.ELEMENT,
                 ColibriConferenceIQ.NAMESPACE,
                 new DefaultPacketExtensionProvider<>(
                         PayloadTypePacketExtension.class));
         ProviderManager.addExtensionProvider(
-                RtcpFbPacketExtension.ELEMENT_NAME,
+                RtcpFbPacketExtension.ELEMENT,
                 RtcpFbPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<>(
                         RtcpFbPacketExtension.class));
         ProviderManager.addExtensionProvider(
-                RTPHdrExtPacketExtension.ELEMENT_NAME,
+                RTPHdrExtPacketExtension.ELEMENT,
                 ColibriConferenceIQ.NAMESPACE,
                 new DefaultPacketExtensionProvider<>(
                         RTPHdrExtPacketExtension.class));
         ProviderManager.addExtensionProvider(
-                SourcePacketExtension.ELEMENT_NAME,
+                SourcePacketExtension.ELEMENT,
                 SourcePacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<>(
                         SourcePacketExtension.class));
         ProviderManager.addExtensionProvider(
-                SourceGroupPacketExtension.ELEMENT_NAME,
+                SourceGroupPacketExtension.ELEMENT,
                 SourceGroupPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<>(
                         SourceGroupPacketExtension.class));
         ProviderManager.addExtensionProvider(
-                SourceRidGroupPacketExtension.ELEMENT_NAME,
+                SourceRidGroupPacketExtension.ELEMENT,
                 SourceRidGroupPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<>(
                         SourceRidGroupPacketExtension.class));
@@ -85,11 +85,11 @@ public class ColibriIQProvider
                 ParameterPacketExtension.class);
 
         ProviderManager.addExtensionProvider(
-                ParameterPacketExtension.ELEMENT_NAME,
+                ParameterPacketExtension.ELEMENT,
                 ColibriConferenceIQ.NAMESPACE,
                 parameterProvider);
         ProviderManager.addExtensionProvider(
-                ParameterPacketExtension.ELEMENT_NAME,
+                ParameterPacketExtension.ELEMENT,
                 SourcePacketExtension.NAMESPACE,
                 parameterProvider);
         // Shutdown IQ
@@ -107,13 +107,13 @@ public class ColibriIQProvider
                     ColibriConferenceIQ.GracefulShutdown.class);
 
         ProviderManager.addExtensionProvider(
-                ColibriConferenceIQ.GracefulShutdown.ELEMENT_NAME,
+                ColibriConferenceIQ.GracefulShutdown.ELEMENT,
                 ColibriConferenceIQ.GracefulShutdown.NAMESPACE,
                 shutdownProvider);
 
         // ColibriStatsIQ
         ProviderManager.addIQProvider(
-                ColibriStatsIQ.ELEMENT_NAME,
+                ColibriStatsIQ.ELEMENT,
                 ColibriStatsIQ.NAMESPACE,
                 this);
 
@@ -123,7 +123,7 @@ public class ColibriIQProvider
                 ColibriStatsExtension.class);
 
         ProviderManager.addExtensionProvider(
-                ColibriStatsExtension.ELEMENT_NAME,
+                ColibriStatsExtension.ELEMENT,
                 ColibriStatsExtension.NAMESPACE,
                 statsProvider);
         // ColibriStatsExtension.Stat
@@ -132,13 +132,13 @@ public class ColibriIQProvider
                     ColibriStatsExtension.Stat.class);
 
         ProviderManager.addExtensionProvider(
-                ColibriStatsExtension.Stat.ELEMENT_NAME,
+                ColibriStatsExtension.Stat.ELEMENT,
                 ColibriStatsExtension.NAMESPACE,
                 statProvider);
 
         // ssrc-info
         ProviderManager.addExtensionProvider(
-            SSRCInfoPacketExtension.ELEMENT_NAME,
+            SSRCInfoPacketExtension.ELEMENT,
             SSRCInfoPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(
                 SSRCInfoPacketExtension.class));
@@ -270,7 +270,7 @@ public class ColibriIQProvider
         String namespace = parser.getNamespace();
         IQ iq;
 
-        if (ColibriConferenceIQ.ELEMENT_NAME.equals(parser.getName())
+        if (ColibriConferenceIQ.ELEMENT.equals(parser.getName())
                 && ColibriConferenceIQ.NAMESPACE.equals(namespace))
         {
             ColibriConferenceIQ conference = new ColibriConferenceIQ();
@@ -318,17 +318,17 @@ public class ColibriIQProvider
                 {
                     String name = parser.getName();
 
-                    if (ColibriConferenceIQ.ELEMENT_NAME.equals(name))
+                    if (ColibriConferenceIQ.ELEMENT.equals(name))
                     {
                         done = true;
                     }
-                    else if (ColibriConferenceIQ.Channel.ELEMENT_NAME.equals(
+                    else if (ColibriConferenceIQ.Channel.ELEMENT.equals(
                             name))
                     {
                         content.addChannel(channel);
                         channel = null;
                     }
-                    else if (ColibriConferenceIQ.SctpConnection.ELEMENT_NAME
+                    else if (ColibriConferenceIQ.SctpConnection.ELEMENT
                             .equals(name))
                     {
                         if (sctpConnection != null)
@@ -336,7 +336,7 @@ public class ColibriIQProvider
 
                         sctpConnection = null;
                     }
-                    else if (ColibriConferenceIQ.ChannelBundle.ELEMENT_NAME
+                    else if (ColibriConferenceIQ.ChannelBundle.ELEMENT
                             .equals(name))
                     {
                         if (bundle != null)
@@ -351,7 +351,7 @@ public class ColibriIQProvider
                             bundle = null;
                         }
                     }
-                    else if (ColibriConferenceIQ.Endpoint.ELEMENT_NAME
+                    else if (ColibriConferenceIQ.Endpoint.ELEMENT
                             .equals(name))
                     {
                         if (conference.addEndpoint(conferenceEndpoint) != null)
@@ -362,7 +362,7 @@ public class ColibriIQProvider
                         }
                         conferenceEndpoint = null;
                     }
-                    else if (ColibriConferenceIQ.Channel.SSRC_ELEMENT_NAME
+                    else if (ColibriConferenceIQ.Channel.SSRC_ELEMENT
                             .equals(name))
                     {
                         String s = ssrc.toString().trim();
@@ -384,26 +384,26 @@ public class ColibriIQProvider
                         }
                         ssrc = null;
                     }
-                    else if (ColibriConferenceIQ.Content.ELEMENT_NAME.equals(
+                    else if (ColibriConferenceIQ.Content.ELEMENT.equals(
                             name))
                     {
                         conference.addContent(content);
                         content = null;
                     }
                     else if (ColibriConferenceIQ.RTCPTerminationStrategy
-                            .ELEMENT_NAME.equals(name))
+                            .ELEMENT.equals(name))
                     {
                         conference.setRTCPTerminationStrategy(
                                 rtcpTerminationStrategy);
                         rtcpTerminationStrategy = null;
                     }
-                    else if (ColibriConferenceIQ.Recording.ELEMENT_NAME.equals(
+                    else if (ColibriConferenceIQ.Recording.ELEMENT.equals(
                             name))
                     {
                         conference.setRecording(recording);
                         recording = null;
                     }
-                    else if (ColibriConferenceIQ.GracefulShutdown.ELEMENT_NAME
+                    else if (ColibriConferenceIQ.GracefulShutdown.ELEMENT
                         .equals(name))
                     {
                         conference.setGracefulShutdown(true);
@@ -415,7 +415,7 @@ public class ColibriIQProvider
                 {
                     String name = parser.getName();
 
-                    if (ColibriConferenceIQ.Channel.ELEMENT_NAME.equals(name))
+                    if (ColibriConferenceIQ.Channel.ELEMENT.equals(name))
                     {
                         String type
                             = parser.getAttributeValue(
@@ -593,7 +593,7 @@ public class ColibriIQProvider
                         }
                     }
                     else if (ColibriConferenceIQ.ChannelBundle
-                            .ELEMENT_NAME.equals(name))
+                            .ELEMENT.equals(name))
                     {
                         String bundleId
                             = parser.getAttributeValue(
@@ -608,7 +608,7 @@ public class ColibriIQProvider
                         }
                     }
                     else if (ColibriConferenceIQ.RTCPTerminationStrategy
-                            .ELEMENT_NAME.equals(name))
+                            .ELEMENT.equals(name))
                     {
                         rtcpTerminationStrategy =
                                 new ColibriConferenceIQ.RTCPTerminationStrategy();
@@ -626,7 +626,7 @@ public class ColibriIQProvider
 
                     }
                     else if (ColibriConferenceIQ.OctoChannel
-                                    .RELAY_ELEMENT_NAME.equals(name))
+                                    .RELAY_ELEMENT.equals(name))
                     {
                         String id
                             = parser.getAttributeValue(
@@ -640,12 +640,12 @@ public class ColibriIQProvider
                                 .addRelay(id);
                         }
                     }
-                    else if (ColibriConferenceIQ.Channel.SSRC_ELEMENT_NAME
+                    else if (ColibriConferenceIQ.Channel.SSRC_ELEMENT
                             .equals(name))
                     {
                         ssrc = new StringBuilder();
                     }
-                    else if (ColibriConferenceIQ.Content.ELEMENT_NAME.equals(
+                    else if (ColibriConferenceIQ.Content.ELEMENT.equals(
                             name))
                     {
                         content = new ColibriConferenceIQ.Content();
@@ -659,7 +659,7 @@ public class ColibriIQProvider
                                 && (contentName.length() != 0))
                             content.setName(contentName);
                     }
-                    else if (ColibriConferenceIQ.Recording.ELEMENT_NAME.equals(
+                    else if (ColibriConferenceIQ.Recording.ELEMENT.equals(
                             name))
                     {
                         String stateStr
@@ -676,7 +676,7 @@ public class ColibriIQProvider
                                 stateStr,
                                 token);
                     }
-                    else if (ColibriConferenceIQ.SctpConnection.ELEMENT_NAME
+                    else if (ColibriConferenceIQ.SctpConnection.ELEMENT
                         .equals(name))
                     {
                         // Endpoint
@@ -749,7 +749,7 @@ public class ColibriIQProvider
                         if (isNotEmpty(expire))
                             sctpConnection.setExpire(Integer.parseInt(expire));
                     }
-                    else if (ColibriConferenceIQ.Endpoint.ELEMENT_NAME
+                    else if (ColibriConferenceIQ.Endpoint.ELEMENT
                             .equals(name))
                     {
                         String id
@@ -783,7 +783,7 @@ public class ColibriIQProvider
                         String peName = null;
                         String peNamespace = null;
 
-                        if (IceUdpTransportPacketExtension.ELEMENT_NAME
+                        if (IceUdpTransportPacketExtension.ELEMENT
                                     .equals(name)
                                 && IceUdpTransportPacketExtension.NAMESPACE
                                         .equals(parser.getNamespace()))
@@ -792,7 +792,7 @@ public class ColibriIQProvider
                             peNamespace
                                 = IceUdpTransportPacketExtension.NAMESPACE;
                         }
-                        else if (PayloadTypePacketExtension.ELEMENT_NAME.equals(
+                        else if (PayloadTypePacketExtension.ELEMENT.equals(
                                 name))
                         {
                             /*
@@ -803,7 +803,7 @@ public class ColibriIQProvider
                             peName = name;
                             peNamespace = namespace;
                         }
-                        else if (RtcpFbPacketExtension.ELEMENT_NAME.equals(
+                        else if (RtcpFbPacketExtension.ELEMENT.equals(
                                 name)
                                 && RtcpFbPacketExtension.NAMESPACE
                                 .equals(parser.getNamespace()))
@@ -816,7 +816,7 @@ public class ColibriIQProvider
                             peName = name;
                             peNamespace = namespace;
                         }
-                        else if (RTPHdrExtPacketExtension.ELEMENT_NAME.equals(
+                        else if (RTPHdrExtPacketExtension.ELEMENT.equals(
                                 name))
                         {
                             /*
@@ -827,7 +827,7 @@ public class ColibriIQProvider
                             peName = name;
                             peNamespace = namespace;
                         }
-                        else if (RawUdpTransportPacketExtension.ELEMENT_NAME
+                        else if (RawUdpTransportPacketExtension.ELEMENT
                                     .equals(name)
                                 && RawUdpTransportPacketExtension.NAMESPACE
                                         .equals(parser.getNamespace()))
@@ -836,14 +836,14 @@ public class ColibriIQProvider
                             peNamespace
                                 = RawUdpTransportPacketExtension.NAMESPACE;
                         }
-                        else if (SourcePacketExtension.ELEMENT_NAME.equals(name)
+                        else if (SourcePacketExtension.ELEMENT.equals(name)
                                 && SourcePacketExtension.NAMESPACE.equals(
                                         parser.getNamespace()))
                         {
                             peName = name;
                             peNamespace = SourcePacketExtension.NAMESPACE;
                         }
-                        else if (SourceGroupPacketExtension.ELEMENT_NAME
+                        else if (SourceGroupPacketExtension.ELEMENT
                                                 .equals(name)
                                 && SourceGroupPacketExtension.NAMESPACE
                                                 .equals(parser.getNamespace()))
@@ -851,7 +851,7 @@ public class ColibriIQProvider
                             peName = name;
                             peNamespace = SourceGroupPacketExtension.NAMESPACE;
                         }
-                        else if (SourceRidGroupPacketExtension.ELEMENT_NAME
+                        else if (SourceRidGroupPacketExtension.ELEMENT
                                                 .equals(name)
                                 && SourceRidGroupPacketExtension.NAMESPACE
                                                 .equals(parser.getNamespace()))
@@ -926,7 +926,7 @@ public class ColibriIQProvider
                 }
             }
         }
-        else if (ColibriStatsIQ.ELEMENT_NAME.equals(parser.getName())
+        else if (ColibriStatsIQ.ELEMENT.equals(parser.getName())
             && ColibriStatsIQ.NAMESPACE.equals(namespace))
         {
             String rootElement = parser.getName();
@@ -946,7 +946,7 @@ public class ColibriIQProvider
                         String name = parser.getName();
 
                         if (ColibriStatsExtension.Stat
-                                    .ELEMENT_NAME.equals(name))
+                                    .ELEMENT.equals(name))
                         {
                             stat = new ColibriStatsExtension.Stat();
 
@@ -972,7 +972,7 @@ public class ColibriIQProvider
                         {
                             done = true;
                         }
-                        else if (ColibriStatsExtension.Stat.ELEMENT_NAME
+                        else if (ColibriStatsExtension.Stat.ELEMENT
                             .equals(name))
                         {
                             if (stat != null)

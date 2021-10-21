@@ -64,7 +64,7 @@ public class ConferenceDescriptionExtensionProvider
             {
                 case START_ELEMENT:
                     elementName = parser.getName();
-                    if (TransportExtension.ELEMENT_NAME.equals(elementName))
+                    if (TransportExtension.ELEMENT.equals(elementName))
                     {
                         String transportNs = parser.getNamespace();
                         if (transportNs != null)
@@ -78,11 +78,11 @@ public class ConferenceDescriptionExtensionProvider
                 case END_ELEMENT:
                     switch (parser.getName())
                     {
-                        case ConferenceDescriptionExtension.ELEMENT_NAME:
+                        case ConferenceDescriptionExtension.ELEMENT:
                             done = true;
                             break;
 
-                        case TransportExtension.ELEMENT_NAME:
+                        case TransportExtension.ELEMENT:
                             if (transportExt != null)
                             {
                                 packetExtension.addChildExtension(transportExt);

@@ -41,14 +41,14 @@ public class TranslationLanguageExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "jitsi_participant_translation_language";
+    public static final String ELEMENT = "jitsi_participant_translation_language";
 
     /**
      * Creates a {@link TranslationLanguageExtension} instance.
      */
     public TranslationLanguageExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

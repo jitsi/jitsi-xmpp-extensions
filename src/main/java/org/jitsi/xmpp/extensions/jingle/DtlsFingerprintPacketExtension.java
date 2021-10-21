@@ -31,7 +31,7 @@ public class DtlsFingerprintPacketExtension
      * The XML name of the <tt>fingerprint</tt> element defined by XEP-0320: Use
      * of DTLS-SRTP in Jingle Sessions.
      */
-    public static final String ELEMENT_NAME = "fingerprint";
+    public static final String ELEMENT = "fingerprint";
 
     /**
      * The XML name of the <tt>fingerprint</tt> element's attribute which
@@ -72,7 +72,7 @@ public class DtlsFingerprintPacketExtension
     /** Initializes a new <tt>DtlsFingerprintPacketExtension</tt> instance. */
     public DtlsFingerprintPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

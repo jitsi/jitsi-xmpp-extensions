@@ -28,7 +28,7 @@ public class RegionPacketExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "region";
+    public static final String ELEMENT = "region";
 
     /**
      * XML namespace of this packet extension.
@@ -40,7 +40,7 @@ public class RegionPacketExtension
      */
     public RegionPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

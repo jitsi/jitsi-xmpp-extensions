@@ -51,7 +51,7 @@ public class JibriIqProvider
 
         JibriIq iq;
 
-        if (JibriIq.ELEMENT_NAME.equals(rootElement))
+        if (JibriIq.ELEMENT.equals(rootElement))
         {
             iq = new JibriIq();
 

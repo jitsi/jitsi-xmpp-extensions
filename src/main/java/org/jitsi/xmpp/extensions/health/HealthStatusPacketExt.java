@@ -42,16 +42,16 @@ public class HealthStatusPacketExt
     final static public String NAMESPACE
             = "http://jitsi.org/protocol/health";
 
-    public static final String ELEMENT_NAME = "health-status";
+    public static final String ELEMENT = "health-status";
 
     private static final String HEALTH_ATTRIBUTE = "status";
 
-    public HealthStatusPacketExt() { super(NAMESPACE, ELEMENT_NAME); }
+    public HealthStatusPacketExt() { super(NAMESPACE, ELEMENT); }
 
     static public void registerExtensionProvider()
     {
         ProviderManager.addExtensionProvider(
-                ELEMENT_NAME,
+                ELEMENT,
                 NAMESPACE,
                 new DefaultPacketExtensionProvider<>(HealthStatusPacketExt.class)
         );

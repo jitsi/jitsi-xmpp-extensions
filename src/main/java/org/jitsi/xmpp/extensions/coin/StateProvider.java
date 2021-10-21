@@ -80,7 +80,7 @@ public class StateProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        StatePacketExtension.ELEMENT_NAME))
+                        StatePacketExtension.ELEMENT))
                 {
                     done = true;
                 }

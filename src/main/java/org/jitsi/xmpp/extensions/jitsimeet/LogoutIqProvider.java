@@ -40,7 +40,7 @@ public class LogoutIqProvider
     {
         //<logout>
         ProviderManager.addIQProvider(
-            LogoutIq.ELEMENT_NAME, LogoutIq.NAMESPACE, this);
+            LogoutIq.ELEMENT, LogoutIq.NAMESPACE, this);
     }
 
     /**
@@ -60,7 +60,7 @@ public class LogoutIqProvider
 
         String rootElement = parser.getName();
         LogoutIq logoutIq;
-        if (LogoutIq.ELEMENT_NAME.endsWith(rootElement))
+        if (LogoutIq.ELEMENT.endsWith(rootElement))
         {
             logoutIq = new LogoutIq();
 

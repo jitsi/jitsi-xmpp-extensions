@@ -52,7 +52,7 @@ public class JingleInfoQueryIQProvider
     public JingleInfoQueryIQProvider()
     {
         ProviderManager.addExtensionProvider(
-                ServerPacketExtension.ELEMENT_NAME,
+                ServerPacketExtension.ELEMENT,
                 ServerPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                     <ServerPacketExtension>(ServerPacketExtension.class));
@@ -80,18 +80,18 @@ public class JingleInfoQueryIQProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(StunPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(StunPacketExtension.ELEMENT))
                 {
                     iq.addExtension((StunPacketExtension)stunProvider.parse(parser));
                 }
-                else if (elementName.equals(RelayPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(RelayPacketExtension.ELEMENT))
                 {
                     iq.addExtension((RelayPacketExtension)relayProvider.parse(parser));
                 }
             }
             if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
-                if (parser.getName().equals(JingleInfoQueryIQ.ELEMENT_NAME))
+                if (parser.getName().equals(JingleInfoQueryIQ.ELEMENT))
                 {
                     done = true;
                 }

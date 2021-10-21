@@ -46,7 +46,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
     {
         //<description/> provider
         ProviderManager.addExtensionProvider(
-                RtpDescriptionPacketExtension.ELEMENT_NAME,
+                RtpDescriptionPacketExtension.ELEMENT,
                 RtpDescriptionPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <RtpDescriptionPacketExtension>(
@@ -54,7 +54,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //<payload-type/> provider
         ProviderManager.addExtensionProvider(
-                PayloadTypePacketExtension.ELEMENT_NAME,
+                PayloadTypePacketExtension.ELEMENT,
                 RtpDescriptionPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <PayloadTypePacketExtension>(
@@ -62,7 +62,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //<parameter/> provider
         ProviderManager.addExtensionProvider(
-                ParameterPacketExtension.ELEMENT_NAME,
+                ParameterPacketExtension.ELEMENT,
                 RtpDescriptionPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <ParameterPacketExtension>
@@ -70,7 +70,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //<rtp-hdrext/> provider
         ProviderManager.addExtensionProvider(
-                RTPHdrExtPacketExtension.ELEMENT_NAME,
+                RTPHdrExtPacketExtension.ELEMENT,
                 RTPHdrExtPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <RTPHdrExtPacketExtension>
@@ -78,13 +78,13 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         // <sctpmap/> provider
         ProviderManager.addExtensionProvider(
-                SctpMapExtension.ELEMENT_NAME,
+                SctpMapExtension.ELEMENT,
                 SctpMapExtension.NAMESPACE,
                 new SctpMapExtensionProvider());
 
         //<encryption/> provider
         ProviderManager.addExtensionProvider(
-                EncryptionPacketExtension.ELEMENT_NAME,
+                EncryptionPacketExtension.ELEMENT,
                 RtpDescriptionPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <EncryptionPacketExtension>
@@ -92,7 +92,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //<zrtp-hash/> provider
         ProviderManager.addExtensionProvider(
-                ZrtpHashPacketExtension.ELEMENT_NAME,
+                ZrtpHashPacketExtension.ELEMENT,
                 ZrtpHashPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <ZrtpHashPacketExtension>
@@ -100,7 +100,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //<crypto/> provider
         ProviderManager.addExtensionProvider(
-                CryptoPacketExtension.ELEMENT_NAME,
+                CryptoPacketExtension.ELEMENT,
                 RtpDescriptionPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <CryptoPacketExtension>
@@ -108,14 +108,14 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         // <group/> provider
         ProviderManager.addExtensionProvider(
-                GroupPacketExtension.ELEMENT_NAME,
+                GroupPacketExtension.ELEMENT,
                 GroupPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <GroupPacketExtension>(GroupPacketExtension.class));
 
         //ice-udp transport
         ProviderManager.addExtensionProvider(
-                IceUdpTransportPacketExtension.ELEMENT_NAME,
+                IceUdpTransportPacketExtension.ELEMENT,
                 IceUdpTransportPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <IceUdpTransportPacketExtension>(
@@ -123,7 +123,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //<raw-udp/> provider
         ProviderManager.addExtensionProvider(
-                RawUdpTransportPacketExtension.ELEMENT_NAME,
+                RawUdpTransportPacketExtension.ELEMENT,
                 RawUdpTransportPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <RawUdpTransportPacketExtension>(
@@ -131,7 +131,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //ice-udp <candidate/> provider
         ProviderManager.addExtensionProvider(
-                CandidatePacketExtension.ELEMENT_NAME,
+                CandidatePacketExtension.ELEMENT,
                 IceUdpTransportPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <CandidatePacketExtension>(
@@ -139,7 +139,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //raw-udp <candidate/> provider
         ProviderManager.addExtensionProvider(
-                CandidatePacketExtension.ELEMENT_NAME,
+                CandidatePacketExtension.ELEMENT,
                 RawUdpTransportPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <CandidatePacketExtension>(
@@ -147,7 +147,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //ice-udp <remote-candidate/> provider
         ProviderManager.addExtensionProvider(
-                RemoteCandidatePacketExtension.ELEMENT_NAME,
+                RemoteCandidatePacketExtension.ELEMENT,
                 IceUdpTransportPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <RemoteCandidatePacketExtension>(
@@ -155,21 +155,21 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
 
         //inputevt <inputevt/> provider
         ProviderManager.addExtensionProvider(
-                InputEvtPacketExtension.ELEMENT_NAME,
+                InputEvtPacketExtension.ELEMENT,
                 InputEvtPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<InputEvtPacketExtension>(
                         InputEvtPacketExtension.class));
 
         //coin <conference-info/> provider
         ProviderManager.addExtensionProvider(
-                CoinPacketExtension.ELEMENT_NAME,
+                CoinPacketExtension.ELEMENT,
                 CoinPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<CoinPacketExtension>(
                         CoinPacketExtension.class));
 
         // DTLS-SRTP
         ProviderManager.addExtensionProvider(
-                DtlsFingerprintPacketExtension.ELEMENT_NAME,
+                DtlsFingerprintPacketExtension.ELEMENT,
                 DtlsFingerprintPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                         <DtlsFingerprintPacketExtension>(
@@ -180,47 +180,47 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
          * providers
          */
         ProviderManager.addExtensionProvider(
-                TransferPacketExtension.ELEMENT_NAME,
+                TransferPacketExtension.ELEMENT,
                 TransferPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<TransferPacketExtension>(
                         TransferPacketExtension.class));
         ProviderManager.addExtensionProvider(
-                TransferredPacketExtension.ELEMENT_NAME,
+                TransferredPacketExtension.ELEMENT,
                 TransferredPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<TransferredPacketExtension>(
                         TransferredPacketExtension.class));
 
         //conference description <callid/> provider
         ProviderManager.addExtensionProvider(
-                CallIdExtension.ELEMENT_NAME,
+                CallIdExtension.ELEMENT,
                 ConferenceDescriptionExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<CallIdExtension>(
                         CallIdExtension.class));
 
         //rtcp-fb
         ProviderManager.addExtensionProvider(
-                RtcpFbPacketExtension.ELEMENT_NAME,
+                RtcpFbPacketExtension.ELEMENT,
                 RtcpFbPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<RtcpFbPacketExtension>(
                         RtcpFbPacketExtension.class));
 
         //rtcp-mux
         ProviderManager.addExtensionProvider(
-                RtcpmuxPacketExtension.ELEMENT_NAME,
+                RtcpmuxPacketExtension.ELEMENT,
                 IceUdpTransportPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<RtcpmuxPacketExtension>(
                         RtcpmuxPacketExtension.class));
 
         //web-socket
         ProviderManager.addExtensionProvider(
-            WebSocketPacketExtension.ELEMENT_NAME,
+            WebSocketPacketExtension.ELEMENT,
             WebSocketPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(
                 WebSocketPacketExtension.class));
 
         //ssrcInfo
         ProviderManager.addExtensionProvider(
-                SSRCInfoPacketExtension.ELEMENT_NAME,
+                SSRCInfoPacketExtension.ELEMENT,
                 SSRCInfoPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<SSRCInfoPacketExtension>(
                         SSRCInfoPacketExtension.class));
@@ -293,14 +293,14 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
                 // <content/>
-                if (elementName.equals(ContentPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(ContentPacketExtension.ELEMENT))
                 {
                     ContentPacketExtension content
                         = contentProvider.parse(parser);
                     jingleIQ.addContent(content);
                 }
                 // <reason/>
-                else if (elementName.equals(ReasonPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(ReasonPacketExtension.ELEMENT))
                 {
                     ReasonPacketExtension reason
                         = reasonProvider.parse(parser);
@@ -308,23 +308,23 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                 }
                 // <transfer/>
                 else if (elementName.equals(
-                                TransferPacketExtension.ELEMENT_NAME)
+                                TransferPacketExtension.ELEMENT)
                         && namespace.equals(TransferPacketExtension.NAMESPACE))
                 {
                     jingleIQ.addExtension(transferProvider.parse(parser));
                 }
                 // <conference-info/>
-                else if (elementName.equals(CoinPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(CoinPacketExtension.ELEMENT))
                 {
                     jingleIQ.addExtension(coinProvider.parse(parser));
                 }
                 else if (elementName.equals(
-                        CallIdExtension.ELEMENT_NAME))
+                        CallIdExtension.ELEMENT))
                 {
                     jingleIQ.addExtension(callidProvider.parse(parser));
                 }
                 else if (elementName.equals(
-                        GroupPacketExtension.ELEMENT_NAME))
+                        GroupPacketExtension.ELEMENT))
                 {
                     jingleIQ.addExtension(
                         GroupPacketExtension.parseExtension(parser, xmlEnvironment));
@@ -359,7 +359,7 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
             }
 
             if ((eventType == XmlPullParser.Event.END_ELEMENT)
-                    && parser.getName().equals(JingleIQ.ELEMENT_NAME))
+                    && parser.getName().equals(JingleIQ.ELEMENT))
             {
                     done = true;
             }

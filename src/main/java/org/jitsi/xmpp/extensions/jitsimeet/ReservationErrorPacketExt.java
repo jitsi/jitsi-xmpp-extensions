@@ -33,7 +33,7 @@ public class ReservationErrorPacketExt
     /**
      * XML element name of this packets extension.
      */
-    public static final String ELEMENT_NAME = "reservation-error";
+    public static final String ELEMENT = "reservation-error";
 
     /**
      * The name of XML attribute that holds error code returned by
@@ -46,7 +46,7 @@ public class ReservationErrorPacketExt
      */
     public ReservationErrorPacketExt()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -54,7 +54,7 @@ public class ReservationErrorPacketExt
      */
     public ReservationErrorPacketExt(int code)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
         setErrorCode(code);
     }
 

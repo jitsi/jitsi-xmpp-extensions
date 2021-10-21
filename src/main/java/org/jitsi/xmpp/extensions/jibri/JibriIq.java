@@ -58,7 +58,7 @@ public class JibriIq
     /**
      * XML element name of the Jibri IQ.
      */
-    public static final String ELEMENT_NAME = "jibri";
+    public static final String ELEMENT = "jibri";
 
     /**
      * XML namespace of the Jibri IQ.
@@ -205,7 +205,7 @@ public class JibriIq
 
     public JibriIq()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     /**

@@ -35,7 +35,7 @@ public class SIPDialogIDPacketExtension
     /**
      * The name of the element that contains the SIP Dialog ID data.
      */
-    public static final String ELEMENT_NAME = "sip";
+    public static final String ELEMENT = "sip";
 
     /**
      * Display text element name.
@@ -82,7 +82,7 @@ public class SIPDialogIDPacketExtension
      */
     public SIPDialogIDPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

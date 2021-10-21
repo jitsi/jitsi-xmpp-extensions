@@ -17,6 +17,8 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jitsi.xmpp.extensions.*;
 
+import javax.xml.namespace.*;
+
 /**
  * The packet extension is used by Jicofo to broadcast versions of all video
  * conferencing system components. This packets extension is added to jicofo's
@@ -31,13 +33,7 @@ public class ComponentVersionsExtension
     /**
      * The XML element name of {@link ComponentVersionsExtension}.
      */
-    public static final String ELEMENT_NAME = "versions";
-
-    /**
-     * The name of XML sub-elements which carry the info about particular
-     * component's version.
-     */
-    public static final String COMPONENT_ELEMENT_NAME = "component";
+    public static final String ELEMENT = "versions";
 
     /**
      * Constant for {@link Component} name used to signal the version of
@@ -68,7 +64,7 @@ public class ComponentVersionsExtension
      */
     public ComponentVersionsExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -94,20 +90,31 @@ public class ComponentVersionsExtension
      * of the component is carried in name attribute and the version string is
      * the text value.
      */
-    public class Component
+    public static class Component
         extends AbstractPacketExtension
     {
+        /**
+         * The name of XML sub-elements which carry the info about particular
+         * component's version.
+         */
+        public static final String ELEMENT = "component";
+
         /**
          * The name of that attribute that carries component's name.
          */
         private final String NAME_ATTR_NAME = "name";
 
         /**
+         * The qualified name of the element.
+         */
+        public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
+
+        /**
          * Creates new instance of {@link Component} packet extension.
          */
         public Component()
         {
-            super(NAMESPACE, COMPONENT_ELEMENT_NAME);
+            super(NAMESPACE, ELEMENT);
         }
 
         /**

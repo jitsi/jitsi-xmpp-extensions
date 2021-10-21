@@ -35,7 +35,7 @@ public class DescriptionPacketExtension
     /**
      * The name of the element that contains the description data.
      */
-    public static final String ELEMENT_NAME = "conference-description";
+    public static final String ELEMENT = "conference-description";
 
     /**
      * Subject element name.
@@ -83,7 +83,7 @@ public class DescriptionPacketExtension
      */
     public DescriptionPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

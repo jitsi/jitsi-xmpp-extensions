@@ -22,11 +22,11 @@ import java.util.*;
 public class FeaturesExtension extends AbstractPacketExtension
 {
     public static final String NAMESPACE = "jabber:client";
-    public static final String ELEMENT_NAME = "features";
+    public static final String ELEMENT = "features";
 
     public FeaturesExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     public List<FeatureExtension> getFeatureExtensions()

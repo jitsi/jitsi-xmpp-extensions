@@ -33,7 +33,7 @@ public class SourceGroupPacketExtension
     /**
      * The name of the "ssrc-group" element.
      */
-    public static final String ELEMENT_NAME = "ssrc-group";
+    public static final String ELEMENT = "ssrc-group";
 
     /**
      * The namespace for the "ssrc-group" element.
@@ -80,7 +80,7 @@ public class SourceGroupPacketExtension
      */
     public SourceGroupPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     public SourceGroupPacketExtension(String elementName)

@@ -26,10 +26,10 @@ public class SourceRidGroupPacketExtension extends SourceGroupPacketExtension
     /**
      * The name of the "rid-group" element.
      */
-    public static final String ELEMENT_NAME = "rid-group";
+    public static final String ELEMENT = "rid-group";
 
     public SourceRidGroupPacketExtension()
     {
-        super(ELEMENT_NAME);
+        super(ELEMENT);
     }
 }

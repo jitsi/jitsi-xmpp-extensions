@@ -20,11 +20,11 @@ import org.jitsi.xmpp.extensions.*;
 public class FeatureExtension extends AbstractPacketExtension
 {
     public static final String NAMESPACE = "jabber:client";
-    public static final String ELEMENT_NAME = "feature";
+    public static final String ELEMENT = "feature";
 
     public FeatureExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     public String getVar()

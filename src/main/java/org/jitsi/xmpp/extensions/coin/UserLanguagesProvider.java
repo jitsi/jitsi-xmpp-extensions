@@ -70,7 +70,7 @@ public class UserLanguagesProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        UserLanguagesPacketExtension.ELEMENT_NAME))
+                        UserLanguagesPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

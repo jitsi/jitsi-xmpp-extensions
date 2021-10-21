@@ -34,7 +34,7 @@ public class VCardTempXUpdatePresenceExtension
     /**
      * This presence extension element name.
      */
-    public static final String ELEMENT_NAME =  "x";
+    public static final String ELEMENT =  "x";
 
     /**
      * This presence extension namespace.
@@ -156,7 +156,7 @@ public class VCardTempXUpdatePresenceExtension
     @Override
     public String getElementName()
     {
-        return ELEMENT_NAME;
+        return ELEMENT;
     }
 
     /**

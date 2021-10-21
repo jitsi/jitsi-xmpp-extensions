@@ -33,13 +33,13 @@ public class URIsPacketExtension
     /**
      * The name of the element that contains the URIs data.
      */
-    public static final String ELEMENT_NAME = "uris";
+    public static final String ELEMENT = "uris";
 
     /**
      * Constructor.
      */
      public URIsPacketExtension()
      {
-         super(NAMESPACE, ELEMENT_NAME);
+         super(NAMESPACE, ELEMENT);
      }
 }

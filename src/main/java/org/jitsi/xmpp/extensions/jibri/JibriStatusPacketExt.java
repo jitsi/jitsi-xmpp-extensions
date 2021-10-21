@@ -38,20 +38,20 @@ public class JibriStatusPacketExt
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "jibri-status";
+    public static final String ELEMENT = "jibri-status";
 
     /**
      * Creates new instance of <tt>VideoMutedExtension</tt>.
      */
     public JibriStatusPacketExt()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     static public void registerExtensionProvider()
     {
         ProviderManager.addExtensionProvider(
-                ELEMENT_NAME,
+                ELEMENT,
                 NAMESPACE,
                 new DefaultPacketExtensionProvider<>(JibriStatusPacketExt.class)
         );

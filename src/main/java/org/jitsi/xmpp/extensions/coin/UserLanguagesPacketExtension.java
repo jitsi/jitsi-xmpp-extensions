@@ -35,7 +35,7 @@ public class UserLanguagesPacketExtension
     /**
      * The name of the element that contains the user languages data.
      */
-    public static final String ELEMENT_NAME = "languages";
+    public static final String ELEMENT = "languages";
 
     /**
      * The name of the element that contains the media data.
@@ -52,7 +52,7 @@ public class UserLanguagesPacketExtension
      */
     public UserLanguagesPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

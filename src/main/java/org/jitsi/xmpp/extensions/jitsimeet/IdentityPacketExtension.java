@@ -56,38 +56,38 @@ public class IdentityPacketExtension
     /**
      * The namespace (xmlns attribute) of this identity presence element
      */
-    public static final String NAME_SPACE = "jabber:client";
+    public static final String NAMESPACE = "jabber:client";
 
     /**
      * The element name of this identity presence element
      */
-    public static final String ELEMENT_NAME = "identity";
+    public static final String ELEMENT = "identity";
 
     /**
      * The child element of this identity storing information about the user
      */
-    public static final String USER_ELEMENT_NAME = "user";
+    public static final String USER_ELEMENT = "user";
 
     /**
      * The child element of this identity storing information about the group
      * id
      */
-    public static final String GROUP_ELEMENT_NAME = "group";
+    public static final String GROUP_ELEMENT = "group";
 
     /**
      * The child element of the user element storing the user id
      */
-    public static final String USER_ID_ELEMENT_NAME = "id";
+    public static final String USER_ID_ELEMENT = "id";
 
     /**
      * The child element of the user element storing the user avatar-url
      */
-    public static final String USER_AVATAR_URL_ELEMENT_NAME = "avatar";
+    public static final String USER_AVATAR_URL_ELEMENT = "avatar";
 
     /**
      * The child element of the user element storing the user name
      */
-    public static final String USER_NAME_ELEMENT_NAME = "name";
+    public static final String USER_NAME_ELEMENT = "name";
 
     /**
      * The unique ID belonging to the user
@@ -135,7 +135,7 @@ public class IdentityPacketExtension
     @Override
     public String getNamespace()
     {
-        return NAME_SPACE;
+        return NAMESPACE;
     }
 
     /**
@@ -144,7 +144,7 @@ public class IdentityPacketExtension
     @Override
     public String getElementName()
     {
-        return ELEMENT_NAME;
+        return ELEMENT;
     }
 
     /**
@@ -156,23 +156,23 @@ public class IdentityPacketExtension
         XmlStringBuilder xml = new XmlStringBuilder();
 
         // begin identity
-        xml.openElement(ELEMENT_NAME);
+        xml.openElement(ELEMENT);
 
         //begin user
-        xml.openElement(USER_ELEMENT_NAME);
+        xml.openElement(USER_ELEMENT);
 
-        xml.element(USER_ID_ELEMENT_NAME, getUserId());
-        xml.element(USER_NAME_ELEMENT_NAME, getUserName());
-        xml.element(USER_AVATAR_URL_ELEMENT_NAME, getUserAvatarUrl());
+        xml.element(USER_ID_ELEMENT, getUserId());
+        xml.element(USER_NAME_ELEMENT, getUserName());
+        xml.element(USER_AVATAR_URL_ELEMENT, getUserAvatarUrl());
 
         // end user
-        xml.closeElement(USER_ELEMENT_NAME);
+        xml.closeElement(USER_ELEMENT);
 
         // begin and end group
-        xml.element(GROUP_ELEMENT_NAME, getGroupId());
+        xml.element(GROUP_ELEMENT, getGroupId());
 
         // end identity
-        xml.closeElement(ELEMENT_NAME);
+        xml.closeElement(ELEMENT);
 
         return xml.toString();
     }
@@ -234,11 +234,11 @@ public class IdentityPacketExtension
         {
             String currentTag = parser.getName();
 
-            if (!NAME_SPACE.equals(parser.getNamespace()))
+            if (!NAMESPACE.equals(parser.getNamespace()))
             {
                 return null;
             }
-            else if (!ELEMENT_NAME.equals(currentTag))
+            else if (!ELEMENT.equals(currentTag))
             {
                 return null;
             }
@@ -262,16 +262,16 @@ public class IdentityPacketExtension
                     {
                         switch (currentTag)
                         {
-                            case USER_AVATAR_URL_ELEMENT_NAME:
+                            case USER_AVATAR_URL_ELEMENT:
                                 userAvatarUrl = parser.getText();
                                 break;
-                            case USER_ID_ELEMENT_NAME:
+                            case USER_ID_ELEMENT:
                                 userId = parser.getText();
                                 break;
-                            case USER_NAME_ELEMENT_NAME:
+                            case USER_NAME_ELEMENT:
                                 userName = parser.getText();
                                 break;
-                            case GROUP_ELEMENT_NAME:
+                            case GROUP_ELEMENT:
                                 groupId = parser.getText();
                                 break;
                             default:
@@ -283,7 +283,7 @@ public class IdentityPacketExtension
                         currentTag = parser.getName();
                     }
                 }
-                while (!ELEMENT_NAME.equals(currentTag));
+                while (!ELEMENT.equals(currentTag));
             }
             catch (XmlPullParserException | IOException e)
             {

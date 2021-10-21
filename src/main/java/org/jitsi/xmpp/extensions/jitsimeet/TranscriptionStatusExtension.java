@@ -31,7 +31,7 @@ public class TranscriptionStatusExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "transcription-status";
+    public static final String ELEMENT = "transcription-status";
 
     /**
      * The namespace of this packet extension.
@@ -48,7 +48,7 @@ public class TranscriptionStatusExtension
      */
     public TranscriptionStatusExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

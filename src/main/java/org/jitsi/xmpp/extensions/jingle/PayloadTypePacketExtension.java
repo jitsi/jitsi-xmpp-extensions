@@ -29,7 +29,7 @@ public class PayloadTypePacketExtension extends AbstractPacketExtension
     /**
      * The name of the "payload-type" element.
      */
-    public static final String ELEMENT_NAME = "payload-type";
+    public static final String ELEMENT = "payload-type";
 
     /**
      * The namespace of the "payload-type" element
@@ -95,7 +95,7 @@ public class PayloadTypePacketExtension extends AbstractPacketExtension
      */
     public PayloadTypePacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

@@ -36,7 +36,7 @@ public class StartMutedProvider
     public static void registerStartMutedProvider()
     {
         ProviderManager.addExtensionProvider(
-            StartMutedPacketExtension.ELEMENT_NAME,
+            StartMutedPacketExtension.ELEMENT,
             StartMutedPacketExtension.NAMESPACE,
             new StartMutedProvider());
     }
@@ -58,7 +58,7 @@ public class StartMutedProvider
             case START_ELEMENT:
             {
                 elementName = parser.getName();
-                if (StartMutedPacketExtension.ELEMENT_NAME.equals(
+                if (StartMutedPacketExtension.ELEMENT.equals(
                     elementName))
                 {
                     boolean audioMute = Boolean.parseBoolean(
@@ -77,7 +77,7 @@ public class StartMutedProvider
             case END_ELEMENT:
             {
                 elementName = parser.getName();
-                if (StartMutedPacketExtension.ELEMENT_NAME.equals(
+                if (StartMutedPacketExtension.ELEMENT.equals(
                     elementName))
                 {
                     done = true;

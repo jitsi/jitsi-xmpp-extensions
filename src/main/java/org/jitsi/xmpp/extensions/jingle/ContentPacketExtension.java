@@ -30,7 +30,7 @@ public class ContentPacketExtension extends AbstractPacketExtension
     /**
      * The name of the "content" element.
      */
-    public static final String ELEMENT_NAME = "content";
+    public static final String ELEMENT = "content";
 
     /**
      * The name of the "creator" argument.
@@ -102,7 +102,7 @@ public class ContentPacketExtension extends AbstractPacketExtension
      */
     public ContentPacketExtension()
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
     }
 
     /**
@@ -121,7 +121,7 @@ public class ContentPacketExtension extends AbstractPacketExtension
                                   String name,
                                   SendersEnum senders)
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
         super.setAttribute(CREATOR_ATTR_NAME, creator);
         super.setAttribute(DISPOSITION_ATTR_NAME, disposition);
         super.setAttribute(NAME_ATTR_NAME, name);
@@ -139,7 +139,7 @@ public class ContentPacketExtension extends AbstractPacketExtension
      */
     public ContentPacketExtension(CreatorEnum creator, String name)
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
         super.setAttribute(CREATOR_ATTR_NAME, creator);
         super.setAttribute(NAME_ATTR_NAME, name);
     }

@@ -38,14 +38,14 @@ public class RawUdpTransportPacketExtension
     /**
      * The name of the "transport" element.
      */
-    public static final String ELEMENT_NAME = "transport";
+    public static final String ELEMENT = "transport";
 
     /**
      * Creates a new {@link RawUdpTransportPacketExtension} instance.
      */
     public RawUdpTransportPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

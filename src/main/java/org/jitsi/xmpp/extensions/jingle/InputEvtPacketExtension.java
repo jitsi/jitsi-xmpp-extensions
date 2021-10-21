@@ -28,7 +28,7 @@ public class InputEvtPacketExtension extends AbstractPacketExtension
     /**
      * Name of the XML element representing the extension.
      */
-    public final static String ELEMENT_NAME = "inputevt";
+    public final static String ELEMENT = "inputevt";
 
     /**
      * Namespace..
@@ -41,6 +41,6 @@ public class InputEvtPacketExtension extends AbstractPacketExtension
      */
     public InputEvtPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

@@ -34,7 +34,7 @@ public class GroupPacketExtension
     /**
      * The name of the "group" element.
      */
-    public static final String ELEMENT_NAME = "group";
+    public static final String ELEMENT = "group";
 
     /**
      * The namespace for the "group" element.
@@ -57,7 +57,7 @@ public class GroupPacketExtension
      */
     public GroupPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -154,7 +154,7 @@ public class GroupPacketExtension
             eventType = parser.next();
             elementName = parser.getName();
 
-            if (elementName.equals(ContentPacketExtension.ELEMENT_NAME))
+            if (elementName.equals(ContentPacketExtension.ELEMENT))
             {
                 ContentPacketExtension content
                     = contentProvider.parse(parser, xmlEnvironment);
@@ -162,7 +162,7 @@ public class GroupPacketExtension
             }
 
             if ((eventType == XmlPullParser.Event.END_ELEMENT)
-                && parser.getName().equals(ELEMENT_NAME))
+                && parser.getName().equals(ELEMENT))
             {
                 done = true;
             }

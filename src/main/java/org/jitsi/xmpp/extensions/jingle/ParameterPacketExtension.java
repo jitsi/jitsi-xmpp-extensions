@@ -27,7 +27,7 @@ public class ParameterPacketExtension extends AbstractPacketExtension
     /**
      * The name of the "parameter" element.
      */
-    public static final String ELEMENT_NAME = "parameter";
+    public static final String ELEMENT = "parameter";
 
     /**
      * The name of the <tt>name</tt> parameter in the <tt>parameter</tt>
@@ -46,7 +46,7 @@ public class ParameterPacketExtension extends AbstractPacketExtension
      */
     public ParameterPacketExtension()
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
     }
 
     /**
@@ -55,7 +55,7 @@ public class ParameterPacketExtension extends AbstractPacketExtension
      */
     public ParameterPacketExtension(String name, String value)
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
 
         setName(name);
         setValue(value);
