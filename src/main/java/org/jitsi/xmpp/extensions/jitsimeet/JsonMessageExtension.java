@@ -36,14 +36,14 @@ public class JsonMessageExtension
     /**
      * The element name of this json-message packet.
      */
-    public static final String ELEMENT_NAME = "json-message";
+    public static final String ELEMENT = "json-message";
 
     /**
      * Creates a {@link JsonMessageExtension} instance.
      */
     public JsonMessageExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -54,7 +54,7 @@ public class JsonMessageExtension
      */
     public JsonMessageExtension(String json)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
 
         setText(json);
     }

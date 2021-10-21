@@ -35,14 +35,14 @@ public class AudioMutedExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "audiomuted";
+    public static final String ELEMENT = "audiomuted";
 
     /**
      * Creates new instance of <tt>AudioMutedExtension</tt>.
      */
     public AudioMutedExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

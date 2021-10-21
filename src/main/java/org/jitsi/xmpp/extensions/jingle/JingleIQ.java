@@ -40,7 +40,7 @@ public class JingleIQ extends IQ
     /**
      * The name of the element that contains the jingle data.
      */
-    public static final String ELEMENT_NAME = "jingle";
+    public static final String ELEMENT = "jingle";
 
     /**
      * The name of the argument that contains the jingle action value.
@@ -122,7 +122,7 @@ public class JingleIQ extends IQ
      */
     public JingleIQ(JingleAction action, String sid)
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
         this.action = action;
         this.sid = sid;
     }

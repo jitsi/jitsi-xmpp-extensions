@@ -35,7 +35,7 @@ public class StatePacketExtension
     /**
      * The name of the element that contains the state data.
      */
-    public static final String ELEMENT_NAME = "conference-state";
+    public static final String ELEMENT = "conference-state";
 
     /**
      * Users count element name.
@@ -72,7 +72,7 @@ public class StatePacketExtension
      */
     public StatePacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

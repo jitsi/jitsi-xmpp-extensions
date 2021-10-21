@@ -33,13 +33,13 @@ public class ConferenceMediaPacketExtension
     /**
      * The name of the element that contains the conference media.
      */
-    public static final String ELEMENT_NAME = "available-media";
+    public static final String ELEMENT = "available-media";
 
     /**
      * Constructor.
      */
     public ConferenceMediaPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

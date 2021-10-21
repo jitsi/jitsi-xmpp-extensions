@@ -31,7 +31,7 @@ public class SctpMapExtension
     /**
      * The name of the "sctpmap" element.
      */
-    public static final String ELEMENT_NAME = "sctpmap";
+    public static final String ELEMENT = "sctpmap";
 
     /**
      * The namespace for the "sctpmap" element.
@@ -76,7 +76,7 @@ public class SctpMapExtension
     @Override
     public String getElementName()
     {
-        return ELEMENT_NAME;
+        return ELEMENT;
     }
 
     /**

@@ -35,7 +35,7 @@ public class UserPacketExtension
     /**
      * The name of the element that contains the user data.
      */
-    public static final String ELEMENT_NAME = "user";
+    public static final String ELEMENT = "user";
 
     /**
      * Entity attribute name.
@@ -64,7 +64,7 @@ public class UserPacketExtension
      */
     public UserPacketExtension(String entity)
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
         setAttribute("entity", entity);
     }
 

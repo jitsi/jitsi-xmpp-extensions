@@ -48,31 +48,31 @@ public class RayoIqProvider
     {
         // <dial>
         ProviderManager.addIQProvider(
-            DialIq.ELEMENT_NAME,
+            DialIq.ELEMENT,
             NAMESPACE,
             this);
 
         // <ref>
         ProviderManager.addIQProvider(
-            RefIq.ELEMENT_NAME,
+            RefIq.ELEMENT,
             NAMESPACE,
             this);
 
         // <hangup>
         ProviderManager.addIQProvider(
-            HangUp.ELEMENT_NAME,
+            HangUp.ELEMENT,
             NAMESPACE,
             this);
 
         // <end> presence extension
         ProviderManager.addExtensionProvider(
-            EndExtension.ELEMENT_NAME,
+            EndExtension.ELEMENT,
             NAMESPACE,
             new DefaultPacketExtensionProvider<>(EndExtension.class));
 
         // <header> extension
         ProviderManager.addExtensionProvider(
-            HeaderExtension.ELEMENT_NAME,
+            HeaderExtension.ELEMENT,
             NAMESPACE,
             new DefaultPacketExtensionProvider<>(HeaderExtension.class));
     }
@@ -99,7 +99,7 @@ public class RayoIqProvider
         RefIq ref;
         //End end = null;
 
-        if (DialIq.ELEMENT_NAME.equals(rootElement))
+        if (DialIq.ELEMENT.equals(rootElement))
         {
             iq = dial = new DialIq();
             String src = parser.getAttributeValue("", DialIq.SRC_ATTR_NAME);
@@ -112,7 +112,7 @@ public class RayoIqProvider
             dial.setSource(src);
             dial.setDestination(dst);
         }
-        else if (RefIq.ELEMENT_NAME.equals(rootElement))
+        else if (RefIq.ELEMENT.equals(rootElement))
         {
             iq = ref = new RefIq();
             String uri = parser.getAttributeValue("", RefIq.URI_ATTR_NAME);
@@ -122,11 +122,11 @@ public class RayoIqProvider
 
             ref.setUri(uri);
         }
-        else if (HangUp.ELEMENT_NAME.equals(rootElement))
+        else if (HangUp.ELEMENT.equals(rootElement))
         {
             iq = new HangUp();
         }
-        /*else if (End.ELEMENT_NAME.equals(rootElement))
+        /*else if (End.ELEMENT.equals(rootElement))
         {
             iq = end = new End();
         }*/
@@ -151,7 +151,7 @@ public class RayoIqProvider
                     {
                         done = true;
                     }
-                    else if (HeaderExtension.ELEMENT_NAME.equals(
+                    else if (HeaderExtension.ELEMENT.equals(
                         name))
                     {
                         if (header != null)
@@ -177,7 +177,7 @@ public class RayoIqProvider
                 {
                     String name = parser.getName();
 
-                    if (HeaderExtension.ELEMENT_NAME.equals(name))
+                    if (HeaderExtension.ELEMENT.equals(name))
                     {
                         header = new HeaderExtension();
 
@@ -311,7 +311,7 @@ public class RayoIqProvider
         /**
          * The name of XML element for this IQ.
          */
-        public static final String ELEMENT_NAME = "dial";
+        public static final String ELEMENT = "dial";
 
         /**
          * The name of source URI/address attribute. Referred as "source" to
@@ -340,7 +340,7 @@ public class RayoIqProvider
          */
         public DialIq()
         {
-            super(DialIq.ELEMENT_NAME);
+            super(DialIq.ELEMENT);
         }
 
         /**
@@ -436,7 +436,7 @@ public class RayoIqProvider
         /**
          * XML element name of <tt>RefIq</tt>.
          */
-        public static final String ELEMENT_NAME = "ref";
+        public static final String ELEMENT = "ref";
 
         /**
          * Name of the URI attribute that stores call resource reference.
@@ -453,7 +453,7 @@ public class RayoIqProvider
          */
         protected RefIq()
         {
-            super(RefIq.ELEMENT_NAME);
+            super(RefIq.ELEMENT);
         }
 
         /**
@@ -537,14 +537,14 @@ public class RayoIqProvider
         /**
          * The name of 'hangup' element.
          */
-        public static final String ELEMENT_NAME = "hangup";
+        public static final String ELEMENT = "hangup";
 
         /**
          * Creates new instance of <tt>HangUp</tt> IQ.
          */
         protected HangUp()
         {
-            super(ELEMENT_NAME);
+            super(ELEMENT);
         }
 
         /**

@@ -26,7 +26,7 @@ public class CandidatePacketExtension extends AbstractPacketExtension
     /**
      * The name of the "candidate" element.
      */
-    public static final String ELEMENT_NAME = "candidate";
+    public static final String ELEMENT = "candidate";
 
     /**
      * The name of the "component" element.
@@ -108,7 +108,7 @@ public class CandidatePacketExtension extends AbstractPacketExtension
      */
     public CandidatePacketExtension()
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
     }
 
     /**

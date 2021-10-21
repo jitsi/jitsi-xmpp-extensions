@@ -33,7 +33,7 @@ public class ServerPacketExtension
     /**
      * The element name.
      */
-    public static final String ELEMENT_NAME = "server";
+    public static final String ELEMENT = "server";
 
     /**
      * Host attribute name.
@@ -60,7 +60,7 @@ public class ServerPacketExtension
      */
     public ServerPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

@@ -40,7 +40,7 @@ public class IceUdpTransportPacketExtension
     /**
      * The name of the "transport" element.
      */
-    public static final String ELEMENT_NAME = "transport";
+    public static final String ELEMENT = "transport";
 
     /**
      * The name of the <tt>pwd</tt> ICE attribute.
@@ -73,7 +73,7 @@ public class IceUdpTransportPacketExtension
      */
     public IceUdpTransportPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -255,7 +255,7 @@ public class IceUdpTransportPacketExtension
     {
         for (ExtensionElement packetExtension : getChildExtensions())
         {
-            if (RtcpmuxPacketExtension.ELEMENT_NAME
+            if (RtcpmuxPacketExtension.ELEMENT
                     .equals(packetExtension.getElementName()))
                 return true;
         }

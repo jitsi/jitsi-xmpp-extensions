@@ -40,7 +40,7 @@ public class SipCallState
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "jibri-sip-call-state";
+    public static final String ELEMENT = "jibri-sip-call-state";
 
     /**
      * The name of XML attribute which holds the SIP session state.
@@ -54,7 +54,7 @@ public class SipCallState
 
     public SipCallState()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

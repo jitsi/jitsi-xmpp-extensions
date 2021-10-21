@@ -43,7 +43,7 @@ public class SSRCInfoPacketExtension
     /**
      * XML element name of this packets extension.
      */
-    public static final String ELEMENT_NAME = "ssrc-info";
+    public static final String ELEMENT = "ssrc-info";
 
     /**
      * Attribute stores owner JID of parent {@link SourcePacketExtension}.
@@ -73,7 +73,7 @@ public class SSRCInfoPacketExtension
      */
     public SSRCInfoPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

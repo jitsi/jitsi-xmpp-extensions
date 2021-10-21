@@ -72,7 +72,7 @@ public class UsersProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(UserPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(UserPacketExtension.ELEMENT))
                 {
                     ExtensionElementProvider provider
                         = new UserProvider();
@@ -84,7 +84,7 @@ public class UsersProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        UsersPacketExtension.ELEMENT_NAME))
+                        UsersPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

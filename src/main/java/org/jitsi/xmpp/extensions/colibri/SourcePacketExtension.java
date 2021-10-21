@@ -40,7 +40,7 @@ public class SourcePacketExtension
      * The XML name of the <tt>setup</tt> element defined by Source-Specific
      * Media Attributes in Jingle.
      */
-    public static final String ELEMENT_NAME = "source";
+    public static final String ELEMENT = "source";
 
     /**
      * The XML namespace of the <tt>setup</tt> element defined by
@@ -75,7 +75,7 @@ public class SourcePacketExtension
     /** Initializes a new <tt>SourcePacketExtension</tt> instance. */
     public SourcePacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

@@ -99,7 +99,7 @@ public class MediaProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        MediaPacketExtension.ELEMENT_NAME))
+                        MediaPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

@@ -30,7 +30,7 @@ public class BridgeSessionPacketExtension
     /**
      * The name of the {@code bridge-session} element.
      */
-    public static final String ELEMENT_NAME = "bridge-session";
+    public static final String ELEMENT = "bridge-session";
 
     /**
      * The name of the attribute which carries the bridge session's ID.
@@ -59,7 +59,7 @@ public class BridgeSessionPacketExtension
      */
     public BridgeSessionPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     public BridgeSessionPacketExtension(String id, String region)

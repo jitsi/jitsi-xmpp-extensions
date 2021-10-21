@@ -33,7 +33,7 @@ public class StartMutedPacketExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "startmuted";
+    public static final String ELEMENT = "startmuted";
 
     /**
      * Attribute name for audio muted.
@@ -50,7 +50,7 @@ public class StartMutedPacketExtension
      */
     public StartMutedPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

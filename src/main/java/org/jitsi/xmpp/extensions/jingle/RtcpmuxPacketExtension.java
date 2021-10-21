@@ -27,14 +27,14 @@ public class RtcpmuxPacketExtension
     /**
      * The name of the "encryption" element.
      */
-    public static final String ELEMENT_NAME = "rtcp-mux";
+    public static final String ELEMENT = "rtcp-mux";
 
     /**
      * Creates a new instance of <tt>RtcpmuxPacketExtension</tt>.
      */
     public RtcpmuxPacketExtension()
     {
-        super(null, ELEMENT_NAME);
+        super(null, ELEMENT);
     }
 }
 

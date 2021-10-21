@@ -61,11 +61,11 @@ public class StunProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(ServerPacketExtension.ELEMENT_NAME))
+                if (elementName.equals(ServerPacketExtension.ELEMENT))
                 {
                     ExtensionElementProvider provider = (ExtensionElementProvider)
                         ProviderManager.getExtensionProvider(
-                                ServerPacketExtension.ELEMENT_NAME,
+                                ServerPacketExtension.ELEMENT,
                                 ServerPacketExtension.NAMESPACE);
                     ExtensionElement childExtension =
                             (ExtensionElement) provider.parse(parser);
@@ -75,7 +75,7 @@ public class StunProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        StunPacketExtension.ELEMENT_NAME))
+                        StunPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

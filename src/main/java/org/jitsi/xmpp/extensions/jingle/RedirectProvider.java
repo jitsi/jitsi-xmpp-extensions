@@ -65,7 +65,7 @@ public class RedirectProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                    RedirectPacketExtension.ELEMENT_NAME))
+                    RedirectPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

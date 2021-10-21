@@ -28,7 +28,7 @@ public class HealthCheckIQ
     /**
      * Health check IQ element name.
      */
-    final static public String ELEMENT_NAME = "healthcheck";
+    final static public String ELEMENT = "healthcheck";
 
     /**
      * XML namespace name for health check IQs.
@@ -38,7 +38,7 @@ public class HealthCheckIQ
 
     public HealthCheckIQ()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     /**

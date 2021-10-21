@@ -17,6 +17,8 @@ package org.jitsi.xmpp.extensions.rayo;
 
 import org.jitsi.xmpp.extensions.*;
 
+import javax.xml.namespace.*;
+
 /**
  * Header packet extension optionally included in {@link RayoIqProvider.RayoIq}.
  * Holds 'name' and 'value' attributes.
@@ -29,7 +31,12 @@ public class HeaderExtension
     /**
      * XML element name.
      */
-    public static final String ELEMENT_NAME = "header";
+    public static final String ELEMENT = "header";
+
+    /**
+     * Qualified name of element.
+     */
+    public static final QName QNAME = new QName(RayoIqProvider.NAMESPACE, ELEMENT);
 
     /**
      * The name of 'name' attribute.
@@ -46,7 +53,7 @@ public class HeaderExtension
      */
     public HeaderExtension()
     {
-        super(RayoIqProvider.NAMESPACE, ELEMENT_NAME);
+        super(RayoIqProvider.NAMESPACE, ELEMENT);
     }
 
     /**

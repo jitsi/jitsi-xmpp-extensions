@@ -100,7 +100,7 @@ public class EndpointProvider
                             CoinIQProvider.parseText(parser)));
                 }
                 else if (elementName.equals(
-                        CallInfoPacketExtension.ELEMENT_NAME))
+                        CallInfoPacketExtension.ELEMENT))
                 {
                     ExtensionElementProvider provider
                         = new DefaultPacketExtensionProvider<
@@ -109,7 +109,7 @@ public class EndpointProvider
                             parser);
                     ext.addChildExtension(childExtension);
                 }
-                else if (elementName.equals(MediaPacketExtension.ELEMENT_NAME))
+                else if (elementName.equals(MediaPacketExtension.ELEMENT))
                 {
                     ExtensionElementProvider provider
                         = new MediaProvider();
@@ -121,7 +121,7 @@ public class EndpointProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        EndpointPacketExtension.ELEMENT_NAME))
+                        EndpointPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

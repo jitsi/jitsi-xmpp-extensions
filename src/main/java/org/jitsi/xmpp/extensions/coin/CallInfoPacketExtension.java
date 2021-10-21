@@ -33,13 +33,13 @@ public class CallInfoPacketExtension
     /**
      * The name of the element that contains the call info.
      */
-    public static final String ELEMENT_NAME = "call-info";
+    public static final String ELEMENT = "call-info";
 
     /**
      * Constructor.
      */
     public CallInfoPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

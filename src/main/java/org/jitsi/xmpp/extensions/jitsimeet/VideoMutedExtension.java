@@ -34,14 +34,14 @@ public class VideoMutedExtension
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT_NAME = "videomuted";
+    public static final String ELEMENT = "videomuted";
 
     /**
      * Creates new instance of <tt>VideoMutedExtension</tt>.
      */
     public VideoMutedExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

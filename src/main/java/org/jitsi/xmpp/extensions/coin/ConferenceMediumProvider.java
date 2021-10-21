@@ -90,7 +90,7 @@ public class ConferenceMediumProvider
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
                 if (parser.getName().equals(
-                        ConferenceMediumPacketExtension.ELEMENT_NAME))
+                        ConferenceMediumPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

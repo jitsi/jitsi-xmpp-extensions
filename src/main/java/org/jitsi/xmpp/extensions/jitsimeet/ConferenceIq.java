@@ -16,9 +16,11 @@
 package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jitsi.xmpp.extensions.*;
+import org.jitsi.xmpp.extensions.rayo.*;
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.*;
 
+import javax.xml.namespace.*;
 import java.util.*;
 
 /**
@@ -40,7 +42,7 @@ public class ConferenceIq
     /**
      * XML element name for the <tt>ConferenceIq</tt>.
      */
-    public static final String ELEMENT_NAME = "conference";
+    public static final String ELEMENT = "conference";
 
     /**
      * The name of the attribute that stores the name of multi user chat room
@@ -112,7 +114,7 @@ public class ConferenceIq
      */
     public ConferenceIq()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     @Override
@@ -202,7 +204,7 @@ public class ConferenceIq
     public List<Property> getProperties()
     {
         return (List)getExtensions(
-                Property.ELEMENT_NAME,
+                Property.ELEMENT,
                 ConferenceIq.NAMESPACE);
     }
 
@@ -294,7 +296,12 @@ public class ConferenceIq
         /**
          * The name of property XML element.
          */
-        public static final String ELEMENT_NAME = "property";
+        public static final String ELEMENT = "property";
+
+        /**
+         * Qualified name of element.
+         */
+        public static final QName QNAME = new QName(ConferenceIq.NAMESPACE, ELEMENT);
 
         /**
          * The name of 'name' property attribute.
@@ -311,7 +318,7 @@ public class ConferenceIq
          */
         public Property()
         {
-            super(ConferenceIq.NAMESPACE, ELEMENT_NAME);
+            super(ConferenceIq.NAMESPACE, ELEMENT);
         }
 
         /**

@@ -35,7 +35,7 @@ public class ConferenceMediumPacketExtension
     /**
      * The name of the element that contains the conference medium.
      */
-    public static final String ELEMENT_NAME = "medium";
+    public static final String ELEMENT = "medium";
 
     /**
      * Display text element name.

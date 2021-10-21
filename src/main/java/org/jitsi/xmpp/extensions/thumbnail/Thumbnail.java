@@ -32,7 +32,7 @@ public class Thumbnail
     /**
      * The name of the XML element used for transport of thumbnail parameters.
      */
-    public static final String ELEMENT_NAME = "thumbnail";
+    public static final String ELEMENT = "thumbnail";
 
     /**
      * The names XMPP space that the thumbnail elements belong to.
@@ -129,7 +129,7 @@ public class Thumbnail
         StringBuffer buf = new StringBuffer();
 
         // open element
-        buf.append("<").append(ELEMENT_NAME).
+        buf.append("<").append(ELEMENT).
             append(" xmlns=\"").append(NAMESPACE).append("\"");
 
         // adding thumbnail parameters

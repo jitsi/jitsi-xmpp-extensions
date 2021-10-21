@@ -29,7 +29,7 @@ public class TransferredPacketExtension
     /**
      * The name of the "transfer" element.
      */
-    public static final String ELEMENT_NAME = "transferred";
+    public static final String ELEMENT = "transferred";
 
     /**
      * The namespace of the "transfer" element.
@@ -41,6 +41,6 @@ public class TransferredPacketExtension
      */
     public TransferredPacketExtension()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 }

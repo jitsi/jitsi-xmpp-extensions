@@ -40,7 +40,7 @@ public class ColibriConferenceIQ
     /**
      * The XML element name of the Jitsi Videobridge <tt>conference</tt> IQ.
      */
-    public static final String ELEMENT_NAME = "conference";
+    public static final String ELEMENT = "conference";
 
     /**
      * The XML name of the <tt>id</tt> attribute of the Jitsi Videobridge
@@ -165,7 +165,7 @@ public class ColibriConferenceIQ
     /** Initializes a new <tt>ColibriConferenceIQ</tt> instance. */
     public ColibriConferenceIQ()
     {
-        super(ELEMENT_NAME, NAMESPACE);
+        super(ELEMENT, NAMESPACE);
     }
 
     /**
@@ -535,7 +535,7 @@ public class ColibriConferenceIQ
          * The XML element name of a <tt>channel</tt> of a <tt>content</tt> of a
          * Jitsi Videobridge <tt>conference</tt> IQ.
          */
-        public static final String ELEMENT_NAME = "channel";
+        public static final String ELEMENT = "channel";
 
         /**
          * The XML name of the <tt>host</tt> attribute of a <tt>channel</tt> of
@@ -616,7 +616,7 @@ public class ColibriConferenceIQ
          * element and which identifies/specifies an (RTP) SSRC which has been
          * seen/received on the respective <tt>Channel</tt>.
          */
-        public static final String SSRC_ELEMENT_NAME = "ssrc";
+        public static final String SSRC_ELEMENT = "ssrc";
 
         /**
          * The direction of the <tt>channel</tt> represented by this instance.
@@ -723,7 +723,7 @@ public class ColibriConferenceIQ
         /** Initializes a new <tt>Channel</tt> instance. */
         public Channel()
         {
-            super(Channel.ELEMENT_NAME);
+            super(Channel.ELEMENT);
         }
 
         /**
@@ -1154,7 +1154,7 @@ public class ColibriConferenceIQ
 
             for (int i = 0; i < ssrcs.length; i++)
             {
-                xml.element(SSRC_ELEMENT_NAME,
+                xml.element(SSRC_ELEMENT,
                     Long.toString(ssrcs[i] & 0xFFFFFFFFL));
             }
 
@@ -1432,7 +1432,7 @@ public class ColibriConferenceIQ
         /**
          * The name of the "relay" child element of an {@link OctoChannel}.
          */
-        public static final String RELAY_ELEMENT_NAME = "relay";
+        public static final String RELAY_ELEMENT = "relay";
 
         /**
          * The name of the "id" attribute of child elements with name "relay".
@@ -1508,7 +1508,7 @@ public class ColibriConferenceIQ
             super.printContent(xml);
             for (String relay : relays)
             {
-                xml.halfOpenElement(RELAY_ELEMENT_NAME)
+                xml.halfOpenElement(RELAY_ELEMENT)
                     .attribute(ID_ATTR_NAME, relay)
                     .closeEmptyElement();
             }
@@ -1525,7 +1525,7 @@ public class ColibriConferenceIQ
         /**
          * The name of the "channel-bundle" element.
          */
-        public static final String ELEMENT_NAME = "channel-bundle";
+        public static final String ELEMENT = "channel-bundle";
 
         /**
          * The name of the "id" attribute.
@@ -1595,14 +1595,14 @@ public class ColibriConferenceIQ
         public IQChildElementXmlStringBuilder toXML(
             IQChildElementXmlStringBuilder xml)
         {
-            xml.halfOpenElement(ELEMENT_NAME)
+            xml.halfOpenElement(ELEMENT)
                 .attribute(ID_ATTR_NAME, id);
 
             if (transport != null)
             {
                 xml.rightAngleBracket();
                 xml.append(transport.toXML());
-                xml.closeElement(ELEMENT_NAME);
+                xml.closeElement(ELEMENT);
             }
             else
             {
@@ -1967,7 +1967,7 @@ public class ColibriConferenceIQ
          * The XML element name of a <tt>content</tt> of a Jitsi Videobridge
          * <tt>conference</tt> IQ.
          */
-        public static final String ELEMENT_NAME = "content";
+        public static final String ELEMENT = "content";
 
         /**
          * The XML name of the <tt>name</tt> attribute of a <tt>content</tt> of
@@ -2202,7 +2202,7 @@ public class ColibriConferenceIQ
         public IQChildElementXmlStringBuilder toXML(
             IQChildElementXmlStringBuilder xml)
         {
-            xml.halfOpenElement(ELEMENT_NAME)
+            xml.halfOpenElement(ELEMENT)
                 .attribute(NAME_ATTR_NAME, getName());
 
             List<Channel> channels = getChannels();
@@ -2225,7 +2225,7 @@ public class ColibriConferenceIQ
                     conn.toXML(xml);
                 }
 
-                xml.closeElement(ELEMENT_NAME);
+                xml.closeElement(ELEMENT);
             }
 
             return xml;
@@ -2256,7 +2256,7 @@ public class ColibriConferenceIQ
         /**
          * The name of the 'endpoint' element.
          */
-        public static final String ELEMENT_NAME = "endpoint";
+        public static final String ELEMENT = "endpoint";
 
         /**
          * The name of the 'id' attribute.
@@ -2362,7 +2362,7 @@ public class ColibriConferenceIQ
         public IQChildElementXmlStringBuilder toXML(
             IQChildElementXmlStringBuilder xml)
         {
-            xml.halfOpenElement(ELEMENT_NAME)
+            xml.halfOpenElement(ELEMENT)
                 .attribute(ID_ATTR_NAME, id);
 
             xml.optAttribute(DISPLAYNAME_ATTR_NAME, displayName);
@@ -2381,7 +2381,7 @@ public class ColibriConferenceIQ
         /**
          * The XML name of the <tt>recording</tt> element.
          */
-        public static final String ELEMENT_NAME = "recording";
+        public static final String ELEMENT = "recording";
 
         /**
          * The XML name of the <tt>path</tt> attribute.
@@ -2479,7 +2479,7 @@ public class ColibriConferenceIQ
 
         public IQChildElementXmlStringBuilder toXML(IQChildElementXmlStringBuilder xml)
         {
-            xml.halfOpenElement(ELEMENT_NAME)
+            xml.halfOpenElement(ELEMENT)
                 .attribute(STATE_ATTR_NAME, state.toString())
                 .optAttribute(TOKEN_ATTR_NAME, token)
                 .optAttribute(DIRECTORY_ATTR_NAME, directory)
@@ -2551,19 +2551,19 @@ public class ColibriConferenceIQ
     public static class GracefulShutdown
         extends AbstractPacketExtension
     {
-        public static final String ELEMENT_NAME = "graceful-shutdown";
+        public static final String ELEMENT = "graceful-shutdown";
 
         public static final String NAMESPACE = ColibriConferenceIQ.NAMESPACE;
 
         public GracefulShutdown()
         {
-            super(ColibriConferenceIQ.NAMESPACE, ELEMENT_NAME);
+            super(ColibriConferenceIQ.NAMESPACE, ELEMENT);
         }
     }
 
     public static class RTCPTerminationStrategy
     {
-        public static final String ELEMENT_NAME = "rtcp-termination-strategy";
+        public static final String ELEMENT = "rtcp-termination-strategy";
 
         public static final String NAME_ATTR_NAME = "name";
 
@@ -2581,7 +2581,7 @@ public class ColibriConferenceIQ
 
         public IQChildElementXmlStringBuilder toXML(IQChildElementXmlStringBuilder xml)
         {
-            xml.halfOpenElement(ELEMENT_NAME)
+            xml.halfOpenElement(ELEMENT)
                 .attribute(NAME_ATTR_NAME, name)
                 .closeEmptyElement();
             return xml;
@@ -2601,7 +2601,7 @@ public class ColibriConferenceIQ
          * The XML element name of a <tt>content</tt> of a Jitsi Videobridge
          * <tt>conference</tt> IQ.
          */
-        public static final String ELEMENT_NAME = "sctpconnection";
+        public static final String ELEMENT = "sctpconnection";
 
         /**
          * The XML name of the <tt>port</tt> attribute of a
@@ -2622,7 +2622,7 @@ public class ColibriConferenceIQ
          */
         public SctpConnection()
         {
-            super(SctpConnection.ELEMENT_NAME);
+            super(SctpConnection.ELEMENT);
         }
 
         /**

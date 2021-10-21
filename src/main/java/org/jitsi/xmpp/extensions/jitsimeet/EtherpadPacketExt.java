@@ -34,14 +34,14 @@ public class EtherpadPacketExt
     /**
      * XML element name of this packets extension.
      */
-    public static final String ELEMENT_NAME = "etherpad";
+    public static final String ELEMENT = "etherpad";
 
     /**
      * Creates new instance of <tt>EtherpadPacketExt</tt>.
      */
     public EtherpadPacketExt()
     {
-        super(NAMESPACE, ELEMENT_NAME);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**

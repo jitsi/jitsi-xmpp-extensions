@@ -39,7 +39,7 @@ public class MuteIqProvider
     public static void registerMuteIqProvider()
     {
         ProviderManager.addIQProvider(
-            MuteIq.ELEMENT_NAME,
+            MuteIq.ELEMENT,
             MuteIq.NAMESPACE,
             new MuteIqProvider());
     }
@@ -63,7 +63,7 @@ public class MuteIqProvider
 
         MuteIq iq;
 
-        if (MuteIq.ELEMENT_NAME.equals(rootElement))
+        if (MuteIq.ELEMENT.equals(rootElement))
         {
             iq = new MuteIq();
             String jidStr = parser.getAttributeValue("", MuteIq.JID_ATTR_NAME);
