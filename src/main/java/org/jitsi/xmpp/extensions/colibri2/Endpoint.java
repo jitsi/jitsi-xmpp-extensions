@@ -61,12 +61,12 @@ public class Endpoint
         /* Should this enforce a non-null id? */
         if (b.id != null)
         {
-            super.setAttribute(ID_ATTR_NAME, b.id);
+            setAttribute(ID_ATTR_NAME, b.id);
         }
 
         if (b.statsId != null)
         {
-            super.setAttribute(STATS_ID_ATTR_NAME, b.statsId);
+            setAttribute(STATS_ID_ATTR_NAME, b.statsId);
         }
     }
 
@@ -75,7 +75,7 @@ public class Endpoint
      */
     public String getId()
     {
-        return super.getAttributeAsString(ID_ATTR_NAME);
+        return getAttributeAsString(ID_ATTR_NAME);
     }
 
     /**
@@ -83,7 +83,7 @@ public class Endpoint
      */
     public String getStatsId()
     {
-        return super.getAttributeAsString(STATS_ID_ATTR_NAME);
+        return getAttributeAsString(STATS_ID_ATTR_NAME);
     }
 
     /**

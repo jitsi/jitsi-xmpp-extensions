@@ -66,17 +66,17 @@ public class Transport
 
         if (b.initiator != null)
         {
-            super.setAttribute(INITIATOR_ATTR_NAME, b.initiator);
+            setAttribute(INITIATOR_ATTR_NAME, b.initiator);
         }
 
         if (b.useUniquePort)
         {
-            super.setAttribute(USE_UNIQUE_PORT_ATTR_NAME, true);
+            setAttribute(USE_UNIQUE_PORT_ATTR_NAME, true);
         }
 
         if (b.iceUdpExtension != null)
         {
-            super.addChildExtension(b.iceUdpExtension);
+            addChildExtension(b.iceUdpExtension);
         }
     }
 
@@ -97,7 +97,7 @@ public class Transport
      */
     public Boolean getInitiator()
     {
-        Object initiator = super.getAttribute(INITIATOR_ATTR_NAME);
+        Object initiator = getAttribute(INITIATOR_ATTR_NAME);
         if (initiator == null)
         {
             return null;
@@ -119,7 +119,7 @@ public class Transport
      */
     public boolean getUseUniquePort()
     {
-        Object use = super.getAttribute(USE_UNIQUE_PORT_ATTR_NAME);
+        Object use = getAttribute(USE_UNIQUE_PORT_ATTR_NAME);
         if (use instanceof Boolean)
         {
             return (Boolean) use;

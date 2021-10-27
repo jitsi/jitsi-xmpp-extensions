@@ -53,12 +53,12 @@ public class Relay
 
         if (b.id != null)
         {
-            super.setAttribute(ID_ATTR_NAME, b.id);
+            setAttribute(ID_ATTR_NAME, b.id);
         }
 
         if (b.endpoints != null)
         {
-            super.addChildExtension(b.endpoints);
+            addChildExtension(b.endpoints);
         }
     }
 
@@ -67,7 +67,7 @@ public class Relay
      */
     public String getId()
     {
-        return super.getAttributeAsString(ID_ATTR_NAME);
+        return getAttributeAsString(ID_ATTR_NAME);
     }
 
     /**

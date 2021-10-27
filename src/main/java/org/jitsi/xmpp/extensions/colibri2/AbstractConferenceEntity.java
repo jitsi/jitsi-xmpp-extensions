@@ -48,22 +48,22 @@ public abstract class AbstractConferenceEntity
 
         if (b.expire)
         {
-            super.setAttribute(EXPIRE_ATTR_NAME, b.expire);
+            setAttribute(EXPIRE_ATTR_NAME, b.expire);
         }
 
         for (Media m: b.medias)
         {
-            super.addChildExtension(m);
+            addChildExtension(m);
         }
 
         if (b.transport != null)
         {
-            super.addChildExtension(b.transport);
+            addChildExtension(b.transport);
         }
 
         if (b.sources != null)
         {
-            super.addChildExtension(b.sources);
+            addChildExtension(b.sources);
         }
     }
 
@@ -72,7 +72,7 @@ public abstract class AbstractConferenceEntity
      */
     public List<Media> getMedia()
     {
-        return super.getChildExtensionsOfType(Media.class);
+        return getChildExtensionsOfType(Media.class);
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class AbstractConferenceEntity
      */
     public Transport getTransport()
     {
-        return super.getFirstChildOfType(Transport.class);
+        return getFirstChildOfType(Transport.class);
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class AbstractConferenceEntity
      */
     public Sources getSources()
     {
-        return super.getFirstChildOfType(Sources.class);
+        return getFirstChildOfType(Sources.class);
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class AbstractConferenceEntity
     public boolean getExpire()
     {
         /* Anything other than "true" (including null) parses as "false" to parseBoolean, which is fine. */
-        return Boolean.parseBoolean(super.getAttributeAsString(EXPIRE_ATTR_NAME));
+        return Boolean.parseBoolean(getAttributeAsString(EXPIRE_ATTR_NAME));
     }
 
     /**

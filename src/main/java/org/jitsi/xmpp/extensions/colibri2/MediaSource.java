@@ -78,16 +78,16 @@ public class MediaSource
         {
             throw new IllegalArgumentException("Source media type must be set");
         }
-        super.setAttribute(TYPE_ATTR_NAME, b.type.toString());
+        setAttribute(TYPE_ATTR_NAME, b.type.toString());
 
-        super.setAttribute(ID_NAME, b.id);
+        setAttribute(ID_NAME, b.id);
 
         for (SourcePacketExtension s: b.sources) {
-            super.addChildExtension(s);
+            addChildExtension(s);
         }
 
         for (SourceGroupPacketExtension sg: b.ssrcGroups) {
-            super.addChildExtension(sg);
+            addChildExtension(sg);
         }
     }
 
@@ -96,7 +96,7 @@ public class MediaSource
      */
     public String getId()
     {
-        return super.getAttributeAsString(ID_NAME);
+        return getAttributeAsString(ID_NAME);
     }
 
     /**
@@ -104,7 +104,7 @@ public class MediaSource
      */
     public MediaType getType()
     {
-        return MediaType.parseString(super.getAttributeAsString(TYPE_ATTR_NAME));
+        return MediaType.parseString(getAttributeAsString(TYPE_ATTR_NAME));
     }
 
     /**
@@ -112,7 +112,7 @@ public class MediaSource
      */
     public List<SourcePacketExtension> getSources()
     {
-        return super.getChildExtensionsOfType(SourcePacketExtension.class);
+        return getChildExtensionsOfType(SourcePacketExtension.class);
     }
 
     /**
@@ -120,7 +120,7 @@ public class MediaSource
      */
     public List<SourceGroupPacketExtension> getSsrcGroups()
     {
-        return super.getChildExtensionsOfType(SourceGroupPacketExtension.class);
+        return getChildExtensionsOfType(SourceGroupPacketExtension.class);
     }
 
     /**

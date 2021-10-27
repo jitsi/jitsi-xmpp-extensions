@@ -35,7 +35,7 @@ public class ConferenceModifiedIQ
 
         if (b.sources != null)
         {
-            super.addExtension(b.sources);
+            addExtension(b.sources);
         }
     }
 
@@ -44,7 +44,7 @@ public class ConferenceModifiedIQ
      */
     public Sources getSources()
     {
-        return super.getExtension(Sources.class);
+        return getExtension(Sources.class);
     }
 
     public static Builder builder(XMPPConnection connection)

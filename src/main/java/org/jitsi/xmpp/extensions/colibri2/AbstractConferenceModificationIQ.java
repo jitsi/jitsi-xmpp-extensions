@@ -71,7 +71,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
         name = b.conferenceName;
 
         for (AbstractConferenceEntity ce: b.conferenceEntities) {
-            super.addExtension(ce);
+            addExtension(ce);
         }
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
      */
     public List<Endpoint> getEndpoints()
     {
-        return super.getExtensions(Endpoint.class);
+        return getExtensions(Endpoint.class);
     }
 
     /**
@@ -104,7 +104,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
      */
     public List<Relay> getRelays()
     {
-        return super.getExtensions(Relay.class);
+        return getExtensions(Relay.class);
     }
 
     @Override

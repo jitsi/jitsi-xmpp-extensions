@@ -52,7 +52,7 @@ public class Endpoints
 
         for (Endpoint e: b.endpoints)
         {
-            super.addChildExtension(e);
+            addChildExtension(e);
         }
     }
 
@@ -61,7 +61,7 @@ public class Endpoints
      */
     public List<Endpoint> getEndpoints()
     {
-        return super.getChildExtensionsOfType(Endpoint.class);
+        return getChildExtensionsOfType(Endpoint.class);
     }
 
     /**

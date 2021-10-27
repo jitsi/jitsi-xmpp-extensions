@@ -69,14 +69,14 @@ public class Media
         {
             throw new IllegalArgumentException("Media type must be set");
         }
-        super.setAttribute(TYPE_ATTR_NAME, b.type.toString());
+        setAttribute(TYPE_ATTR_NAME, b.type.toString());
 
         for (PayloadTypePacketExtension pt: b.payloadTypes) {
-            super.addChildExtension(pt);
+            addChildExtension(pt);
         }
 
         for (RTPHdrExtPacketExtension ext: b.rtpHeaderExtensions) {
-            super.addChildExtension(ext);
+            addChildExtension(ext);
         }
     }
 
@@ -85,7 +85,7 @@ public class Media
      */
     public MediaType getType()
     {
-        return MediaType.parseString(super.getAttributeAsString(TYPE_ATTR_NAME));
+        return MediaType.parseString(getAttributeAsString(TYPE_ATTR_NAME));
     }
 
     /**
@@ -93,7 +93,7 @@ public class Media
      */
     public List<PayloadTypePacketExtension> getPayloadTypes()
     {
-        return super.getChildExtensionsOfType(PayloadTypePacketExtension.class);
+        return getChildExtensionsOfType(PayloadTypePacketExtension.class);
     }
 
     /**
@@ -101,7 +101,7 @@ public class Media
      */
     public List<RTPHdrExtPacketExtension> getRtpHdrExts()
     {
-        return super.getChildExtensionsOfType(RTPHdrExtPacketExtension.class);
+        return getChildExtensionsOfType(RTPHdrExtPacketExtension.class);
     }
 
    /**

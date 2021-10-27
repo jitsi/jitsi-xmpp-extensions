@@ -58,7 +58,7 @@ public class Sources
         super(NAMESPACE, ELEMENT);
 
         for (MediaSource ms: b.mediaSources) {
-            super.addChildExtension(ms);
+            addChildExtension(ms);
         }
     }
 
@@ -67,7 +67,7 @@ public class Sources
      */
     public List<MediaSource> getMediaSources()
     {
-        return super.getChildExtensionsOfType(MediaSource.class);
+        return getChildExtensionsOfType(MediaSource.class);
     }
 
     /**
