@@ -149,10 +149,6 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
 
         ProviderManager.addExtensionProvider(Endpoints.ELEMENT, Endpoints.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Endpoints.class));
-        ProviderManager.addExtensionProvider(EndpointAdd.ELEMENT, EndpointAdd.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(EndpointAdd.class));
-        ProviderManager.addExtensionProvider(EndpointRemove.ELEMENT, EndpointRemove.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(EndpointRemove.class));
 
         ProviderManager.addExtensionProvider(Sources.ELEMENT, Sources.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Sources.class));

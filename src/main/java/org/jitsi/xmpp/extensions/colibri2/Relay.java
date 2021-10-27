@@ -56,8 +56,9 @@ public class Relay
             super.setAttribute(ID_ATTR_NAME, b.id);
         }
 
-        for (AbstractEndpointSet e: b.endpointSets) {
-            super.addChildExtension(e);
+        if (b.endpoints != null)
+        {
+            super.addChildExtension(b.endpoints);
         }
     }
 
@@ -90,7 +91,7 @@ public class Relay
         /**
          * Remote endpoints sent from the relay.
          */
-        private final List<AbstractEndpointSet> endpointSets = new ArrayList<>();
+        private Endpoints endpoints = null;
 
         public Builder setId(String id)
         {
@@ -99,9 +100,9 @@ public class Relay
             return this;
         }
 
-        public Builder addEndpointSet(AbstractEndpointSet e)
+        public Builder addEndpoints(Endpoints e)
         {
-            endpointSets.add(e);
+            endpoints = e;
 
             return this;
         }

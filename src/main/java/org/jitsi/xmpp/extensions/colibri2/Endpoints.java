@@ -15,11 +15,16 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jitsi.xmpp.extensions.*;
+
 import javax.xml.namespace.*;
+import java.util.*;
 
 public class Endpoints
-    extends AbstractEndpointSet
+    extends AbstractPacketExtension
 {
+    public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
+
     /**
      * The XML element name of the Colibri2 Endpoints element.
      */
@@ -35,7 +40,7 @@ public class Endpoints
      */
     public Endpoints()
     {
-        super(ELEMENT);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -43,7 +48,20 @@ public class Endpoints
      */
     private Endpoints(Builder b)
     {
-        super(b, ELEMENT);
+        super(NAMESPACE, ELEMENT);
+
+        for (Endpoint e: b.endpoints)
+        {
+            super.addChildExtension(e);
+        }
+    }
+
+    /**
+     * Get the endpoints in this endpoint set
+     */
+    public List<Endpoint> getEndpoints()
+    {
+        return super.getChildExtensionsOfType(Endpoint.class);
     }
 
     /**
@@ -54,8 +72,21 @@ public class Endpoints
         return new Builder();
     }
 
-    public static class Builder extends AbstractEndpointSet.Builder
+    public static class Builder
     {
+        private final List<Endpoint> endpoints = new ArrayList<>();
+
+        protected Builder()
+        {
+        }
+
+        public Builder addEndpoint(Endpoint m)
+        {
+            endpoints.add(m);
+
+            return this;
+        }
+
         public Endpoints build()
         {
             return new Endpoints(this);
