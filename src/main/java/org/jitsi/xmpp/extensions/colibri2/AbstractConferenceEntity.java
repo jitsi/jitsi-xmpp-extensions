@@ -48,7 +48,7 @@ public abstract class AbstractConferenceEntity
 
         if (b.expire)
         {
-            super.setAttribute(EXPIRE_ATTR_NAME, b.toString());
+            super.setAttribute(EXPIRE_ATTR_NAME, b.expire);
         }
 
         for (Media m: b.medias)
