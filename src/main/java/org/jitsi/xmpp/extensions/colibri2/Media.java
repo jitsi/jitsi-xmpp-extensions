@@ -71,11 +71,13 @@ public class Media
         }
         setAttribute(TYPE_ATTR_NAME, b.type.toString());
 
-        for (PayloadTypePacketExtension pt: b.payloadTypes) {
+        for (PayloadTypePacketExtension pt: b.payloadTypes)
+        {
             addChildExtension(pt);
         }
 
-        for (RTPHdrExtPacketExtension ext: b.rtpHeaderExtensions) {
+        for (RTPHdrExtPacketExtension ext: b.rtpHeaderExtensions)
+        {
             addChildExtension(ext);
         }
     }

@@ -105,6 +105,7 @@ public abstract class AbstractConferenceEntity
      */
     protected abstract static class Builder
     {
+        /** The transport. */
         private Transport transport;
 
         private final List<Media> medias = new ArrayList<>();
