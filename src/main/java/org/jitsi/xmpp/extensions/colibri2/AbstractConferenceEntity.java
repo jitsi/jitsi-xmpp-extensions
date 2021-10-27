@@ -96,14 +96,7 @@ public abstract class AbstractConferenceEntity
      */
     public boolean getExpire()
     {
-        String attr = super.getAttributeAsString(EXPIRE_ATTR_NAME);
-
-        if (attr == null)
-        {
-            return false;
-        }
-
-        /* Anything other than "true" parses as "false" to parseBoolean, which is fine. */
+        /* Anything other than "true" (including null) parses as "false" to parseBoolean, which is fine. */
         return Boolean.parseBoolean(super.getAttributeAsString(EXPIRE_ATTR_NAME));
     }
 
