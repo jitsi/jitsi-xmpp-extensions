@@ -71,6 +71,14 @@ public class Relay
     }
 
     /**
+     * Get the remote endpoints associated with this relay.
+     */
+    public Endpoints getEndpoints()
+    {
+        return getChildExtension(Endpoints.class);
+    }
+
+    /**
      * Get a builder for Relay objects.
      */
     public static Builder getBuilder()
