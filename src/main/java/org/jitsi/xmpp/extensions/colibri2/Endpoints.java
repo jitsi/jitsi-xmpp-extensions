@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
 
 import javax.xml.namespace.*;
@@ -59,7 +60,7 @@ public class Endpoints
     /**
      * Get the endpoints in this endpoint set
      */
-    public List<Endpoint> getEndpoints()
+    public @NotNull List<Endpoint> getEndpoints()
     {
         return getChildExtensionsOfType(Endpoint.class);
     }
@@ -67,7 +68,8 @@ public class Endpoints
     /**
      * Get a builder for Endpoint objects.
      */
-    public static Builder getBuilder()
+    @Contract(" -> new")
+    public static @NotNull Builder getBuilder()
     {
         return new Builder();
     }
@@ -87,7 +89,8 @@ public class Endpoints
             return this;
         }
 
-        public Endpoints build()
+        @Contract(" -> new")
+        public @NotNull Endpoints build()
         {
             return new Endpoints(this);
         }

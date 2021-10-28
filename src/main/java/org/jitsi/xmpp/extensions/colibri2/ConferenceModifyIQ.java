@@ -15,10 +15,9 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.*;
-
-import java.util.*;
 
 public class ConferenceModifyIQ
     extends AbstractConferenceModificationIQ<ConferenceModifyIQ>
@@ -34,17 +33,20 @@ public class ConferenceModifyIQ
         super(b, ELEMENT);
     }
 
-    public static Builder builder(XMPPConnection connection)
+    @Contract("_ -> new")
+    public static @NotNull Builder builder(XMPPConnection connection)
     {
         return new Builder(connection);
     }
 
-    public static Builder builder(IqData iqData)
+    @Contract("_ -> new")
+    public static @NotNull Builder builder(IqData iqData)
     {
         return new Builder(iqData);
     }
 
-    public static Builder builder(String stanzaId)
+    @Contract("_ -> new")
+    public static @NotNull Builder builder(String stanzaId)
     {
         return new Builder(stanzaId);
     }
@@ -65,7 +67,8 @@ public class ConferenceModifyIQ
         }
 
         @Override
-        public ConferenceModifyIQ build()
+        @Contract(" -> new")
+        public @NotNull ConferenceModifyIQ build()
         {
             return new ConferenceModifyIQ(this);
         }

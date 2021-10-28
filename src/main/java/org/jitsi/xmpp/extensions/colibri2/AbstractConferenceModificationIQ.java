@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.*;
 
@@ -46,12 +47,12 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     /**
      * The id of the conference
      */
-    private String meetingId;
+    private final String meetingId;
 
     /**
      * The name of the conference
      */
-    private String name;
+    private final String name;
 
     /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
     protected AbstractConferenceModificationIQ(Builder<I> b, String element)
@@ -78,7 +79,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     /**
      * Get the name of the conference.
      */
-    public String getConferenceName()
+    public @NotNull String getConferenceName()
     {
         return name;
     }
@@ -86,7 +87,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     /**
      * Get the ID of the conference.
      */
-    public String getMeetingId()
+    public @NotNull String getMeetingId()
     {
         return meetingId;
     }
@@ -94,7 +95,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     /**
      * Get endpoints described by the message
      */
-    public List<Endpoint> getEndpoints()
+    public @NotNull List<Endpoint> getEndpoints()
     {
         return getExtensions(Endpoint.class);
     }
@@ -102,7 +103,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     /**
      * Get relays described by the message.
      */
-    public List<Relay> getRelays()
+    public @NotNull List<Relay> getRelays()
     {
         return getExtensions(Relay.class);
     }
@@ -171,7 +172,8 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
             return this;
         }
 
-        public abstract I build();
+        @Contract(" -> new")
+        public abstract @NotNull I build();
 
         @Override
         public Builder<I> getThis()

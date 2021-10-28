@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
 
@@ -95,7 +96,7 @@ public class Transport
     /**
      * Gets whether the transport is the initiator.  Return may be null if not set.
      */
-    public Boolean getInitiator()
+    public @Nullable Boolean getInitiator()
     {
         Object initiator = getAttribute(INITIATOR_ATTR_NAME);
         if (initiator == null)
@@ -134,7 +135,7 @@ public class Transport
     /**
      * Return the contained ICE UDP Transport object, or null.
      */
-    public IceUdpTransportPacketExtension getIceUdpTransport()
+    public @Nullable IceUdpTransportPacketExtension getIceUdpTransport()
     {
         return getChildExtension(IceUdpTransportPacketExtension.class);
     }
@@ -142,7 +143,8 @@ public class Transport
     /**
      * Get a builder for Transport objects.
      */
-    public static Builder getBuilder()
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull Builder getBuilder()
     {
         return new Builder();
     }
@@ -180,7 +182,8 @@ public class Transport
         {
         }
 
-        public Transport build()
+        @Contract(" -> new")
+        public @NotNull Transport build()
         {
             return new Transport(this);
         }

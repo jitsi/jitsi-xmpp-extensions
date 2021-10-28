@@ -15,6 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
+
 import javax.xml.namespace.*;
 import java.util.*;
 
@@ -65,7 +67,7 @@ public class Relay
     /**
      * Get the ID of the relay.
      */
-    public String getId()
+    public @Nullable String getId()
     {
         return getAttributeAsString(ID_ATTR_NAME);
     }
@@ -73,7 +75,7 @@ public class Relay
     /**
      * Get the remote endpoints associated with this relay.
      */
-    public Endpoints getEndpoints()
+    public @Nullable Endpoints getEndpoints()
     {
         return getChildExtension(Endpoints.class);
     }
@@ -81,7 +83,8 @@ public class Relay
     /**
      * Get a builder for Relay objects.
      */
-    public static Builder getBuilder()
+    @Contract(" -> new")
+    public static @NotNull Builder getBuilder()
     {
         return new Builder();
     }
@@ -120,7 +123,8 @@ public class Relay
             super();
         }
 
-        public Relay build()
+        @Contract(" -> new")
+        public @NotNull Relay build()
         {
             return new Relay(this);
         }

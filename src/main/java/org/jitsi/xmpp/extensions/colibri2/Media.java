@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.utils.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
@@ -85,7 +86,7 @@ public class Media
     /**
      * Get the media type of this media.
      */
-    public MediaType getType()
+    public @NotNull MediaType getType()
     {
         return MediaType.parseString(getAttributeAsString(TYPE_ATTR_NAME));
     }
@@ -93,7 +94,7 @@ public class Media
     /**
      * Get the payload types of this media.
      */
-    public List<PayloadTypePacketExtension> getPayloadTypes()
+    public @NotNull List<PayloadTypePacketExtension> getPayloadTypes()
     {
         return getChildExtensionsOfType(PayloadTypePacketExtension.class);
     }
@@ -101,7 +102,7 @@ public class Media
     /**
      * Get the RTP header extensions of this media.
      */
-    public List<RTPHdrExtPacketExtension> getRtpHdrExts()
+    public @NotNull List<RTPHdrExtPacketExtension> getRtpHdrExts()
     {
         return getChildExtensionsOfType(RTPHdrExtPacketExtension.class);
     }
@@ -171,7 +172,8 @@ public class Media
         {
         }
 
-        public Media build()
+        @Contract(" -> new")
+        public @NotNull Media build()
         {
             return new Media(this);
         }

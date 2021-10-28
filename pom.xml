@@ -53,6 +53,13 @@
       <version>3.9</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>19.0.0</version>
+      <optional>true</optional>
+    </dependency>
+
     <!-- test -->
     <dependency>
       <groupId>junit</groupId>

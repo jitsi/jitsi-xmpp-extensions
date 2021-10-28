@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
 
 import javax.xml.namespace.*;
@@ -65,7 +66,7 @@ public class Sources
     /**
      * Get the media sources.
      */
-    public List<MediaSource> getMediaSources()
+    public @NotNull List<MediaSource> getMediaSources()
     {
         return getChildExtensionsOfType(MediaSource.class);
     }
@@ -73,7 +74,8 @@ public class Sources
     /**
      * Get a builder for Sources objects.
      */
-    public static Builder getBuilder()
+    @Contract(" -> new")
+    public static @NotNull Builder getBuilder()
     {
         return new Builder();
     }
@@ -105,7 +107,8 @@ public class Sources
         {
         }
 
-        public Sources build()
+        @Contract(" -> new")
+        public @NotNull Sources build()
         {
             return new Sources(this);
         }

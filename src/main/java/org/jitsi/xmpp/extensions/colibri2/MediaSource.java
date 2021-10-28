@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.utils.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.colibri.*;
@@ -94,7 +95,7 @@ public class MediaSource
     /**
      * Get the ID of this source.
      */
-    public String getId()
+    public @Nullable String getId()
     {
         return getAttributeAsString(ID_NAME);
     }
@@ -102,7 +103,7 @@ public class MediaSource
     /**
      * Get the media type of this source.
      */
-    public MediaType getType()
+    public @NotNull MediaType getType()
     {
         return MediaType.parseString(getAttributeAsString(TYPE_ATTR_NAME));
     }
@@ -110,7 +111,7 @@ public class MediaSource
     /**
      * Get the sources of this media source.
      */
-    public List<SourcePacketExtension> getSources()
+    public @NotNull List<SourcePacketExtension> getSources()
     {
         return getChildExtensionsOfType(SourcePacketExtension.class);
     }
@@ -118,7 +119,7 @@ public class MediaSource
     /**
      * Get the RTP header extensions of this media.
      */
-    public List<SourceGroupPacketExtension> getSsrcGroups()
+    public @NotNull List<SourceGroupPacketExtension> getSsrcGroups()
     {
         return getChildExtensionsOfType(SourceGroupPacketExtension.class);
     }
@@ -126,7 +127,8 @@ public class MediaSource
     /**
      * Get a builder for MediaSource objects.
      */
-    public static Builder getBuilder()
+    @Contract(" -> new")
+    public static @NotNull Builder getBuilder()
     {
         return new Builder();
     }
@@ -202,7 +204,8 @@ public class MediaSource
         {
         }
 
-        public MediaSource build()
+        @Contract(" -> new")
+        public @NotNull MediaSource build()
         {
             return new MediaSource(this);
         }

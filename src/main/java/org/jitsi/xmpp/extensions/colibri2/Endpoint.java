@@ -15,6 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
+
 import javax.xml.namespace.*;
 
 /**
@@ -73,7 +75,7 @@ public class Endpoint
     /**
      * Get the ID of the endpoint.
      */
-    public String getId()
+    public @Nullable String getId()
     {
         return getAttributeAsString(ID_ATTR_NAME);
     }
@@ -81,7 +83,7 @@ public class Endpoint
     /**
      * Get the stats-id of the endpoint.
      */
-    public String getStatsId()
+    public @Nullable String getStatsId()
     {
         return getAttributeAsString(STATS_ID_ATTR_NAME);
     }
@@ -89,7 +91,8 @@ public class Endpoint
     /**
      * Get a builder for Endpoint objects.
      */
-    public static Builder getBuilder()
+    @Contract(" -> new")
+    public static @NotNull Builder getBuilder()
     {
         return new Builder();
     }
@@ -134,7 +137,8 @@ public class Endpoint
             return this;
         }
 
-        public Endpoint build()
+        @Contract(" -> new")
+        public @NotNull Endpoint build()
         {
             return new Endpoint(this);
         }

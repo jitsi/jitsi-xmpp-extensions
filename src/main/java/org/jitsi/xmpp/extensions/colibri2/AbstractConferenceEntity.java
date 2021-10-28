@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
 
 import java.util.*;
@@ -70,7 +71,7 @@ public abstract class AbstractConferenceEntity
     /**
      * Get the media associated with this conference entity.
      */
-    public List<Media> getMedia()
+    public @NotNull List<Media> getMedia()
     {
         return getChildExtensionsOfType(Media.class);
     }
@@ -78,7 +79,7 @@ public abstract class AbstractConferenceEntity
     /**
      * Get the transport associated with this conference entity.
      */
-    public Transport getTransport()
+    public @Nullable Transport getTransport()
     {
         return getFirstChildOfType(Transport.class);
     }
@@ -86,7 +87,7 @@ public abstract class AbstractConferenceEntity
     /**
      * Get the sources associated with this conference entity.
      */
-    public Sources getSources()
+    public @Nullable Sources getSources()
     {
         return getFirstChildOfType(Sources.class);
     }
@@ -148,6 +149,7 @@ public abstract class AbstractConferenceEntity
             return this;
         }
 
-        public abstract AbstractPacketExtension build();
+        @Contract(" -> new")
+        public abstract @NotNull AbstractPacketExtension build();
     }
 }
