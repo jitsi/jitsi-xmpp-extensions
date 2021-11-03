@@ -10,7 +10,7 @@
   <packaging>bundle</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <smack.version>4.4.3</smack.version>
+    <smack.version>4.4.4</smack.version>
   </properties>
 
   <name>jitsi-xmpp-extensions</name>
