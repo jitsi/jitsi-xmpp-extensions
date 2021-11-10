@@ -50,7 +50,7 @@ public class SctpMapExtensionProvider
             result.setProtocol(parser.getAttributeValue(null,
                 SctpMapExtension.PROTOCOL_ATTR_NAME));
             String stream_attr = parser.getAttributeValue(null, SctpMapExtension.STREAMS_ATTR_NAME);
-            if (!stream_attr.isEmpty())
+            if ((stream_attr != null) && (!stream_attr.isEmpty()))
             {
                 result.setStreams(Integer.parseInt(stream_attr));
             }
