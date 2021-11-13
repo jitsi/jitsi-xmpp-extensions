@@ -47,7 +47,7 @@ public enum JoiningType
      *
      * @param type type name.
      */
-    private JoiningType(String type)
+    JoiningType(String type)
     {
         this.type = type;
     }

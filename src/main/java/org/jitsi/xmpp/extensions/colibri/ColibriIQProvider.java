@@ -24,6 +24,7 @@ import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
+import org.jivesoftware.smack.xml.XmlPullParser.*;
 import org.jxmpp.jid.impl.*;
 
 import java.io.*;
@@ -39,7 +40,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * @author Boris Grozev
  */
 public class ColibriIQProvider
-    extends IQProvider
+    extends IqProvider
 {
     /**
      * The logger instance used by this class.
@@ -80,7 +81,7 @@ public class ColibriIQProvider
                 new DefaultPacketExtensionProvider<>(
                         SourceRidGroupPacketExtension.class));
 
-        ExtensionElementProvider parameterProvider
+        ExtensionElementProvider<ParameterPacketExtension> parameterProvider
                 = new DefaultPacketExtensionProvider<>(
                 ParameterPacketExtension.class);
 
@@ -102,7 +103,7 @@ public class ColibriIQProvider
                 ShutdownIQ.NAMESPACE,
                 this);
         // Shutdown extension
-        ExtensionElementProvider shutdownProvider
+        ExtensionElementProvider<ColibriConferenceIQ.GracefulShutdown> shutdownProvider
                 = new DefaultPacketExtensionProvider<>(
                     ColibriConferenceIQ.GracefulShutdown.class);
 
@@ -118,7 +119,7 @@ public class ColibriIQProvider
                 this);
 
         // ColibriStatsExtension
-        ExtensionElementProvider statsProvider
+        ExtensionElementProvider<ColibriStatsExtension> statsProvider
                 = new DefaultPacketExtensionProvider<>(
                 ColibriStatsExtension.class);
 
@@ -127,7 +128,7 @@ public class ColibriIQProvider
                 ColibriStatsExtension.NAMESPACE,
                 statsProvider);
         // ColibriStatsExtension.Stat
-        ExtensionElementProvider statProvider
+        ExtensionElementProvider<ColibriStatsExtension.Stat> statProvider
                 = new DefaultPacketExtensionProvider<>(
                     ColibriStatsExtension.Stat.class);
 
@@ -231,7 +232,7 @@ public class ColibriIQProvider
             String namespace)
         throws XmlPullParserException, IOException, SmackParsingException
     {
-        ExtensionElementProvider extensionProvider
+        ExtensionElementProvider<?> extensionProvider
             = ProviderManager.getExtensionProvider(
                         name,
                         namespace);
@@ -248,7 +249,7 @@ public class ColibriIQProvider
         }
         else
         {
-            extension = (ExtensionElement)extensionProvider.parse(parser);
+            extension = extensionProvider.parse(parser);
         }
         return extension;
     }
@@ -262,9 +263,7 @@ public class ColibriIQProvider
      * @return a new <tt>IQ</tt> instance parsed from the specified IQ
      * sub-document
      */
-    @SuppressWarnings("deprecation") // Compatibility with legacy Jitsi and
-                                     // Jitsi Videobridge
-    public IQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public IQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
@@ -907,17 +906,13 @@ public class ColibriIQProvider
 
             while (!done)
             {
-                switch (parser.next())
+                if (parser.next() == Event.END_ELEMENT)
                 {
-                    case END_ELEMENT:
-                    {
-                        String name = parser.getName();
+                    String name = parser.getName();
 
-                        if (rootElement.equals(name))
-                        {
-                            done = true;
-                        }
-                        break;
+                    if (rootElement.equals(name))
+                    {
+                        done = true;
                     }
                 }
             }

@@ -31,7 +31,7 @@ import java.io.*;
  * @author Pawel Domas
  */
 public class LogoutIqProvider
-    extends IQProvider<LogoutIq>
+    extends IqProvider<LogoutIq>
 {
     /**
      * Creates new instance of <tt>ConferenceIqProvider</tt>.
@@ -47,7 +47,7 @@ public class LogoutIqProvider
      * {@inheritDoc}
      */
     @Override
-    public LogoutIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public LogoutIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();

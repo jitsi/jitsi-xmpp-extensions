@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class StateProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<StatePacketExtension>
 {
     /**
      * Parses a state extension sub-packet and creates a {@link

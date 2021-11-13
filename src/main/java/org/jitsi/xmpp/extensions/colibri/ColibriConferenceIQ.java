@@ -201,7 +201,7 @@ public class ColibriConferenceIQ
     {
         Objects.requireNonNull(content, "content");
 
-        return contents.contains(content) ? false : contents.add(content);
+        return !contents.contains(content) && contents.add(content);
     }
 
     /**
@@ -746,9 +746,8 @@ public class ColibriConferenceIQ
                 p.setNamespace(null);
 
             return
-                payloadTypes.contains(payloadType)
-                    ? false
-                    : payloadTypes.add(payloadType);
+                !payloadTypes.contains(payloadType) && payloadTypes.add(
+                    payloadType);
         }
 
         /**
@@ -757,9 +756,6 @@ public class ColibriConferenceIQ
          *
          * @param ext the <tt>payload-type</tt> element to be added to
          * this <tt>channel</tt>
-         * @return <tt>true</tt> if the list of <tt>rtp-hdrext</tt> elements
-         * associated with this <tt>channel</tt> has been modified as part of
-         * the method call; otherwise, <tt>false</tt>
          */
         public void addRtpHeaderExtension(RTPHdrExtPacketExtension ext)
         {
@@ -775,10 +771,12 @@ public class ColibriConferenceIQ
             int id = -1;
             try
             {
-                id = Integer.valueOf(newExt.getID());
+                id = Integer.parseInt(newExt.getID());
             }
             catch (NumberFormatException nfe)
-            {}
+            {
+                // ignore, uses default
+            }
 
             // Only accept valid extension IDs (4-bits, 0xF reserved)
             if (id < 0 || id > 14)
@@ -804,7 +802,7 @@ public class ColibriConferenceIQ
         {
             Objects.requireNonNull(source, "source");
 
-            return sources.contains(source) ? false : sources.add(source);
+            return !sources.contains(source) && sources.add(source);
         }
 
         /**
@@ -828,9 +826,8 @@ public class ColibriConferenceIQ
             }
 
             return
-                sourceGroups.contains(sourceGroup)
-                    ? false
-                    : sourceGroups.add(sourceGroup);
+                !sourceGroups.contains(sourceGroup) && sourceGroups.add(
+                    sourceGroup);
         }
 
         /**
@@ -847,9 +844,9 @@ public class ColibriConferenceIQ
         public synchronized boolean addSSRC(int ssrc)
         {
             // contains
-            for (int i = 0; i < ssrcs.length; i++)
+            for (int j : ssrcs)
             {
-                if (ssrcs[i] == ssrc)
+                if (j == ssrc)
                     return false;
             }
 
@@ -1023,7 +1020,7 @@ public class ColibriConferenceIQ
             return
                 (sourceGroups == null)
                     ? null
-                    : new ArrayList<SourceGroupPacketExtension>(sourceGroups);
+                    : new ArrayList<>(sourceGroups);
         }
 
         /**
@@ -1035,7 +1032,7 @@ public class ColibriConferenceIQ
          */
         public synchronized List<SourcePacketExtension> getSources()
         {
-            return new ArrayList<SourcePacketExtension>(sources);
+            return new ArrayList<>(sources);
         }
 
         /**
@@ -1152,10 +1149,10 @@ public class ColibriConferenceIQ
                 for (SourceGroupPacketExtension sourceGroup : sourceGroups)
                     xml.append(sourceGroup.toXML());
 
-            for (int i = 0; i < ssrcs.length; i++)
+            for (int ssrc : ssrcs)
             {
                 xml.element(SSRC_ELEMENT,
-                    Long.toString(ssrcs[i] & 0xFFFFFFFFL));
+                    Long.toString(ssrc & 0xFFFFFFFFL));
             }
 
             return xml;
@@ -1182,16 +1179,13 @@ public class ColibriConferenceIQ
          *
          * @param ext the <tt>rtp-hdrext</tt> element to be removed
          * from this <tt>channel</tt>
-         * @return <tt>true</tt> if the list of <tt>rtp-hdrext</tt> elements
-         * associated with this <tt>channel</tt> has been modified as part of
-         * the method call; otherwise, <tt>false</tt>
          */
         public void removeRtpHeaderExtension(RTPHdrExtPacketExtension ext)
         {
             int id = -1;
             try
             {
-                id = Integer.valueOf(ext.getID());
+                id = Integer.parseInt(ext.getID());
             }
             catch (NumberFormatException nfe)
             {
@@ -1922,9 +1916,8 @@ public class ColibriConferenceIQ
                 .optIntAttribute(EXPIRE_ATTR_NAME, getExpire())
                 .optAttribute(ID_ATTR_NAME, getID())
                 .optAttribute(TYPE_ATTR_NAME, getType())
-                .optBooleanAttribute(INITIATOR_ATTR_NAME, isInitiator() == null
-                    ? false
-                    : isInitiator())
+                .optBooleanAttribute(INITIATOR_ATTR_NAME,
+                    isInitiator() != null && isInitiator())
                 .optAttribute(
                     CHANNEL_BUNDLE_ID_ATTR_NAME, getChannelBundleId());
 
@@ -1980,7 +1973,7 @@ public class ColibriConferenceIQ
          * The list of {@link Channel}s included into this <tt>content</tt> of a
          * <tt>conference</tt> IQ.
          */
-        private final List<Channel> channels = new LinkedList<Channel>();
+        private final List<Channel> channels = new LinkedList<>();
 
         /**
          * The name of the <tt>content</tt> represented by this instance.
@@ -1992,7 +1985,7 @@ public class ColibriConferenceIQ
          * <tt>content</tt> of a <tt>conference</tt> IQ.
          */
         private final List<SctpConnection> sctpConnections
-            = new LinkedList<SctpConnection>();
+            = new LinkedList<>();
 
         /**
          * Initializes a new <tt>Content</tt> instance without a name and
@@ -2027,7 +2020,7 @@ public class ColibriConferenceIQ
         {
             Objects.requireNonNull(channel, "channel");
 
-            return channels.contains(channel) ? false : channels.add(channel);
+            return !channels.contains(channel) && channels.add(channel);
         }
 
         /**
@@ -2406,7 +2399,7 @@ public class ColibriConferenceIQ
         /**
          * State of the recording..
          */
-        private State state;
+        private final State state;
 
         /**
          * Access token.
@@ -2424,7 +2417,6 @@ public class ColibriConferenceIQ
 
         /**
          * Construct new recording element.
-         * @param state
          */
         public Recording(State state)
         {
@@ -2513,9 +2505,8 @@ public class ColibriConferenceIQ
 
             /**
              * Constructs new state.
-             * @param name
              */
-            private State(String name)
+            State(String name)
             {
                 this.name = name;
             }

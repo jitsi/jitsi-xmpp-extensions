@@ -76,10 +76,6 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
                 {
                     text = parseText(parser);
                 }
-                else
-                {
-                    //this is an element that we don't currently support.
-                }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
@@ -89,10 +85,8 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
                 }
             }
         }
-        ReasonPacketExtension reasonExt
-            = new ReasonPacketExtension(reason, text, null);
 
-        return reasonExt;
+        return new ReasonPacketExtension(reason, text, null);
 
     }
 

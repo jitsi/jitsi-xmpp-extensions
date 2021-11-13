@@ -32,6 +32,6 @@ public class RemoteCandidatePacketExtension extends CandidatePacketExtension
      */
     public RemoteCandidatePacketExtension()
     {
-        super(ELEMENT);
+        super(null, ELEMENT);
     }
 }

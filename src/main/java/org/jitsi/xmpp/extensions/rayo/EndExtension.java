@@ -105,14 +105,13 @@ public class EndExtension
      */
     public static Presence createEnd(Jid from, Jid to, String reason)
     {
-        Presence presence = new Presence(Presence.Type.unavailable);
-        presence.setFrom(from);
-        presence.setTo(to);
-
         EndExtension end = new EndExtension();
         end.setReason(new ReasonExtension(reason));
 
-        presence.addExtension(end);
-        return presence;
+        PresenceBuilder presence = StanzaBuilder.buildPresence()
+            .from(from)
+            .to(to)
+            .addExtension(end);
+        return presence.build();
     }
 }

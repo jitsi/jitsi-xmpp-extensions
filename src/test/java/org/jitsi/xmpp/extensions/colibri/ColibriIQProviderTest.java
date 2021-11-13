@@ -110,7 +110,6 @@ public class ColibriIQProviderTest extends TestCase
     ColibriIQProvider colibriIQProvider;
 
     public void setUp()
-            throws Exception
     {
         colibriIQProvider = new ColibriIQProvider();
     }
@@ -133,7 +132,7 @@ public class ColibriIQProviderTest extends TestCase
         assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
         assertEquals(ColibriConferenceIQ.ELEMENT, name);
 
-        IQ result = colibriIQProvider.parse(xmlPullParser);
+        IQ result = colibriIQProvider.parse(xmlPullParser, null);
         List<SourcePacketExtension> sources =
                 ((ColibriConferenceIQ) result)
                         .getContent("video")

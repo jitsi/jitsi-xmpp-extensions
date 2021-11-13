@@ -147,7 +147,7 @@ public class GroupPacketExtension
         XmlPullParser.Event eventType;
         String elementName;
         DefaultPacketExtensionProvider<ContentPacketExtension> contentProvider
-            = new DefaultPacketExtensionProvider<ContentPacketExtension>(
+            = new DefaultPacketExtensionProvider<>(
             ContentPacketExtension.class);
         while (!done)
         {

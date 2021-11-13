@@ -41,7 +41,7 @@ public class ColibriStatsExtensionTest
         assertNull(stats.getValueAsInt("name"));
 
         stats.addStat("int", 13);
-        assertEquals(stats.getValueAsInt("int"), new Integer(13));
+        assertEquals(stats.getValueAsInt("int"), Integer.valueOf(13));
         assertEquals(stats.getValueAsString("int"), "13");
 
         assertNull(stats.getStat("somethingelse"));

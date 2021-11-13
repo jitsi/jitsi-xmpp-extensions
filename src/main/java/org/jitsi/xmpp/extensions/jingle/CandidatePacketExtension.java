@@ -118,9 +118,9 @@ public class CandidatePacketExtension extends AbstractPacketExtension
      *
      * @param elementName the element name that this instance should be using.
      */
-    protected CandidatePacketExtension(String elementName)
+    protected CandidatePacketExtension(String namespace, String elementName)
     {
-        super(null, elementName);
+        super(namespace, elementName);
     }
 
     /**

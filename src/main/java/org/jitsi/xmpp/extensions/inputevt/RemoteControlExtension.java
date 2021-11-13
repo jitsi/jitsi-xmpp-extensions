@@ -161,11 +161,11 @@ public class RemoteControlExtension
                 break;
             case MouseEvent.MOUSE_PRESSED:
                 ret = RemoteControlExtensionProvider.getMousePressedXML(
-                        e.getModifiers());
+                    e.getModifiersEx());
                 break;
             case MouseEvent.MOUSE_RELEASED:
                 ret = RemoteControlExtensionProvider.getMouseReleasedXML(
-                        e.getModifiers());
+                    e.getModifiersEx());
                 break;
             default:
                 break;

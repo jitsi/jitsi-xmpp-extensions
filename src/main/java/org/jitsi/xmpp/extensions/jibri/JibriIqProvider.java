@@ -30,13 +30,13 @@ import java.io.*;
  * Parses {@link JibriIq}.
  */
 public class JibriIqProvider
-    extends IQProvider<JibriIq>
+    extends IqProvider<JibriIq>
 {
     /**
      * {@inheritDoc}
      */
     @Override
-    public JibriIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public JibriIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();

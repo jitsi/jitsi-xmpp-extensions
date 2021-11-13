@@ -22,6 +22,7 @@ import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
 
 import java.io.*;
+import org.jivesoftware.smack.xml.XmlPullParser.*;
 
 /**
  * The <tt>IQProvider</tt> for {@link HealthCheckIQ}.
@@ -29,11 +30,11 @@ import java.io.*;
  * @author Pawel Domas
  */
 public class HealthCheckIQProvider
-    extends IQProvider
+    extends IqProvider<HealthCheckIQ>
 {
     /**
      * Registers <tt>HealthCheckIQProvider</tt> as an <tt>IQProvider</tt>
-     * in {@link AbstractSmackInteroperabilityLayer}.
+     * in Smack.
      */
     public static void registerIQProvider()
     {
@@ -50,11 +51,11 @@ public class HealthCheckIQProvider
      * {@inheritDoc}
      */
     @Override
-    public IQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public HealthCheckIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
-        IQ iq;
+        HealthCheckIQ iq;
 
         if (HealthCheckIQ.ELEMENT.equals(parser.getName())
             && HealthCheckIQ.NAMESPACE.equals(namespace))
@@ -67,17 +68,13 @@ public class HealthCheckIQProvider
 
             while (!done)
             {
-                switch (parser.next())
+                if (parser.next() == Event.END_ELEMENT)
                 {
-                    case END_ELEMENT:
-                    {
-                        String name = parser.getName();
+                    String name = parser.getName();
 
-                        if (rootElement.equals(name))
-                        {
-                            done = true;
-                        }
-                        break;
+                    if (rootElement.equals(name))
+                    {
+                        done = true;
                     }
                 }
             }

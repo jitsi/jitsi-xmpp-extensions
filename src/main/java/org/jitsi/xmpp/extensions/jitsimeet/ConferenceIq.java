@@ -16,7 +16,6 @@
 package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.jitsi.xmpp.extensions.*;
-import org.jitsi.xmpp.extensions.rayo.*;
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.*;
 
@@ -201,11 +200,10 @@ public class ConferenceIq
      * Returns the list of properties contained in this IQ.
      * @return list of <tt>Property</tt> contained in this IQ.
      */
+    @SuppressWarnings("unchecked")
     public List<Property> getProperties()
     {
-        return (List)getExtensions(
-                Property.ELEMENT,
-                ConferenceIq.NAMESPACE);
+        return (List) getExtensions(Property.ELEMENT, ConferenceIq.NAMESPACE);
     }
 
     /**

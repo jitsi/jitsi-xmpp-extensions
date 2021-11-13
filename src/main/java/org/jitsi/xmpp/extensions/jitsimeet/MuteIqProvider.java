@@ -31,7 +31,7 @@ import java.io.*;
  * @author Pawel Domas
  */
 public class MuteIqProvider
-    extends IQProvider<MuteIq>
+    extends IqProvider<MuteIq>
 {
     /**
      * Registers this IQ provider into given <tt>ProviderManager</tt>.
@@ -48,7 +48,7 @@ public class MuteIqProvider
      * {@inheritDoc}
      */
     @Override
-    public MuteIq parse(XmlPullParser parser, int initialDepth, XmlEnvironment xmlEnvironment)
+    public MuteIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();

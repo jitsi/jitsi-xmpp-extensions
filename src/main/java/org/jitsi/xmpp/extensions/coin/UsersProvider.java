@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class UsersProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<UsersPacketExtension>
 {
     /**
      * Parses a users extension sub-packet and creates a {@link
@@ -74,10 +74,8 @@ public class UsersProvider
             {
                 if (elementName.equals(UserPacketExtension.ELEMENT))
                 {
-                    ExtensionElementProvider provider
-                        = new UserProvider();
-                    ExtensionElement childExtension = (ExtensionElement)provider.parse(
-                            parser);
+                    UserProvider provider = new UserProvider();
+                    ExtensionElement childExtension = provider.parse(parser);
                     ext.addChildExtension(childExtension);
                 }
             }

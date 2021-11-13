@@ -30,7 +30,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class EndpointProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<EndpointPacketExtension>
 {
     /**
      * Parses a endpoint extension sub-packet and creates a {@link
@@ -47,12 +47,12 @@ public class EndpointProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public EndpointPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
         XmlPullParser.Event eventType;
-        String elementName = null;
+        String elementName;
         String entity = parser.getAttributeValue("",
                 EndpointPacketExtension.ENTITY_ATTR_NAME);
         StateType state = StateType.full;
@@ -76,46 +76,41 @@ public class EndpointProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(
-                        EndpointPacketExtension.ELEMENT_DISPLAY_TEXT))
+                switch (elementName)
                 {
+                case EndpointPacketExtension.ELEMENT_DISPLAY_TEXT:
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        EndpointPacketExtension.ELEMENT_DISCONNECTION))
-                {
+                    break;
+                case EndpointPacketExtension.ELEMENT_DISCONNECTION:
                     ext.setDisconnectionType(
-                            DisconnectionType.parseString(parser.getText()));
-                }
-                else if (elementName.equals(
-                        EndpointPacketExtension.ELEMENT_JOINING))
-                {
+                        DisconnectionType.parseString(parser.getText()));
+                    break;
+                case EndpointPacketExtension.ELEMENT_JOINING:
                     ext.setJoiningType(JoiningType.parseString(
-                            CoinIQProvider.parseText(parser)));
-                }
-                else if (elementName.equals(
-                        EndpointPacketExtension.ELEMENT_STATUS))
-                {
+                        CoinIQProvider.parseText(parser)));
+                    break;
+                case EndpointPacketExtension.ELEMENT_STATUS:
                     ext.setStatus(EndpointStatusType.parseString(
-                            CoinIQProvider.parseText(parser)));
-                }
-                else if (elementName.equals(
-                        CallInfoPacketExtension.ELEMENT))
+                        CoinIQProvider.parseText(parser)));
+                    break;
+                case CallInfoPacketExtension.ELEMENT:
                 {
-                    ExtensionElementProvider provider
-                        = new DefaultPacketExtensionProvider<
-                        CallInfoPacketExtension>(CallInfoPacketExtension.class);
-                    ExtensionElement childExtension = (ExtensionElement)provider.parse(
-                            parser);
+                    ExtensionElementProvider<CallInfoPacketExtension> provider
+                        = new DefaultPacketExtensionProvider<>(
+                        CallInfoPacketExtension.class);
+                    CallInfoPacketExtension childExtension
+                        = provider.parse(parser);
                     ext.addChildExtension(childExtension);
+                    break;
                 }
-                else if (elementName.equals(MediaPacketExtension.ELEMENT))
+                case MediaPacketExtension.ELEMENT:
                 {
-                    ExtensionElementProvider provider
-                        = new MediaProvider();
-                    ExtensionElement childExtension = (ExtensionElement)provider.parse(
-                            parser);
+                    MediaProvider provider = new MediaProvider();
+                    MediaPacketExtension childExtension =
+                        provider.parse(parser);
                     ext.addChildExtension(childExtension);
+                    break;
+                }
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)

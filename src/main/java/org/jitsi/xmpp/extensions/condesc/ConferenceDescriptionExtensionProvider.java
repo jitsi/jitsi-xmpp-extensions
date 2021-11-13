@@ -34,7 +34,6 @@ public class ConferenceDescriptionExtensionProvider
      * an XML document.
      * @param parser the parser to use.
      * @return the created <tt>ConferenceDescriptionPacketExtension</tt>.
-     * @throws Exception
      */
     @Override
     public ConferenceDescriptionExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)

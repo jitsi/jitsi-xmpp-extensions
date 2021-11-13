@@ -18,7 +18,6 @@ package org.jitsi.xmpp.extensions;
 import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
-import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
@@ -47,13 +46,13 @@ public abstract class AbstractPacketExtension
      * @return a new <tt>AbstractPacketExtension</tt> instance of the run-time
      * type of the specified <tt>src</tt> which has the same attributes,
      * namespace and text
-     * @throws Exception if an error occurs during the cloning of the specified
-     * <tt>src</tt>
+     * @throws RuntimeException if an error occurs during the cloning of the
+     * specified <tt>src</tt>
      */
     @SuppressWarnings("unchecked")
     public static <T extends AbstractPacketExtension> T clone(T src)
     {
-        T dst = null;
+        T dst;
         try
         {
             dst = (T) src.getClass().getConstructor().newInstance();
@@ -91,8 +90,7 @@ public abstract class AbstractPacketExtension
     /**
      * A map of all attributes that this extension is currently using.
      */
-    protected final Map<String, Object> attributes
-        = new LinkedHashMap<String, Object>();
+    protected final Map<String, Object> attributes = new LinkedHashMap<>();
 
     /**
      * The text content of this packet extension, if any.
@@ -437,9 +435,7 @@ public abstract class AbstractPacketExtension
 
             try
             {
-                URI uri = new URI(attributeVal);
-
-                return uri;
+                return new URI(attributeVal);
             }
             catch (URISyntaxException e)
             {
@@ -459,7 +455,7 @@ public abstract class AbstractPacketExtension
     {
         synchronized (attributes)
         {
-            return new ArrayList<String>(attributes.keySet());
+            return new ArrayList<>(attributes.keySet());
         }
     }
 

@@ -30,19 +30,17 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class JingleInfoQueryIQProvider
-    extends IQProvider<JingleInfoQueryIQ>
+    extends IqProvider<JingleInfoQueryIQ>
 {
     /**
      * STUN packet extension provider.
      */
-    private final ExtensionElementProvider stunProvider =
-        new StunProvider();
+    private final StunProvider stunProvider = new StunProvider();
 
     /**
      * Relay packet extension provider.
      */
-    private final ExtensionElementProvider relayProvider =
-        new RelayProvider();
+    private final RelayProvider relayProvider = new RelayProvider();
 
     /**
      * Creates a new instance of the <tt>JingleInfoQueryIQProvider</tt> and
@@ -54,8 +52,7 @@ public class JingleInfoQueryIQProvider
         ProviderManager.addExtensionProvider(
                 ServerPacketExtension.ELEMENT,
                 ServerPacketExtension.NAMESPACE,
-                new DefaultPacketExtensionProvider
-                    <ServerPacketExtension>(ServerPacketExtension.class));
+            new DefaultPacketExtensionProvider<>(ServerPacketExtension.class));
     }
 
     /**
@@ -66,7 +63,7 @@ public class JingleInfoQueryIQProvider
      * @throws Exception if an error occurs parsing the XML.
      */
     @Override
-    public JingleInfoQueryIQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public JingleInfoQueryIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
@@ -82,11 +79,11 @@ public class JingleInfoQueryIQProvider
             {
                 if (elementName.equals(StunPacketExtension.ELEMENT))
                 {
-                    iq.addExtension((StunPacketExtension)stunProvider.parse(parser));
+                    iq.addExtension(stunProvider.parse(parser));
                 }
                 else if (elementName.equals(RelayPacketExtension.ELEMENT))
                 {
-                    iq.addExtension((RelayPacketExtension)relayProvider.parse(parser));
+                    iq.addExtension(relayProvider.parse(parser));
                 }
             }
             if (eventType == XmlPullParser.Event.END_ELEMENT)
