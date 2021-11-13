@@ -18,10 +18,13 @@
 
 package org.jitsi.xmpp.extensions.colibri;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.jivesoftware.smack.packet.IQ;
-import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
+import org.jivesoftware.smack.xml.XmlPullParser.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.jxmpp.jid.impl.*;
 
 import org.jitsi.xmpp.extensions.jitsimeet.*;
@@ -29,7 +32,7 @@ import org.jitsi.xmpp.extensions.jitsimeet.*;
 import java.io.StringReader;
 import java.util.List;
 
-public class ColibriIQProviderTest extends TestCase
+public class ColibriIQProviderTest
 {
     private static final String testXml
         = "\n" +
@@ -109,11 +112,13 @@ public class ColibriIQProviderTest extends TestCase
 
     ColibriIQProvider colibriIQProvider;
 
+    @BeforeEach
     public void setUp()
     {
         colibriIQProvider = new ColibriIQProvider();
     }
 
+    @Test
     public void testParseSource()
             throws Exception
     {
@@ -122,14 +127,14 @@ public class ColibriIQProviderTest extends TestCase
         // Step forward to the the 'iq' element
         XmlPullParser.Event eventType = xmlPullParser.next();
         String name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
+        assertEquals(Event.START_ELEMENT, eventType);
         assertEquals("iq", name);
 
         // Move forward to the 'conference' element, which is what
         // ColibriIQProvider::parse expects
         eventType = xmlPullParser.next();
         name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
+        assertEquals(Event.START_ELEMENT, eventType);
         assertEquals(ColibriConferenceIQ.ELEMENT, name);
 
         IQ result = colibriIQProvider.parse(xmlPullParser, null);
@@ -177,7 +182,7 @@ public class ColibriIQProviderTest extends TestCase
 
         SSRCInfoPacketExtension ssrcInfo
             = source0.getFirstChildOfType(SSRCInfoPacketExtension.class);
-        assertNotNull(ssrcInfo);
+        Assertions.assertNotNull(ssrcInfo);
         assertEquals(
             JidCreate.fullFrom(
                 "test@conference.brian2.jitsi.net/66e3ea10"),
