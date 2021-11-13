@@ -20,8 +20,6 @@ package org.jitsi.xmpp.extensions.colibri;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.jivesoftware.smack.packet.IQ;
-import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smack.xml.XmlPullParser.*;
 import org.junit.jupiter.api.*;
@@ -33,7 +31,7 @@ import org.jitsi.xmpp.extensions.jitsimeet.*;
 import java.io.StringReader;
 import java.util.List;
 
-public class ColibriIQProviderTest
+public class ColibriConferenceIqProviderTest
 {
     private static final String testXml
         = "\n" +
@@ -111,12 +109,12 @@ public class ColibriIQProviderTest
               "</conference>" +
             "</iq>";
 
-    ColibriIQProvider colibriIQProvider;
+    ColibriConferenceIqProvider colibriConferenceIqProvider;
 
     @BeforeEach
     public void setUp()
     {
-        colibriIQProvider = new ColibriIQProvider();
+        colibriConferenceIqProvider = new ColibriConferenceIqProvider();
     }
 
     @Test
@@ -139,7 +137,7 @@ public class ColibriIQProviderTest
         assertEquals(ColibriConferenceIQ.ELEMENT, name);
 
         ColibriConferenceIQ result =
-            colibriIQProvider.parse(xmlPullParser, null);
+            colibriConferenceIqProvider.parse(xmlPullParser, null);
         List<SourcePacketExtension> sources =
             result
                 .getContent("video")

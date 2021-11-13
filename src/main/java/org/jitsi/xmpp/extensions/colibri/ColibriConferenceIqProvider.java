@@ -38,16 +38,17 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * @author Lyubomir Marinov
  * @author Boris Grozev
  */
-public class ColibriIQProvider
+public class ColibriConferenceIqProvider
     extends IqProvider<ColibriConferenceIQ>
 {
     /**
      * The logger instance used by this class.
      */
-    private final static Logger logger = new LoggerImpl(ColibriIQProvider.class.getName());
+    private final static Logger logger = new LoggerImpl(
+        ColibriConferenceIqProvider.class.getName());
 
     /** Initializes a new <tt>ColibriIQProvider</tt> instance. */
-    public ColibriIQProvider()
+    public ColibriConferenceIqProvider()
     {
         ProviderManager.addExtensionProvider(
                 PayloadTypePacketExtension.ELEMENT,
