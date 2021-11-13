@@ -1776,11 +1776,13 @@ public class ColibriConferenceIQ
 
         /**
          * Indicates whether there are some contents that should be printed as
-         * child elements of this IQ. If <tt>true</tt> is returned
-         * {@link #printContent(IQChildElementXmlStringBuilder)} method will be
-         * called when XML representation of this IQ is being constructed.
+         * child elements of this IQ. If <tt>true</tt> is returned {@link
+         * ChannelCommon#printContent(IQChildElementXmlStringBuilder)} method
+         * will be called when XML representation of this IQ is being
+         * constructed.
+         *
          * @return <tt>true</tt> if there are content to be printed as child
-         *         elements of this IQ or <tt>false</tt> otherwise.
+         * elements of this IQ or <tt>false</tt> otherwise.
          */
         protected abstract boolean hasContent();
 
@@ -1803,7 +1805,7 @@ public class ColibriConferenceIQ
         /**
          * Derived class implements this method in order to print additional
          * attributes to main XML element.
-         * @param xml <the <tt>XmlStringBuilder </tt> to which the XML
+         * @param xml the <tt>XmlStringBuilder</tt> to which the XML
          *            <tt>String</tt> representation of this <tt>Channel</tt>
          *            is to be appended</tt>
          */

@@ -18,8 +18,8 @@ package org.jitsi.xmpp.extensions.jingle;
 /**
  * XEP-0166 Jingle, stipulates that the value of the 'action' attribute MUST be
  * one of the values enumerated here. If an entity receives a value not defined
- * here, it MUST ignore the attribute and MUST return a <bad-request/> error to
- * the sender. There is no default value for the 'action' attribute.
+ * here, it MUST ignore the attribute and MUST return a {@code <bad-request/>}
+ * error to the sender. There is no default value for the 'action' attribute.
  *
  * @author Emil Ivov
  */
@@ -124,7 +124,7 @@ public enum JingleAction
      * <content/> element, the value of the <content/> element's 'disposition'
      * attribute MUST be "session" (if there are multiple <content/> elements
      * then at least one MUST have a disposition of "session"); if this rule is
-     * violated, the responder MUST return a <bad-request/> error to the
+     * violated, the responder MUST return a {@code <bad-request/>} error to the
      * initiator.
      */
     SESSION_INITIATE("session-initiate"),

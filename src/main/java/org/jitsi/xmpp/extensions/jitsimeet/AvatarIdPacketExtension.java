@@ -42,8 +42,6 @@ public class AvatarIdPacketExtension
 
     /**
      * Default constructor.
-     *
-     * {@inheritDoc}
      */
     public AvatarIdPacketExtension()
     {

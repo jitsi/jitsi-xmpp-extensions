@@ -25,10 +25,11 @@ import org.jivesoftware.smack.packet.*;
 /**
  * RTP header extension.
  *
- * <rtp-hdrext xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0"
- *   id="id" senders="both" uri="abcd">
- *       <parameter name="attributes" value="attributes-value"/>
+ * <pre>{@code 
+ * <rtp-hdrext xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0" id="id" senders="both" uri="abcd">
+ *   <parameter name="attributes" value="attributes-value"/>
  * </rtp-hdrext>
+ * }</pre>
  *
  * @author Sebastien Vincent
  */

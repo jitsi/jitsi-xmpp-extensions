@@ -389,7 +389,8 @@ public class CandidatePacketExtension extends AbstractPacketExtension
 
     /**
      * Compares this instance with another CandidatePacketExtension by
-     * preference of type: host < local < prflx < srflx < stun < relay.
+     * preference of type:
+     * host &lt; local &lt; prflx &lt; srflx &lt; stun &lt; relay.
      *
      * @return 0 if the type are equal. -1 if this instance type is preferred.
      * Otherwise 1.

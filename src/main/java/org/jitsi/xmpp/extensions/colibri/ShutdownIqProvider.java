@@ -16,7 +16,6 @@
 package org.jitsi.xmpp.extensions.colibri;
 
 import java.io.*;
-import org.jitsi.utils.logging2.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
