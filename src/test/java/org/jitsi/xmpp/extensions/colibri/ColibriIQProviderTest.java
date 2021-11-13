@@ -21,6 +21,7 @@ package org.jitsi.xmpp.extensions.colibri;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.jivesoftware.smack.packet.IQ;
+import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smack.xml.XmlPullParser.*;
 import org.junit.jupiter.api.*;
@@ -137,12 +138,13 @@ public class ColibriIQProviderTest
         assertEquals(Event.START_ELEMENT, eventType);
         assertEquals(ColibriConferenceIQ.ELEMENT, name);
 
-        IQ result = colibriIQProvider.parse(xmlPullParser, null);
+        ColibriConferenceIQ result =
+            colibriIQProvider.parse(xmlPullParser, null);
         List<SourcePacketExtension> sources =
-                ((ColibriConferenceIQ) result)
-                        .getContent("video")
-                        .getChannel(0)
-                        .getSources();
+            result
+                .getContent("video")
+                .getChannel(0)
+                .getSources();
         // There are 6 video sources in testXml, 3 ssrc and 3 rid
         assertEquals(6, sources.size());
         int numSsrcSources = 0;
