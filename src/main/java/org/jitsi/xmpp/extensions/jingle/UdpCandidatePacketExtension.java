@@ -16,27 +16,28 @@
 package org.jitsi.xmpp.extensions.jingle;
 
 /**
- * A representation of the <tt>remote-candidate</tt> ICE transport element.
+ * A representation of the <tt>candidate</tt> ICE transport element.
  *
  * @author Emil Ivov
  */
-public class RemoteCandidatePacketExtension extends CandidatePacketExtension
+public class UdpCandidatePacketExtension
+    extends CandidatePacketExtension
 {
     /**
      * The name of the "candidate" element.
      */
-    public static final String ELEMENT = "remote-candidate";
+    public static final String ELEMENT = CandidatePacketExtension.ELEMENT;
 
     /**
      * XML namespace of this extension.
      */
     public static final String NAMESPACE
-        = IceUdpTransportPacketExtension.NAMESPACE;
+        = RawUdpTransportPacketExtension.NAMESPACE;
 
     /**
      * Creates a new {@link CandidatePacketExtension}
      */
-    public RemoteCandidatePacketExtension()
+    public UdpCandidatePacketExtension()
     {
         super(NAMESPACE, ELEMENT);
     }

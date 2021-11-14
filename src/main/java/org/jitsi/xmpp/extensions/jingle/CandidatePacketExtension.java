@@ -20,7 +20,7 @@ import org.jitsi.xmpp.extensions.*;
 /**
  * @author Emil Ivov
  */
-public class CandidatePacketExtension extends AbstractPacketExtension
+public abstract class CandidatePacketExtension extends AbstractPacketExtension
     implements Comparable<CandidatePacketExtension>
 {
     /**

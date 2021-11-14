@@ -32,6 +32,12 @@ public class BandwidthPacketExtension
     public static final String ELEMENT = "bandwidth";
 
     /**
+     * XML namespace for this extension.
+     */
+    public static final String NAMESPACE
+        = RtpDescriptionPacketExtension.NAMESPACE;
+
+    /**
      * The name of the type argument.
      */
     public static final String TYPE_ATTR_NAME = "type";

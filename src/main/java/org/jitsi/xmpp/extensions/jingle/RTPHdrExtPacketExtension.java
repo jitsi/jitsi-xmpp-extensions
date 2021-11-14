@@ -181,8 +181,7 @@ public class RTPHdrExtPacketExtension
      */
     public void setAttributes(String attributes)
     {
-        ParameterPacketExtension paramExt =
-            new ParameterPacketExtension();
+        ParameterPacketExtension paramExt = new ParameterPacketExtension();
 
         paramExt.setName(ATTRIBUTES_ATTR_NAME);
         paramExt.setValue(attributes);

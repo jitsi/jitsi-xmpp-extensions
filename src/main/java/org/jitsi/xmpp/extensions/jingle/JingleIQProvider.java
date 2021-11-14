@@ -122,22 +122,22 @@ public class JingleIQProvider extends IqProvider<JingleIQ>
 
         //ice-udp <candidate/> provider
         ProviderManager.addExtensionProvider(
-                CandidatePacketExtension.ELEMENT,
-                IceUdpTransportPacketExtension.NAMESPACE,
+                IceCandidatePacketExtension.ELEMENT,
+                IceCandidatePacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
-                    <>(CandidatePacketExtension.class));
+                    <>(IceCandidatePacketExtension.class));
 
         //raw-udp <candidate/> provider
         ProviderManager.addExtensionProvider(
-                CandidatePacketExtension.ELEMENT,
-                RawUdpTransportPacketExtension.NAMESPACE,
+                UdpCandidatePacketExtension.ELEMENT,
+                UdpCandidatePacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
-                    <>(CandidatePacketExtension.class));
+                    <>(UdpCandidatePacketExtension.class));
 
         //ice-udp <remote-candidate/> provider
         ProviderManager.addExtensionProvider(
                 RemoteCandidatePacketExtension.ELEMENT,
-                IceUdpTransportPacketExtension.NAMESPACE,
+                RemoteCandidatePacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                     <>(RemoteCandidatePacketExtension.class));
 

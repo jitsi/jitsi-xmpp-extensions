@@ -29,6 +29,10 @@ import org.jxmpp.util.*;
 public class ThumbnailFile
     extends StreamInitiation.File
 {
+    public static final String ELEMENT = "file";
+    public static final String NAMESPACE
+        = "http://jabber.org/protocol/si/profile/file-transfer";
+
     private Thumbnail thumbnail;
 
     /**

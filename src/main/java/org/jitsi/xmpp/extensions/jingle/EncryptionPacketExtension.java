@@ -33,7 +33,8 @@ public class EncryptionPacketExtension
     /**
      * The namespace of the "encryption" element.
      */
-    public static final String NAMESPACE = "urn:xmpp:jingle:apps:rtp:1";
+    public static final String NAMESPACE
+        = RtpDescriptionPacketExtension.NAMESPACE;
 
     /**
      * The name of the "encryption" element.

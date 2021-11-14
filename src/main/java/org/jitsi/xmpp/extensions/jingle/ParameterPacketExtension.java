@@ -30,6 +30,12 @@ public class ParameterPacketExtension extends AbstractPacketExtension
     public static final String ELEMENT = "parameter";
 
     /**
+     * XML namespace of this extension.
+     */
+    public static final String NAMESPACE
+        = RtpDescriptionPacketExtension.NAMESPACE;
+
+    /**
      * The name of the <tt>name</tt> parameter in the <tt>parameter</tt>
      * element.
      */
@@ -46,7 +52,7 @@ public class ParameterPacketExtension extends AbstractPacketExtension
      */
     public ParameterPacketExtension()
     {
-        super(null, ELEMENT);
+        super(NAMESPACE, ELEMENT);
     }
 
     /**
@@ -55,7 +61,7 @@ public class ParameterPacketExtension extends AbstractPacketExtension
      */
     public ParameterPacketExtension(String name, String value)
     {
-        super(null, ELEMENT);
+        super(NAMESPACE, ELEMENT);
 
         setName(name);
         setValue(value);
