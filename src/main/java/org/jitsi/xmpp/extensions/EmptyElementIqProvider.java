@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jitsi.xmpp.extensions.colibri;
+package org.jitsi.xmpp.extensions;
 
 import java.io.*;
-import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
@@ -24,69 +23,50 @@ import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smack.xml.XmlPullParser.*;
 
 /**
- * Implements an {@link IqProvider} for the Jitsi Videobridge extension {@link
- * ShutdownIQ}.
- *
- * @author Lyubomir Marinov
- * @author Boris Grozev
+ * Implements an {@link IqProvider} for empty elements.
  */
-public class ShutdownIqProvider
-    extends IqProvider<ShutdownIQ>
+public abstract class EmptyElementIqProvider<T extends IQ>
+    extends IqProvider<T>
 {
-    /** Initializes a new <tt>ColibriIQProvider</tt> instance. */
-    public ShutdownIqProvider()
+    private final String element;
+
+    private final String namespace;
+
+    protected EmptyElementIqProvider(String element, String namespace)
     {
-        // Shutdown IQ
-        ProviderManager.addIQProvider(
-            ShutdownIQ.GRACEFUL_ELEMENT_NAME,
-            ShutdownIQ.NAMESPACE,
-            this);
-        ProviderManager.addIQProvider(
-            ShutdownIQ.FORCE_ELEMENT_NAME,
-            ShutdownIQ.NAMESPACE,
-            this);
-
-        // Shutdown extension
-        ExtensionElementProvider<ColibriConferenceIQ.GracefulShutdown>
-            shutdownProvider = new DefaultPacketExtensionProvider<>(
-            ColibriConferenceIQ.GracefulShutdown.class);
-
-        ProviderManager.addExtensionProvider(
-            ColibriConferenceIQ.GracefulShutdown.ELEMENT,
-            ColibriConferenceIQ.GracefulShutdown.NAMESPACE,
-            shutdownProvider);
+        this.element = element;
+        this.namespace = namespace;
     }
+
+    protected abstract T createInstance();
 
     /**
      * Parses an IQ sub-document and creates an
      * <tt>org.jivesoftware.smack.packet.IQ</tt> instance.
      *
      * @param parser an <tt>XmlPullParser</tt> which specifies the IQ
-     * sub-document to be parsed into a new <tt>IQ</tt> instance
+     *               sub-document to be parsed into a new <tt>IQ</tt> instance
      * @return a new <tt>IQ</tt> instance parsed from the specified IQ
      * sub-document
      */
-    public ShutdownIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
+    public final T parse(XmlPullParser parser, int initialDepth,
+        IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
-        String namespace = parser.getNamespace();
-        ShutdownIQ iq;
+        T iq;
 
-        if (ShutdownIQ.NAMESPACE.equals(namespace) &&
-                 ShutdownIQ.isValidElementName(parser.getName()))
+        if (namespace.equals(parser.getNamespace())
+            && element.equals(parser.getName()))
         {
             String rootElement = parser.getName();
-
-            iq = ShutdownIQ.createShutdownIQ(rootElement);
+            iq = createInstance();
 
             boolean done = false;
-
             while (!done)
             {
                 if (parser.next() == Event.END_ELEMENT)
                 {
                     String name = parser.getName();
-
                     if (rootElement.equals(name))
                     {
                         done = true;
@@ -95,7 +75,9 @@ public class ShutdownIqProvider
             }
         }
         else
+        {
             iq = null;
+        }
 
         return iq;
     }

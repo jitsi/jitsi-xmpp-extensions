@@ -73,7 +73,7 @@ public class HealthStatusPacketExt
         UNHEALTHY("unhealthy"),
         UNDEFINED("undefined");
 
-        private String health;
+        private final String health;
 
         Health(String health) { this.health = health; }
 
@@ -108,5 +108,4 @@ public class HealthStatusPacketExt
             }
         }
     }
-
 }

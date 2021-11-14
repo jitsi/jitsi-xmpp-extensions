@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jitsi.xmpp.extensions.health;
+package org.jitsi.xmpp.extensions.colibri;
 
 import org.jivesoftware.smack.packet.*;
 
 /**
- * The health check IQ used to trigger health checks on the Jitsi Videobridge.
+ * The IQ used to trigger the graceful shutdown mode of the videobridge which
+ * receives the stanza(given that source JID is authorized to do so).
  *
  * @author Pawel Domas
  */
-public class HealthCheckIQ
+public class GracefulShutdownIQ
     extends IQ
 {
     /**
-     * Health check IQ element name.
+     * XML namespace name for shutdown IQs.
      */
-    public static final String ELEMENT = "healthcheck";
+    final static public String NAMESPACE = ColibriConferenceIQ.NAMESPACE;
 
     /**
-     * XML namespace name for health check IQs.
+     * Graceful shutdown IQ element name.
      */
-    public static final String NAMESPACE =
-        "http://jitsi.org/protocol/healthcheck";
+    final static public String ELEMENT = "graceful-shutdown";
 
-    public HealthCheckIQ()
+    public GracefulShutdownIQ()
     {
         super(ELEMENT, NAMESPACE);
     }

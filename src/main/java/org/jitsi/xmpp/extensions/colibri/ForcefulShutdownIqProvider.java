@@ -13,42 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jitsi.xmpp.extensions.health;
+package org.jitsi.xmpp.extensions.colibri;
 
 import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.provider.*;
 
 /**
  * Implements an {@link IqProvider} for the Jitsi Videobridge extension {@link
- * HealthCheckIQ}.
+ * GracefulShutdownIQ}.
  *
- * @author Pawel Domas
+ * @author Lyubomir Marinov
+ * @author Boris Grozev
  */
-public class HealthCheckIQProvider
-    extends EmptyElementIqProvider<HealthCheckIQ>
+public class ForcefulShutdownIqProvider
+    extends EmptyElementIqProvider<ForcefulShutdownIQ>
 {
     /**
      * Registers this provider with Smack.
      */
-    public static HealthCheckIQProvider registerIQProvider()
+    public static ForcefulShutdownIqProvider registerIQProvider()
     {
         // ColibriStatsIQ
-        HealthCheckIQProvider iqProvider = new HealthCheckIQProvider();
+        ForcefulShutdownIqProvider iqProvider =
+            new ForcefulShutdownIqProvider();
         ProviderManager.addIQProvider(
-            HealthCheckIQ.ELEMENT,
-            HealthCheckIQ.NAMESPACE,
+            ForcefulShutdownIQ.ELEMENT,
+            ForcefulShutdownIQ.NAMESPACE,
             iqProvider);
         return iqProvider;
     }
 
-    protected HealthCheckIQProvider()
+    public ForcefulShutdownIqProvider()
     {
-        super(HealthCheckIQ.ELEMENT, HealthCheckIQ.NAMESPACE);
+        super(ForcefulShutdownIQ.ELEMENT, ForcefulShutdownIQ.NAMESPACE);
     }
 
     @Override
-    protected HealthCheckIQ createInstance()
+    protected ForcefulShutdownIQ createInstance()
     {
-        return new HealthCheckIQ();
+        return new ForcefulShutdownIQ();
     }
 }

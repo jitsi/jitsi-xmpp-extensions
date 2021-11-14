@@ -100,6 +100,16 @@ public class ColibriConferenceIqProvider
             SSRCInfoPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(
                 SSRCInfoPacketExtension.class));
+
+        // Shutdown extension
+        ExtensionElementProvider<ColibriConferenceIQ.GracefulShutdown>
+            shutdownProvider = new DefaultPacketExtensionProvider<>(
+            ColibriConferenceIQ.GracefulShutdown.class);
+
+        ProviderManager.addExtensionProvider(
+            ColibriConferenceIQ.GracefulShutdown.ELEMENT,
+            ColibriConferenceIQ.GracefulShutdown.NAMESPACE,
+            shutdownProvider);
     }
 
     private void addChildExtension(

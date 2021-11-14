@@ -63,8 +63,7 @@ public class InputEvtIQProvider
                     RemoteControlExtensionProvider provider
                         = new RemoteControlExtensionProvider();
                     RemoteControlExtension item
-                        = (RemoteControlExtension)
-                            provider.parse(parser);
+                        = provider.parse(parser);
 
                     inputEvtIQ.addRemoteControl(item);
                 }
