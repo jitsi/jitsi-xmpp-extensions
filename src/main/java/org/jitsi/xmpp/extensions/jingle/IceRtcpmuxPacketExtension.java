@@ -18,10 +18,10 @@ package org.jitsi.xmpp.extensions.jingle;
 import org.jitsi.xmpp.extensions.*;
 
 /**
- * An 'rtcp-mux' extension.
+ * 'rtcp-mux' extension within {@link IceUdpTransportPacketExtension}.
  * @author Boris Grozev
  */
-public class RtcpmuxPacketExtension
+public class IceRtcpmuxPacketExtension
         extends AbstractPacketExtension
 {
     /**
@@ -30,11 +30,17 @@ public class RtcpmuxPacketExtension
     public static final String ELEMENT = "rtcp-mux";
 
     /**
-     * Creates a new instance of <tt>RtcpmuxPacketExtension</tt>.
+     * XML namespace of this extension.
      */
-    public RtcpmuxPacketExtension()
+    public static final String NAMESPACE
+        = IceUdpTransportPacketExtension.NAMESPACE;
+
+    /**
+     * Creates a new instance.
+     */
+    public IceRtcpmuxPacketExtension()
     {
-        super(null, ELEMENT);
+        super(NAMESPACE, ELEMENT);
     }
 }
 

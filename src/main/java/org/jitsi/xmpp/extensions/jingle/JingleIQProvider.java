@@ -192,12 +192,19 @@ public class JingleIQProvider extends IqProvider<JingleIQ>
                 new DefaultPacketExtensionProvider
                     <>(RtcpFbPacketExtension.class));
 
-        //rtcp-mux
+        //rtcp-mux (within ice transport)
         ProviderManager.addExtensionProvider(
-                RtcpmuxPacketExtension.ELEMENT,
-                IceUdpTransportPacketExtension.NAMESPACE,
+                IceRtcpmuxPacketExtension.ELEMENT,
+                IceRtcpmuxPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
-                    <>(RtcpmuxPacketExtension.class));
+                    <>(IceRtcpmuxPacketExtension.class));
+
+        //rtcp-mux (within rtp description)
+        ProviderManager.addExtensionProvider(
+            JingleRtcpmuxPacketExtension.ELEMENT,
+            JingleRtcpmuxPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider
+                    <>(JingleRtcpmuxPacketExtension.class));
 
         //web-socket
         ProviderManager.addExtensionProvider(
