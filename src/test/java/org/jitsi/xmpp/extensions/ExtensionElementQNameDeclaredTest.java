@@ -39,7 +39,7 @@ import org.reflections.scanners.SubTypesScanner;
 public class ExtensionElementQNameDeclaredTest
 {
     @Test
-    @Disabled
+    @Disabled("not all classes are converted, some even not in Smack")
     public void qnameOrElementNamespaceDeclaredTest()
     {
         String[] jitsiXmppExtensionsPackages = new String[] {
@@ -73,8 +73,6 @@ public class ExtensionElementQNameDeclaredTest
         Set<Class<? extends ExtensionElement>> failedClasses =
             exceptions.keySet();
 
-        // TODO - not all classes are converted
-        // (This may depend on a newer version of Smack for some.)
         assertTrue(failedClasses.isEmpty(),
             "The following " + failedClasses.size()
                 + " classes are missing QNAME declaration: " + failedClasses);
