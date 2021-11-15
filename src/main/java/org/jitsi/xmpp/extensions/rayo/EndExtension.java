@@ -109,6 +109,7 @@ public class EndExtension
         end.setReason(new ReasonExtension(reason));
 
         PresenceBuilder presence = StanzaBuilder.buildPresence()
+            .ofType(Presence.Type.unavailable)
             .from(from)
             .to(to)
             .addExtension(end);
