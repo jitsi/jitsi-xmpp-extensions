@@ -138,6 +138,7 @@ public class ColibriConferenceIqProviderTest
 
         ColibriConferenceIQ result =
             colibriConferenceIqProvider.parse(xmlPullParser, null);
+        assertEquals(Event.END_ELEMENT, xmlPullParser.getEventType());
         List<SourcePacketExtension> sources =
             result
                 .getContent("video")

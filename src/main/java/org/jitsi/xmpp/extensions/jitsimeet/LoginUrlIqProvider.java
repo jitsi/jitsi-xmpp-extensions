@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
@@ -99,6 +100,7 @@ public class LoginUrlIqProvider
             return null;
         }
 
+        ParserUtils.forwardToEndTagOfDepth(parser, initialDepth);
         return authUrlIQ;
     }
 }
