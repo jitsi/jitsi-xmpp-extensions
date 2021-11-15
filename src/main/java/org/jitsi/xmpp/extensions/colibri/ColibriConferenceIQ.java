@@ -144,9 +144,10 @@ public class ColibriConferenceIQ
 
     /**
      * a boolean that indicates whether or not to enable rtcstats reporting for
-     * the conference.
+     * the conference. We set the default to be true to reflect the currently
+     * assumed value.
      */
-    private boolean enableRtcStats;
+    private boolean enableRtcStats = true;
 
     /**
      * Returns an error response for given <tt>IQ</tt> that is returned by
