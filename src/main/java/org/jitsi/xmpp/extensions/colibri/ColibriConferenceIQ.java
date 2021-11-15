@@ -74,7 +74,7 @@ public class ColibriConferenceIQ
      * Videobridge <tt>conference</tt> IQ that controls whether or not to
      * enable RTCStats reporting for the conference.
      */
-    public static final String ENABLE_RTCSTATS_NAME = "enable-rtcstats";
+    public static final String RTCSTATS_ENABLED_NAME = "rtcstats-enabled";
 
     /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
@@ -147,7 +147,7 @@ public class ColibriConferenceIQ
      * the conference. We set the default to be true to reflect the currently
      * assumed value.
      */
-    private boolean enableRtcStats = true;
+    private boolean rtcstatsEnabled = true;
 
     /**
      * Returns an error response for given <tt>IQ</tt> that is returned by
@@ -298,7 +298,7 @@ public class ColibriConferenceIQ
         xml.optAttribute(GID_ATTR_NAME, getGID());
         xml.optAttribute(NAME_ATTR_NAME, name);
         xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
-        xml.optBooleanAttribute(ENABLE_RTCSTATS_NAME, enableRtcStats);
+        xml.optBooleanAttribute(RTCSTATS_ENABLED_NAME, rtcstatsEnabled);
 
         List<Content> contents = getContents();
         List<ChannelBundle> channelBundles = getChannelBundles();
@@ -539,16 +539,16 @@ public class ColibriConferenceIQ
      */
     public boolean isRtcStatsEnabled()
     {
-        return enableRtcStats;
+        return rtcstatsEnabled;
     }
 
     /**
-     * @param enableRtcStats true to enable RTCStats reporting for the
+     * @param rtcstatsEnabled true to enable RTCStats reporting for the
      * conference, otherwise false.
      */
-    public void setRtcStatsEnabled(boolean enableRtcStats)
+    public void setRtcStatsEnabled(boolean rtcstatsEnabled)
     {
-        this.enableRtcStats = enableRtcStats;
+        this.rtcstatsEnabled = rtcstatsEnabled;
     }
 
     /**
