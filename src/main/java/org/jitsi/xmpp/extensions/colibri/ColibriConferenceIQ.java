@@ -70,11 +70,18 @@ public class ColibriConferenceIQ
     public static final String MEETING_ID_ATTR_NAME = "meeting-id";
 
     /**
-     * The XML name of the <tt>enable-rtcstats</tt> attribute of the Jitsi
+     * The XML name of the <tt>rtcstats-enabled</tt> attribute of the Jitsi
      * Videobridge <tt>conference</tt> IQ that controls whether or not to
      * enable RTCStats reporting for the conference.
      */
     public static final String RTCSTATS_ENABLED_NAME = "rtcstats-enabled";
+
+    /**
+     * The XML name of the <tt>callstats-enabled</tt> attribute of the Jitsi
+     * Videobridge <tt>conference</tt> IQ that controls whether or not to
+     * enable CallStats reporting for the conference.
+     */
+    public static final String CALLSTATS_ENABLED_NAME = "callstats-enabled";
 
     /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
@@ -148,6 +155,13 @@ public class ColibriConferenceIQ
      * assumed value.
      */
     private boolean rtcstatsEnabled = true;
+
+    /**
+     * a boolean that indicates whether or not to enable callstats reporting for
+     * the conference. We set the default to be true to reflect the currently
+     * assumed value.
+     */
+    private boolean callstatsEnabled = true;
 
     /**
      * Returns an error response for given <tt>IQ</tt> that is returned by
@@ -299,6 +313,7 @@ public class ColibriConferenceIQ
         xml.optAttribute(NAME_ATTR_NAME, name);
         xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
         xml.optBooleanAttribute(RTCSTATS_ENABLED_NAME, rtcstatsEnabled);
+        xml.optBooleanAttribute(CALLSTATS_ENABLED_NAME, callstatsEnabled);
 
         List<Content> contents = getContents();
         List<ChannelBundle> channelBundles = getChannelBundles();
@@ -549,6 +564,24 @@ public class ColibriConferenceIQ
     public void setRtcStatsEnabled(boolean rtcstatsEnabled)
     {
         this.rtcstatsEnabled = rtcstatsEnabled;
+    }
+
+    /**
+     * @return a boolean that indicates whether or not to enable CallStats
+     * reporting for the conference.
+     */
+    public boolean isCallStatsEnabled()
+    {
+        return callstatsEnabled;
+    }
+
+    /**
+     * @param callstatsEnabled true to enable CallStats reporting for the
+     * conference, otherwise false.
+     */
+    public void setCallStatsEnabled(boolean callstatsEnabled)
+    {
+        this.callstatsEnabled = callstatsEnabled;
     }
 
     /**
