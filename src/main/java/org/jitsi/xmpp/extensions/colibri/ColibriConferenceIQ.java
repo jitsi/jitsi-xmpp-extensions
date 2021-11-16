@@ -312,8 +312,8 @@ public class ColibriConferenceIQ
         xml.optAttribute(GID_ATTR_NAME, getGID());
         xml.optAttribute(NAME_ATTR_NAME, name);
         xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
-        xml.optBooleanAttribute(RTCSTATS_ENABLED_NAME, rtcstatsEnabled);
-        xml.optBooleanAttribute(CALLSTATS_ENABLED_NAME, callstatsEnabled);
+        xml.attribute(RTCSTATS_ENABLED_NAME, rtcstatsEnabled);
+        xml.attribute(CALLSTATS_ENABLED_NAME, callstatsEnabled);
 
         List<Content> contents = getContents();
         List<ChannelBundle> channelBundles = getChannelBundles();
