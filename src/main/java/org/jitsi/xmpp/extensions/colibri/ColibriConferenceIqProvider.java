@@ -32,22 +32,23 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * Implements an <tt>org.jivesoftware.smack.provider.IQProvider</tt> for the
- * Jitsi Videobridge extension <tt>ColibriConferenceIQ</tt>.
+ * Implements an {@link IqProvider} for the Jitsi Videobridge extension {@link
+ * ColibriConferenceIQ}.
  *
  * @author Lyubomir Marinov
  * @author Boris Grozev
  */
-public class ColibriIQProvider
-    extends IQProvider
+public class ColibriConferenceIqProvider
+    extends IqProvider<ColibriConferenceIQ>
 {
     /**
      * The logger instance used by this class.
      */
-    private final static Logger logger = new LoggerImpl(ColibriIQProvider.class.getName());
+    private final static Logger logger = new LoggerImpl(
+        ColibriConferenceIqProvider.class.getName());
 
     /** Initializes a new <tt>ColibriIQProvider</tt> instance. */
-    public ColibriIQProvider()
+    public ColibriConferenceIqProvider()
     {
         ProviderManager.addExtensionProvider(
                 PayloadTypePacketExtension.ELEMENT,
@@ -80,7 +81,7 @@ public class ColibriIQProvider
                 new DefaultPacketExtensionProvider<>(
                         SourceRidGroupPacketExtension.class));
 
-        ExtensionElementProvider parameterProvider
+        ExtensionElementProvider<ParameterPacketExtension> parameterProvider
                 = new DefaultPacketExtensionProvider<>(
                 ParameterPacketExtension.class);
 
@@ -92,49 +93,6 @@ public class ColibriIQProvider
                 ParameterPacketExtension.ELEMENT,
                 SourcePacketExtension.NAMESPACE,
                 parameterProvider);
-        // Shutdown IQ
-        ProviderManager.addIQProvider(
-                ShutdownIQ.GRACEFUL_ELEMENT_NAME,
-                ShutdownIQ.NAMESPACE,
-                this);
-        ProviderManager.addIQProvider(
-                ShutdownIQ.FORCE_ELEMENT_NAME,
-                ShutdownIQ.NAMESPACE,
-                this);
-        // Shutdown extension
-        ExtensionElementProvider shutdownProvider
-                = new DefaultPacketExtensionProvider<>(
-                    ColibriConferenceIQ.GracefulShutdown.class);
-
-        ProviderManager.addExtensionProvider(
-                ColibriConferenceIQ.GracefulShutdown.ELEMENT,
-                ColibriConferenceIQ.GracefulShutdown.NAMESPACE,
-                shutdownProvider);
-
-        // ColibriStatsIQ
-        ProviderManager.addIQProvider(
-                ColibriStatsIQ.ELEMENT,
-                ColibriStatsIQ.NAMESPACE,
-                this);
-
-        // ColibriStatsExtension
-        ExtensionElementProvider statsProvider
-                = new DefaultPacketExtensionProvider<>(
-                ColibriStatsExtension.class);
-
-        ProviderManager.addExtensionProvider(
-                ColibriStatsExtension.ELEMENT,
-                ColibriStatsExtension.NAMESPACE,
-                statsProvider);
-        // ColibriStatsExtension.Stat
-        ExtensionElementProvider statProvider
-                = new DefaultPacketExtensionProvider<>(
-                    ColibriStatsExtension.Stat.class);
-
-        ProviderManager.addExtensionProvider(
-                ColibriStatsExtension.Stat.ELEMENT,
-                ColibriStatsExtension.NAMESPACE,
-                statProvider);
 
         // ssrc-info
         ProviderManager.addExtensionProvider(
@@ -142,6 +100,16 @@ public class ColibriIQProvider
             SSRCInfoPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(
                 SSRCInfoPacketExtension.class));
+
+        // Shutdown extension
+        ExtensionElementProvider<ColibriConferenceIQ.GracefulShutdown>
+            shutdownProvider = new DefaultPacketExtensionProvider<>(
+            ColibriConferenceIQ.GracefulShutdown.class);
+
+        ProviderManager.addExtensionProvider(
+            ColibriConferenceIQ.GracefulShutdown.ELEMENT,
+            ColibriConferenceIQ.GracefulShutdown.NAMESPACE,
+            shutdownProvider);
     }
 
     private void addChildExtension(
@@ -231,7 +199,7 @@ public class ColibriIQProvider
             String namespace)
         throws XmlPullParserException, IOException, SmackParsingException
     {
-        ExtensionElementProvider extensionProvider
+        ExtensionElementProvider<?> extensionProvider
             = ProviderManager.getExtensionProvider(
                         name,
                         namespace);
@@ -248,7 +216,7 @@ public class ColibriIQProvider
         }
         else
         {
-            extension = (ExtensionElement)extensionProvider.parse(parser);
+            extension = extensionProvider.parse(parser);
         }
         return extension;
     }
@@ -262,13 +230,11 @@ public class ColibriIQProvider
      * @return a new <tt>IQ</tt> instance parsed from the specified IQ
      * sub-document
      */
-    @SuppressWarnings("deprecation") // Compatibility with legacy Jitsi and
-                                     // Jitsi Videobridge
-    public IQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public ColibriConferenceIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
-        IQ iq;
+        ColibriConferenceIQ iq;
 
         if (ColibriConferenceIQ.ELEMENT.equals(parser.getName())
                 && ColibriConferenceIQ.NAMESPACE.equals(namespace))
@@ -896,92 +862,7 @@ public class ColibriIQProvider
 
             iq = conference;
         }
-        else if (ShutdownIQ.NAMESPACE.equals(namespace) &&
-                 ShutdownIQ.isValidElementName(parser.getName()))
-        {
-            String rootElement = parser.getName();
 
-            iq = ShutdownIQ.createShutdownIQ(rootElement);
-
-            boolean done = false;
-
-            while (!done)
-            {
-                switch (parser.next())
-                {
-                    case END_ELEMENT:
-                    {
-                        String name = parser.getName();
-
-                        if (rootElement.equals(name))
-                        {
-                            done = true;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        else if (ColibriStatsIQ.ELEMENT.equals(parser.getName())
-            && ColibriStatsIQ.NAMESPACE.equals(namespace))
-        {
-            String rootElement = parser.getName();
-
-            ColibriStatsIQ statsIQ = new ColibriStatsIQ();
-            iq = statsIQ;
-            ColibriStatsExtension.Stat stat = null;
-
-            boolean done = false;
-
-            while (!done)
-            {
-                switch (parser.next())
-                {
-                    case START_ELEMENT:
-                    {
-                        String name = parser.getName();
-
-                        if (ColibriStatsExtension.Stat
-                                    .ELEMENT.equals(name))
-                        {
-                            stat = new ColibriStatsExtension.Stat();
-
-                            String statName
-                                = parser.getAttributeValue(
-                                    "",
-                                    ColibriStatsExtension.Stat.NAME_ATTR_NAME);
-                            stat.setName(statName);
-
-                            String statValue
-                                = parser.getAttributeValue(
-                                    "",
-                                    ColibriStatsExtension.Stat.VALUE_ATTR_NAME);
-                            stat.setValue(statValue);
-                        }
-                        break;
-                    }
-                    case END_ELEMENT:
-                    {
-                        String name = parser.getName();
-
-                        if (rootElement.equals(name))
-                        {
-                            done = true;
-                        }
-                        else if (ColibriStatsExtension.Stat.ELEMENT
-                            .equals(name))
-                        {
-                            if (stat != null)
-                            {
-                                statsIQ.addStat(stat);
-                                stat = null;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
         else
             iq = null;
 

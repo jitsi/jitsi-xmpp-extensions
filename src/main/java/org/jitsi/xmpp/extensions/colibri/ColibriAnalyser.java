@@ -78,7 +78,6 @@ public class ColibriAnalyser
          */
         conferenceState.setFrom(allocateResponse.getFrom());
 
-        Set<String> endpoints = new HashSet<>();
         for (ColibriConferenceIQ.Content contentResponse
             : allocateResponse.getContents())
         {
@@ -92,13 +91,11 @@ public class ColibriAnalyser
                 : contentResponse.getChannels())
             {
                 content.addChannel(channelResponse);
-                endpoints.add(channelResponse.getEndpoint());
             }
             for (ColibriConferenceIQ.SctpConnection sctpConnResponse
                 : contentResponse.getSctpConnections())
             {
                 content.addSctpConnection(sctpConnResponse);
-                endpoints.add(sctpConnResponse.getEndpoint());
             }
         }
 

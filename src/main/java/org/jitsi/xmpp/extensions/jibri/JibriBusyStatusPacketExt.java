@@ -77,7 +77,7 @@ public class JibriBusyStatusPacketExt
         BUSY("busy"),
         UNDEFINED("undefined");
 
-        private String name;
+        private final String name;
 
         BusyStatus(String name)
         {

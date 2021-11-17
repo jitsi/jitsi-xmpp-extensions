@@ -23,12 +23,12 @@ import org.jivesoftware.smack.xml.*;
 import java.io.*;
 
 /**
- * Parser for StunPacketExtension.
+ * Parser for {@link StunPacketExtension}.
  *
  * @author Sebastien Vincent
  */
 public class StunProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<StunPacketExtension>
 {
     /**
      * Parses a users extension sub-packet and creates a {@link
@@ -45,14 +45,13 @@ public class StunProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public StunPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
         XmlPullParser.Event eventType;
         String elementName;
-        StunPacketExtension ext
-            = new StunPacketExtension();
+        StunPacketExtension ext = new StunPacketExtension();
 
         while (!done)
         {
@@ -63,19 +62,15 @@ public class StunProvider
             {
                 if (elementName.equals(ServerPacketExtension.ELEMENT))
                 {
-                    ExtensionElementProvider provider = (ExtensionElementProvider)
-                        ProviderManager.getExtensionProvider(
-                                ServerPacketExtension.ELEMENT,
-                                ServerPacketExtension.NAMESPACE);
-                    ExtensionElement childExtension =
-                            (ExtensionElement) provider.parse(parser);
-                    ext.addChildExtension(childExtension);
+                    ExtensionElementProvider<?> provider = ProviderManager.getExtensionProvider(
+                            ServerPacketExtension.ELEMENT,
+                            ServerPacketExtension.NAMESPACE);
+                    ext.addChildExtension(provider.parse(parser));
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
-                if (parser.getName().equals(
-                        StunPacketExtension.ELEMENT))
+                if (parser.getName().equals(StunPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

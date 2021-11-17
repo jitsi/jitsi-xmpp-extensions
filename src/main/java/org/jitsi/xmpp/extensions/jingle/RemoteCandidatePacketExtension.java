@@ -28,10 +28,16 @@ public class RemoteCandidatePacketExtension extends CandidatePacketExtension
     public static final String ELEMENT = "remote-candidate";
 
     /**
+     * XML namespace of this extension.
+     */
+    public static final String NAMESPACE
+        = IceUdpTransportPacketExtension.NAMESPACE;
+
+    /**
      * Creates a new {@link CandidatePacketExtension}
      */
     public RemoteCandidatePacketExtension()
     {
-        super(ELEMENT);
+        super(NAMESPACE, ELEMENT);
     }
 }

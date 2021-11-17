@@ -37,7 +37,7 @@ import java.io.*;
  * @author Pawel Domas
  */
 public class ConferenceIqProvider
-    extends IQProvider<ConferenceIq>
+    extends IqProvider<ConferenceIq>
 {
     /**
      * Creates new instance of <tt>ConferenceIqProvider</tt>.
@@ -53,7 +53,7 @@ public class ConferenceIqProvider
      * {@inheritDoc}
      */
     @Override
-    public ConferenceIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public ConferenceIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();

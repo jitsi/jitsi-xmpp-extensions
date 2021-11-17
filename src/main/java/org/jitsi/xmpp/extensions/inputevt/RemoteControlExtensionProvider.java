@@ -31,7 +31,7 @@ import org.jivesoftware.smack.xml.*;
  * @author Sebastien Vincent
  */
 public class RemoteControlExtensionProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<RemoteControlExtension>
 {
     /**
      * The name of the remote-info XML element <tt>remote-control</tt>.
@@ -101,7 +101,7 @@ public class RemoteControlExtensionProvider
      * @throws Exception if an error occurs during XML parsing
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public RemoteControlExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         RemoteControlExtension result = null;

@@ -48,7 +48,7 @@ public enum InputEvtAction
      * @param actionName the name of the <tt>InputEvtAction</tt> we'd like
      * to create.
      */
-    private InputEvtAction(String actionName)
+    InputEvtAction(String actionName)
     {
         this.actionName = actionName;
     }

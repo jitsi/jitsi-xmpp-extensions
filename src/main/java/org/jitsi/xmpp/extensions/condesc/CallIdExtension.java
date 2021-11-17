@@ -39,8 +39,6 @@ public class CallIdExtension
 
     /**
      * Creates a new instance setting the text to <tt>callid</tt>.
-     *
-     * @param callid
      */
     public CallIdExtension(String callid)
     {

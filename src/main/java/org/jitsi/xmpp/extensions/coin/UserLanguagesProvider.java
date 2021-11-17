@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class UserLanguagesProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<UserLanguagesPacketExtension>
 {
     /**
      * Parses a UserLanguages extension sub-packet and creates a {@link
@@ -45,12 +45,12 @@ public class UserLanguagesProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public UserLanguagesPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
         XmlPullParser.Event eventType;
-        String elementName = null;
+        String elementName;
 
         UserLanguagesPacketExtension ext = new UserLanguagesPacketExtension();
 

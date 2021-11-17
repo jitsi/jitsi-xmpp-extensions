@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
@@ -30,13 +31,13 @@ import java.io.*;
  * Parses {@link JibriIq}.
  */
 public class JibriIqProvider
-    extends IQProvider<JibriIq>
+    extends IqProvider<JibriIq>
 {
     /**
      * {@inheritDoc}
      */
     @Override
-    public JibriIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public JibriIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
@@ -129,6 +130,7 @@ public class JibriIqProvider
             return null;
         }
 
+        ParserUtils.forwardToEndTagOfDepth(parser, initialDepth);
         return iq;
     }
 }

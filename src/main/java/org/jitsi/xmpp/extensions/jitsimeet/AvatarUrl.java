@@ -24,7 +24,7 @@ import org.jivesoftware.smack.xml.*;
 import java.io.*;
 
 /**
- * A implementation of a {@link PacketExtension} for the jitsi-meet "avatar-url"
+ * A implementation of a {@link ExtensionElement} for the jitsi-meet "avatar-url"
  * element.
  *
  * @author Boris Grozev

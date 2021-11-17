@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class UserProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<UserPacketExtension>
 {
     /**
      * Parses a User extension sub-packet and creates a {@link
@@ -50,7 +50,7 @@ public class UserProvider
     {
         boolean done = false;
         XmlPullParser.Event eventType;
-        String elementName = null;
+        String elementName;
         String entity = parser.getAttributeValue("",
                 UserPacketExtension.ENTITY_ATTR_NAME);
         StateType state = StateType.full;
@@ -82,20 +82,15 @@ public class UserProvider
                 {
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
                 }
-                else if (elementName.equals(
-                        EndpointPacketExtension.ELEMENT))
+                else if (elementName.equals(EndpointPacketExtension.ELEMENT))
                 {
-                    ExtensionElementProvider provider
-                        = new EndpointProvider();
-                    ExtensionElement childExtension = (ExtensionElement)provider.parse(
-                        parser);
-                    ext.addChildExtension(childExtension);
+                    EndpointProvider provider = new EndpointProvider();
+                    ext.addChildExtension(provider.parse(parser));
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
             {
-                if (parser.getName().equals(
-                        UserPacketExtension.ELEMENT))
+                if (parser.getName().equals(UserPacketExtension.ELEMENT))
                 {
                     done = true;
                 }

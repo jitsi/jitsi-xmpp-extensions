@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class InputEvtIQProvider
-    extends IQProvider<InputEvtIQ>
+    extends IqProvider<InputEvtIQ>
 {
     /**
      * Parse the Input IQ sub-document and returns the corresponding
@@ -39,7 +39,7 @@ public class InputEvtIQProvider
      * @throws Exception if something goes wrong during parsing
      */
     @Override
-    public InputEvtIQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public InputEvtIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         InputEvtIQ inputEvtIQ = new InputEvtIQ();
@@ -63,8 +63,7 @@ public class InputEvtIQProvider
                     RemoteControlExtensionProvider provider
                         = new RemoteControlExtensionProvider();
                     RemoteControlExtension item
-                        = (RemoteControlExtension)
-                            provider.parse(parser);
+                        = provider.parse(parser);
 
                     inputEvtIQ.addRemoteControl(item);
                 }

@@ -17,9 +17,11 @@
  */
 package org.jitsi.xmpp.extensions.jingle;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import java.util.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link PayloadTypePacketExtension} as well as it's children (
@@ -28,7 +30,6 @@ import java.util.*;
  * @author Boris Grozev
  */
 public class PayloadTypePacketExtensionTest
-    extends TestCase
 {
     private static final String TEST_ATTR_NAME = "my-test-attribute-name";
     private static final String TEST_ATTR_VALUE = "my-test-attribute-value";
@@ -38,6 +39,7 @@ public class PayloadTypePacketExtensionTest
      * {@link PayloadTypePacketExtension#clone(PayloadTypePacketExtension)}
      * method.
      */
+    @Test
     public void testClone()
     {
         PayloadTypePacketExtension p = new PayloadTypePacketExtension();
@@ -67,14 +69,14 @@ public class PayloadTypePacketExtensionTest
         assertEquals("opus", p.getName());
 
         ParameterPacketExtension cApt = c.getParameters().get(0);
-        assertTrue(apt != cApt);
+        assertNotSame(apt, cApt);
         assertEquals(apt.getName(), cApt.getName());
         assertEquals(apt.getValue(), cApt.getValue());
         cApt.setName("stereo");
         assertEquals("apt", apt.getName());
 
         RtcpFbPacketExtension cFb = c.getRtcpFeedbackTypeList().get(0);
-        assertTrue(fb != cFb);
+        assertNotSame(fb, cFb);
         assertEquals(fb.getFeedbackType(), cFb.getFeedbackType());
         assertEquals(fb.getFeedbackSubtype(), cFb.getFeedbackSubtype());
         cFb.setFeedbackType("x1");
@@ -99,6 +101,7 @@ public class PayloadTypePacketExtensionTest
         assertEquals(p.getAttribute(TEST_ATTR_NAME), TEST_ATTR_VALUE);
     }
 
+    @Test
     public void testSettersAndGetters()
     {
         PayloadTypePacketExtension p = new PayloadTypePacketExtension();

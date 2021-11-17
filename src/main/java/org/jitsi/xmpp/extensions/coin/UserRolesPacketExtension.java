@@ -47,7 +47,7 @@ public class UserRolesPacketExtension
     /**
      * List of roles.
      */
-    private List<String> roles = new ArrayList<String>();
+    private final List<String> roles = new ArrayList<>();
 
     /**
      * Constructor.

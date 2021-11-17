@@ -1227,6 +1227,7 @@ public class ColibriBuilder
      * @return the channel from {@link #request} with the specified content
      * name and ID and run-time type matching this of {@code channel}.
      */
+    @SuppressWarnings("unchecked")
     private <T extends ColibriConferenceIQ.ChannelCommon> T getRequestChannel(
         String contentName, T channel)
     {

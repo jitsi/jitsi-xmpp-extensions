@@ -33,7 +33,7 @@ public class ReasonPacketExtension
      * The name space (or rather lack thereof ) that the reason element
      * belongs to.
      */
-    public static final String NAMESPACE = "";
+    public static final String NAMESPACE = JingleIQ.NAMESPACE;
 
     /**
      * The name of the "content" element.

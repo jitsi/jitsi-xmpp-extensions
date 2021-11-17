@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class MediaProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<MediaPacketExtension>
 {
     /**
      * Parses a media extension sub-packet and creates a {@link
@@ -70,30 +70,23 @@ public class MediaProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_DISPLAY_TEXT))
+                switch (elementName)
                 {
+                case MediaPacketExtension.ELEMENT_DISPLAY_TEXT:
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_LABEL))
-                {
+                    break;
+                case MediaPacketExtension.ELEMENT_LABEL:
                     ext.setLabel(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_SRC_ID))
-                {
+                    break;
+                case MediaPacketExtension.ELEMENT_SRC_ID:
                     ext.setSrcID(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_STATUS))
-                {
+                    break;
+                case MediaPacketExtension.ELEMENT_STATUS:
                     ext.setStatus(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_TYPE))
-                {
+                    break;
+                case MediaPacketExtension.ELEMENT_TYPE:
                     ext.setType(CoinIQProvider.parseText(parser));
+                    break;
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)

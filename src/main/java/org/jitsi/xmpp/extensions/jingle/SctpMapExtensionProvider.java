@@ -30,14 +30,14 @@ import java.io.*;
  * @see SctpMapExtension
  */
 public class SctpMapExtensionProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<SctpMapExtension>
 {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public SctpMapExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         SctpMapExtension result = new SctpMapExtension();

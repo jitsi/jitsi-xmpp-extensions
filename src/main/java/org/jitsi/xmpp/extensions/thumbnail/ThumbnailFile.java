@@ -22,18 +22,21 @@ import org.jivesoftware.smackx.si.packet.StreamInitiation;
 import org.jxmpp.util.*;
 
 /**
- * The <tt>FileElement</tt> extends the smackx <tt>StreamInitiation.File</tt>
- * in order to provide a file that supports thumbnails.
+ * Extends {@link StreamInitiation.File} to provide thumbnail support.
  *
  * @author Yana Stamcheva
  */
 public class ThumbnailFile
     extends StreamInitiation.File
 {
+    public static final String ELEMENT = "file";
+    public static final String NAMESPACE
+        = "http://jabber.org/protocol/si/profile/file-transfer";
+
     private Thumbnail thumbnail;
 
     /**
-     * Creates a <tt>FileElement</tt> by specifying a base file and a thumbnail
+     * Creates an instance by specifying a base file and a thumbnail
      * to extend it with.
      *
      * @param baseFile the file used as a base
@@ -47,8 +50,7 @@ public class ThumbnailFile
     }
 
     /**
-     * Creates a <tt>FileElement</tt> by specifying the name and the size of the
-     * file.
+     * Creates an instance by specifying the name and the size of the file.
      *
      * @param name the name of the file
      * @param size the size of the file

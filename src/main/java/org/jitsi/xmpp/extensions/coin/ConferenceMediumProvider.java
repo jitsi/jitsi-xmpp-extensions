@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class ConferenceMediumProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<ConferenceMediumPacketExtension>
 {
     /**
      * Parses a ConferenceMedium extension sub-packet and creates a {@link
@@ -45,7 +45,7 @@ public class ConferenceMediumProvider
      * @throws java.lang.Exception if an error occurs parsing the XML.
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public ConferenceMediumPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;
@@ -71,20 +71,17 @@ public class ConferenceMediumProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_DISPLAY_TEXT))
+                switch (elementName)
                 {
+                case MediaPacketExtension.ELEMENT_DISPLAY_TEXT:
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_STATUS))
-                {
+                    break;
+                case MediaPacketExtension.ELEMENT_STATUS:
                     ext.setStatus(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        MediaPacketExtension.ELEMENT_TYPE))
-                {
+                    break;
+                case MediaPacketExtension.ELEMENT_TYPE:
                     ext.setType(CoinIQProvider.parseText(parser));
+                    break;
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)

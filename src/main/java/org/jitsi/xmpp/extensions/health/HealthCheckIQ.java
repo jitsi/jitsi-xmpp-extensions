@@ -28,13 +28,13 @@ public class HealthCheckIQ
     /**
      * Health check IQ element name.
      */
-    final static public String ELEMENT = "healthcheck";
+    public static final String ELEMENT = "healthcheck";
 
     /**
      * XML namespace name for health check IQs.
      */
-    final static public String NAMESPACE
-        = "http://jitsi.org/protocol/healthcheck";
+    public static final String NAMESPACE =
+        "http://jitsi.org/protocol/healthcheck";
 
     public HealthCheckIQ()
     {
@@ -45,7 +45,8 @@ public class HealthCheckIQ
      * {@inheritDoc}
      */
     @Override
-    protected IQ.IQChildElementXmlStringBuilder getIQChildElementBuilder(IQ.IQChildElementXmlStringBuilder buf)
+    protected IQ.IQChildElementXmlStringBuilder getIQChildElementBuilder(
+        IQ.IQChildElementXmlStringBuilder buf)
     {
         buf.setEmptyElement();
         return buf;

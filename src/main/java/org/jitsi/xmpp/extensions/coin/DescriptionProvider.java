@@ -28,7 +28,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class DescriptionProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<DescriptionPacketExtension>
 {
     /**
      * Parses a description extension sub-packet and creates a {@link
@@ -50,7 +50,7 @@ public class DescriptionProvider
     {
         boolean done = false;
         XmlPullParser.Event eventType;
-        String elementName = null;
+        String elementName;
 
         DescriptionPacketExtension ext
             = new DescriptionPacketExtension();
@@ -62,20 +62,17 @@ public class DescriptionProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(
-                        DescriptionPacketExtension.ELEMENT_SUBJECT))
+                switch (elementName)
                 {
+                case DescriptionPacketExtension.ELEMENT_SUBJECT:
                     ext.setSubject(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        DescriptionPacketExtension.ELEMENT_FREE_TEXT))
-                {
+                    break;
+                case DescriptionPacketExtension.ELEMENT_FREE_TEXT:
                     ext.setFreeText(CoinIQProvider.parseText(parser));
-                }
-                else if (elementName.equals(
-                        DescriptionPacketExtension.ELEMENT_DISPLAY_TEXT))
-                {
+                    break;
+                case DescriptionPacketExtension.ELEMENT_DISPLAY_TEXT:
                     ext.setDisplayText(CoinIQProvider.parseText(parser));
+                    break;
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)

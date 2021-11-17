@@ -28,7 +28,7 @@ public class URIsPacketExtension
     /**
      * The namespace that URIs belongs to.
      */
-    public static final String NAMESPACE = "";
+    public static final String NAMESPACE = CoinIQ.NAMESPACE;
 
     /**
      * The name of the element that contains the URIs data.

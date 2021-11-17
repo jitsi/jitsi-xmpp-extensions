@@ -74,7 +74,7 @@ public class UserInfoPacketExt
      * Sets new value for the "robot" attribute.
      * @param isRobot <tt>true</tt> if the user is considered a robot or
      * <tt>false</tt> otherwise. Pass <tt>null</tt> to remove the attribute.
-     * @see {@link #ROBOT_ATTRIBUTE_NAME}
+     * See {@link #ROBOT_ATTRIBUTE_NAME}.
      */
     public void setIsRobot(Boolean isRobot)
     {

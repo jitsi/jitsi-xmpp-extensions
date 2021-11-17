@@ -15,76 +15,40 @@
  */
 package org.jitsi.xmpp.extensions.health;
 
-import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
+import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.provider.*;
 
-import org.jivesoftware.smack.xml.*;
-
-import java.io.*;
-
 /**
- * The <tt>IQProvider</tt> for {@link HealthCheckIQ}.
+ * Implements an {@link IqProvider} for the Jitsi Videobridge extension {@link
+ * HealthCheckIQ}.
  *
  * @author Pawel Domas
  */
 public class HealthCheckIQProvider
-    extends IQProvider
+    extends EmptyElementIqProvider<HealthCheckIQ>
 {
     /**
-     * Registers <tt>HealthCheckIQProvider</tt> as an <tt>IQProvider</tt>
-     * in {@link AbstractSmackInteroperabilityLayer}.
+     * Registers this provider with Smack.
      */
-    public static void registerIQProvider()
+    public static HealthCheckIQProvider registerIQProvider()
     {
         // ColibriStatsIQ
+        HealthCheckIQProvider iqProvider = new HealthCheckIQProvider();
         ProviderManager.addIQProvider(
             HealthCheckIQ.ELEMENT,
             HealthCheckIQ.NAMESPACE,
-            new HealthCheckIQProvider());
+            iqProvider);
+        return iqProvider;
     }
 
-    /**
-     * Parses <tt>HealthCheckIQ</tt>.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public IQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+    protected HealthCheckIQProvider()
     {
-        String namespace = parser.getNamespace();
-        IQ iq;
+        super(HealthCheckIQ.ELEMENT, HealthCheckIQ.NAMESPACE);
+    }
 
-        if (HealthCheckIQ.ELEMENT.equals(parser.getName())
-            && HealthCheckIQ.NAMESPACE.equals(namespace))
-        {
-            String rootElement = parser.getName();
-
-            iq = new HealthCheckIQ();
-
-            boolean done = false;
-
-            while (!done)
-            {
-                switch (parser.next())
-                {
-                    case END_ELEMENT:
-                    {
-                        String name = parser.getName();
-
-                        if (rootElement.equals(name))
-                        {
-                            done = true;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        else
-            iq = null;
-
-        return iq;
+    @Override
+    protected HealthCheckIQ createInstance()
+    {
+        return new HealthCheckIQ();
     }
 }

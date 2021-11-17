@@ -34,7 +34,8 @@ public class PayloadTypePacketExtension extends AbstractPacketExtension
     /**
      * The namespace of the "payload-type" element
      */
-    public static final String NAMESPACE = "urn:xmpp:jingle:apps:rtp:1";
+    public static final String NAMESPACE
+        = RtpDescriptionPacketExtension.NAMESPACE;
 
     /**
      * The name of the <tt>channels</tt> <tt>payload-type</tt> argument.

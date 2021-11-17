@@ -29,7 +29,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class RedirectProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<RedirectPacketExtension>
 {
     /**
      * Parses a reason extension sub-packet and creates a {@link
@@ -49,31 +49,22 @@ public class RedirectProvider
     public RedirectPacketExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
-        String text = null;
+        String text;
         boolean done = false;
-        XmlPullParser.Event eventType;
-
         text = parseText(parser);
 
         while (!done)
         {
-            eventType = parser.next();
-
-            if (eventType == XmlPullParser.Event.START_ELEMENT)
+            if (parser.next() == XmlPullParser.Event.END_ELEMENT)
             {
-            }
-            else if (eventType == XmlPullParser.Event.END_ELEMENT)
-            {
-                if (parser.getName().equals(
-                    RedirectPacketExtension.ELEMENT))
+                if (parser.getName().equals(RedirectPacketExtension.ELEMENT))
                 {
                     done = true;
                 }
             }
         }
 
-        RedirectPacketExtension redirectExt
-            = new RedirectPacketExtension();
+        RedirectPacketExtension redirectExt = new RedirectPacketExtension();
         redirectExt.setText(text);
         redirectExt.setRedir(text);
         return redirectExt;

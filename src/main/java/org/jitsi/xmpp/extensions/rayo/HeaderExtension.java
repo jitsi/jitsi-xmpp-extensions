@@ -20,7 +20,7 @@ import org.jitsi.xmpp.extensions.*;
 import javax.xml.namespace.*;
 
 /**
- * Header packet extension optionally included in {@link RayoIqProvider.RayoIq}.
+ * Header packet extension optionally included in {@link RayoIq}.
  * Holds 'name' and 'value' attributes.
  *
  * @author Pawel Domas
