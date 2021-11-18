@@ -266,6 +266,18 @@ public class ColibriConferenceIqProvider
                 conference.setMeetingId(meetingId);
             }
 
+            String callstatsEnabled = parser.getAttributeValue("", ColibriConferenceIQ.CALLSTATS_ENABLED_NAME);
+            if (isNotEmpty(callstatsEnabled))
+            {
+                conference.setCallStatsEnabled(Boolean.parseBoolean(callstatsEnabled));
+            }
+
+            String rtcstatsEnabled = parser.getAttributeValue("", ColibriConferenceIQ.RTCSTATS_ENABLED_NAME);
+            if (isNotEmpty(rtcstatsEnabled))
+            {
+                conference.setRtcStatsEnabled(Boolean.parseBoolean(rtcstatsEnabled));
+            }
+
             boolean done = false;
             ColibriConferenceIQ.Channel channel = null;
             ColibriConferenceIQ.RTCPTerminationStrategy rtcpTerminationStrategy = null;
