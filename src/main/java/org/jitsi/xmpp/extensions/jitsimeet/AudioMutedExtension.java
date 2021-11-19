@@ -30,7 +30,7 @@ public class AudioMutedExtension
     /**
      * The namespace of this packet extension.
      */
-    public static final String NAMESPACE = "http://jitsi.org/jitmeet/audio";
+    public static final String NAMESPACE = "jabber:client";
 
     /**
      * XML element name of this packet extension.
