@@ -47,7 +47,7 @@ public class EndExtension
     /**
      * Create a new instance.
      */
-    protected EndExtension()
+    public EndExtension()
     {
         super(RayoIqProvider.NAMESPACE, ELEMENT);
     }

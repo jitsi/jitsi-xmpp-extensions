@@ -46,7 +46,10 @@ public class HealthStatusPacketExt
 
     private static final String HEALTH_ATTRIBUTE = "status";
 
-    public HealthStatusPacketExt() { super(NAMESPACE, ELEMENT); }
+    public HealthStatusPacketExt()
+    {
+        super(NAMESPACE, ELEMENT);
+    }
 
     static public void registerExtensionProvider()
     {
