@@ -45,7 +45,7 @@ public class JibriBusyStatusPacketExt
     private static final String STATUS_ATTRIBUTE = "status";
 
     /**
-     * Creates new instance of <tt>VideoMutedExtension</tt>.
+     * Create a new instance.
      */
     public JibriBusyStatusPacketExt()
     {
