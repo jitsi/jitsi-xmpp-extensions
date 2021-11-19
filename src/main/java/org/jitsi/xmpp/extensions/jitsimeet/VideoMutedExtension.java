@@ -29,7 +29,7 @@ public class VideoMutedExtension
     /**
      * The namespace of this packet extension.
      */
-    public static final String NAMESPACE = "http://jitsi.org/jitmeet/video";
+    public static final String NAMESPACE = "jabber:client";
 
     /**
      * XML element name of this packet extension.
@@ -37,7 +37,7 @@ public class VideoMutedExtension
     public static final String ELEMENT = "videomuted";
 
     /**
-     * Creates new instance of <tt>VideoMutedExtension</tt>.
+     * Create a new instance.
      */
     public VideoMutedExtension()
     {

@@ -41,7 +41,7 @@ public class JibriStatusPacketExt
     public static final String ELEMENT = "jibri-status";
 
     /**
-     * Creates new instance of <tt>VideoMutedExtension</tt>.
+     * Create a new instance.
      */
     public JibriStatusPacketExt()
     {

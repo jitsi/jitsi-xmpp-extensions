@@ -45,7 +45,7 @@ public class EndExtension
     private ReasonExtension reason;
 
     /**
-     * Creates new instance.
+     * Create a new instance.
      */
     protected EndExtension()
     {
