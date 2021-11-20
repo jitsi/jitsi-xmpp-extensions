@@ -104,14 +104,6 @@ public abstract class CandidatePacketExtension extends AbstractPacketExtension
     public static final String TCPTYPE_ATTR_NAME = "tcptype";
 
     /**
-     * Creates a new {@link CandidatePacketExtension}
-     */
-    public CandidatePacketExtension()
-    {
-        super(null, ELEMENT);
-    }
-
-    /**
      * Creates a new {@link CandidatePacketExtension} with the specified
      * <tt>elementName</tt> so that this class would be usable as a
      * <tt>RemoteCandidatePacketExtension</tt> parent.

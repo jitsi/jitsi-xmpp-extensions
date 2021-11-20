@@ -211,6 +211,7 @@ public class ColibriConferenceIqProvider
              * No ExtensionElementProvider for the specified name and namespace
              * has been registered. Throw away the element.
              */
+            logger.warn(() -> "Should parse {" + namespace + "}:" + name + ", but found no extension provider");
             throwAway(parser, name);
             extension = null;
         }
