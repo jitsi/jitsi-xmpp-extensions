@@ -162,7 +162,7 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
 
         /* Colibri2 shares extensions with original colibri, so register both. */
         ProviderManager.addIQProvider(ColibriConferenceIQ.ELEMENT, ColibriConferenceIQ.NAMESPACE,
-            new ColibriIQProvider());
+            new ColibriConferenceIqProvider());
 
         /* Original colibri does something weird with these elements' namespaces, so register them here. */
         ProviderManager.addExtensionProvider(PayloadTypePacketExtension.ELEMENT,
