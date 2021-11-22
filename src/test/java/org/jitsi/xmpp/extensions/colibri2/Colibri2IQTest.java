@@ -21,10 +21,9 @@ import org.jitsi.xmpp.extensions.jingle.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
-import org.jivesoftware.smackx.jingle.element.*;
-import org.jivesoftware.smackx.jingle.element.JingleAction;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Colibri2IQTest
 {
@@ -55,8 +54,8 @@ public class Colibri2IQTest
             + "</conference-modify>"
             + "</iq>";
 
-    @Before
-    public void registerProviders()
+    @BeforeAll
+    static void registerProviders()
     {
         ConferenceModifyIQProvider.registerProviders();
     }
@@ -101,24 +100,24 @@ public class Colibri2IQTest
         iqBuilder.addEndpoint(endpointBuilder.build());
         ConferenceModifyIQ iq = iqBuilder.build();
 
-        assertEquals("Conference name", CONFERENCE_NAME, iq.getConferenceName());
-        assertEquals("Meeting ID", MEETING_ID, iq.getMeetingId());
+        assertEquals(CONFERENCE_NAME, iq.getConferenceName(), "Conference name");
+        assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
 
-        assertEquals("Endpoint ID", ENDPOINT_ID, iq.getEndpoints().get(0).getId());
-        assertEquals("Stats ID", STATS_ID, iq.getEndpoints().get(0).getStatsId());
+        assertEquals(ENDPOINT_ID, iq.getEndpoints().get(0).getId(), "Endpoint ID");
+        assertEquals(STATS_ID, iq.getEndpoints().get(0).getStatsId(), "Stats ID");
 
-        assertEquals("Media type", MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType());
-        assertEquals("Payload type name", "opus",
-            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName());
+        assertEquals(MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType(), "Media type");
+        assertEquals("opus",
+            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
 
-        assertEquals("Source type", MediaType.VIDEO,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType());
-        assertEquals("SSRC", SSRC,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC());
+        assertEquals(MediaType.VIDEO,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType(), "Source type");
+        assertEquals(SSRC,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
 
         CharSequence xml = iq.toXML();
 
-        assertEquals("XML serialization", expectedXml, xml.toString());
+        assertEquals(expectedXml, xml.toString(), "XML serialization");
     }
 
     @Test
@@ -128,23 +127,23 @@ public class Colibri2IQTest
         XmlPullParser parser = PacketParserUtils.getParserFor(expectedXml);
         IQ parsedIq = PacketParserUtils.parseIQ(parser);
 
-        assertTrue(parsedIq instanceof ConferenceModifyIQ);
+        assertInstanceOf(ConferenceModifyIQ.class, parsedIq);
 
         ConferenceModifyIQ iq = (ConferenceModifyIQ)parsedIq;
 
-        assertEquals("Conference name", CONFERENCE_NAME, iq.getConferenceName());
-        assertEquals("Meeting ID", MEETING_ID, iq.getMeetingId());
+        assertEquals(CONFERENCE_NAME, iq.getConferenceName(), "Conference name");
+        assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
 
-        assertEquals("Endpoint ID", ENDPOINT_ID, iq.getEndpoints().get(0).getId());
-        assertEquals("Stats ID", STATS_ID, iq.getEndpoints().get(0).getStatsId());
+        assertEquals(ENDPOINT_ID, iq.getEndpoints().get(0).getId(), "Endpoint ID");
+        assertEquals(STATS_ID, iq.getEndpoints().get(0).getStatsId(), "Stats ID");
 
-        assertEquals("Media type", MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType());
-        assertEquals("Payload type name", "opus",
-            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName());
+        assertEquals(MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType(), "Media type");
+        assertEquals("opus",
+            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
 
-        assertEquals("Source type", MediaType.VIDEO,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType());
-        assertEquals("SSRC", SSRC,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC());
+        assertEquals(MediaType.VIDEO,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType(), "Source type");
+        assertEquals(SSRC,
+            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
     }
 }
