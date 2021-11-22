@@ -74,14 +74,14 @@ public class ColibriConferenceIQ
      * Videobridge <tt>conference</tt> IQ that controls whether or not to
      * enable RTCStats reporting for the conference.
      */
-    public static final String RTCSTATS_ENABLED_NAME = "rtcstats-enabled";
+    public static final String RTCSTATS_ENABLED_ATTR_NAME = "rtcstats-enabled";
 
     /**
      * The XML name of the <tt>callstats-enabled</tt> attribute of the Jitsi
      * Videobridge <tt>conference</tt> IQ that controls whether or not to
      * enable CallStats reporting for the conference.
      */
-    public static final String CALLSTATS_ENABLED_NAME = "callstats-enabled";
+    public static final String CALLSTATS_ENABLED_ATTR_NAME = "callstats-enabled";
 
     /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
@@ -312,8 +312,8 @@ public class ColibriConferenceIQ
         xml.optAttribute(GID_ATTR_NAME, getGID());
         xml.optAttribute(NAME_ATTR_NAME, name);
         xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
-        xml.attribute(RTCSTATS_ENABLED_NAME, rtcstatsEnabled);
-        xml.attribute(CALLSTATS_ENABLED_NAME, callstatsEnabled);
+        xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, rtcstatsEnabled);
+        xml.attribute(CALLSTATS_ENABLED_ATTR_NAME, callstatsEnabled);
 
         List<Content> contents = getContents();
         List<ChannelBundle> channelBundles = getChannelBundles();
