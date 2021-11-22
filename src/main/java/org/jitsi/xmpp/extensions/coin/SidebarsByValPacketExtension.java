@@ -28,7 +28,7 @@ public class SidebarsByValPacketExtension
     /**
      * The namespace that sidebars by val belongs to.
      */
-    public static final String NAMESPACE = "";
+    public static final String NAMESPACE = CoinIQ.NAMESPACE;
 
     /**
      * The name of the element that contains the sidebars by val.

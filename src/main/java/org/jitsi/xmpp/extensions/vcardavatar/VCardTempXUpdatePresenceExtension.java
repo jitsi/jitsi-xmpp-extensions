@@ -17,6 +17,7 @@ package org.jitsi.xmpp.extensions.vcardavatar;
 
 import java.security.*;
 
+import java.util.Objects;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 
@@ -84,7 +85,7 @@ public class VCardTempXUpdatePresenceExtension
             VCardTempXUpdatePresenceExtension.getImageSha1(imageBytes);
 
         // If the image has changed, then recomputes the XML string.
-        if (tmpImageSha1 != imageSha1)
+        if (!Objects.equals(tmpImageSha1, imageSha1))
         {
             imageSha1 = tmpImageSha1;
             this.computeXML();

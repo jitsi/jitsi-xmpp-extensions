@@ -70,6 +70,20 @@ public class ColibriConferenceIQ
     public static final String MEETING_ID_ATTR_NAME = "meeting-id";
 
     /**
+     * The XML name of the <tt>rtcstats-enabled</tt> attribute of the Jitsi
+     * Videobridge <tt>conference</tt> IQ that controls whether or not to
+     * enable RTCStats reporting for the conference.
+     */
+    public static final String RTCSTATS_ENABLED_ATTR_NAME = "rtcstats-enabled";
+
+    /**
+     * The XML name of the <tt>callstats-enabled</tt> attribute of the Jitsi
+     * Videobridge <tt>conference</tt> IQ that controls whether or not to
+     * enable CallStats reporting for the conference.
+     */
+    public static final String CALLSTATS_ENABLED_ATTR_NAME = "callstats-enabled";
+
+    /**
      * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
      * Videobridge <tt>conference</tt> IQ.
      */
@@ -134,6 +148,20 @@ public class ColibriConferenceIQ
     private EntityBareJid name;
 
     private String meetingId;
+
+    /**
+     * a boolean that indicates whether or not to enable rtcstats reporting for
+     * the conference. We set the default to be true to reflect the currently
+     * assumed value.
+     */
+    private boolean rtcstatsEnabled = true;
+
+    /**
+     * a boolean that indicates whether or not to enable callstats reporting for
+     * the conference. We set the default to be true to reflect the currently
+     * assumed value.
+     */
+    private boolean callstatsEnabled = true;
 
     /**
      * Returns an error response for given <tt>IQ</tt> that is returned by
@@ -201,7 +229,7 @@ public class ColibriConferenceIQ
     {
         Objects.requireNonNull(content, "content");
 
-        return contents.contains(content) ? false : contents.add(content);
+        return !contents.contains(content) && contents.add(content);
     }
 
     /**
@@ -284,6 +312,8 @@ public class ColibriConferenceIQ
         xml.optAttribute(GID_ATTR_NAME, getGID());
         xml.optAttribute(NAME_ATTR_NAME, name);
         xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
+        xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, rtcstatsEnabled);
+        xml.attribute(CALLSTATS_ENABLED_ATTR_NAME, callstatsEnabled);
 
         List<Content> contents = getContents();
         List<ChannelBundle> channelBundles = getChannelBundles();
@@ -519,6 +549,42 @@ public class ColibriConferenceIQ
     }
 
     /**
+     * @return a boolean that indicates whether or not to enable rtcstats
+     * reporting for the conference.
+     */
+    public boolean isRtcStatsEnabled()
+    {
+        return rtcstatsEnabled;
+    }
+
+    /**
+     * @param rtcstatsEnabled true to enable RTCStats reporting for the
+     * conference, otherwise false.
+     */
+    public void setRtcStatsEnabled(boolean rtcstatsEnabled)
+    {
+        this.rtcstatsEnabled = rtcstatsEnabled;
+    }
+
+    /**
+     * @return a boolean that indicates whether or not to enable CallStats
+     * reporting for the conference.
+     */
+    public boolean isCallStatsEnabled()
+    {
+        return callstatsEnabled;
+    }
+
+    /**
+     * @param callstatsEnabled true to enable CallStats reporting for the
+     * conference, otherwise false.
+     */
+    public void setCallStatsEnabled(boolean callstatsEnabled)
+    {
+        this.callstatsEnabled = callstatsEnabled;
+    }
+
+    /**
      * Represents a <tt>channel</tt> included into a <tt>content</tt> of a Jitsi
      * Videobridge <tt>conference</tt> IQ.
      */
@@ -746,9 +812,8 @@ public class ColibriConferenceIQ
                 p.setNamespace(null);
 
             return
-                payloadTypes.contains(payloadType)
-                    ? false
-                    : payloadTypes.add(payloadType);
+                !payloadTypes.contains(payloadType) && payloadTypes.add(
+                    payloadType);
         }
 
         /**
@@ -757,9 +822,6 @@ public class ColibriConferenceIQ
          *
          * @param ext the <tt>payload-type</tt> element to be added to
          * this <tt>channel</tt>
-         * @return <tt>true</tt> if the list of <tt>rtp-hdrext</tt> elements
-         * associated with this <tt>channel</tt> has been modified as part of
-         * the method call; otherwise, <tt>false</tt>
          */
         public void addRtpHeaderExtension(RTPHdrExtPacketExtension ext)
         {
@@ -775,10 +837,12 @@ public class ColibriConferenceIQ
             int id = -1;
             try
             {
-                id = Integer.valueOf(newExt.getID());
+                id = Integer.parseInt(newExt.getID());
             }
             catch (NumberFormatException nfe)
-            {}
+            {
+                // ignore, uses default
+            }
 
             // Only accept valid extension IDs (4-bits, 0xF reserved)
             if (id < 0 || id > 14)
@@ -804,7 +868,7 @@ public class ColibriConferenceIQ
         {
             Objects.requireNonNull(source, "source");
 
-            return sources.contains(source) ? false : sources.add(source);
+            return !sources.contains(source) && sources.add(source);
         }
 
         /**
@@ -828,9 +892,8 @@ public class ColibriConferenceIQ
             }
 
             return
-                sourceGroups.contains(sourceGroup)
-                    ? false
-                    : sourceGroups.add(sourceGroup);
+                !sourceGroups.contains(sourceGroup) && sourceGroups.add(
+                    sourceGroup);
         }
 
         /**
@@ -847,9 +910,9 @@ public class ColibriConferenceIQ
         public synchronized boolean addSSRC(int ssrc)
         {
             // contains
-            for (int i = 0; i < ssrcs.length; i++)
+            for (int j : ssrcs)
             {
-                if (ssrcs[i] == ssrc)
+                if (j == ssrc)
                     return false;
             }
 
@@ -1023,7 +1086,7 @@ public class ColibriConferenceIQ
             return
                 (sourceGroups == null)
                     ? null
-                    : new ArrayList<SourceGroupPacketExtension>(sourceGroups);
+                    : new ArrayList<>(sourceGroups);
         }
 
         /**
@@ -1035,7 +1098,7 @@ public class ColibriConferenceIQ
          */
         public synchronized List<SourcePacketExtension> getSources()
         {
-            return new ArrayList<SourcePacketExtension>(sources);
+            return new ArrayList<>(sources);
         }
 
         /**
@@ -1152,10 +1215,10 @@ public class ColibriConferenceIQ
                 for (SourceGroupPacketExtension sourceGroup : sourceGroups)
                     xml.append(sourceGroup.toXML());
 
-            for (int i = 0; i < ssrcs.length; i++)
+            for (int ssrc : ssrcs)
             {
                 xml.element(SSRC_ELEMENT,
-                    Long.toString(ssrcs[i] & 0xFFFFFFFFL));
+                    Long.toString(ssrc & 0xFFFFFFFFL));
             }
 
             return xml;
@@ -1182,16 +1245,13 @@ public class ColibriConferenceIQ
          *
          * @param ext the <tt>rtp-hdrext</tt> element to be removed
          * from this <tt>channel</tt>
-         * @return <tt>true</tt> if the list of <tt>rtp-hdrext</tt> elements
-         * associated with this <tt>channel</tt> has been modified as part of
-         * the method call; otherwise, <tt>false</tt>
          */
         public void removeRtpHeaderExtension(RTPHdrExtPacketExtension ext)
         {
             int id = -1;
             try
             {
-                id = Integer.valueOf(ext.getID());
+                id = Integer.parseInt(ext.getID());
             }
             catch (NumberFormatException nfe)
             {
@@ -1782,11 +1842,13 @@ public class ColibriConferenceIQ
 
         /**
          * Indicates whether there are some contents that should be printed as
-         * child elements of this IQ. If <tt>true</tt> is returned
-         * {@link #printContent(IQChildElementXmlStringBuilder)} method will be
-         * called when XML representation of this IQ is being constructed.
+         * child elements of this IQ. If <tt>true</tt> is returned {@link
+         * ChannelCommon#printContent(IQChildElementXmlStringBuilder)} method
+         * will be called when XML representation of this IQ is being
+         * constructed.
+         *
          * @return <tt>true</tt> if there are content to be printed as child
-         *         elements of this IQ or <tt>false</tt> otherwise.
+         * elements of this IQ or <tt>false</tt> otherwise.
          */
         protected abstract boolean hasContent();
 
@@ -1809,7 +1871,7 @@ public class ColibriConferenceIQ
         /**
          * Derived class implements this method in order to print additional
          * attributes to main XML element.
-         * @param xml <the <tt>XmlStringBuilder </tt> to which the XML
+         * @param xml the <tt>XmlStringBuilder</tt> to which the XML
          *            <tt>String</tt> representation of this <tt>Channel</tt>
          *            is to be appended</tt>
          */
@@ -1922,9 +1984,8 @@ public class ColibriConferenceIQ
                 .optIntAttribute(EXPIRE_ATTR_NAME, getExpire())
                 .optAttribute(ID_ATTR_NAME, getID())
                 .optAttribute(TYPE_ATTR_NAME, getType())
-                .optBooleanAttribute(INITIATOR_ATTR_NAME, isInitiator() == null
-                    ? false
-                    : isInitiator())
+                .optBooleanAttribute(INITIATOR_ATTR_NAME,
+                    isInitiator() != null && isInitiator())
                 .optAttribute(
                     CHANNEL_BUNDLE_ID_ATTR_NAME, getChannelBundleId());
 
@@ -1980,7 +2041,7 @@ public class ColibriConferenceIQ
          * The list of {@link Channel}s included into this <tt>content</tt> of a
          * <tt>conference</tt> IQ.
          */
-        private final List<Channel> channels = new LinkedList<Channel>();
+        private final List<Channel> channels = new LinkedList<>();
 
         /**
          * The name of the <tt>content</tt> represented by this instance.
@@ -1992,7 +2053,7 @@ public class ColibriConferenceIQ
          * <tt>content</tt> of a <tt>conference</tt> IQ.
          */
         private final List<SctpConnection> sctpConnections
-            = new LinkedList<SctpConnection>();
+            = new LinkedList<>();
 
         /**
          * Initializes a new <tt>Content</tt> instance without a name and
@@ -2027,7 +2088,7 @@ public class ColibriConferenceIQ
         {
             Objects.requireNonNull(channel, "channel");
 
-            return channels.contains(channel) ? false : channels.add(channel);
+            return !channels.contains(channel) && channels.add(channel);
         }
 
         /**
@@ -2406,7 +2467,7 @@ public class ColibriConferenceIQ
         /**
          * State of the recording..
          */
-        private State state;
+        private final State state;
 
         /**
          * Access token.
@@ -2424,7 +2485,6 @@ public class ColibriConferenceIQ
 
         /**
          * Construct new recording element.
-         * @param state
          */
         public Recording(State state)
         {
@@ -2513,9 +2573,8 @@ public class ColibriConferenceIQ
 
             /**
              * Constructs new state.
-             * @param name
              */
-            private State(String name)
+            State(String name)
             {
                 this.name = name;
             }

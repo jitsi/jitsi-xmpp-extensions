@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
@@ -33,7 +34,7 @@ import java.io.*;
  * @author Pawel Domas
  */
 public class LoginUrlIqProvider
-    extends IQProvider<LoginUrlIq>
+    extends IqProvider<LoginUrlIq>
 {
     /**
      * Creates new instance of <tt>ConferenceIqProvider</tt>.
@@ -49,7 +50,7 @@ public class LoginUrlIqProvider
      * {@inheritDoc}
      */
     @Override
-    public LoginUrlIq parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public LoginUrlIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
@@ -99,6 +100,7 @@ public class LoginUrlIqProvider
             return null;
         }
 
+        ParserUtils.forwardToEndTagOfDepth(parser, initialDepth);
         return authUrlIQ;
     }
 }

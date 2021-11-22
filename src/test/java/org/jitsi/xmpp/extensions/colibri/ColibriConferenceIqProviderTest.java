@@ -18,10 +18,12 @@
 
 package org.jitsi.xmpp.extensions.colibri;
 
-import junit.framework.TestCase;
-import org.jivesoftware.smack.packet.IQ;
-import org.jivesoftware.smack.util.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.jivesoftware.smack.xml.*;
+import org.jivesoftware.smack.xml.XmlPullParser.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.jxmpp.jid.impl.*;
 
 import org.jitsi.xmpp.extensions.jitsimeet.*;
@@ -29,7 +31,7 @@ import org.jitsi.xmpp.extensions.jitsimeet.*;
 import java.io.StringReader;
 import java.util.List;
 
-public class ColibriIQProviderTest extends TestCase
+public class ColibriConferenceIqProviderTest
 {
     private static final String testXml
         = "\n" +
@@ -107,14 +109,15 @@ public class ColibriIQProviderTest extends TestCase
               "</conference>" +
             "</iq>";
 
-    ColibriIQProvider colibriIQProvider;
+    ColibriConferenceIqProvider colibriConferenceIqProvider;
 
+    @BeforeEach
     public void setUp()
-            throws Exception
     {
-        colibriIQProvider = new ColibriIQProvider();
+        colibriConferenceIqProvider = new ColibriConferenceIqProvider();
     }
 
+    @Test
     public void testParseSource()
             throws Exception
     {
@@ -123,22 +126,24 @@ public class ColibriIQProviderTest extends TestCase
         // Step forward to the the 'iq' element
         XmlPullParser.Event eventType = xmlPullParser.next();
         String name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
+        assertEquals(Event.START_ELEMENT, eventType);
         assertEquals("iq", name);
 
         // Move forward to the 'conference' element, which is what
         // ColibriIQProvider::parse expects
         eventType = xmlPullParser.next();
         name = xmlPullParser.getName();
-        assertEquals(XmlPullParser.Event.START_ELEMENT, eventType);
+        assertEquals(Event.START_ELEMENT, eventType);
         assertEquals(ColibriConferenceIQ.ELEMENT, name);
 
-        IQ result = colibriIQProvider.parse(xmlPullParser);
+        ColibriConferenceIQ result =
+            colibriConferenceIqProvider.parse(xmlPullParser, null);
+        assertEquals(Event.END_ELEMENT, xmlPullParser.getEventType());
         List<SourcePacketExtension> sources =
-                ((ColibriConferenceIQ) result)
-                        .getContent("video")
-                        .getChannel(0)
-                        .getSources();
+            result
+                .getContent("video")
+                .getChannel(0)
+                .getSources();
         // There are 6 video sources in testXml, 3 ssrc and 3 rid
         assertEquals(6, sources.size());
         int numSsrcSources = 0;
@@ -178,7 +183,7 @@ public class ColibriIQProviderTest extends TestCase
 
         SSRCInfoPacketExtension ssrcInfo
             = source0.getFirstChildOfType(SSRCInfoPacketExtension.class);
-        assertNotNull(ssrcInfo);
+        Assertions.assertNotNull(ssrcInfo);
         assertEquals(
             JidCreate.fullFrom(
                 "test@conference.brian2.jitsi.net/66e3ea10"),

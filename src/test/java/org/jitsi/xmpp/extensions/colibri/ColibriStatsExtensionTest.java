@@ -17,17 +17,21 @@
  */
 package org.jitsi.xmpp.extensions.colibri;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Boris Grozev
  */
 public class ColibriStatsExtensionTest
-    extends TestCase
 {
     /**
      * Test the constructor and adding a new stat.
      */
+    @Test
     public void testAddStat()
     {
         ColibriStatsExtension stats = new ColibriStatsExtension();
@@ -35,14 +39,14 @@ public class ColibriStatsExtensionTest
         stats.addStat("name", "value");
 
         assertNotNull(stats.getStat("name"));
-        assertEquals(stats.getStat("name").getName(), "name");
-        assertEquals(stats.getStat("name").getValue(), "value");
-        assertEquals(stats.getValueAsString("name"), "value");
+        assertEquals("name", stats.getStat("name").getName());
+        assertEquals("value", stats.getStat("name").getValue());
+        assertEquals("value", stats.getValueAsString("name"));
         assertNull(stats.getValueAsInt("name"));
 
         stats.addStat("int", 13);
-        assertEquals(stats.getValueAsInt("int"), new Integer(13));
-        assertEquals(stats.getValueAsString("int"), "13");
+        assertEquals(13, stats.getValueAsInt("int"));
+        assertEquals("13", stats.getValueAsString("int"));
 
         assertNull(stats.getStat("somethingelse"));
         assertNull(stats.getValue("somethingelse"));
@@ -52,6 +56,7 @@ public class ColibriStatsExtensionTest
     /**
      * Test cloning.
      */
+    @Test
     public void testClone()
     {
         ColibriStatsExtension stats = new ColibriStatsExtension();
@@ -60,13 +65,13 @@ public class ColibriStatsExtensionTest
         ColibriStatsExtension clone = ColibriStatsExtension.clone(stats);
 
         assertNotNull(clone.getStat("name"));
-        assertEquals(clone.getStat("name").getName(), "name");
-        assertEquals(clone.getStat("name").getValue(), "value");
+        assertEquals("name", clone.getStat("name").getName());
+        assertEquals("value", clone.getStat("name").getValue());
 
         ColibriStatsExtension.Stat cloneNameStat = clone.getStat("name");
         cloneNameStat.setValue("virtue");
 
-        assertEquals(clone.getValue("name"), "virtue");
-        assertEquals(stats.getValue("name"), "value");
+        assertEquals("virtue", clone.getValue("name"));
+        assertEquals("value", stats.getValue("name"));
     }
 }

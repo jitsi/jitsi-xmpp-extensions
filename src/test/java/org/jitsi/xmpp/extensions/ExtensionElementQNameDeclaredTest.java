@@ -17,6 +17,8 @@
 
 package org.jitsi.xmpp.extensions;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,46 +27,55 @@ import java.util.Set;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.XmppElementUtil;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
-import static org.junit.Assert.assertTrue;
-
 /**
- * Verify that all jitsi XMPP extensions have QNAME (or ELEMENT and NAMESPACE) members,
- * as is now required by Smack for {@link StanzaView#getExtension(Class)} to work.
+ * Verify that all jitsi XMPP extensions have QNAME (or ELEMENT and NAMESPACE)
+ * members, as is now required by Smack for {@link StanzaView#getExtension(Class)}
+ * to work.
  */
 public class ExtensionElementQNameDeclaredTest
 {
     @Test
+    @Disabled("not all classes are converted, some even not in Smack")
     public void qnameOrElementNamespaceDeclaredTest()
     {
         String[] jitsiXmppExtensionsPackages = new String[] {
             "org.jitsi.xmpp.extensions",
         };
-        Reflections reflections = new Reflections(jitsiXmppExtensionsPackages, new SubTypesScanner());
-        Set<Class<? extends ExtensionElement>> extensionElementClasses = reflections.getSubTypesOf(
-            ExtensionElement.class);
+        Reflections reflections =
+            new Reflections(jitsiXmppExtensionsPackages, new SubTypesScanner());
+        Set<Class<? extends ExtensionElement>> extensionElementClasses =
+            reflections.getSubTypesOf(
+                ExtensionElement.class);
 
-        Map<Class<? extends ExtensionElement>, IllegalArgumentException> exceptions = new HashMap<>();
-        for (Class<? extends ExtensionElement> extensionElementClass : extensionElementClasses) {
-            if (Modifier.isAbstract(extensionElementClass.getModifiers())) {
+        Map<Class<? extends ExtensionElement>, IllegalArgumentException>
+            exceptions = new HashMap<>();
+        for (Class<? extends ExtensionElement> extensionElementClass : extensionElementClasses)
+        {
+            if (Modifier.isAbstract(extensionElementClass.getModifiers()))
+            {
                 continue;
             }
 
-            try {
+            try
+            {
                 XmppElementUtil.getQNameFor(extensionElementClass);
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e)
+            {
                 exceptions.put(extensionElementClass, e);
             }
         }
 
-        Set<Class<? extends ExtensionElement>> failedClasses = exceptions.keySet();
+        Set<Class<? extends ExtensionElement>> failedClasses =
+            exceptions.keySet();
 
-        /* TODO - not all classes are converted.  (This may depend on a newer version of Smack for some.) */
-        /* assertTrue("The following " + failedClasses.size()
-            + " classes are missing QNAME declaration: " + failedClasses, failedClasses.isEmpty()); */
+        assertTrue(failedClasses.isEmpty(),
+            "The following " + failedClasses.size()
+                + " classes are missing QNAME declaration: " + failedClasses);
     }
 }
 

@@ -71,7 +71,7 @@ public class RtpDescriptionPacketExtension
      * A <tt>List</tt> of the optional <tt>extmap</tt> elements that allow
      * negotiating RTP extension headers as per RFC 5282.
      */
-    private List<RTPHdrExtPacketExtension> extmapList = new ArrayList<>();
+    private final List<RTPHdrExtPacketExtension> extmapList = new ArrayList<>();
 
     /**
      * The combined list of all child elements that this extension contains.
@@ -193,8 +193,7 @@ public class RtpDescriptionPacketExtension
             children.add(bandwidth);
 
         //extmap elements
-        if (extmapList != null)
-            children.addAll(extmapList);
+        children.addAll(extmapList);
 
         children.addAll(super.getChildExtensions());
 

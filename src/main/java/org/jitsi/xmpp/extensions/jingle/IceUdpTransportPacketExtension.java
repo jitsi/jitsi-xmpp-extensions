@@ -58,7 +58,7 @@ public class IceUdpTransportPacketExtension
      * the ICE methodology.
      */
     private final List<CandidatePacketExtension> candidateList
-        = new ArrayList<CandidatePacketExtension>();
+        = new ArrayList<>();
 
     /**
      * Once the parties have connectivity and therefore the initiator has
@@ -139,11 +139,11 @@ public class IceUdpTransportPacketExtension
     @Override
     public List<? extends ExtensionElement> getChildExtensions()
     {
-        List<ExtensionElement> childExtensions = new ArrayList<>();
         List<? extends ExtensionElement> superChildExtensions
             = super.getChildExtensions();
 
-        childExtensions.addAll(superChildExtensions);
+        List<ExtensionElement> childExtensions =
+            new ArrayList<>(superChildExtensions);
 
         synchronized (candidateList)
         {
@@ -255,7 +255,7 @@ public class IceUdpTransportPacketExtension
     {
         for (ExtensionElement packetExtension : getChildExtensions())
         {
-            if (RtcpmuxPacketExtension.ELEMENT
+            if (IceRtcpmuxPacketExtension.ELEMENT
                     .equals(packetExtension.getElementName()))
                 return true;
         }
@@ -315,7 +315,7 @@ public class IceUdpTransportPacketExtension
         // Copy RTCP MUX
         if (src.isRtcpMux())
         {
-            dst.addChildExtension(new RtcpmuxPacketExtension());
+            dst.addChildExtension(new IceRtcpmuxPacketExtension());
         }
         // Optionally copy DTLS
         if (copyDtls)

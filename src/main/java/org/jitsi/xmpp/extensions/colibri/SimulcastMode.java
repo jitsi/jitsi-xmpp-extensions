@@ -23,7 +23,7 @@ public enum SimulcastMode
     REWRITING("REWRITING"),
     SWITCHING("SWITCHING");
 
-    private String text;
+    private final String text;
 
     SimulcastMode(String text)
     {

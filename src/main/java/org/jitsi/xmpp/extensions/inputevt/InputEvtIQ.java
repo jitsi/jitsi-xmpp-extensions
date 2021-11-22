@@ -66,8 +66,8 @@ public class InputEvtIQ extends IQ
     /**
      * List of remote-control elements.
      */
-    private List<RemoteControlExtension> remoteControls =
-        new ArrayList<RemoteControlExtension>();
+    private final List<RemoteControlExtension> remoteControls =
+        new ArrayList<>();
 
     /**
      * Constructor.

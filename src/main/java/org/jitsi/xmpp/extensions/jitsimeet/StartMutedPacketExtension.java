@@ -77,7 +77,7 @@ public class StartMutedPacketExtension
      */
     public boolean getAudioMuted()
     {
-        return Boolean.valueOf(getAttributeAsString(AUDIO_ATTRIBUTE_NAME));
+        return Boolean.parseBoolean(getAttributeAsString(AUDIO_ATTRIBUTE_NAME));
     }
 
     /**
@@ -86,6 +86,6 @@ public class StartMutedPacketExtension
      */
     public boolean getVideoMuted()
     {
-        return Boolean.valueOf(getAttributeAsString(VIDEO_ATTRIBUTE_NAME));
+        return Boolean.parseBoolean(getAttributeAsString(VIDEO_ATTRIBUTE_NAME));
     }
 }

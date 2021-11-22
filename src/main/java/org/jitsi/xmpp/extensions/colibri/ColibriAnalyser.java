@@ -78,7 +78,6 @@ public class ColibriAnalyser
          */
         conferenceState.setFrom(allocateResponse.getFrom());
 
-        Set<String> endpoints = new HashSet<>();
         for (ColibriConferenceIQ.Content contentResponse
             : allocateResponse.getContents())
         {
@@ -92,13 +91,11 @@ public class ColibriAnalyser
                 : contentResponse.getChannels())
             {
                 content.addChannel(channelResponse);
-                endpoints.add(channelResponse.getEndpoint());
             }
             for (ColibriConferenceIQ.SctpConnection sctpConnResponse
                 : contentResponse.getSctpConnections())
             {
                 content.addSctpConnection(sctpConnResponse);
-                endpoints.add(sctpConnResponse.getEndpoint());
             }
         }
 
@@ -140,6 +137,8 @@ public class ColibriAnalyser
         conferenceResult.setGID(conferenceResponse.getGID());
         conferenceResult.setName(conferenceResponse.getName());
         conferenceResult.setMeetingId(conferenceResponse.getMeetingId());
+        conferenceResult.setCallStatsEnabled(conferenceResponse.isCallStatsEnabled());
+        conferenceResult.setRtcStatsEnabled(conferenceResponse.isRtcStatsEnabled());
 
         // FIXME: we support single bundle for all channels
         String bundleId = null;

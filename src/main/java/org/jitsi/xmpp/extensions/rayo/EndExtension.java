@@ -45,9 +45,9 @@ public class EndExtension
     private ReasonExtension reason;
 
     /**
-     * Creates new instance.
+     * Create a new instance.
      */
-    protected EndExtension()
+    public EndExtension()
     {
         super(RayoIqProvider.NAMESPACE, ELEMENT);
     }
@@ -105,14 +105,14 @@ public class EndExtension
      */
     public static Presence createEnd(Jid from, Jid to, String reason)
     {
-        Presence presence = new Presence(Presence.Type.unavailable);
-        presence.setFrom(from);
-        presence.setTo(to);
-
         EndExtension end = new EndExtension();
         end.setReason(new ReasonExtension(reason));
 
-        presence.addExtension(end);
-        return presence;
+        PresenceBuilder presence = StanzaBuilder.buildPresence()
+            .ofType(Presence.Type.unavailable)
+            .from(from)
+            .to(to)
+            .addExtension(end);
+        return presence.build();
     }
 }

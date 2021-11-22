@@ -36,7 +36,7 @@ public class StatsId
 
     public static final String ELEMENT = "stats-id";
 
-    private String statsId = null;
+    private String statsId;
 
     /**
      * Initializes an {@link StatsId} instance with a given string value.

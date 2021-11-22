@@ -79,6 +79,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
         }
         catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
+            logger.log(Level.SEVERE, "Could not create an instance of class " + packetClass.getName(), e);
             throw new SmackParsingException(e.getMessage());
         }
 

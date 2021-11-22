@@ -30,7 +30,7 @@ import java.text.*;
 import java.util.*;
 
 public class ThumbnailStreamInitiationProvider
-    extends IQProvider<StreamInitiation>
+    extends IqProvider<StreamInitiation>
 {
     private static final Logger logger = new LoggerImpl(ThumbnailStreamInitiationProvider.class.getName());
 
@@ -40,7 +40,7 @@ public class ThumbnailStreamInitiationProvider
      * @param parser the parser to parse
      */
     @Override
-    public StreamInitiation parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public StreamInitiation parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         boolean done = false;

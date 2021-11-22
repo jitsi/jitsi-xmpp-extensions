@@ -30,14 +30,14 @@ import java.io.*;
  * @see SctpMapExtension
  */
 public class SctpMapExtensionProvider
-    extends ExtensionElementProvider
+    extends ExtensionElementProvider<SctpMapExtension>
 {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ExtensionElement parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public SctpMapExtension parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         SctpMapExtension result = new SctpMapExtension();
@@ -49,8 +49,11 @@ public class SctpMapExtensionProvider
                 SctpMapExtension.PORT_ATTR_NAME)));
             result.setProtocol(parser.getAttributeValue(null,
                 SctpMapExtension.PROTOCOL_ATTR_NAME));
-            result.setStreams(Integer.parseInt(parser.getAttributeValue(null,
-                SctpMapExtension.STREAMS_ATTR_NAME)));
+            String stream_attr = parser.getAttributeValue(null, SctpMapExtension.STREAMS_ATTR_NAME);
+            if ((stream_attr != null) && (!stream_attr.isEmpty()))
+            {
+                result.setStreams(Integer.parseInt(stream_attr));
+            }
         }
 
         return result;

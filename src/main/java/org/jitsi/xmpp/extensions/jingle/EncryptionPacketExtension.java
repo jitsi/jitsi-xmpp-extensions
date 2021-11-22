@@ -33,7 +33,8 @@ public class EncryptionPacketExtension
     /**
      * The namespace of the "encryption" element.
      */
-    public static final String NAMESPACE = "urn:xmpp:jingle:apps:rtp:1";
+    public static final String NAMESPACE
+        = RtpDescriptionPacketExtension.NAMESPACE;
 
     /**
      * The name of the "encryption" element.
@@ -49,8 +50,7 @@ public class EncryptionPacketExtension
      * The list of <tt>crypto</tt> elements transported by this
      * <tt>encryption</tt> element.
      */
-    private List<CryptoPacketExtension> cryptoList
-                            = new ArrayList<CryptoPacketExtension>();
+    private final List<CryptoPacketExtension> cryptoList = new ArrayList<>();
 
     /**
      * Creates a new instance of this <tt>EncryptionPacketExtension</tt>.
@@ -110,7 +110,7 @@ public class EncryptionPacketExtension
     {
         String required = getAttributeAsString(REQUIRED_ATTR_NAME);
 
-        return Boolean.valueOf(required) || "1".equals(required);
+        return Boolean.parseBoolean(required) || "1".equals(required);
     }
 
     /**
@@ -121,10 +121,8 @@ public class EncryptionPacketExtension
     @Override
     public List<? extends ExtensionElement> getChildExtensions()
     {
-        List<ExtensionElement> ret = new ArrayList<ExtensionElement>();
 
-        ret.addAll(super.getChildExtensions());
-        return ret;
+        return new ArrayList<ExtensionElement>(super.getChildExtensions());
     }
 
     /**

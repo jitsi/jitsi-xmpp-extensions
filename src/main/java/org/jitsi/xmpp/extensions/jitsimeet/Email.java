@@ -24,7 +24,7 @@ import org.jivesoftware.smack.xml.*;
 import java.io.*;
 
 /**
- * A implementation of a {@link PacketExtension} for emails.
+ * A implementation of a {@link ExtensionElement} for emails.
  *
  * @author Damian Minkov
  */
@@ -35,7 +35,7 @@ public class Email
 
     public static final String ELEMENT = "email";
 
-    private String address = null;
+    private String address;
 
     public Email(String address)
     {

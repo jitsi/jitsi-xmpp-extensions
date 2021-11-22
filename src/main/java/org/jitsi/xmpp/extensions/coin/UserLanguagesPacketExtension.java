@@ -30,7 +30,7 @@ public class UserLanguagesPacketExtension
     /**
      * The namespace that user languages belongs to.
      */
-    public static final String NAMESPACE = "";
+    public static final String NAMESPACE = CoinIQ.NAMESPACE;
 
     /**
      * The name of the element that contains the user languages data.

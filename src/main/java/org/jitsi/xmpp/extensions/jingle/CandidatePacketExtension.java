@@ -20,7 +20,7 @@ import org.jitsi.xmpp.extensions.*;
 /**
  * @author Emil Ivov
  */
-public class CandidatePacketExtension extends AbstractPacketExtension
+public abstract class CandidatePacketExtension extends AbstractPacketExtension
     implements Comparable<CandidatePacketExtension>
 {
     /**
@@ -104,23 +104,15 @@ public class CandidatePacketExtension extends AbstractPacketExtension
     public static final String TCPTYPE_ATTR_NAME = "tcptype";
 
     /**
-     * Creates a new {@link CandidatePacketExtension}
-     */
-    public CandidatePacketExtension()
-    {
-        super(null, ELEMENT);
-    }
-
-    /**
      * Creates a new {@link CandidatePacketExtension} with the specified
      * <tt>elementName</tt> so that this class would be usable as a
      * <tt>RemoteCandidatePacketExtension</tt> parent.
      *
      * @param elementName the element name that this instance should be using.
      */
-    protected CandidatePacketExtension(String elementName)
+    protected CandidatePacketExtension(String namespace, String elementName)
     {
-        super(null, elementName);
+        super(namespace, elementName);
     }
 
     /**
@@ -389,7 +381,8 @@ public class CandidatePacketExtension extends AbstractPacketExtension
 
     /**
      * Compares this instance with another CandidatePacketExtension by
-     * preference of type: host < local < prflx < srflx < stun < relay.
+     * preference of type:
+     * host &lt; local &lt; prflx &lt; srflx &lt; stun &lt; relay.
      *
      * @return 0 if the type are equal. -1 if this instance type is preferred.
      * Otherwise 1.

@@ -30,7 +30,7 @@ public class SIPDialogIDPacketExtension
     /**
      * The namespace that SIP Dialog ID belongs to.
      */
-    public static final String NAMESPACE = "";
+    public static final String NAMESPACE = CoinIQ.NAMESPACE;
 
     /**
      * The name of the element that contains the SIP Dialog ID data.

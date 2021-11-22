@@ -104,7 +104,7 @@ public class JingleIQ extends IQ
      * The list of "content" elements included in this IQ.
      */
     private final List<ContentPacketExtension> contentList
-            = new ArrayList<ContentPacketExtension>();
+            = new ArrayList<>();
 
     /**
      * Creates a new instance of this class.
@@ -142,7 +142,7 @@ public class JingleIQ extends IQ
             .optAttribute(RESPONDER_ATTR_NAME, getResponder())
             .attribute(SID_ATTR_NAME, getSID());
 
-        if (contentList.size() == 0 && reason == null && sessionInfo == null)
+        if (contentList.isEmpty() && reason == null && sessionInfo == null)
         {
             //it is possible to have empty jingle elements
             bldr.setEmptyElement();
@@ -290,7 +290,7 @@ public class JingleIQ extends IQ
     {
         synchronized(contentList)
         {
-            return new ArrayList<ContentPacketExtension>(contentList);
+            return new ArrayList<>(contentList);
         }
     }
 
@@ -324,10 +324,7 @@ public class JingleIQ extends IQ
     public boolean containsContentChildOfType(
             Class<? extends ExtensionElement> contentType)
     {
-        if (getContentForType(contentType) != null)
-            return true;
-
-        return false;
+        return getContentForType(contentType) != null;
     }
 
     /**

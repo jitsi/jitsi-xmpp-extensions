@@ -30,18 +30,18 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class CoinIQProvider
-    extends IQProvider<CoinIQ>
+    extends IqProvider<CoinIQ>
 {
     /**
      * Provider for description packet extension.
      */
-    private final ExtensionElementProvider descriptionProvider = new
-        DescriptionProvider();
+    private final DescriptionProvider descriptionProvider
+        = new DescriptionProvider();
 
     /**
      * Provider for users packet extension.
      */
-    private final ExtensionElementProvider usersProvider = new UsersProvider();
+    private final UsersProvider usersProvider = new UsersProvider();
 
     /**
      * Provider for state packet extension.
@@ -56,7 +56,7 @@ public class CoinIQProvider
                URIsPacketExtension.class);
 
     /**
-     * Provider for sidbars by val packet extension.
+     * Provider for sidebars by val packet extension.
      */
     private final DefaultPacketExtensionProvider<SidebarsByValPacketExtension>
        sidebarsByValProvider =
@@ -113,7 +113,7 @@ public class CoinIQProvider
      * @throws Exception if something goes wrong during parsing
      */
     @Override
-    public CoinIQ parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+    public CoinIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         CoinIQ coinIQ = new CoinIQ();
@@ -148,36 +148,33 @@ public class CoinIQProvider
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
-                if (elementName.equals(DescriptionPacketExtension.ELEMENT))
+                switch (elementName)
                 {
-                    ExtensionElement childExtension =
-                            (ExtensionElement)descriptionProvider.parse(parser);
-                    coinIQ.addExtension(childExtension);
+                case DescriptionPacketExtension.ELEMENT:
+                {
+                    coinIQ.addExtension(descriptionProvider.parse(parser));
+                    break;
                 }
-                else if (elementName.equals(UsersPacketExtension.ELEMENT))
+                case UsersPacketExtension.ELEMENT:
                 {
-                    ExtensionElement childExtension =
-                            (ExtensionElement)usersProvider.parse(parser);
-                    coinIQ.addExtension(childExtension);
+                    coinIQ.addExtension(usersProvider.parse(parser));
+                    break;
                 }
-                else if (elementName.equals(StatePacketExtension.ELEMENT))
+                case StatePacketExtension.ELEMENT:
                 {
-                    ExtensionElement childExtension =
-                            (ExtensionElement)stateProvider.parse(parser);
-                    coinIQ.addExtension(childExtension);
+                    coinIQ.addExtension(stateProvider.parse(parser));
+                    break;
                 }
-                else if (elementName.equals(URIsPacketExtension.ELEMENT))
+                case URIsPacketExtension.ELEMENT:
                 {
-                    ExtensionElement childExtension =
-                            (ExtensionElement)urisProvider.parse(parser);
-                    coinIQ.addExtension(childExtension);
+                    coinIQ.addExtension(urisProvider.parse(parser));
+                    break;
                 }
-                else if (elementName.equals(
-                        SidebarsByValPacketExtension.ELEMENT))
+                case SidebarsByValPacketExtension.ELEMENT:
                 {
-                    ExtensionElement childExtension =
-                            (ExtensionElement)sidebarsByValProvider.parse(parser);
-                    coinIQ.addExtension(childExtension);
+                    coinIQ.addExtension(sidebarsByValProvider.parse(parser));
+                    break;
+                }
                 }
             }
 

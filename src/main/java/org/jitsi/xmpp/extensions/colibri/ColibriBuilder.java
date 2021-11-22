@@ -276,6 +276,8 @@ public class ColibriBuilder
         request.setName(conferenceState.getName());
         request.setGID(conferenceState.getGID());
         request.setMeetingId(conferenceState.getMeetingId());
+        request.setRtcStatsEnabled(conferenceState.isRtcStatsEnabled());
+        request.setCallStatsEnabled(conferenceState.isCallStatsEnabled());
 
         request.setType(IQ.Type.set);
     }
@@ -1227,6 +1229,7 @@ public class ColibriBuilder
      * @return the channel from {@link #request} with the specified content
      * name and ID and run-time type matching this of {@code channel}.
      */
+    @SuppressWarnings("unchecked")
     private <T extends ColibriConferenceIQ.ChannelCommon> T getRequestChannel(
         String contentName, T channel)
     {
