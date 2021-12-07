@@ -168,6 +168,9 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
         ProviderManager.addExtensionProvider(PayloadTypePacketExtension.ELEMENT,
             PayloadTypePacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(PayloadTypePacketExtension.class));
+        ProviderManager.addExtensionProvider(ParameterPacketExtension.ELEMENT,
+            ParameterPacketExtension.NAMESPACE,
+            new DefaultPacketExtensionProvider<>(ParameterPacketExtension.class));
         ProviderManager.addExtensionProvider(RTPHdrExtPacketExtension.ELEMENT,
             RTPHdrExtPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(RTPHdrExtPacketExtension.class));
