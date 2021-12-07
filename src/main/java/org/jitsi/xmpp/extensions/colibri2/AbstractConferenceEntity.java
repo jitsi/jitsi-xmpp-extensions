@@ -104,7 +104,7 @@ public abstract class AbstractConferenceEntity
     /**
      * Builder for conference entities.
      */
-    protected abstract static class Builder
+    public abstract static class Builder
     {
         /** The transport. */
         private Transport transport;
