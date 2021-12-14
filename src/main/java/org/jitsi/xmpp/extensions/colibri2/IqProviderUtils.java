@@ -29,36 +29,13 @@ import java.io.*;
 /**
  * Provider for Colibri2 IQs.
  */
-public abstract class AbstractConferenceModificationIQProvider<I extends AbstractConferenceModificationIQ>
-    extends IqProvider<I>
+public class IqProviderUtils
 {
-    protected abstract AbstractConferenceModificationIQ.Builder<I> getBuilder(IqData iqData);
-
-    @Override
-    public I parse(XmlPullParser parser, int initialDepth, IqData iqData, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+    static void parseExtensions(XmlPullParser parser, int initialDepth, IQ iq)
+            throws XmlPullParserException, IOException, SmackParsingException
     {
-        AbstractConferenceModificationIQ.Builder<I> builder = getBuilder(iqData);
-
-        String meetingId = parser.getAttributeValue(AbstractConferenceModificationIQ.MEETING_ID_ATTR_NAME);
-        if (meetingId == null)
+        while (true)
         {
-            throw new SmackParsingException.RequiredAttributeMissingException(
-                AbstractConferenceModificationIQ.MEETING_ID_ATTR_NAME);
-        }
-        builder.setMeetingId(meetingId);
-
-        String conferenceName = parser.getAttributeValue(AbstractConferenceModificationIQ.NAME_ATTR_NAME);
-        if (conferenceName == null)
-        {
-            throw new SmackParsingException.RequiredAttributeMissingException(
-                AbstractConferenceModificationIQ.NAME_ATTR_NAME);
-        }
-        builder.setConferenceName(conferenceName);
-
-        I iq = builder.build();
-
-        outerloop: while (true) {
             XmlPullParser.Event eventType = parser.next();
             switch (eventType) {
             case START_ELEMENT:
@@ -76,7 +53,7 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
             case END_ELEMENT:
                 if (parser.getDepth() == initialDepth)
                 {
-                    break outerloop;
+                    return;
                 }
                 break;
             default:
@@ -84,11 +61,9 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
                 break;
             }
         }
-
-        return iq;
     }
 
-    private ExtensionElement parseExtension(XmlPullParser parser, String name, String namespace)
+    private static ExtensionElement parseExtension(XmlPullParser parser, String name, String namespace)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         ExtensionElementProvider<ExtensionElement> extensionProvider =
@@ -123,7 +98,7 @@ public abstract class AbstractConferenceModificationIQProvider<I extends Abstrac
      * tag of which XML content is to be thrown away
      * @throws Exception if an errors occurs while parsing the XML content
      */
-    private void throwAway(XmlPullParser parser, String name)
+    private static void throwAway(XmlPullParser parser, String name)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         int initialDepth = parser.getDepth();

@@ -17,16 +17,27 @@
 package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
+import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Provider for Colibri2 conference-modify IQs.
  */
-public class ConferenceModifiedIQProvider
-    extends AbstractConferenceModificationIQProvider<ConferenceModifiedIQ>
+public class ConferenceModifiedIQProvider extends IqProvider<ConferenceModifiedIQ>
 {
     @Override
-    protected ConferenceModifiedIQ.Builder getBuilder(IqData iqData)
+    public ConferenceModifiedIQ parse(
+            XmlPullParser parser,
+            int initialDepth,
+            IqData iqData,
+            XmlEnvironment xmlEnvironment)
+            throws XmlPullParserException, IOException, SmackParsingException
     {
-        return ConferenceModifiedIQ.builder(iqData);
+        ConferenceModifiedIQ iq = ConferenceModifiedIQ.builder(iqData).build();
+        IqProviderUtils.parseExtensions(parser, initialDepth, iq);
+        return iq;
     }
 }

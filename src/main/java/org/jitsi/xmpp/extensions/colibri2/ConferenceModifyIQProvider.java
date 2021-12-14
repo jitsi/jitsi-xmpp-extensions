@@ -17,16 +17,44 @@
 package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
+import org.jivesoftware.smack.provider.*;
+import org.jivesoftware.smack.xml.*;
+
+import java.io.*;
 
 /**
  * Provider for Colibri2 conference-modify IQs.
  */
-public class ConferenceModifyIQProvider
-    extends AbstractConferenceModificationIQProvider<ConferenceModifyIQ>
+public class ConferenceModifyIQProvider extends IqProvider<ConferenceModifyIQ>
 {
     @Override
-    protected ConferenceModifyIQ.Builder getBuilder(IqData iqData)
+    public ConferenceModifyIQ parse(
+            XmlPullParser parser,
+            int initialDepth,
+            IqData iqData,
+            XmlEnvironment xmlEnvironment)
+            throws XmlPullParserException, IOException, SmackParsingException
     {
-        return ConferenceModifyIQ.builder(iqData);
+        ConferenceModifyIQ.Builder builder = ConferenceModifyIQ.builder(iqData);
+
+        String meetingId = parser.getAttributeValue(ConferenceModifyIQ.MEETING_ID_ATTR_NAME);
+        if (meetingId == null)
+        {
+            throw new SmackParsingException.RequiredAttributeMissingException(ConferenceModifyIQ.MEETING_ID_ATTR_NAME);
+        }
+        builder.setMeetingId(meetingId);
+
+        String conferenceName = parser.getAttributeValue(ConferenceModifyIQ.NAME_ATTR_NAME);
+        if (conferenceName == null)
+        {
+            throw new SmackParsingException.RequiredAttributeMissingException(ConferenceModifyIQ.NAME_ATTR_NAME);
+        }
+        builder.setConferenceName(conferenceName);
+
+        ConferenceModifyIQ iq = builder.build();
+        IqProviderUtils.parseExtensions(parser, initialDepth, iq);
+
+        return iq;
     }
 }

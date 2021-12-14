@@ -38,6 +38,15 @@ public class ConferenceModifiedIQ
         }
     }
 
+    @Override
+    protected IQChildElementXmlStringBuilder getIQChildElementBuilder(IQChildElementXmlStringBuilder xml)
+    {
+        /* All our elements are extensions, so we just need to return empty here. */
+        xml.setEmptyElement();
+
+        return xml;
+    }
+
     /**
      * Get source list in the message.
      */

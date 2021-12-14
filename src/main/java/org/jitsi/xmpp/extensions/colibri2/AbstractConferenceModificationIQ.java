@@ -30,66 +30,15 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
      */
     public static final String NAMESPACE = "http://jitsi.org/protocol/colibri2";
 
-    /**
-     * The XML name of the <tt>name</tt> attribute of the Jitsi Videobridge
-     * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifyIQ</tt> if available.
-     */
-    public static final String NAME_ATTR_NAME = "name";
-
-    /**
-     * The XML name of the <tt>meeting-id</tt> attribute of the Jitsi Videobridge
-     * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifyIQ</tt> if available.
-     */
-    public static final String MEETING_ID_ATTR_NAME = "meeting-id";
-
-    /**
-     * The id of the conference
-     */
-    private final String meetingId;
-
-    /**
-     * The name of the conference
-     */
-    private final String name;
 
     /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
     protected AbstractConferenceModificationIQ(Builder<I> b, String element)
     {
         super(b, element, NAMESPACE);
 
-        if (b.meetingId == null)
-        {
-            throw new IllegalArgumentException("meeting-id must be set for " + element + " IQ");
-        }
-        meetingId = b.meetingId;
-
-        if (b.conferenceName == null)
-        {
-            throw new IllegalArgumentException("name must be set for " + element + " IQ");
-        }
-        name = b.conferenceName;
-
         for (AbstractConferenceEntity ce: b.conferenceEntities) {
             addExtension(ce);
         }
-    }
-
-    /**
-     * Get the name of the conference.
-     */
-    public @NotNull String getConferenceName()
-    {
-        return name;
-    }
-
-    /**
-     * Get the ID of the conference.
-     */
-    public @NotNull String getMeetingId()
-    {
-        return meetingId;
     }
 
     /**
@@ -108,26 +57,10 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
         return getExtensions(Relay.class);
     }
 
-    @Override
-    protected IQChildElementXmlStringBuilder getIQChildElementBuilder(IQChildElementXmlStringBuilder xml)
-    {
-        xml.attribute(MEETING_ID_ATTR_NAME, meetingId);
-        xml.attribute(NAME_ATTR_NAME, name);
-
-        /* All our elements are extensions, so we just need to return empty here. */
-        xml.setEmptyElement();
-
-        return xml;
-    }
-
     public abstract static class Builder<I extends AbstractConferenceModificationIQ>
         extends IqBuilder<Builder<I>, I>
     {
         private final List<AbstractConferenceEntity> conferenceEntities = new ArrayList<>();
-
-        private String conferenceName;
-
-        private String meetingId;
 
         protected Builder(IqData iqCommon) {
             super(iqCommon);
@@ -158,19 +91,6 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
             return addConferenceEntity(r);
         }
 
-        public Builder<I> setConferenceName(String name)
-        {
-            conferenceName = name;
-
-            return this;
-        }
-
-        public Builder<I> setMeetingId(String id)
-        {
-            meetingId = id;
-
-            return this;
-        }
 
         @Contract(" -> new")
         public abstract @NotNull I build();

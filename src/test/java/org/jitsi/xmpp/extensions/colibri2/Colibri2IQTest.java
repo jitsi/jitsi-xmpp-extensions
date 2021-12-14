@@ -57,7 +57,7 @@ public class Colibri2IQTest
     @BeforeAll
     static void registerProviders()
     {
-        ConferenceModifyIQProvider.registerProviders();
+        IqProviderUtils.registerProviders();
     }
 
     @Test
