@@ -111,8 +111,8 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     @Override
     protected IQChildElementXmlStringBuilder getIQChildElementBuilder(IQChildElementXmlStringBuilder xml)
     {
-        xml.optAttribute(MEETING_ID_ATTR_NAME, meetingId);
-        xml.optAttribute(NAME_ATTR_NAME, name);
+        xml.attribute(MEETING_ID_ATTR_NAME, meetingId);
+        xml.attribute(NAME_ATTR_NAME, name);
 
         /* All our elements are extensions, so we just need to return empty here. */
         xml.setEmptyElement();
