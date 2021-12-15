@@ -33,9 +33,19 @@ public class ConferenceModifyIQ
     public static final String RTCSTATS_ENABLED_ATTR_NAME = "rtcstats-enabled";
 
     /**
+     * The default value of the "rtcstats-enabled" attribute.
+     */
+    public static final boolean RTCSTATS_ENABLED_DEFAULT = true;
+
+    /**
      * The XML name of the attribute which controls whether callstats reporting should be enabled.
      */
     public static final String CALLSTATS_ENABLED_ATTR_NAME = "callstats-enabled";
+
+    /**
+     * The default value of the "callstats-enabled" attribute.
+     */
+    public static final boolean CALLSTATS_ENABLED_DEFAULT = true;
 
     /**
      * The XML name of the <tt>name</tt> attribute of the Jitsi Videobridge
@@ -56,6 +66,11 @@ public class ConferenceModifyIQ
      * existing one. This defaults to "false" when the XML attribute is missing.
      */
     public static final String CREATE_ATTR_NAME = "create";
+
+    /**
+     * The default value of the "create" attribute.
+     */
+    public static final boolean CREATE_DEFAULT = false;
 
     /**
      * The id of the conference
@@ -109,17 +124,17 @@ public class ConferenceModifyIQ
         xml.attribute(MEETING_ID_ATTR_NAME, meetingId);
         xml.attribute(NAME_ATTR_NAME, name);
 
-        if (!rtcstatsEnabled)
+        if (rtcstatsEnabled != RTCSTATS_ENABLED_DEFAULT)
         {
-            xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, false);
+            xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, rtcstatsEnabled);
         }
-        if (!callstatsEnabled)
+        if (callstatsEnabled != CALLSTATS_ENABLED_DEFAULT)
         {
-            xml.attribute(CALLSTATS_ENABLED_ATTR_NAME, false);
+            xml.attribute(CALLSTATS_ENABLED_ATTR_NAME, callstatsEnabled);
         }
-        if (create)
+        if (create != CREATE_DEFAULT)
         {
-            xml.attribute(CREATE_ATTR_NAME, true);
+            xml.attribute(CREATE_ATTR_NAME, create);
         }
 
         /* All our elements are extensions, so we just need to return empty here. */
@@ -183,9 +198,9 @@ public class ConferenceModifyIQ
     public static final class Builder
         extends AbstractConferenceModificationIQ.Builder<ConferenceModifyIQ>
     {
-        private boolean rtcstatsEnabled = true;
-        private boolean callstatsEnabled = true;
-        private boolean create = false;
+        private boolean rtcstatsEnabled = RTCSTATS_ENABLED_DEFAULT;
+        private boolean callstatsEnabled = CALLSTATS_ENABLED_DEFAULT;
+        private boolean create = CREATE_DEFAULT;
         private String conferenceName;
         private String meetingId;
 
