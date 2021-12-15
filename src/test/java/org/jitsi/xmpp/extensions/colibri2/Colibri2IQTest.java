@@ -38,7 +38,7 @@ public class Colibri2IQTest
 
     private static final String expectedXml =
         "<iq xmlns='jabber:client' id='id' type='get'>"
-            + "<conference-modify xmlns='http://jitsi.org/protocol/colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example'>"
+            + "<conference-modify xmlns='http://jitsi.org/protocol/colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example' callstats-enabled='false'>"
             /* Smack 4.4.4 will remove the redundant xmlns from this line. */
             + "<endpoint xmlns='http://jitsi.org/protocol/colibri2' id='bd9b6765' stats-id='Jayme-Clv'>"
             + "<media type='audio'>"
@@ -67,6 +67,7 @@ public class Colibri2IQTest
 
         iqBuilder.setConferenceName(CONFERENCE_NAME);
         iqBuilder.setMeetingId(MEETING_ID);
+        iqBuilder.setCallstatsEnabled(false);
 
         Endpoint.Builder endpointBuilder = Endpoint.getBuilder();
 
@@ -133,6 +134,7 @@ public class Colibri2IQTest
 
         assertEquals(CONFERENCE_NAME, iq.getConferenceName(), "Conference name");
         assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
+        assertEquals(false, iq.isCallstatsEnabled(), "Callstats enabled");
 
         assertEquals(ENDPOINT_ID, iq.getEndpoints().get(0).getId(), "Endpoint ID");
         assertEquals(STATS_ID, iq.getEndpoints().get(0).getStatsId(), "Stats ID");

@@ -28,6 +28,16 @@ public class ConferenceModifyIQ
     public static final String ELEMENT = "conference-modify";
 
     /**
+     * The XML name of the attribute which controls whether rtcstats reporting should be enabled.
+     */
+    public static final String RTCSTATS_ENABLED_ATTR_NAME = "rtcstats-enabled";
+
+    /**
+     * The XML name of the attribute which controls whether callstats reporting should be enabled.
+     */
+    public static final String CALLSTATS_ENABLED_ATTR_NAME = "callstats-enabled";
+
+    /**
      * The XML name of the <tt>name</tt> attribute of the Jitsi Videobridge
      * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
      * property of <tt>ConferenceModifyIQ</tt> if available.
@@ -51,10 +61,25 @@ public class ConferenceModifyIQ
      */
     private final String name;
 
+    /**
+     * Whether rtcstats reporting should be enabled for the conference. This defaults to "true" if the XML attribute is
+     * missing.
+     */
+    private final boolean rtcstatsEnabled;
+
+    /**
+     * Whether callstats reporting should be enabled for the conference. This defaults to "true" if the XML attribute is
+     * missing.
+     */
+    private final boolean callstatsEnabled;
+
     /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
     private ConferenceModifyIQ(Builder b)
     {
         super(b, ELEMENT);
+
+        rtcstatsEnabled = b.rtcstatsEnabled;
+        callstatsEnabled = b.callstatsEnabled;
 
         if (b.meetingId == null)
         {
@@ -74,6 +99,15 @@ public class ConferenceModifyIQ
     {
         xml.attribute(MEETING_ID_ATTR_NAME, meetingId);
         xml.attribute(NAME_ATTR_NAME, name);
+
+        if (!rtcstatsEnabled)
+        {
+            xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, false);
+        }
+        if (!callstatsEnabled)
+        {
+            xml.attribute(CALLSTATS_ENABLED_ATTR_NAME, false);
+        }
 
         /* All our elements are extensions, so we just need to return empty here. */
         xml.setEmptyElement();
@@ -97,6 +131,16 @@ public class ConferenceModifyIQ
         return meetingId;
     }
 
+    public boolean isRtcstatsEnabled()
+    {
+        return rtcstatsEnabled;
+    }
+
+    public boolean isCallstatsEnabled()
+    {
+        return callstatsEnabled;
+    }
+
     @Contract("_ -> new")
     public static @NotNull Builder builder(XMPPConnection connection)
     {
@@ -118,6 +162,8 @@ public class ConferenceModifyIQ
     public static final class Builder
         extends AbstractConferenceModificationIQ.Builder<ConferenceModifyIQ>
     {
+        private boolean rtcstatsEnabled = true;
+        private boolean callstatsEnabled = true;
         private String conferenceName;
         private String meetingId;
 
@@ -131,6 +177,18 @@ public class ConferenceModifyIQ
 
         private Builder(String stanzaId) {
             super(stanzaId);
+        }
+
+        public Builder setRtcstatsEnabled(boolean rtcstatsEnabled)
+        {
+            this.rtcstatsEnabled = rtcstatsEnabled;
+            return this;
+        }
+
+        public Builder setCallstatsEnabled(boolean callstatsEnabled)
+        {
+            this.callstatsEnabled = callstatsEnabled;
+            return this;
         }
 
         public Builder setConferenceName(String name)
