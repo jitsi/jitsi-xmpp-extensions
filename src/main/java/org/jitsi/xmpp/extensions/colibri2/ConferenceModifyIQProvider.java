@@ -64,6 +64,12 @@ public class ConferenceModifyIQProvider extends IqProvider<ConferenceModifyIQ>
             builder.setCallstatsEnabled(Boolean.parseBoolean(callstatsEnabled));
         }
 
+        String create = parser.getAttributeValue(ConferenceModifyIQ.CREATE_ATTR_NAME);
+        if (create != null)
+        {
+            builder.setCreate(Boolean.parseBoolean(create));
+        }
+
         ConferenceModifyIQ iq = builder.build();
         IqProviderUtils.parseExtensions(parser, initialDepth, iq);
 

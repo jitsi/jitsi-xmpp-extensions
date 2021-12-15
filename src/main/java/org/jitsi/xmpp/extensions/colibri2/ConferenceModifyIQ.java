@@ -52,6 +52,12 @@ public class ConferenceModifyIQ
     public static final String MEETING_ID_ATTR_NAME = "meeting-id";
 
     /**
+     * The name of the attribute which controls whether this is a request to create a new conference, or modify an
+     * existing one. This defaults to "false" when the XML attribute is missing.
+     */
+    public static final String CREATE_ATTR_NAME = "create";
+
+    /**
      * The id of the conference
      */
     private final String meetingId;
@@ -73,6 +79,8 @@ public class ConferenceModifyIQ
      */
     private final boolean callstatsEnabled;
 
+    private final boolean create;
+
     /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
     private ConferenceModifyIQ(Builder b)
     {
@@ -80,6 +88,7 @@ public class ConferenceModifyIQ
 
         rtcstatsEnabled = b.rtcstatsEnabled;
         callstatsEnabled = b.callstatsEnabled;
+        create = b.create;
 
         if (b.meetingId == null)
         {
@@ -107,6 +116,10 @@ public class ConferenceModifyIQ
         if (!callstatsEnabled)
         {
             xml.attribute(CALLSTATS_ENABLED_ATTR_NAME, false);
+        }
+        if (create)
+        {
+            xml.attribute(CREATE_ATTR_NAME, true);
         }
 
         /* All our elements are extensions, so we just need to return empty here. */
@@ -141,6 +154,14 @@ public class ConferenceModifyIQ
         return callstatsEnabled;
     }
 
+    /**
+     * @return "true" iff this os a request for a new conference to be created.
+     */
+    public boolean getCreate()
+    {
+        return create;
+    }
+
     @Contract("_ -> new")
     public static @NotNull Builder builder(XMPPConnection connection)
     {
@@ -164,6 +185,7 @@ public class ConferenceModifyIQ
     {
         private boolean rtcstatsEnabled = true;
         private boolean callstatsEnabled = true;
+        private boolean create = false;
         private String conferenceName;
         private String meetingId;
 
@@ -201,6 +223,13 @@ public class ConferenceModifyIQ
         public Builder setMeetingId(String id)
         {
             meetingId = id;
+
+            return this;
+        }
+
+        public Builder setCreate(boolean create)
+        {
+            this.create = create;
 
             return this;
         }
