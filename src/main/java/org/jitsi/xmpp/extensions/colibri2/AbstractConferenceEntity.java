@@ -33,7 +33,25 @@ public abstract class AbstractConferenceEntity
      */
     public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 
+    /**
+     * The XML name of the attribute which controls whether the entity should be created.
+     */
+    public static final String CREATE_ATTR_NAME = "create";
+
+    /**
+     * The default value of the "create" attribute.
+     */
+    public static final boolean CREATE_DEFAULT = false;
+
+    /**
+     * The XML name of the attribute which controls whether the entity should be expired.
+     */
     public static final String EXPIRE_ATTR_NAME = "expire";
+
+    /**
+     * The default value of the "expire" attribute.
+     */
+    public static final boolean EXPIRE_DEFAULT = false;
 
     protected AbstractConferenceEntity(String element)
     {
@@ -47,7 +65,12 @@ public abstract class AbstractConferenceEntity
     {
         super(NAMESPACE, element);
 
-        if (b.expire)
+        if (b.create != CREATE_DEFAULT)
+        {
+            setAttribute(CREATE_ATTR_NAME, b.create);
+        }
+
+        if (b.expire != EXPIRE_DEFAULT)
         {
             setAttribute(EXPIRE_ATTR_NAME, b.expire);
         }
@@ -93,6 +116,15 @@ public abstract class AbstractConferenceEntity
     }
 
     /**
+     * Get whether this conference entity was marked to be created.
+     */
+    public boolean getCreate()
+    {
+        /* Anything other than "true" (including null) parses as "false" to parseBoolean, which is fine. */
+        return Boolean.parseBoolean(getAttributeAsString(CREATE_ATTR_NAME));
+    }
+    
+    /**
      * Get whether this conference entity was marked to expire.
      */
     public boolean getExpire()
@@ -111,7 +143,9 @@ public abstract class AbstractConferenceEntity
 
         private final List<Media> medias = new ArrayList<>();
 
-        private boolean expire = false;
+        private boolean create = CREATE_DEFAULT;
+
+        private boolean expire = EXPIRE_DEFAULT;
 
         /* Do we need SctpConnection here? */
 
@@ -138,6 +172,13 @@ public abstract class AbstractConferenceEntity
         public Builder setSources(Sources s)
         {
             sources = s;
+
+            return this;
+        }
+
+        public Builder setCreate(boolean e)
+        {
+            create = e;
 
             return this;
         }
