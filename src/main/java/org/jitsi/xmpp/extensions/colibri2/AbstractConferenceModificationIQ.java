@@ -44,17 +44,17 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     /**
      * Get endpoints described by the message
      */
-    public @NotNull List<Endpoint> getEndpoints()
+    public @NotNull List<Colibri2Endpoint> getEndpoints()
     {
-        return getExtensions(Endpoint.class);
+        return getExtensions(Colibri2Endpoint.class);
     }
 
     /**
      * Get relays described by the message.
      */
-    public @NotNull List<Relay> getRelays()
+    public @NotNull List<Colibri2Relay> getRelays()
     {
-        return getExtensions(Relay.class);
+        return getExtensions(Colibri2Relay.class);
     }
 
     public abstract static class Builder<I extends AbstractConferenceModificationIQ>
@@ -81,12 +81,12 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
             return this;
         }
 
-        public Builder<I> addEndpoint(Endpoint ep)
+        public Builder<I> addEndpoint(Colibri2Endpoint ep)
         {
             return addConferenceEntity(ep);
         }
 
-        public Builder<I> addRelay(Relay r)
+        public Builder<I> addRelay(Colibri2Relay r)
         {
             return addConferenceEntity(r);
         }

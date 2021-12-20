@@ -51,7 +51,7 @@ public class Endpoints
     {
         super(NAMESPACE, ELEMENT);
 
-        for (Endpoint e: b.endpoints)
+        for (Colibri2Endpoint e: b.endpoints)
         {
             addChildExtension(e);
         }
@@ -60,13 +60,13 @@ public class Endpoints
     /**
      * Get the endpoints in this endpoint set
      */
-    public @NotNull List<Endpoint> getEndpoints()
+    public @NotNull List<Colibri2Endpoint> getEndpoints()
     {
-        return getChildExtensionsOfType(Endpoint.class);
+        return getChildExtensionsOfType(Colibri2Endpoint.class);
     }
 
     /**
-     * Get a builder for Endpoint objects.
+     * Get a builder for Colibri2Endpoint objects.
      */
     @Contract(" -> new")
     public static @NotNull Builder getBuilder()
@@ -76,13 +76,13 @@ public class Endpoints
 
     public static class Builder
     {
-        private final List<Endpoint> endpoints = new ArrayList<>();
+        private final List<Colibri2Endpoint> endpoints = new ArrayList<>();
 
         protected Builder()
         {
         }
 
-        public Builder addEndpoint(Endpoint m)
+        public Builder addEndpoint(Colibri2Endpoint m)
         {
             endpoints.add(m);
 

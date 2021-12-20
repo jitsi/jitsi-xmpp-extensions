@@ -22,7 +22,7 @@ import java.util.*;
 
 /**
  * An abstract representation of a participant in a conference as described by Colibri signaling.
- * This is the base class of both Endpoint and Relay.
+ * This is the base class of both Colibri2Endpoint and Colibri2Relay.
  */
 public abstract class AbstractConferenceEntity
     extends AbstractPacketExtension

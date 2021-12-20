@@ -71,7 +71,7 @@ public class Colibri2IQTest
         iqBuilder.setCallstatsEnabled(false);
         iqBuilder.setCreate(true);
 
-        Endpoint.Builder endpointBuilder = Endpoint.getBuilder();
+        Colibri2Endpoint.Builder endpointBuilder = Colibri2Endpoint.getBuilder();
 
         endpointBuilder.setId(ENDPOINT_ID);
         endpointBuilder.setStatsId(STATS_ID);
@@ -107,7 +107,7 @@ public class Colibri2IQTest
         assertEquals(CONFERENCE_NAME, iq.getConferenceName(), "Conference name");
         assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
 
-        Endpoint endpoint = iq.getEndpoints().get(0);
+        Colibri2Endpoint endpoint = iq.getEndpoints().get(0);
         assertEquals(ENDPOINT_ID, endpoint.getId(), "Endpoint ID");
         assertEquals(STATS_ID, endpoint.getStatsId(), "Stats ID");
 
@@ -142,7 +142,7 @@ public class Colibri2IQTest
         assertFalse(iq.isCallstatsEnabled(), "Callstats enabled");
         assertTrue(iq.getCreate(), "Create flag");
 
-        Endpoint endpoint = iq.getEndpoints().get(0);
+        Colibri2Endpoint endpoint = iq.getEndpoints().get(0);
         assertNotNull(endpoint, "endpoint must not be null");
         assertEquals(ENDPOINT_ID, endpoint.getId(), "Endpoint ID");
         assertEquals(STATS_ID, endpoint.getStatsId(), "Stats ID");

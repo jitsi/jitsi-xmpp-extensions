@@ -117,10 +117,10 @@ public class IqProviderUtils
         ProviderManager.addIQProvider(ConferenceModifiedIQ.ELEMENT, ConferenceModifiedIQ.NAMESPACE,
             new ConferenceModifiedIQProvider());
 
-        ProviderManager.addExtensionProvider(Endpoint.ELEMENT, Endpoint.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(Endpoint.class));
-        ProviderManager.addExtensionProvider(Relay.ELEMENT, Relay.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(Relay.class));
+        ProviderManager.addExtensionProvider(Colibri2Endpoint.ELEMENT, Colibri2Endpoint.NAMESPACE,
+            new DefaultPacketExtensionProvider<>(Colibri2Endpoint.class));
+        ProviderManager.addExtensionProvider(Colibri2Relay.ELEMENT, Colibri2Relay.NAMESPACE,
+            new DefaultPacketExtensionProvider<>(Colibri2Relay.class));
 
         ProviderManager.addExtensionProvider(Endpoints.ELEMENT, Endpoints.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Endpoints.class));

@@ -18,18 +18,17 @@ package org.jitsi.xmpp.extensions.colibri2;
 import org.jetbrains.annotations.*;
 
 import javax.xml.namespace.*;
-import java.util.*;
 
-public class Relay
+public class Colibri2Relay
     extends AbstractConferenceEntity
 {
     /**
-     * The XML element name of the Colibri2 Relay element.
+     * The XML element name of the Colibri2 Colibri2Relay element.
      */
     public static final String ELEMENT = "relay";
 
     /**
-     * The qualified name of the Relay element
+     * The qualified name of the Colibri2Relay element
      */
     public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
@@ -39,9 +38,9 @@ public class Relay
     public static final String ID_ATTR_NAME = "id";
 
     /**
-     * Construct Relay.  Needs to be public for DefaultPacketExtensionProvider to work.
+     * Construct Colibri2Relay.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
-    public Relay()
+    public Colibri2Relay()
     {
         super(ELEMENT);
     }
@@ -49,7 +48,7 @@ public class Relay
     /**
      * Construct endpoint from a builder - used by Builder#build().
      */
-    private Relay(Builder b)
+    private Colibri2Relay(Builder b)
     {
         super(b, ELEMENT);
 
@@ -81,7 +80,7 @@ public class Relay
     }
 
     /**
-     * Get a builder for Relay objects.
+     * Get a builder for Colibri2Relay objects.
      */
     @Contract(" -> new")
     public static @NotNull Builder getBuilder()
@@ -90,7 +89,7 @@ public class Relay
     }
 
     /**
-     * Builder for Relay objects.
+     * Builder for Colibri2Relay objects.
      */
     public static class Builder extends AbstractConferenceEntity.Builder
     {
@@ -124,9 +123,9 @@ public class Relay
         }
 
         @Contract(" -> new")
-        public @NotNull Relay build()
+        public @NotNull Colibri2Relay build()
         {
-            return new Relay(this);
+            return new Colibri2Relay(this);
         }
     }
 }

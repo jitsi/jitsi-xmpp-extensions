@@ -22,16 +22,16 @@ import javax.xml.namespace.*;
 /**
  * An endpoint in Colibri2 signaling.
  */
-public class Endpoint
+public class Colibri2Endpoint
     extends AbstractConferenceEntity
 {
     /**
-     * The XML element name of the Colibri2 Endpoint element.
+     * The XML element name of the Colibri2 Colibri2Endpoint element.
      */
     public static final String ELEMENT = "endpoint";
 
     /**
-     * The qualified name of the Endpoint element
+     * The qualified name of the Colibri2Endpoint element
      */
     public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
@@ -46,9 +46,9 @@ public class Endpoint
     public static final String STATS_ID_ATTR_NAME = "stats-id";
 
     /**
-     * Construct Endpoint.  Needs to be public for DefaultPacketExtensionProvider to work.
+     * Construct Colibri2Endpoint.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
-    public Endpoint()
+    public Colibri2Endpoint()
     {
         super(ELEMENT);
     }
@@ -56,7 +56,7 @@ public class Endpoint
     /**
      * Construct endpoint from a builder - used by Builder#build().
      */
-    private Endpoint(Builder b)
+    private Colibri2Endpoint(Builder b)
     {
         super(b, ELEMENT);
 
@@ -94,7 +94,7 @@ public class Endpoint
     }
 
     /**
-     * @return the force-mute extension of this {@link Endpoint}, if it has one.
+     * @return the force-mute extension of this {@link Colibri2Endpoint}, if it has one.
      */
     public @Nullable ForceMute getForceMute()
     {
@@ -102,7 +102,7 @@ public class Endpoint
     }
 
     /**
-     * Get a builder for Endpoint objects.
+     * Get a builder for Colibri2Endpoint objects.
      */
     @Contract(" -> new")
     public static @NotNull Builder getBuilder()
@@ -111,7 +111,7 @@ public class Endpoint
     }
 
     /**
-     * Builder for Endpoint objects.
+     * Builder for Colibri2Endpoint objects.
      */
     public static class Builder extends AbstractConferenceEntity.Builder
     {
@@ -175,9 +175,9 @@ public class Endpoint
 
 
         @Contract(" -> new")
-        public @NotNull Endpoint build()
+        public @NotNull Colibri2Endpoint build()
         {
-            return new Endpoint(this);
+            return new Colibri2Endpoint(this);
         }
     }
 }
