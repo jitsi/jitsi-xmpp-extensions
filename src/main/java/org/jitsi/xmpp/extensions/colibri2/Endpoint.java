@@ -70,6 +70,11 @@ public class Endpoint
         {
             setAttribute(STATS_ID_ATTR_NAME, b.statsId);
         }
+
+        if (b.forceMute != null)
+        {
+            addChildExtension(b.forceMute);
+        }
     }
 
     /**
@@ -86,6 +91,14 @@ public class Endpoint
     public @Nullable String getStatsId()
     {
         return getAttributeAsString(STATS_ID_ATTR_NAME);
+    }
+
+    /**
+     * @return the force-mute extension of this {@link Endpoint}, if it has one.
+     */
+    public @Nullable ForceMute getForceMute()
+    {
+        return getFirstChildOfType(ForceMute.class);
     }
 
     /**
@@ -112,6 +125,11 @@ public class Endpoint
          */
         private String statsId;
 
+        /**
+         * The force-mute element of the endpoint being built.
+         */
+        @Nullable private ForceMute forceMute = null;
+
         private Builder()
         {
             super();
@@ -136,6 +154,25 @@ public class Endpoint
 
             return this;
         }
+
+        /**
+         * Sets the force-mute element of the endpoint being built.
+         */
+        public Builder setForceMute(@Nullable ForceMute forceMute)
+        {
+            this.forceMute = forceMute;
+            return this;
+        }
+
+        /**
+         * Sets the force-mute element of the endpoint being built.
+         */
+        public Builder setForceMute(boolean audio, boolean video)
+        {
+            this.forceMute = new ForceMute(audio, video);
+            return this;
+        }
+
 
         @Contract(" -> new")
         public @NotNull Endpoint build()

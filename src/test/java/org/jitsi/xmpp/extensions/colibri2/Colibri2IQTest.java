@@ -50,6 +50,7 @@ public class Colibri2IQTest
             + "<source xmlns='urn:xmpp:jingle:apps:rtp:ssma:0' ssrc='803354056'/>"
             + "</media-source>"
             + "</sources>"
+            + "<force-mute audio='true' video='true'/>"
             + "</endpoint>"
             + "</conference-modify>"
             + "</iq>";
@@ -98,6 +99,7 @@ public class Colibri2IQTest
         endpointBuilder.addMedia(mediaBuilder.build());
         endpointBuilder.setTransport(transportBuilder.build());
         endpointBuilder.setSources(sourcesBuilder.build());
+        endpointBuilder.setForceMute(true, true);
 
         iqBuilder.addEndpoint(endpointBuilder.build());
         ConferenceModifyIQ iq = iqBuilder.build();
@@ -105,17 +107,19 @@ public class Colibri2IQTest
         assertEquals(CONFERENCE_NAME, iq.getConferenceName(), "Conference name");
         assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
 
-        assertEquals(ENDPOINT_ID, iq.getEndpoints().get(0).getId(), "Endpoint ID");
-        assertEquals(STATS_ID, iq.getEndpoints().get(0).getStatsId(), "Stats ID");
+        Endpoint endpoint = iq.getEndpoints().get(0);
+        assertEquals(ENDPOINT_ID, endpoint.getId(), "Endpoint ID");
+        assertEquals(STATS_ID, endpoint.getStatsId(), "Stats ID");
 
-        assertEquals(MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType(), "Media type");
-        assertEquals("opus",
-            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
+        assertEquals(MediaType.AUDIO, endpoint.getMedia().get(0).getType(), "Media type");
+        assertEquals("opus", endpoint.getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
 
-        assertEquals(MediaType.VIDEO,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType(), "Source type");
-        assertEquals(SSRC,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
+        assertEquals(MediaType.VIDEO, endpoint.getSources().getMediaSources().get(0).getType(), "Source type");
+        assertEquals(SSRC, endpoint.getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
+
+        assertNotNull(endpoint.getForceMute(), "force-mute must be present");
+        assertTrue(endpoint.getForceMute().getAudio(), "force-mute audio must be true");
+        assertTrue(endpoint.getForceMute().getVideo(), "force-mute video must be true");
 
         CharSequence xml = iq.toXML();
 
@@ -135,19 +139,22 @@ public class Colibri2IQTest
 
         assertEquals(CONFERENCE_NAME, iq.getConferenceName(), "Conference name");
         assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
-        assertEquals(false, iq.isCallstatsEnabled(), "Callstats enabled");
-        assertEquals(true, iq.getCreate(), "Create flag");
+        assertFalse(iq.isCallstatsEnabled(), "Callstats enabled");
+        assertTrue(iq.getCreate(), "Create flag");
 
-        assertEquals(ENDPOINT_ID, iq.getEndpoints().get(0).getId(), "Endpoint ID");
-        assertEquals(STATS_ID, iq.getEndpoints().get(0).getStatsId(), "Stats ID");
+        Endpoint endpoint = iq.getEndpoints().get(0);
+        assertNotNull(endpoint, "endpoint must not be null");
+        assertEquals(ENDPOINT_ID, endpoint.getId(), "Endpoint ID");
+        assertEquals(STATS_ID, endpoint.getStatsId(), "Stats ID");
 
-        assertEquals(MediaType.AUDIO, iq.getEndpoints().get(0).getMedia().get(0).getType(), "Media type");
-        assertEquals("opus",
-            iq.getEndpoints().get(0).getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
+        assertEquals(MediaType.AUDIO, endpoint.getMedia().get(0).getType(), "Media type");
+        assertEquals("opus", endpoint.getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
 
-        assertEquals(MediaType.VIDEO,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getType(), "Source type");
-        assertEquals(SSRC,
-            iq.getEndpoints().get(0).getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
+        assertEquals(MediaType.VIDEO, endpoint.getSources().getMediaSources().get(0).getType(), "Source type");
+        assertEquals(SSRC, endpoint.getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
+
+        assertNotNull(endpoint.getForceMute(), "force-mute must not be null");
+        assertTrue(endpoint.getForceMute().getAudio(), "force-mute audio must be true");
+        assertTrue(endpoint.getForceMute().getVideo(), "force-mute video must be true");
     }
 }

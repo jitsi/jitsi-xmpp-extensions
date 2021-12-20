@@ -149,5 +149,6 @@ public class IqProviderUtils
         ProviderManager.addExtensionProvider(RTPHdrExtPacketExtension.ELEMENT,
             RTPHdrExtPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(RTPHdrExtPacketExtension.class));
+        ProviderManager.addExtensionProvider(ForceMute.ELEMENT, ForceMute.NAMESPACE, new ForceMute.Provider());
     }
 }
