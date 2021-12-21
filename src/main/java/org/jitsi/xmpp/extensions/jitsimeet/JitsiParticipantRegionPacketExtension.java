@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
 
 /**
@@ -22,23 +23,23 @@ import org.jitsi.xmpp.extensions.*;
  *
  * @author Boris Grozev
  */
-public class RegionPacketExtension
+public class JitsiParticipantRegionPacketExtension
     extends AbstractPacketExtension
 {
     /**
      * XML element name of this packet extension.
      */
-    public static final String ELEMENT = "region";
+    public static final String ELEMENT = "jitsi_participant_region";
 
     /**
      * XML namespace of this packet extension.
      */
-    public static final String NAMESPACE = "http://jitsi.org/jitsi-meet";
+    public static final String NAMESPACE = "jabber:client";
 
     /**
      * Creates new instance of <tt>EtherpadPacketExt</tt>.
      */
-    public RegionPacketExtension()
+    public JitsiParticipantRegionPacketExtension()
     {
         super(NAMESPACE, ELEMENT);
     }
@@ -46,9 +47,9 @@ public class RegionPacketExtension
     /**
      * @return the value of the "id" attribute.
      */
-    public String getRegionId()
+    public @Nullable String getRegionId()
     {
-        return getAttributeAsString("id");
+        return getText();
     }
 
     /**
@@ -56,6 +57,6 @@ public class RegionPacketExtension
      */
     public void setRegionId(String value)
     {
-        setAttribute("id", value);
+        setText(value);
     }
 }
