@@ -75,7 +75,7 @@ public abstract class AbstractConferenceEntity
 
         if (b.id == null)
         {
-            throw new IllegalArgumentException("Endpoint ID must be set");
+            throw new IllegalArgumentException("ID must be set");
         }
         setAttribute(ID_ATTR_NAME, b.id);
 
