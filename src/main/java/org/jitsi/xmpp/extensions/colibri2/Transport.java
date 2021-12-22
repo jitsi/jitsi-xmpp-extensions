@@ -46,9 +46,19 @@ public class Transport
     public static final String ICE_CONTROLLING_ATTR_NAME = "ice-controlling";
 
     /**
+     * Default value for the ice-controlling attribute.
+     */
+    public static final boolean ICE_CONTROLLING_DEFAULT = false;
+
+    /**
      * The name of the <tt>use-unique-port</tt> attribute.
      */
     public static final String USE_UNIQUE_PORT_ATTR_NAME = "use-unique-port";
+
+    /**
+     * Default value for the use-unique-port attribute.
+     */
+    public static final boolean USE_UNIQUE_PORT_DEFAULT = false;
 
     /**
      * Construct a Transport.  Needs to be public for DefaultPacketExtensionProvider to work.
@@ -65,14 +75,14 @@ public class Transport
     {
         super(NAMESPACE, ELEMENT);
 
-        if (b.iceControlling != null)
+        if (b.iceControlling != ICE_CONTROLLING_DEFAULT)
         {
             setAttribute(ICE_CONTROLLING_ATTR_NAME, b.iceControlling);
         }
 
-        if (b.useUniquePort)
+        if (b.useUniquePort != USE_UNIQUE_PORT_DEFAULT)
         {
-            setAttribute(USE_UNIQUE_PORT_ATTR_NAME, true);
+            setAttribute(USE_UNIQUE_PORT_ATTR_NAME, b.useUniquePort);
         }
 
         if (b.iceUdpExtension != null)
@@ -96,22 +106,10 @@ public class Transport
     /**
      * Gets whether the transport is the initiator.  Return may be null if not set.
      */
-    public @Nullable Boolean getIceControlling()
+    public boolean getIceControlling()
     {
-        Object initiator = getAttribute(ICE_CONTROLLING_ATTR_NAME);
-        if (initiator == null)
-        {
-            return null;
-        }
-        else if (initiator instanceof Boolean)
-        {
-            return (Boolean) initiator;
-        }
-        else if (initiator instanceof String)
-        {
-            return Boolean.parseBoolean((String) initiator);
-        }
-        return null;
+        String iceControlling = getAttributeAsString(ICE_CONTROLLING_ATTR_NAME);
+        return iceControlling == null ? ICE_CONTROLLING_DEFAULT : Boolean.parseBoolean(iceControlling);
     }
 
     /**
@@ -120,16 +118,8 @@ public class Transport
      */
     public boolean getUseUniquePort()
     {
-        Object use = getAttribute(USE_UNIQUE_PORT_ATTR_NAME);
-        if (use instanceof Boolean)
-        {
-            return (Boolean) use;
-        }
-        else if (use instanceof String)
-        {
-            return Boolean.parseBoolean((String) use);
-        }
-        return false;
+        String use = getAttributeAsString(USE_UNIQUE_PORT_ATTR_NAME);
+        return use == null ? USE_UNIQUE_PORT_DEFAULT : Boolean.parseBoolean(use);
     }
 
     /**
@@ -154,9 +144,9 @@ public class Transport
      */
     public static final class Builder
     {
-        private boolean useUniquePort;
+        private boolean useUniquePort = USE_UNIQUE_PORT_DEFAULT;
 
-        private Boolean iceControlling = null;
+        private boolean iceControlling = ICE_CONTROLLING_DEFAULT;
 
         private IceUdpTransportPacketExtension iceUdpExtension;
 
