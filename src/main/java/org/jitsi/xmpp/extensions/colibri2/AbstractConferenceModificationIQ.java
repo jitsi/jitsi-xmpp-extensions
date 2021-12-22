@@ -35,7 +35,8 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     {
         super(b, element, NAMESPACE);
 
-        for (AbstractConferenceEntity ce: b.conferenceEntities) {
+        for (AbstractConferenceEntity ce: b.conferenceEntities)
+        {
             addExtension(ce);
         }
     }
@@ -61,15 +62,18 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     {
         private final List<AbstractConferenceEntity> conferenceEntities = new ArrayList<>();
 
-        protected Builder(IqData iqCommon) {
+        protected Builder(IqData iqCommon)
+        {
             super(iqCommon);
         }
 
-        protected Builder(XMPPConnection connection) {
+        protected Builder(XMPPConnection connection)
+        {
             super(connection);
         }
 
-        protected Builder(String stanzaId) {
+        protected Builder(String stanzaId)
+        {
             super(stanzaId);
         }
 

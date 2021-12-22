@@ -57,7 +57,8 @@ public class Sources
     {
         super(NAMESPACE, ELEMENT);
 
-        for (MediaSource ms: b.mediaSources) {
+        for (MediaSource ms: b.mediaSources)
+        {
             addChildExtension(ms);
         }
     }

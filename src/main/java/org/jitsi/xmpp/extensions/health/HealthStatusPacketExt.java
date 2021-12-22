@@ -78,7 +78,10 @@ public class HealthStatusPacketExt
 
         private final String health;
 
-        Health(String health) { this.health = health; }
+        Health(String health)
+        {
+            this.health = health;
+        }
 
         @Override
         public String toString()

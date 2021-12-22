@@ -78,15 +78,18 @@ public class ConferenceModifiedIQ
     {
         private Sources sources;
 
-        private Builder(IqData iqCommon) {
+        private Builder(IqData iqCommon)
+        {
             super(iqCommon);
         }
 
-        private Builder(XMPPConnection connection) {
+        private Builder(XMPPConnection connection)
+        {
             super(connection);
         }
 
-        private Builder(String stanzaId) {
+        private Builder(String stanzaId)
+        {
             super(stanzaId);
         }
 

@@ -37,7 +37,8 @@ public class IqProviderUtils
         while (true)
         {
             XmlPullParser.Event eventType = parser.next();
-            switch (eventType) {
+            switch (eventType)
+            {
             case START_ELEMENT:
                 String tagName = parser.getName();
                 String namespace = parser.getNamespace();

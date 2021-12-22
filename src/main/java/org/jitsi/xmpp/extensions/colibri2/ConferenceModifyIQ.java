@@ -200,15 +200,18 @@ public class ConferenceModifyIQ
         private String conferenceName;
         private String meetingId;
 
-        private Builder(IqData iqCommon) {
+        private Builder(IqData iqCommon)
+        {
             super(iqCommon);
         }
 
-        private Builder(XMPPConnection connection) {
+        private Builder(XMPPConnection connection)
+        {
             super(connection);
         }
 
-        private Builder(String stanzaId) {
+        private Builder(String stanzaId)
+        {
             super(stanzaId);
         }
 

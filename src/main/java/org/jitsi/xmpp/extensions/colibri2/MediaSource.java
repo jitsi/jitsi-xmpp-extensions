@@ -82,11 +82,13 @@ public class MediaSource
 
         setAttribute(ID_NAME, b.id);
 
-        for (SourcePacketExtension s: b.sources) {
+        for (SourcePacketExtension s: b.sources)
+        {
             addChildExtension(s);
         }
 
-        for (SourceGroupPacketExtension sg: b.ssrcGroups) {
+        for (SourceGroupPacketExtension sg: b.ssrcGroups)
+        {
             addChildExtension(sg);
         }
     }

@@ -615,7 +615,10 @@ public class JibriIq
 
         private String name;
 
-        FailureReason(String name) { this.name = name; }
+        FailureReason(String name)
+        {
+            this.name = name;
+        }
 
         /**
          * {@inheritDoc}
