@@ -41,9 +41,9 @@ public class ForceMuteTest
     @Test
     public void toXmlTest()
     {
-        assertEquals(new ForceMute().toXML(), "<force-mute xmlns='http://jitsi.org/protocol/colibri2'/>");
+        assertEquals(new ForceMute().toXML(), "<force-mute xmlns='jitsi:colibri2'/>");
         assertEquals(
                 new ForceMute(true, true).toXML(),
-                "<force-mute xmlns='http://jitsi.org/protocol/colibri2' audio='true' video='true'/>");
+                "<force-mute xmlns='jitsi:colibri2' audio='true' video='true'/>");
     }
 }

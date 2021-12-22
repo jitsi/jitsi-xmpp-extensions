@@ -27,7 +27,7 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     /**
      * The Colibri2 XML namespace.
      */
-    public static final String NAMESPACE = "http://jitsi.org/protocol/colibri2";
+    public static final String NAMESPACE = "jitsi:colibri2";
 
 
     /** Initializes a new {@link ConferenceModifyIQ} instance. */
