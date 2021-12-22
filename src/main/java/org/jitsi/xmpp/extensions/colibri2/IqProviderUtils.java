@@ -118,9 +118,9 @@ public class IqProviderUtils
             new ConferenceModifiedIQProvider());
 
         ProviderManager.addExtensionProvider(Colibri2Endpoint.ELEMENT, Colibri2Endpoint.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(Colibri2Endpoint.class));
+            new Colibri2Endpoint.Provider());
         ProviderManager.addExtensionProvider(Colibri2Relay.ELEMENT, Colibri2Relay.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(Colibri2Relay.class));
+            new Colibri2Relay.Provider());
 
         ProviderManager.addExtensionProvider(Endpoints.ELEMENT, Endpoints.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Endpoints.class));

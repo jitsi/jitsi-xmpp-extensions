@@ -123,7 +123,7 @@ public abstract class AbstractConferenceEntity
         /* Anything other than "true" (including null) parses as "false" to parseBoolean, which is fine. */
         return Boolean.parseBoolean(getAttributeAsString(CREATE_ATTR_NAME));
     }
-    
+
     /**
      * Get whether this conference entity was marked to expire.
      */

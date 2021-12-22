@@ -16,8 +16,13 @@
 package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jetbrains.annotations.*;
+import org.jitsi.xmpp.extensions.*;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
+import org.jivesoftware.smack.xml.*;
 
 import javax.xml.namespace.*;
+import java.io.*;
 
 public class Colibri2Relay
     extends AbstractConferenceEntity
@@ -52,10 +57,11 @@ public class Colibri2Relay
     {
         super(b, ELEMENT);
 
-        if (b.id != null)
+        if (b.id == null)
         {
-            setAttribute(ID_ATTR_NAME, b.id);
+            throw new IllegalArgumentException("Relay ID must be set");
         }
+        setAttribute(ID_ATTR_NAME, b.id);
 
         if (b.endpoints != null)
         {
@@ -66,7 +72,7 @@ public class Colibri2Relay
     /**
      * Get the ID of the relay.
      */
-    public @Nullable String getId()
+    public @NotNull String getId()
     {
         return getAttributeAsString(ID_ATTR_NAME);
     }
@@ -126,6 +132,34 @@ public class Colibri2Relay
         public @NotNull Colibri2Relay build()
         {
             return new Colibri2Relay(this);
+        }
+    }
+
+
+    public static class Provider extends DefaultPacketExtensionProvider<Colibri2Relay>
+    {
+        /**
+         * Creates a new packet provider for Colibri2Endpoint packet extensions.
+         */
+        public Provider()
+        {
+            super(Colibri2Relay.class);
+        }
+
+        @Override
+        public Colibri2Relay parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+            throws XmlPullParserException, IOException, SmackParsingException
+        {
+            Colibri2Relay r = super.parse(parser, depth, xmlEnvironment);
+
+            /* Validate parameters */
+            String type = r.getAttributeAsString(ID_ATTR_NAME);
+            if (type == null)
+            {
+                throw new SmackParsingException.RequiredAttributeMissingException(ID_ATTR_NAME);
+            }
+
+            return r;
         }
     }
 }
