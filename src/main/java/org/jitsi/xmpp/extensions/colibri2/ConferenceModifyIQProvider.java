@@ -45,12 +45,7 @@ public class ConferenceModifyIQProvider extends IqProvider<ConferenceModifyIQ>
         }
         builder.setMeetingId(meetingId);
 
-        String conferenceName = parser.getAttributeValue(ConferenceModifyIQ.NAME_ATTR_NAME);
-        if (conferenceName == null)
-        {
-            throw new SmackParsingException.RequiredAttributeMissingException(ConferenceModifyIQ.NAME_ATTR_NAME);
-        }
-        builder.setConferenceName(conferenceName);
+        builder.setConferenceName(parser.getAttributeValue(ConferenceModifyIQ.NAME_ATTR_NAME));
 
         String rtcStatsEnabled = parser.getAttributeValue(ConferenceModifyIQ.RTCSTATS_ENABLED_ATTR_NAME);
         if (rtcStatsEnabled != null)
