@@ -16,6 +16,7 @@
 
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jitsi.utils.logging2.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.colibri.*;
 import org.jitsi.xmpp.extensions.jingle.*;
@@ -31,6 +32,8 @@ import java.io.*;
  */
 public class IqProviderUtils
 {
+    private static final Logger logger = new LoggerImpl(IqProviderUtils.class.getName());
+
     static void parseExtensions(XmlPullParser parser, int initialDepth, IQ iq)
             throws XmlPullParserException, IOException, SmackParsingException
     {
@@ -77,6 +80,7 @@ public class IqProviderUtils
              * No ExtensionElementProvider for the specified name and namespace
              * has been registered. Throw away the element.
              */
+            logger.warn(() -> "Should parse {" + namespace + "}:" + name + ", but found no extension provider");
             throwAway(parser, name);
             extension = null;
         }
@@ -100,7 +104,7 @@ public class IqProviderUtils
      * @throws Exception if an errors occurs while parsing the XML content
      */
     private static void throwAway(XmlPullParser parser, String name)
-        throws XmlPullParserException, IOException, SmackParsingException
+        throws XmlPullParserException, IOException
     {
         int initialDepth = parser.getDepth();
         while ((XmlPullParser.Event.END_ELEMENT != parser.next())
