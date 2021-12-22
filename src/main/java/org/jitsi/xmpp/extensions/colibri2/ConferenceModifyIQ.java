@@ -71,12 +71,12 @@ public class ConferenceModifyIQ
     /**
      * The id of the conference
      */
-    private final String meetingId;
+    private final @NotNull String meetingId;
 
     /**
      * The name of the conference
      */
-    private final String name;
+    private final @Nullable String name;
 
     /**
      * Whether rtcstats reporting should be enabled for the conference. This defaults to "true" if the XML attribute is
@@ -107,10 +107,6 @@ public class ConferenceModifyIQ
         }
         meetingId = b.meetingId;
 
-        if (b.conferenceName == null)
-        {
-            throw new IllegalArgumentException("name must be set for " + ELEMENT + " IQ");
-        }
         name = b.conferenceName;
     }
 
@@ -118,7 +114,11 @@ public class ConferenceModifyIQ
     protected IQChildElementXmlStringBuilder getIQChildElementBuilder(IQChildElementXmlStringBuilder xml)
     {
         xml.attribute(MEETING_ID_ATTR_NAME, meetingId);
-        xml.attribute(NAME_ATTR_NAME, name);
+
+        if (name != null)
+        {
+            xml.attribute(NAME_ATTR_NAME, name);
+        }
 
         if (rtcstatsEnabled != RTCSTATS_ENABLED_DEFAULT)
         {
@@ -142,7 +142,7 @@ public class ConferenceModifyIQ
     /**
      * Get the name of the conference.
      */
-    public @NotNull String getConferenceName()
+    public @Nullable String getConferenceName()
     {
         return name;
     }
