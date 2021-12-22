@@ -44,7 +44,7 @@ public class Colibri2IQTest
             + "<media type='audio'>"
             + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
             + "</media>"
-            + "<transport initiator='true'/>"
+            + "<transport ice-controlling='true'/>"
             + "<sources>"
             + "<media-source type='video' id='bd9b6765-v1'>"
             + "<source xmlns='urn:xmpp:jingle:apps:rtp:ssma:0' ssrc='803354056'/>"
@@ -85,7 +85,7 @@ public class Colibri2IQTest
         mediaBuilder.addPayloadType(pt);
 
         Transport.Builder transportBuilder = Transport.getBuilder();
-        transportBuilder.setInitiator(true);
+        transportBuilder.setIceControlling(true);
         transportBuilder.setUseUniquePort(false);
 
         Sources.Builder sourcesBuilder = Sources.getBuilder();

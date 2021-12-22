@@ -41,9 +41,9 @@ public class Transport
     public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
     /**
-     * The name of the <tt>initiator</tt> attribute.
+     * The name of the <tt>ice-controlling</tt> attribute.
      */
-    public static final String INITIATOR_ATTR_NAME = "initiator";
+    public static final String ICE_CONTROLLING_ATTR_NAME = "ice-controlling";
 
     /**
      * The name of the <tt>use-unique-port</tt> attribute.
@@ -65,9 +65,9 @@ public class Transport
     {
         super(NAMESPACE, ELEMENT);
 
-        if (b.initiator != null)
+        if (b.iceControlling != null)
         {
-            setAttribute(INITIATOR_ATTR_NAME, b.initiator);
+            setAttribute(ICE_CONTROLLING_ATTR_NAME, b.iceControlling);
         }
 
         if (b.useUniquePort)
@@ -96,9 +96,9 @@ public class Transport
     /**
      * Gets whether the transport is the initiator.  Return may be null if not set.
      */
-    public @Nullable Boolean getInitiator()
+    public @Nullable Boolean getIceControlling()
     {
-        Object initiator = getAttribute(INITIATOR_ATTR_NAME);
+        Object initiator = getAttribute(ICE_CONTROLLING_ATTR_NAME);
         if (initiator == null)
         {
             return null;
@@ -156,7 +156,7 @@ public class Transport
     {
         private boolean useUniquePort;
 
-        private Boolean initiator = null;
+        private Boolean iceControlling = null;
 
         private IceUdpTransportPacketExtension iceUdpExtension;
 
@@ -172,9 +172,9 @@ public class Transport
             return this;
         }
 
-        public Builder setInitiator(boolean i)
+        public Builder setIceControlling(boolean i)
         {
-            this.initiator = i;
+            this.iceControlling = i;
             return this;
         }
 
