@@ -17,7 +17,11 @@ package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
+import org.jivesoftware.smack.xml.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -48,6 +52,11 @@ public abstract class AbstractConferenceEntity
     public static final String EXPIRE_ATTR_NAME = "expire";
 
     /**
+     * The name of the "id" attribute.
+     */
+    public static final String ID_ATTR_NAME = "id";
+
+    /**
      * The default value of the "expire" attribute.
      */
     public static final boolean EXPIRE_DEFAULT = false;
@@ -63,6 +72,12 @@ public abstract class AbstractConferenceEntity
     protected AbstractConferenceEntity(Builder b, String element)
     {
         super(NAMESPACE, element);
+
+        if (b.id == null)
+        {
+            throw new IllegalArgumentException("Endpoint ID must be set");
+        }
+        setAttribute(ID_ATTR_NAME, b.id);
 
         if (b.create != CREATE_DEFAULT)
         {
@@ -89,6 +104,15 @@ public abstract class AbstractConferenceEntity
             addChildExtension(b.sources);
         }
     }
+
+    /**
+     * Get the ID of the endpoint.
+     */
+    public @NotNull String getId()
+    {
+        return getAttributeAsString(ID_ATTR_NAME);
+    }
+
 
     /**
      * Get the medias associated with this conference entity.
@@ -140,6 +164,12 @@ public abstract class AbstractConferenceEntity
         /** The transport. */
         private Transport transport;
 
+        /**
+         * The id of the endpoint being built.
+         */
+        private String id;
+
+
         private final List<Media> medias = new ArrayList<>();
 
         private boolean create = CREATE_DEFAULT;
@@ -153,6 +183,17 @@ public abstract class AbstractConferenceEntity
         protected Builder()
         {
         }
+
+        /**
+         * Set the id for the endpoint being built.
+         */
+        public Builder setId(String id)
+        {
+            this.id = id;
+
+            return this;
+        }
+
 
         public Builder addMedia(Media m)
         {
@@ -191,5 +232,32 @@ public abstract class AbstractConferenceEntity
 
         @Contract(" -> new")
         public abstract @NotNull AbstractPacketExtension build();
+    }
+
+    protected static class Provider<T extends AbstractConferenceEntity> extends DefaultPacketExtensionProvider<T>
+    {
+        /**
+         * Creates a new packet provider for Colibri2Endpoint packet extensions.
+         */
+        protected Provider(Class<T> clazz)
+        {
+            super(clazz);
+        }
+
+        @Override
+        public T parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+                throws XmlPullParserException, IOException, SmackParsingException
+        {
+            T abstractConferenceEntity = super.parse(parser, depth, xmlEnvironment);
+
+            /* Validate parameters */
+            String id = abstractConferenceEntity.getAttributeAsString(ID_ATTR_NAME);
+            if (id == null)
+            {
+                throw new SmackParsingException.RequiredAttributeMissingException(ID_ATTR_NAME);
+            }
+
+            return abstractConferenceEntity;
+        }
     }
 }

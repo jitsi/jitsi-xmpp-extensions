@@ -16,13 +16,8 @@
 package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jetbrains.annotations.*;
-import org.jitsi.xmpp.extensions.*;
-import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
-import org.jivesoftware.smack.xml.*;
 
 import javax.xml.namespace.*;
-import java.io.*;
 
 public class Colibri2Relay
     extends AbstractConferenceEntity
@@ -36,11 +31,6 @@ public class Colibri2Relay
      * The qualified name of the Colibri2Relay element
      */
     public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
-
-    /**
-     * The name of the "id" attribute.
-     */
-    public static final String ID_ATTR_NAME = "id";
 
     /**
      * Construct Colibri2Relay.  Needs to be public for DefaultPacketExtensionProvider to work.
@@ -57,24 +47,10 @@ public class Colibri2Relay
     {
         super(b, ELEMENT);
 
-        if (b.id == null)
-        {
-            throw new IllegalArgumentException("Relay ID must be set");
-        }
-        setAttribute(ID_ATTR_NAME, b.id);
-
         if (b.endpoints != null)
         {
             addChildExtension(b.endpoints);
         }
-    }
-
-    /**
-     * Get the ID of the relay.
-     */
-    public @NotNull String getId()
-    {
-        return getAttributeAsString(ID_ATTR_NAME);
     }
 
     /**
@@ -100,21 +76,9 @@ public class Colibri2Relay
     public static class Builder extends AbstractConferenceEntity.Builder
     {
         /**
-         * The id of the relay being built.
-         */
-        private String id;
-
-        /**
          * Remote endpoints sent from the relay.
          */
         private Endpoints endpoints = null;
-
-        public Builder setId(String id)
-        {
-            this.id = id;
-
-            return this;
-        }
 
         public Builder setEndpoints(Endpoints e)
         {
@@ -135,8 +99,7 @@ public class Colibri2Relay
         }
     }
 
-
-    public static class Provider extends DefaultPacketExtensionProvider<Colibri2Relay>
+    public static class Provider extends AbstractConferenceEntity.Provider<Colibri2Relay>
     {
         /**
          * Creates a new packet provider for Colibri2Endpoint packet extensions.
@@ -144,22 +107,6 @@ public class Colibri2Relay
         public Provider()
         {
             super(Colibri2Relay.class);
-        }
-
-        @Override
-        public Colibri2Relay parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
-            throws XmlPullParserException, IOException, SmackParsingException
-        {
-            Colibri2Relay r = super.parse(parser, depth, xmlEnvironment);
-
-            /* Validate parameters */
-            String type = r.getAttributeAsString(ID_ATTR_NAME);
-            if (type == null)
-            {
-                throw new SmackParsingException.RequiredAttributeMissingException(ID_ATTR_NAME);
-            }
-
-            return r;
         }
     }
 }
