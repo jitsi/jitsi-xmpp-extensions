@@ -22,6 +22,8 @@ import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
 import org.junit.jupiter.api.*;
+import org.xmlunit.builder.*;
+import org.xmlunit.diff.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,7 +41,7 @@ public class Colibri2IQTest
     private static final String expectedXml =
         "<iq xmlns='jabber:client' id='id' type='get'>"
             + "<conference-modify xmlns='jitsi:colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example' callstats-enabled='false' create='true'>"
-            /* Smack 4.4.4 will remove the redundant xmlns from this line. */
+            /* I thought Smack 4.4.4 would remove the redundant xmlns from this line, but it didn't.  TODO. */
             + "<endpoint xmlns='jitsi:colibri2' id='bd9b6765' stats-id='Jayme-Clv'>"
             + "<media type='audio'>"
             + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
@@ -121,9 +123,11 @@ public class Colibri2IQTest
         assertTrue(endpoint.getForceMute().getAudio(), "force-mute audio must be true");
         assertTrue(endpoint.getForceMute().getVideo(), "force-mute video must be true");
 
-        CharSequence xml = iq.toXML();
+        Diff diff = DiffBuilder.compare(expectedXml).
+            withTest(iq.toXML().toString()).
+            checkForIdentical().build();
 
-        assertEquals(expectedXml, xml.toString(), "XML serialization");
+        assertFalse(diff.hasDifferences(), diff.toString());
     }
 
     @Test

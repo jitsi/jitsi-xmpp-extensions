@@ -17,6 +17,8 @@ package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jivesoftware.smack.util.*;
 import org.junit.jupiter.api.*;
+import org.xmlunit.builder.*;
+import org.xmlunit.diff.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,9 +43,14 @@ public class ForceMuteTest
     @Test
     public void toXmlTest()
     {
-        assertEquals(new ForceMute().toXML(), "<force-mute xmlns='jitsi:colibri2'/>");
-        assertEquals(
-                new ForceMute(true, true).toXML(),
-                "<force-mute xmlns='jitsi:colibri2' audio='true' video='true'/>");
+        Diff diff1 = DiffBuilder.compare("<force-mute xmlns='jitsi:colibri2'/>").
+            withTest(new ForceMute().toXML().toString()).
+            checkForIdentical().build();
+        assertFalse(diff1.hasDifferences(), diff1.toString());
+
+        Diff diff2 = DiffBuilder.compare("<force-mute xmlns='jitsi:colibri2' audio='true' video='true'/>").
+            withTest(new ForceMute(true, true).toXML().toString()).
+            checkForIdentical().build();
+        assertFalse(diff2.hasDifferences(), diff2.toString());
     }
 }
