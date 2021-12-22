@@ -40,8 +40,7 @@ public class MediaSource
     public static final String ELEMENT = "media-source";
 
     /**
-     * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
-     * Videobridge <tt>conference-modify</tt> IQ.
+     * The XML namespace of the Colibri2 MediaSource element.
      */
     public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 
@@ -152,15 +151,13 @@ public class MediaSource
          * The <tt>source</tt> elements defined by XEP-0339: Source-Specific
          * Media Attributes associated with this <tt>media-source</tt>.
          */
-        private final List<SourcePacketExtension> sources
-            = new ArrayList<>();
+        private final List<SourcePacketExtension> sources = new ArrayList<>();
 
         /**
          * The <tt>ssrc-group</tt> elements defined by XEP-0339: Source-Specific
          * Media Attributes associated with this <tt>media-source</tt>.
          */
-        private final List<SourceGroupPacketExtension> ssrcGroups
-            = new ArrayList<>();
+        private final List<SourceGroupPacketExtension> ssrcGroups = new ArrayList<>();
 
         /**
          * Sets the media type for the media source being built.

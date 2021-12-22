@@ -23,7 +23,7 @@ public class ConferenceModifyIQ
     extends AbstractConferenceModificationIQ<ConferenceModifyIQ>
 {
     /**
-     * The XML element name of the Jitsi Videobridge <tt>conference-modify</tt> IQ.
+     * The XML element name of the Colibri2 <tt>conference-modify</tt> IQ.
      */
     public static final String ELEMENT = "conference-modify";
 
@@ -48,16 +48,12 @@ public class ConferenceModifyIQ
     public static final boolean CALLSTATS_ENABLED_DEFAULT = true;
 
     /**
-     * The XML name of the <tt>name</tt> attribute of the Jitsi Videobridge
-     * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifyIQ</tt> if available.
+     * The XML name of the <tt>name</tt> attribute.
      */
     public static final String NAME_ATTR_NAME = "name";
 
     /**
-     * The XML name of the <tt>meeting-id</tt> attribute of the Jitsi Videobridge
-     * <tt>conference</tt> IQ which represents the value of the <tt>name</tt>
-     * property of <tt>ConferenceModifyIQ</tt> if available.
+     * The XML name of the <tt>meeting-id</tt> attribute.
      */
     public static final String MEETING_ID_ATTR_NAME = "meeting-id";
 
@@ -96,7 +92,7 @@ public class ConferenceModifyIQ
 
     private final boolean create;
 
-    /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
+    /** Initializes a new {@link ConferenceModifyIQ} instance. */
     private ConferenceModifyIQ(Builder b)
     {
         super(b, ELEMENT);

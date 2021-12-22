@@ -33,8 +33,7 @@ public class Sources
     public static final String ELEMENT = "sources";
 
     /**
-     * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
-     * Videobridge <tt>conference-modify</tt> IQ.
+     * The XML namespace of the {@link Sources} element.
      */
     public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 

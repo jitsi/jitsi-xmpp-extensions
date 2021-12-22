@@ -23,11 +23,11 @@ public class ConferenceModifiedIQ
     extends AbstractConferenceModificationIQ<ConferenceModifiedIQ>
 {
     /**
-     * The XML element name of the Jitsi Videobridge <tt>conference-modified</tt> IQ.
+     * The XML element name of the Colibri2 <tt>conference-modified</tt> IQ.
      */
     public static final String ELEMENT = "conference-modified";
 
-    /** Initializes a new <tt>ConferenceModifiedIQ</tt> instance. */
+    /** Initializes a new {@link ConferenceModifiedIQ} instance. */
     private ConferenceModifiedIQ(Builder b)
     {
         super(b, ELEMENT);

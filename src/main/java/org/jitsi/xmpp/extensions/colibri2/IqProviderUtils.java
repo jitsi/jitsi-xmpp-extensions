@@ -27,7 +27,7 @@ import org.jivesoftware.smack.xml.*;
 import java.io.*;
 
 /**
- * Provider for Colibri2 IQs.
+ * Utility class for parsing Colibri2 IQs.
  */
 public class IqProviderUtils
 {
@@ -87,12 +87,12 @@ public class IqProviderUtils
     }
 
     /**
-     * Parses using a specific <tt>XmlPullParser</tt> and ignores XML content
+     * Parses using a specific {@link XmlPullParser} and ignores XML content
      * presuming that the specified <tt>parser</tt> is currently at the start
      * tag of an element with a specific name and throwing away until the end
      * tag with the specified name is encountered.
      *
-     * @param parser the <tt>XmlPullParser</tt> which parses the XML content
+     * @param parser the {@link XmlPullParser} which parses the XML content
      * @param name the name of the element at the start tag of which the
      * specified <tt>parser</tt> is presumed to currently be and until the end
      * tag of which XML content is to be thrown away

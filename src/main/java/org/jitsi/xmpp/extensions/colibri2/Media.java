@@ -36,8 +36,7 @@ public class Media
     public static final String ELEMENT = "media";
 
     /**
-     * The XML colibri2 namespace of the Jitsi
-     * Videobridge <tt>conference-modify</tt> IQ.
+     * The XML namespace of the Colibri2 Media element.
      */
     public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 

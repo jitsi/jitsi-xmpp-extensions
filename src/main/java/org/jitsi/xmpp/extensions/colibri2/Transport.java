@@ -30,8 +30,7 @@ public class Transport
     public static final String ELEMENT = "transport";
 
     /**
-     * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
-     * Videobridge <tt>conference-modify</tt> IQ.
+     * The XML namespace of the Colibri2 Transport element.
      */
     public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 

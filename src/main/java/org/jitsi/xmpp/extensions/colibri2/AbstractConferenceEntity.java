@@ -28,8 +28,7 @@ public abstract class AbstractConferenceEntity
     extends AbstractPacketExtension
 {
     /**
-     * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
-     * Videobridge <tt>conference-modify</tt> IQ.
+     * The XML namespace of Colibri2 {@link AbstractConferenceEntity} elements.
      */
     public static final String NAMESPACE = ConferenceModifyIQ.NAMESPACE;
 

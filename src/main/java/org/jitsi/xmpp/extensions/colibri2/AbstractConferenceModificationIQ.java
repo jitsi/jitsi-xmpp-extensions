@@ -25,13 +25,12 @@ public abstract class AbstractConferenceModificationIQ<I extends AbstractConfere
     extends IQ
 {
     /**
-     * The XML COnferencing with LIghtweight BRIdging namespace of the Jitsi
-     * Videobridge <tt>conference-modify</tt> IQ.
+     * The Colibri2 XML namespace.
      */
     public static final String NAMESPACE = "http://jitsi.org/protocol/colibri2";
 
 
-    /** Initializes a new <tt>ConferenceModifyIQ</tt> instance. */
+    /** Initializes a new {@link ConferenceModifyIQ} instance. */
     protected AbstractConferenceModificationIQ(Builder<I> b, String element)
     {
         super(b, element, NAMESPACE);
