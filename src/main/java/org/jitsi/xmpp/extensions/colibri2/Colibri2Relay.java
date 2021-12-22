@@ -116,7 +116,7 @@ public class Colibri2Relay
             return this;
         }
 
-        public Builder addEndpoints(Endpoints e)
+        public Builder setEndpoints(Endpoints e)
         {
             endpoints = e;
 
