@@ -92,7 +92,7 @@ public abstract class AbstractConferenceEntity
     }
 
     /**
-     * Get the media associated with this conference entity.
+     * Get the medias associated with this conference entity.
      */
     public @NotNull List<Media> getMedia()
     {
@@ -120,8 +120,8 @@ public abstract class AbstractConferenceEntity
      */
     public boolean getCreate()
     {
-        /* Anything other than "true" (including null) parses as "false" to parseBoolean, which is fine. */
-        return Boolean.parseBoolean(getAttributeAsString(CREATE_ATTR_NAME));
+        String create = getAttributeAsString(CREATE_ATTR_NAME);
+        return create == null ? CREATE_DEFAULT : Boolean.parseBoolean(create);
     }
 
     /**
@@ -129,8 +129,8 @@ public abstract class AbstractConferenceEntity
      */
     public boolean getExpire()
     {
-        /* Anything other than "true" (including null) parses as "false" to parseBoolean, which is fine. */
-        return Boolean.parseBoolean(getAttributeAsString(EXPIRE_ATTR_NAME));
+        String expire = getAttributeAsString(EXPIRE_ATTR_NAME);
+        return expire == null ? EXPIRE_DEFAULT : Boolean.parseBoolean(expire);
     }
 
     /**
