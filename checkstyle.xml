@@ -26,6 +26,9 @@
         <module name="RightCurly">
             <property name="option" value="alone_or_singleline"/>
         </module>
+        <module name="LeftCurly">
+            <property name="option" value="nl"/>
+        </module>
 
         <module name="WhitespaceAfter">
             <!-- Drops TYPECAST from default tokens -->
