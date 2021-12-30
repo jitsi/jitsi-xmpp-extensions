@@ -143,6 +143,10 @@ public class IqProviderUtils
         /* Colibri2 shares extensions with original colibri, so register both. */
         ProviderManager.addIQProvider(ColibriConferenceIQ.ELEMENT, ColibriConferenceIQ.NAMESPACE,
             new ColibriConferenceIqProvider());
+        /* Similarly for Jingle. */
+        ProviderManager.addIQProvider(JingleIQ.ELEMENT, JingleIQ.NAMESPACE,
+            new JingleIQProvider()
+        );
 
         /* Original colibri does something weird with these elements' namespaces, so register them here. */
         ProviderManager.addExtensionProvider(PayloadTypePacketExtension.ELEMENT,
