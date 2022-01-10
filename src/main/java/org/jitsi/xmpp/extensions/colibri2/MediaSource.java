@@ -80,6 +80,10 @@ public class MediaSource
         }
         setAttribute(TYPE_ATTR_NAME, b.type.toString());
 
+        if (b.id == null)
+        {
+            throw new IllegalArgumentException("Source ID must be set.");
+        }
         setAttribute(ID_NAME, b.id);
 
         for (SourcePacketExtension s: b.sources)
@@ -96,7 +100,7 @@ public class MediaSource
     /**
      * Get the ID of this source.
      */
-    public @Nullable String getId()
+    public @NotNull String getId()
     {
         return getAttributeAsString(ID_NAME);
     }
@@ -164,7 +168,7 @@ public class MediaSource
         /**
          * Sets the media type for the media source being built.
          */
-        public Builder setType(MediaType t)
+        public Builder setType(@NotNull MediaType t)
         {
             type = t;
             return this;
@@ -173,7 +177,7 @@ public class MediaSource
         /**
          * Sets the ID for the media source being built.
          */
-        public Builder setId(String id)
+        public Builder setId(@NotNull String id)
         {
             this.id = id;
             return this;
@@ -182,7 +186,7 @@ public class MediaSource
         /**
          * Adds a payload type to the media being built.
          */
-        public Builder addSource(SourcePacketExtension pt)
+        public Builder addSource(@NotNull SourcePacketExtension pt)
         {
             sources.add(pt);
             return this;
@@ -191,7 +195,7 @@ public class MediaSource
         /**
          * Adds an RTP header extension to the media being built.
          */
-        public Builder addSsrcGroup(SourceGroupPacketExtension ext)
+        public Builder addSsrcGroup(@NotNull SourceGroupPacketExtension ext)
         {
             ssrcGroups.add(ext);
             return this;
@@ -240,6 +244,11 @@ public class MediaSource
             catch (IllegalArgumentException e)
             {
                 throw new SmackParsingException(TYPE_ATTR_NAME + ":" + e.getMessage());
+            }
+
+            if (ms.getId() == null)
+            {
+                throw new SmackParsingException.RequiredAttributeMissingException(ID_NAME);
             }
             return ms;
         }
