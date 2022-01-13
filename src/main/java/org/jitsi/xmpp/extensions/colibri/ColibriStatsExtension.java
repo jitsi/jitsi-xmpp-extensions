@@ -211,6 +211,11 @@ public class ColibriStatsExtension
     public static final String SHUTDOWN_IN_PROGRESS = "graceful_shutdown";
 
     /**
+     * The name of the stat that indicates if the bridge is in drain mode.
+     */
+    public static final String DRAIN = "drain";
+
+    /**
      * The name of the stat that indicates support of sip gateway capabilities.
      */
     public static final String SUPPORTS_SIP = "supports_sip";
