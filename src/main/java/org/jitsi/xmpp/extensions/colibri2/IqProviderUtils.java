@@ -121,6 +121,8 @@ public class IqProviderUtils
             new ConferenceModifyIQProvider());
         ProviderManager.addIQProvider(ConferenceModifiedIQ.ELEMENT, ConferenceModifiedIQ.NAMESPACE,
             new ConferenceModifiedIQProvider());
+        ProviderManager.addIQProvider(ConferenceNotificationIQ.ELEMENT, ConferenceNotificationIQ.NAMESPACE,
+            new ConferenceNotificationIQ.Provider());
 
         ProviderManager.addExtensionProvider(Colibri2Endpoint.ELEMENT, Colibri2Endpoint.NAMESPACE,
             new Colibri2Endpoint.Provider());
