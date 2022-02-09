@@ -56,7 +56,7 @@ public class Colibri2Error
     }
 
     @NotNull
-    Reason getReason()
+    public Reason getReason()
     {
         return Reason.parseString(getAttributeAsString(REASON_ATTR_NAME));
     }
