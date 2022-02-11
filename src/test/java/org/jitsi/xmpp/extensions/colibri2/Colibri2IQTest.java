@@ -46,7 +46,9 @@ public class Colibri2IQTest
             + "<media type='audio'>"
             + "<payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>"
             + "</media>"
-            + "<transport ice-controlling='true'/>"
+            + "<transport ice-controlling='true'>"
+            + "<sctp/>"
+            + "</transport>"
             + "<sources>"
             + "<media-source type='video' id='bd9b6765-v1'>"
             + "<source xmlns='urn:xmpp:jingle:apps:rtp:ssma:0' ssrc='803354056'/>"
@@ -89,6 +91,7 @@ public class Colibri2IQTest
         Transport.Builder transportBuilder = Transport.getBuilder();
         transportBuilder.setIceControlling(true);
         transportBuilder.setUseUniquePort(false);
+        transportBuilder.setSctp(new Sctp.Builder().build());
 
         Sources.Builder sourcesBuilder = Sources.getBuilder();
         SourcePacketExtension ssrc = new SourcePacketExtension();
@@ -118,6 +121,9 @@ public class Colibri2IQTest
 
         assertEquals(MediaType.VIDEO, endpoint.getSources().getMediaSources().get(0).getType(), "Source type");
         assertEquals(SSRC, endpoint.getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
+
+        assertNotNull(endpoint.getTransport());
+        assertNotNull(endpoint.getTransport().getSctp());
 
         assertNotNull(endpoint.getForceMute(), "force-mute must be present");
         assertTrue(endpoint.getForceMute().getAudio(), "force-mute audio must be true");
@@ -156,6 +162,9 @@ public class Colibri2IQTest
 
         assertEquals(MediaType.VIDEO, endpoint.getSources().getMediaSources().get(0).getType(), "Source type");
         assertEquals(SSRC, endpoint.getSources().getMediaSources().get(0).getSources().get(0).getSSRC(), "SSRC");
+
+        assertNotNull(endpoint.getTransport());
+        assertNotNull(endpoint.getTransport().getSctp());
 
         assertNotNull(endpoint.getForceMute(), "force-mute must not be null");
         assertTrue(endpoint.getForceMute().getAudio(), "force-mute audio must be true");
