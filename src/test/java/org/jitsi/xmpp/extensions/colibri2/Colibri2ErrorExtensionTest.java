@@ -26,7 +26,7 @@ public class Colibri2ErrorExtensionTest
     private static Colibri2Error.Provider provider = new Colibri2Error.Provider();
 
     @Test
-    public void parseValid()
+    public void parseingTest()
             throws Exception
     {
         assertThrows(SmackParsingException.class, () ->

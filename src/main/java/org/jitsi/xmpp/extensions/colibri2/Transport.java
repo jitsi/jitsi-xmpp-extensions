@@ -88,6 +88,11 @@ public class Transport
         {
             addChildExtension(b.iceUdpExtension);
         }
+
+        if (b.sctp != null)
+        {
+            addChildExtension(b.sctp);
+        }
     }
 
     /**
@@ -129,6 +134,12 @@ public class Transport
         return getChildExtension(IceUdpTransportPacketExtension.class);
     }
 
+    @Nullable
+    public Sctp getSctp()
+    {
+        return getChildExtension(Sctp.class);
+    }
+
     /**
      * Get a builder for Transport objects.
      */
@@ -149,6 +160,8 @@ public class Transport
 
         private IceUdpTransportPacketExtension iceUdpExtension;
 
+        private Sctp sctp;
+
         public Builder setIceUdpExtension(IceUdpTransportPacketExtension iceUdpExtension)
         {
             this.iceUdpExtension = iceUdpExtension;
@@ -164,6 +177,12 @@ public class Transport
         public Builder setIceControlling(boolean i)
         {
             this.iceControlling = i;
+            return this;
+        }
+
+        public Builder setSctp(Sctp sctp)
+        {
+            this.sctp = sctp;
             return this;
         }
 
