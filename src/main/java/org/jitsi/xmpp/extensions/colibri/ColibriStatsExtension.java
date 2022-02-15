@@ -422,6 +422,11 @@ public class ColibriStatsExtension
     public static final String VERSION = "version";
 
     /**
+     * The ID of the release.
+     */
+    public static final String RELEASE = "release";
+
+    /**
      * The name of the number of video channels statistic. Its runtime type is
      * {@code Integer}. We only use this for callstats.
      */
