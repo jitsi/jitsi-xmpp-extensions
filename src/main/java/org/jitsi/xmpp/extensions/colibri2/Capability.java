@@ -33,7 +33,7 @@ public class Capability extends AbstractPacketExtension
     /**
      * A constant for the source name signaling support (required for the multi-stream mode).
      */
-    public static final String CAP_SOURCE_NAME_SUPPORT = "http://jitsi.org/source-name";
+    public static final String CAP_SOURCE_NAME_SUPPORT = "source-names";
 
     /**
      * Creates an {@link Capability} instance.
