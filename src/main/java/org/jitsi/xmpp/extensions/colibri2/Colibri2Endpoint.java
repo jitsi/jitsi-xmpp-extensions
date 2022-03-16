@@ -18,6 +18,8 @@ package org.jitsi.xmpp.extensions.colibri2;
 import org.jetbrains.annotations.*;
 
 import javax.xml.namespace.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * An endpoint in Colibri2 signaling.
@@ -64,6 +66,11 @@ public class Colibri2Endpoint
         {
             addChildExtension(b.forceMute);
         }
+
+        for (Capability c : b.capabilities)
+        {
+            addChildExtension(c);
+        }
     }
 
     /**
@@ -80,6 +87,14 @@ public class Colibri2Endpoint
     public @Nullable ForceMute getForceMute()
     {
         return getFirstChildOfType(ForceMute.class);
+    }
+
+    /**
+     * @return the list of this endpoint's capabilities.
+     */
+    public List<Capability> getCapabilities()
+    {
+        return getChildExtensionsOfType(Capability.class);
     }
 
     /**
@@ -105,6 +120,11 @@ public class Colibri2Endpoint
          * The force-mute element of the endpoint being built.
          */
         @Nullable private ForceMute forceMute = null;
+
+        /**
+         * The list of this endpoint's capabilities.
+         */
+        private final List<Capability> capabilities = new LinkedList<>();
 
         private Builder()
         {
@@ -136,6 +156,16 @@ public class Colibri2Endpoint
         public Builder setForceMute(boolean audio, boolean video)
         {
             this.forceMute = new ForceMute(audio, video);
+            return this;
+        }
+
+        /**
+         * Adds next capability to the list of this endpoint's capabilities.
+         * @param capabilityName - the name of the capability to add.
+         */
+        public Builder addCapability(String capabilityName)
+        {
+            capabilities.add(new Capability(capabilityName));
             return this;
         }
 

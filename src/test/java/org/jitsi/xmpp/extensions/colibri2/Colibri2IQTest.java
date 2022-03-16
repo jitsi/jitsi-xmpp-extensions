@@ -25,6 +25,8 @@ import org.junit.jupiter.api.*;
 import org.xmlunit.builder.*;
 import org.xmlunit.diff.*;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Colibri2IQTest
@@ -55,6 +57,8 @@ public class Colibri2IQTest
             + "</media-source>"
             + "</sources>"
             + "<force-mute audio='true' video='true'/>"
+            + "<capability name='cap1'/>"
+            + "<capability name='cap2'/>"
             + "</endpoint>"
             + "</conference-modify>"
             + "</iq>";
@@ -105,6 +109,8 @@ public class Colibri2IQTest
         endpointBuilder.setTransport(transportBuilder.build());
         endpointBuilder.setSources(sourcesBuilder.build());
         endpointBuilder.setForceMute(true, true);
+        endpointBuilder.addCapability("cap1");
+        endpointBuilder.addCapability("cap2");
 
         iqBuilder.addEndpoint(endpointBuilder.build());
         ConferenceModifyIQ iq = iqBuilder.build();
@@ -115,6 +121,11 @@ public class Colibri2IQTest
         Colibri2Endpoint endpoint = iq.getEndpoints().get(0);
         assertEquals(ENDPOINT_ID, endpoint.getId(), "Endpoint ID");
         assertEquals(STATS_ID, endpoint.getStatsId(), "Stats ID");
+
+        List<Capability> caps = endpoint.getCapabilities();
+        assertEquals(2, caps.size());
+        assertEquals("cap1", caps.get(0).getName());
+        assertEquals("cap2", caps.get(1).getName());
 
         assertEquals(MediaType.AUDIO, endpoint.getMedia().get(0).getType(), "Media type");
         assertEquals("opus", endpoint.getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
@@ -156,6 +167,9 @@ public class Colibri2IQTest
         assertNotNull(endpoint, "endpoint must not be null");
         assertEquals(ENDPOINT_ID, endpoint.getId(), "Endpoint ID");
         assertEquals(STATS_ID, endpoint.getStatsId(), "Stats ID");
+        assertEquals(2, endpoint.getCapabilities().size(), "number of capabilities");
+        assertEquals("cap1", endpoint.getCapabilities().get(0).getName(), "capability #1");
+        assertEquals("cap2", endpoint.getCapabilities().get(1).getName(), "capability #2");
 
         assertEquals(MediaType.AUDIO, endpoint.getMedia().get(0).getType(), "Media type");
         assertEquals("opus", endpoint.getMedia().get(0).getPayloadTypes().get(0).getName(), "Payload type name");
