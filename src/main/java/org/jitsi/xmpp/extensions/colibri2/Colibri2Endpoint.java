@@ -107,6 +107,15 @@ public class Colibri2Endpoint
     }
 
     /**
+     * @param capabilityName the capability name to check for.
+     * @return true if this endpoint has the capability of the given name.
+     */
+    public boolean hasCapability(String capabilityName)
+    {
+        return getCapabilities().stream().anyMatch(c -> capabilityName.equals(c.getName()));
+    }
+
+    /**
      * Builder for Colibri2Endpoint objects.
      */
     public static class Builder extends AbstractConferenceEntity.Builder
