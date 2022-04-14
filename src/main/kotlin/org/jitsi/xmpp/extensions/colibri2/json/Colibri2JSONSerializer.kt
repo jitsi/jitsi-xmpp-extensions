@@ -195,6 +195,7 @@ object Colibri2JSONSerializer {
 
     private fun serializeRelay(relay: Colibri2Relay): JSONObject {
         return serializeAbstractConferenceEntity(relay).apply {
+            relay.meshId?.apply { put(Colibri2Relay.MESH_ID_ATTR_NAME, this) }
             relay.endpoints?.let { put(ENDPOINTS, serializeEndpoints(it.endpoints)) }
         }
     }
