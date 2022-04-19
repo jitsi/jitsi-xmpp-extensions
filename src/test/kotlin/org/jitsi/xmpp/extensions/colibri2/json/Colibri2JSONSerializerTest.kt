@@ -458,7 +458,7 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
             """
             <iq xmlns="jabber:client" id="id" type="get">
               <conference-modify xmlns="jitsi:colibri2" meeting-id="cbccc2bd-c3c7-4880-acb8-cdb7accc4073">
-                <relay xmlns="jitsi:colibri2" id="10.44.106.218:4096">
+                <relay xmlns="jitsi:colibri2" id="10.44.106.218:4096" mesh-id="2">
                   <endpoints>
                     <endpoint id="6f14308e">
                       <sources>
@@ -502,6 +502,7 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
                   "relays": [
                     {
                        "id":"10.44.106.218:4096",
+                       "mesh-id":"2",
                        "endpoints": [
                           {
                             "id":"6f14308e",

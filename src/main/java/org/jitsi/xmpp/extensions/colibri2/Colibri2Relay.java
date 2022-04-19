@@ -33,6 +33,11 @@ public class Colibri2Relay
     public static final QName QNAME = new QName(NAMESPACE, ELEMENT);
 
     /**
+     * The name of the "mesh-id" attribute.
+     */
+    public static final String MESH_ID_ATTR_NAME = "mesh-id";
+
+    /**
      * Construct Colibri2Relay.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
     public Colibri2Relay()
@@ -47,10 +52,23 @@ public class Colibri2Relay
     {
         super(b, ELEMENT);
 
+        if (b.meshId != null)
+        {
+            setAttribute(MESH_ID_ATTR_NAME, b.meshId);
+        }
+
         if (b.endpoints != null)
         {
             addChildExtension(b.endpoints);
         }
+    }
+
+    /**
+     * Get the mesh-id of the relay connection.
+     */
+    public @Nullable String getMeshId()
+    {
+        return getAttributeAsString(MESH_ID_ATTR_NAME);
     }
 
     /**
@@ -76,9 +94,24 @@ public class Colibri2Relay
     public static class Builder extends AbstractConferenceEntity.Builder
     {
         /**
+         * The mesh-id of the relay connection being built.
+         */
+        private String meshId;
+
+        /**
          * Remote endpoints sent from the relay.
          */
         private Endpoints endpoints = null;
+
+        /**
+         * Set the mesg-id for the endpoint being built.
+         */
+        public Builder setMeshId(String id)
+        {
+            this.meshId = id;
+
+            return this;
+        }
 
         public Builder setEndpoints(Endpoints e)
         {

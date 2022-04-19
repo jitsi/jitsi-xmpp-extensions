@@ -194,6 +194,10 @@ object Colibri2JSONDeserializer {
         return Colibri2Relay.getBuilder().apply {
             deserializeAbstractConferenceEntityToBuilder(relay, this)
 
+            relay[Colibri2Relay.MESH_ID_ATTR_NAME]?.let {
+                if (it is String) { setMeshId(it) }
+            }
+
             relay[Colibri2JSONSerializer.ENDPOINTS]?.let { endpoints ->
                 if (endpoints is JSONArray) {
                     setEndpoints(
