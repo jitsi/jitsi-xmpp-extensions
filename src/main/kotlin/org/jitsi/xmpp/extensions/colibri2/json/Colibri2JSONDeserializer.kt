@@ -31,6 +31,7 @@ import org.jitsi.xmpp.extensions.colibri2.Sctp
 import org.jitsi.xmpp.extensions.colibri2.Sources
 import org.jitsi.xmpp.extensions.colibri2.Transport
 import org.jitsi.xmpp.extensions.jingle.IceUdpTransportPacketExtension
+import org.jivesoftware.smackx.muc.MUCRole
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 
@@ -176,6 +177,10 @@ object Colibri2JSONDeserializer {
 
             endpoint[Colibri2Endpoint.STATS_ID_ATTR_NAME]?.let {
                 if (it is String) { setStatsId(it) }
+            }
+
+            endpoint[Colibri2Endpoint.MUC_ROLE_ATTR_NAME]?.let {
+                if (it is String) { setMucRole(MUCRole.fromString(it)) }
             }
 
             endpoint[ForceMute.ELEMENT]?.let {
