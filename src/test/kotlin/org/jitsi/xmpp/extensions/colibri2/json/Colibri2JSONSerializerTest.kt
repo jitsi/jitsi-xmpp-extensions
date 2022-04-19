@@ -138,7 +138,7 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
             """
             <iq xmlns="jabber:client" id="id" type="get">
              <conference-modify xmlns="jitsi:colibri2" meeting-id="beccf2ed-5441-4bfe-96d6-f0f3a6796378" name="torture819371@conference.beta.meet.jit.si" callstats-enabled="false" create="true">
-                <endpoint xmlns="jitsi:colibri2" create="true" id="79f0273e" stats-id="Garett-w1o">
+                <endpoint xmlns="jitsi:colibri2" create="true" id="79f0273e" stats-id="Garett-w1o" muc-role="visitor">
                   <media type="audio">
                     <payload-type xmlns="urn:xmpp:jingle:apps:rtp:1" channels="2" name="red" id="112" clockrate="48000">
                       <parameter value="111/111"/>
@@ -200,6 +200,7 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
                      "create":true,
                      "id":"79f0273e",
                      "stats-id":"Garett-w1o",
+                     "muc-role":"visitor",
                      "medias":[
                          {
                            "type":"audio",

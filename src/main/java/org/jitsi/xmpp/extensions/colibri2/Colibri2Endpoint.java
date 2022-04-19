@@ -16,8 +16,13 @@
 package org.jitsi.xmpp.extensions.colibri2;
 
 import org.jetbrains.annotations.*;
+import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.parsing.*;
+import org.jivesoftware.smack.xml.*;
+import org.jivesoftware.smackx.muc.*;
 
 import javax.xml.namespace.*;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +48,11 @@ public class Colibri2Endpoint
     public static final String STATS_ID_ATTR_NAME = "stats-id";
 
     /**
+     * The name of the "muc-role" attribute.
+     */
+    public static final String MUC_ROLE_ATTR_NAME = "muc-role";
+
+    /**
      * Construct Colibri2Endpoint.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
     public Colibri2Endpoint()
@@ -62,6 +72,11 @@ public class Colibri2Endpoint
             setAttribute(STATS_ID_ATTR_NAME, b.statsId);
         }
 
+        if (b.mucRole != null)
+        {
+            setAttribute(MUC_ROLE_ATTR_NAME, b.mucRole.toString());
+        }
+
         if (b.forceMute != null)
         {
             addChildExtension(b.forceMute);
@@ -79,6 +94,14 @@ public class Colibri2Endpoint
     public @Nullable String getStatsId()
     {
         return getAttributeAsString(STATS_ID_ATTR_NAME);
+    }
+
+    /**
+     * Get the muc-role of the endpoint.
+     */
+    public @Nullable MUCRole getMucRole()
+    {
+        return MUCRole.fromString(getAttributeAsString(MUC_ROLE_ATTR_NAME));
     }
 
     /**
@@ -126,6 +149,11 @@ public class Colibri2Endpoint
         private String statsId;
 
         /**
+         * The muc-role of the endpoint being built.
+         */
+        private MUCRole mucRole;
+
+        /**
          * The force-mute element of the endpoint being built.
          */
         @Nullable private ForceMute forceMute = null;
@@ -146,6 +174,16 @@ public class Colibri2Endpoint
         public Builder setStatsId(String id)
         {
             this.statsId = id;
+
+            return this;
+        }
+
+        /**
+         * Set the muc-role for the endpoint being built.
+         */
+        public Builder setMucRole(MUCRole mucRole)
+        {
+            this.mucRole = mucRole;
 
             return this;
         }
@@ -193,6 +231,28 @@ public class Colibri2Endpoint
         public Provider()
         {
             super(Colibri2Endpoint.class);
+        }
+
+        @Override
+        public Colibri2Endpoint parse(XmlPullParser parser, int depth, XmlEnvironment xmlEnvironment)
+            throws XmlPullParserException, IOException, SmackParsingException
+        {
+            Colibri2Endpoint ep = super.parse(parser, depth, xmlEnvironment);
+
+            /* Validate parameters */
+            String mucRole = ep.getAttributeAsString(MUC_ROLE_ATTR_NAME);
+            if (mucRole != null)
+            {
+                try
+                {
+                    MUCRole.fromString(mucRole);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    throw new SmackParsingException(MUC_ROLE_ATTR_NAME + ":" + e.getMessage());
+                }
+            }
+            return ep;
         }
     }
 }

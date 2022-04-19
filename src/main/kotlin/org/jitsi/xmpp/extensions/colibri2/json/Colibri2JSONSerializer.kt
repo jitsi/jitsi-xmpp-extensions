@@ -186,6 +186,7 @@ object Colibri2JSONSerializer {
     private fun serializeEndpoint(endpoint: Colibri2Endpoint): JSONObject {
         return serializeAbstractConferenceEntity(endpoint).apply {
             endpoint.statsId?.apply { put(Colibri2Endpoint.STATS_ID_ATTR_NAME, this) }
+            endpoint.mucRole?.apply { put(Colibri2Endpoint.MUC_ROLE_ATTR_NAME, this.toString()) }
             endpoint.forceMute?.apply { put(ForceMute.ELEMENT, serializeForceMute(this)) }
             if (endpoint.capabilities.isNotEmpty()) {
                 put(CAPABILITIES_LIST, serializeCapabilities(endpoint.capabilities))
