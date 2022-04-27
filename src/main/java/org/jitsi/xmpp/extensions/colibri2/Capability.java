@@ -36,6 +36,11 @@ public class Capability extends AbstractPacketExtension
     public static final String CAP_SOURCE_NAME_SUPPORT = "source-names";
 
     /**
+     * A constant for SSRC rewriting support
+     */
+    public static final String CAP_SSRC_REWRITING_SUPPORT = "ssrc-rewriting";
+
+    /**
      * Creates an {@link Capability} instance.
      */
     public Capability()
