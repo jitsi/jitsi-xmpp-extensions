@@ -89,7 +89,7 @@ object Colibri2JSONSerializer {
 
     private fun serializeMedia(media: Media): JSONObject {
         return JSONObject().apply {
-            put(Media.TYPE_ATTR_NAME, media.type)
+            put(Media.TYPE_ATTR_NAME, media.type.toString())
             if (media.payloadTypes.isNotEmpty()) {
                 put(PAYLOAD_TYPES, JSONSerializer.serializePayloadTypes(media.payloadTypes))
             }
@@ -125,7 +125,7 @@ object Colibri2JSONSerializer {
 
     private fun serializeMediaSource(source: MediaSource): JSONObject {
         return JSONObject().apply {
-            put(MediaSource.TYPE_ATTR_NAME, source.type)
+            put(MediaSource.TYPE_ATTR_NAME, source.type.toString())
             put(MediaSource.ID_NAME, source.id)
             if (source.sources.isNotEmpty()) {
                 put(SOURCES, JSONSerializer.serializeSources(source.sources))
