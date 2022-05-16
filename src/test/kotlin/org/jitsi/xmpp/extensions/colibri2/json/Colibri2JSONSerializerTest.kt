@@ -53,7 +53,6 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
                 }.toJSONString()
 
                 should("create the correct JSON for XML $index") {
-                    println("$json \n\n $expectedJson")
                     json.shouldEqualJson(expectedJson)
                 }
             }
