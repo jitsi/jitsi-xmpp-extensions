@@ -527,12 +527,28 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
                 }
             """.trimIndent()
 
-        private val expectedXmls = arrayOf(expectedXml1, expectedXml2, expectedXml3, expectedXml4, expectedXml5)
-        private val expectedJsons = arrayOf(expectedJson1, expectedJson2, expectedJson3, expectedJson4, expectedJson5)
+        private val expectedXml6 =
+            """
+            <iq xmlns="jabber:client" id="id" type="get">
+              <conference-modify xmlns="jitsi:colibri2" meeting-id="cbccc2bd-c3c7-4880-acb8-cdb7accc4073" expire="true"/>
+            </iq>
+            """.trimIndent()
+
+        private val expectedJson6 =
+            """
+                {
+                  "meeting-id":"cbccc2bd-c3c7-4880-acb8-cdb7accc4073",
+                  "expire": true
+                }
+            """.trimIndent()
+
+        private val expectedXmls = arrayOf(expectedXml1, expectedXml2, expectedXml3, expectedXml4, expectedXml5, expectedXml6)
+        private val expectedJsons = arrayOf(expectedJson1, expectedJson2, expectedJson3, expectedJson4, expectedJson5, expectedJson6)
         private val expectedClasses = arrayOf(
             ConferenceModifyIQ::class,
             ConferenceModifyIQ::class,
             ConferenceModifiedIQ::class,
+            ConferenceModifyIQ::class,
             ConferenceModifyIQ::class,
             ConferenceModifyIQ::class
         )
