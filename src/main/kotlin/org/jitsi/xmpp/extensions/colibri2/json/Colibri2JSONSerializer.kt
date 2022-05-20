@@ -231,6 +231,10 @@ object Colibri2JSONSerializer {
                 put(ConferenceModifyIQ.CREATE_ATTR_NAME, iq.create)
             }
 
+            if (iq.expire != ConferenceModifyIQ.EXPIRE_DEFAULT) {
+                put(ConferenceModifyIQ.EXPIRE_ATTR_NAME, iq.expire)
+            }
+
             if (iq.isCallstatsEnabled != ConferenceModifyIQ.CALLSTATS_ENABLED_DEFAULT) {
                 put(ConferenceModifyIQ.CALLSTATS_ENABLED_ATTR_NAME, iq.isCallstatsEnabled)
             }
