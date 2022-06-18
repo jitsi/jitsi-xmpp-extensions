@@ -65,6 +65,12 @@ public class ConferenceModifyIQProvider extends IqProvider<ConferenceModifyIQ>
             builder.setCreate(Boolean.parseBoolean(create));
         }
 
+        String expire = parser.getAttributeValue(ConferenceModifyIQ.EXPIRE_ATTR_NAME);
+        if (expire != null)
+        {
+            builder.setExpire(Boolean.parseBoolean(expire));
+        }
+
         ConferenceModifyIQ iq = builder.build();
         IqProviderUtils.parseExtensions(parser, initialDepth, iq);
 

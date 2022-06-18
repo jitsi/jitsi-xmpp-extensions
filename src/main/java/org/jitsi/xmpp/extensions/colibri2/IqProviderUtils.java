@@ -161,5 +161,8 @@ public class IqProviderUtils
         ProviderManager.addExtensionProvider(ForceMute.ELEMENT, ForceMute.NAMESPACE, new ForceMute.Provider());
         ProviderManager.addExtensionProvider(Capability.ELEMENT, Capability.NAMESPACE, new Capability.Provider());
         ProviderManager.addExtensionProvider(Sctp.ELEMENT, Sctp.NAMESPACE, new Sctp.Provider());
+        ProviderManager.addExtensionProvider(Colibri2Error.ELEMENT,
+                Colibri2Error.NAMESPACE,
+                new Colibri2Error.Provider());
     }
 }

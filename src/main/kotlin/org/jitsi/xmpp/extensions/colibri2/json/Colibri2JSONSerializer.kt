@@ -89,7 +89,7 @@ object Colibri2JSONSerializer {
 
     private fun serializeMedia(media: Media): JSONObject {
         return JSONObject().apply {
-            put(Media.TYPE_ATTR_NAME, media.type)
+            put(Media.TYPE_ATTR_NAME, media.type.toString())
             if (media.payloadTypes.isNotEmpty()) {
                 put(PAYLOAD_TYPES, JSONSerializer.serializePayloadTypes(media.payloadTypes))
             }
@@ -125,7 +125,7 @@ object Colibri2JSONSerializer {
 
     private fun serializeMediaSource(source: MediaSource): JSONObject {
         return JSONObject().apply {
-            put(MediaSource.TYPE_ATTR_NAME, source.type)
+            put(MediaSource.TYPE_ATTR_NAME, source.type.toString())
             put(MediaSource.ID_NAME, source.id)
             if (source.sources.isNotEmpty()) {
                 put(SOURCES, JSONSerializer.serializeSources(source.sources))
@@ -229,6 +229,10 @@ object Colibri2JSONSerializer {
         return serializeAbstractConferenceModificationIQ(iq).apply {
             if (iq.create != ConferenceModifyIQ.CREATE_DEFAULT) {
                 put(ConferenceModifyIQ.CREATE_ATTR_NAME, iq.create)
+            }
+
+            if (iq.expire != ConferenceModifyIQ.EXPIRE_DEFAULT) {
+                put(ConferenceModifyIQ.EXPIRE_ATTR_NAME, iq.expire)
             }
 
             if (iq.isCallstatsEnabled != ConferenceModifyIQ.CALLSTATS_ENABLED_DEFAULT) {

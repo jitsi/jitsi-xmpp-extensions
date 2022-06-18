@@ -25,8 +25,7 @@ import java.io.*;
 
 /**
  * An extension to the Presence used in jitsi-meet when deployed in an
- * authenticated environment (such as Stride),
- * which stores information about an user and the group of an user
+ * authenticated environment, which stores information about a user and the group of a user.
  *
  * The extension looks like the following:
  * <pre>
@@ -161,15 +160,29 @@ public class IdentityPacketExtension
         //begin user
         xml.openElement(USER_ELEMENT);
 
-        xml.element(USER_ID_ELEMENT, getUserId());
-        xml.element(USER_NAME_ELEMENT, getUserName());
-        xml.element(USER_AVATAR_URL_ELEMENT, getUserAvatarUrl());
+        if (getUserId() != null)
+        {
+            xml.element(USER_ID_ELEMENT, getUserId());
+        }
+
+        if (getUserName() != null)
+        {
+            xml.element(USER_NAME_ELEMENT, getUserName());
+        }
+
+        if (getUserAvatarUrl() != null)
+        {
+            xml.element(USER_AVATAR_URL_ELEMENT, getUserAvatarUrl());
+        }
 
         // end user
         xml.closeElement(USER_ELEMENT);
 
-        // begin and end group
-        xml.element(GROUP_ELEMENT, getGroupId());
+        if (getGroupId() != null)
+        {
+            // begin and end group
+            xml.element(GROUP_ELEMENT, getGroupId());
+        }
 
         // end identity
         xml.closeElement(ELEMENT);
@@ -290,17 +303,7 @@ public class IdentityPacketExtension
                 logger.warn("failed to parse IdentityExtension", e);
             }
 
-
-            if (userAvatarUrl != null && userId != null && userName != null &&
-                groupId != null)
-            {
-                return new IdentityPacketExtension(userId, userName,
-                                                   userAvatarUrl, groupId);
-            }
-            else
-            {
-                return null;
-            }
+            return new IdentityPacketExtension(userId, userName, userAvatarUrl, groupId);
         }
     }
 }

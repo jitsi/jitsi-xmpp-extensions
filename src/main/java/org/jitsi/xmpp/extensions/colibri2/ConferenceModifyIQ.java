@@ -64,9 +64,19 @@ public class ConferenceModifyIQ
     public static final String CREATE_ATTR_NAME = "create";
 
     /**
+     * The name of the "expire" attribute which signals that the entire conference should be expired.
+     */
+    public static final String EXPIRE_ATTR_NAME = "expire";
+
+    /**
      * The default value of the "create" attribute.
      */
     public static final boolean CREATE_DEFAULT = false;
+
+    /**
+     * The default value of the "expire" attribute.
+     */
+    public static final boolean EXPIRE_DEFAULT = false;
 
     /**
      * The id of the conference
@@ -91,6 +101,7 @@ public class ConferenceModifyIQ
     private final boolean callstatsEnabled;
 
     private final boolean create;
+    private final boolean expire;
 
     /** Initializes a new {@link ConferenceModifyIQ} instance. */
     private ConferenceModifyIQ(Builder b)
@@ -100,6 +111,7 @@ public class ConferenceModifyIQ
         rtcstatsEnabled = b.rtcstatsEnabled;
         callstatsEnabled = b.callstatsEnabled;
         create = b.create;
+        expire = b.expire;
 
         if (b.meetingId == null)
         {
@@ -131,6 +143,10 @@ public class ConferenceModifyIQ
         if (create != CREATE_DEFAULT)
         {
             xml.attribute(CREATE_ATTR_NAME, create);
+        }
+        if (expire != EXPIRE_DEFAULT)
+        {
+            xml.attribute(EXPIRE_ATTR_NAME, expire);
         }
 
         /* All our elements are extensions, so we just need to return empty here. */
@@ -166,11 +182,18 @@ public class ConferenceModifyIQ
     }
 
     /**
-     * @return "true" iff this os a request for a new conference to be created.
+     * @return "true" iff this is a request for a new conference to be created.
      */
     public boolean getCreate()
     {
         return create;
+    }
+    /**
+     * @return "true" iff this is a request for an entire conference to be expired.
+     */
+    public boolean getExpire()
+    {
+        return expire;
     }
 
     @Contract("_ -> new")
@@ -197,6 +220,7 @@ public class ConferenceModifyIQ
         private boolean rtcstatsEnabled = RTCSTATS_ENABLED_DEFAULT;
         private boolean callstatsEnabled = CALLSTATS_ENABLED_DEFAULT;
         private boolean create = CREATE_DEFAULT;
+        private boolean expire = EXPIRE_DEFAULT;
         private String conferenceName;
         private String meetingId;
 
@@ -244,6 +268,13 @@ public class ConferenceModifyIQ
         public Builder setCreate(boolean create)
         {
             this.create = create;
+
+            return this;
+        }
+
+        public Builder setExpire(boolean expire)
+        {
+            this.expire = expire;
 
             return this;
         }

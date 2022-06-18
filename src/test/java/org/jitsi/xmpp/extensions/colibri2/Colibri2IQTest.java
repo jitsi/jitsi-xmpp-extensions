@@ -40,6 +40,11 @@ public class Colibri2IQTest
     private static final int SSRC = 803354056;
     private static final String SOURCE_ID = ENDPOINT_ID + "-v1";
 
+    private static final String expireConferenceExpectedXml =
+        "<iq xmlns='jabber:client' id='id' type='get'>"
+                + "<conference-modify xmlns='jitsi:colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' expire='true'/>"
+                + "</iq>";
+
     private static final String expectedXml =
         "<iq xmlns='jabber:client' id='id' type='get'>"
             + "<conference-modify xmlns='jitsi:colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example' callstats-enabled='false' create='true'>"
@@ -67,6 +72,23 @@ public class Colibri2IQTest
     static void registerProviders()
     {
         IqProviderUtils.registerProviders();
+    }
+
+    @Test
+    public void buildExpireConferenceTest()
+    {
+        ConferenceModifyIQ.Builder iqBuilder = ConferenceModifyIQ.builder("id");
+        iqBuilder.setMeetingId(MEETING_ID);
+        iqBuilder.setExpire(true);
+
+        ConferenceModifyIQ iq = iqBuilder.build();
+        assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
+
+        Diff diff = DiffBuilder.compare(expireConferenceExpectedXml).
+                withTest(iq.toXML().toString()).
+                checkForIdentical().build();
+
+        assertFalse(diff.hasDifferences(), diff.toString());
     }
 
     @Test
@@ -145,6 +167,21 @@ public class Colibri2IQTest
             checkForIdentical().build();
 
         assertFalse(diff.hasDifferences(), diff.toString());
+    }
+
+    @Test
+    public void parseExpireConferenceTest()
+        throws Exception
+    {
+        XmlPullParser parser = PacketParserUtils.getParserFor(expireConferenceExpectedXml);
+        IQ parsedIq = PacketParserUtils.parseIQ(parser);
+
+        assertInstanceOf(ConferenceModifyIQ.class, parsedIq);
+
+        ConferenceModifyIQ iq = (ConferenceModifyIQ)parsedIq;
+
+        assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
+        assertTrue(iq.getExpire(), "Expire flag");
     }
 
     @Test
