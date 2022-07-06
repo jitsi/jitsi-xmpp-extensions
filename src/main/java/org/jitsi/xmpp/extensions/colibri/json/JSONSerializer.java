@@ -912,6 +912,7 @@ public final class JSONSerializer
         }
 
         String name = source.getName();
+        String videoType = source.getVideoType();
         String rid = source.getRid();
         List<ParameterPacketExtension> parameters = source.getParameters();
 
@@ -927,6 +928,10 @@ public final class JSONSerializer
         if (name != null)
         {
             sourceJSONObject.put(SourcePacketExtension.NAME_ATTR_NAME, name);
+        }
+        if (videoType != null)
+        {
+            sourceJSONObject.put(SourcePacketExtension.VIDEO_TYPE_ATTR_NAME, videoType);
         }
         if (rid != null)
         {
