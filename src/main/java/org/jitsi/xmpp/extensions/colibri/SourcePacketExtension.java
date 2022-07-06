@@ -65,13 +65,6 @@ public class SourcePacketExtension
      */
     public static final String NAME_ATTR_NAME = "name";
 
-    /**
-     * A temporary flag used by jicofo to keep track of which sources have been advertised by clients or injected by
-     * jicofo. This is only necessary until we update Colibri to not require SSRCs for Octo endpoints, and should be
-     * removed afterwards.
-     */
-    private boolean injected = false;
-
     /** Initializes a new <tt>SourcePacketExtension</tt> instance. */
     public SourcePacketExtension()
     {
@@ -272,7 +265,6 @@ public class SourcePacketExtension
             }
         }
 
-        copy.setInjected(injected);
         return copy;
     }
 
@@ -294,15 +286,5 @@ public class SourcePacketExtension
         {
             return "[no identifier]";
         }
-    }
-
-    public boolean isInjected()
-    {
-        return injected;
-    }
-
-    public void setInjected(boolean injected)
-    {
-        this.injected = injected;
     }
 }
