@@ -17,6 +17,7 @@ package org.jitsi.xmpp.extensions.colibri;
 
 import java.util.*;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.utils.logging2.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.jingle.*;
@@ -64,6 +65,8 @@ public class SourcePacketExtension
      * The attribute which holds the source name - used to identify a source.
      */
     public static final String NAME_ATTR_NAME = "name";
+
+    public static final String VIDEO_TYPE_ATTR_NAME = "videoType";
 
     /** Initializes a new <tt>SourcePacketExtension</tt> instance. */
     public SourcePacketExtension()
@@ -119,6 +122,12 @@ public class SourcePacketExtension
         return getAttributeAsString(NAME_ATTR_NAME);
     }
 
+    @Nullable
+    public String getVideoType()
+    {
+        return getAttributeAsString(VIDEO_TYPE_ATTR_NAME);
+    }
+
     /**
      * Checks if this source has a name.
      *
@@ -142,6 +151,22 @@ public class SourcePacketExtension
         else
         {
             setAttribute(NAME_ATTR_NAME, name);
+        }
+    }
+
+    /**
+     * Sets the video type of this source.
+     * @param videoType the video type to be set or null to remove the attribute.
+     */
+    public void setVideoType(String videoType)
+    {
+        if (videoType == null)
+        {
+            removeAttribute(VIDEO_TYPE_ATTR_NAME);
+        }
+        else
+        {
+            setAttribute(VIDEO_TYPE_ATTR_NAME, videoType);
         }
     }
 

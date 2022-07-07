@@ -896,11 +896,16 @@ public final class JSONDeserializer
             sourceIQ.setSSRC(ssrc);
 
             Object name = sourceJSONObject.get(SourcePacketExtension.NAME_ATTR_NAME);
+            Object videoType = sourceJSONObject.get(SourcePacketExtension.VIDEO_TYPE_ATTR_NAME);
             Object rid = sourceJSONObject.get(SourcePacketExtension.RID_ATTR_NAME);
             Object parameters = sourceJSONObject.get(JSONSerializer.PARAMETERS);
             if (name instanceof String)
             {
                 sourceIQ.setName((String)name);
+            }
+            if (videoType instanceof String)
+            {
+                sourceIQ.setVideoType((String) videoType);
             }
             if (rid instanceof String)
             {
