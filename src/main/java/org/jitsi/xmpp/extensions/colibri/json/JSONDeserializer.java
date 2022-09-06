@@ -922,7 +922,7 @@ public final class JSONDeserializer
                     if ((paramName != null) || (paramValue != null))
                     {
                         sourceIQ.addParameter(
-                            new ParameterPacketExtension(
+                            new SourceParameterPacketExtension(
                                 Objects.toString(paramName, null),
                                 Objects.toString(paramValue, null)));
                     }

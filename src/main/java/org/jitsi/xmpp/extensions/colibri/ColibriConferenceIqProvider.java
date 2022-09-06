@@ -80,19 +80,16 @@ public class ColibriConferenceIqProvider
                 SourceRidGroupPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider<>(
                         SourceRidGroupPacketExtension.class));
-
-        ExtensionElementProvider<ParameterPacketExtension> parameterProvider
-                = new DefaultPacketExtensionProvider<>(
-                ParameterPacketExtension.class);
-
         ProviderManager.addExtensionProvider(
                 ParameterPacketExtension.ELEMENT,
                 ColibriConferenceIQ.NAMESPACE,
-                parameterProvider);
+                new DefaultPacketExtensionProvider<>(
+                        ParameterPacketExtension.class));
         ProviderManager.addExtensionProvider(
-                ParameterPacketExtension.ELEMENT,
-                SourcePacketExtension.NAMESPACE,
-                parameterProvider);
+                SourceParameterPacketExtension.ELEMENT,
+                SourceParameterPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider<>(
+                        SourceParameterPacketExtension.class));
 
         // ssrc-info
         ProviderManager.addExtensionProvider(

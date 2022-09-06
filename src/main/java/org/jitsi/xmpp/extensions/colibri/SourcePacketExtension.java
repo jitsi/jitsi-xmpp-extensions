@@ -78,10 +78,10 @@ public class SourcePacketExtension
      * Adds a specific parameter (as defined by Source-Specific Media Attributes
      * in Jingle) to this source.
      *
-     * @param parameter the <tt>ParameterPacketExtension</tt> to add to this
+     * @param parameter the <tt>SourceParameterPacketExtension</tt> to add to this
      * source
      */
-    public void addParameter(ParameterPacketExtension parameter)
+    public void addParameter(SourceParameterPacketExtension parameter)
     {
         addChildExtension(parameter);
     }
@@ -90,11 +90,11 @@ public class SourcePacketExtension
      * Gets the parameters (as defined by Source-Specific Media Attributes in
      * Jingle) of this source.
      *
-     * @return the <tt>ParameterPacketExtension</tt>s of this source
+     * @return the <tt>SourceParameterPacketExtension</tt>s of this source
      */
-    public List<ParameterPacketExtension> getParameters()
+    public List<SourceParameterPacketExtension> getParameters()
     {
-        return getChildExtensionsOfType(ParameterPacketExtension.class);
+        return getChildExtensionsOfType(SourceParameterPacketExtension.class);
     }
 
     /**
@@ -104,7 +104,7 @@ public class SourcePacketExtension
      */
     public String getParameter(String name)
     {
-        for (ParameterPacketExtension param : getParameters())
+        for (SourceParameterPacketExtension param : getParameters())
         {
             if (name.equals(param.getName()))
                 return param.getValue();
