@@ -95,6 +95,7 @@ public class Colibri2Error
     {
         CONFERENCE_NOT_FOUND,
         CONFERENCE_ALREADY_EXISTS,
+        GRACEFUL_SHUTDOWN,
         UNSPECIFIED;
 
         @NotNull
