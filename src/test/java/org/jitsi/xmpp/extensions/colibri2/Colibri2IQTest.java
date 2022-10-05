@@ -47,7 +47,7 @@ public class Colibri2IQTest
 
     private static final String expectedXml =
         "<iq xmlns='jabber:client' id='id' type='get'>"
-            + "<conference-modify xmlns='jitsi:colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example' callstats-enabled='false' create='true'>"
+            + "<conference-modify xmlns='jitsi:colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example' create='true'>"
             /* I thought Smack 4.4.4 would remove the redundant xmlns from this line, but it didn't.  TODO. */
             + "<endpoint xmlns='jitsi:colibri2' id='bd9b6765' stats-id='Jayme-Clv'>"
             + "<media type='audio'>"
@@ -98,7 +98,6 @@ public class Colibri2IQTest
 
         iqBuilder.setConferenceName(CONFERENCE_NAME);
         iqBuilder.setMeetingId(MEETING_ID);
-        iqBuilder.setCallstatsEnabled(false);
         iqBuilder.setCreate(true);
 
         Colibri2Endpoint.Builder endpointBuilder = Colibri2Endpoint.getBuilder();
@@ -197,7 +196,6 @@ public class Colibri2IQTest
 
         assertEquals(CONFERENCE_NAME, iq.getConferenceName(), "Conference name");
         assertEquals(MEETING_ID, iq.getMeetingId(), "Meeting ID");
-        assertFalse(iq.isCallstatsEnabled(), "Callstats enabled");
         assertTrue(iq.getCreate(), "Create flag");
 
         Colibri2Endpoint endpoint = iq.getEndpoints().get(0);

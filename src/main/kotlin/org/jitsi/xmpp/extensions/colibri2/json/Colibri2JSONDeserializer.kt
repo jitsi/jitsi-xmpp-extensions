@@ -269,10 +269,6 @@ object Colibri2JSONDeserializer {
                 if (it is Boolean) { setExpire(it) }
             }
 
-            conferenceModify[ConferenceModifyIQ.CALLSTATS_ENABLED_ATTR_NAME]?.let {
-                if (it is Boolean) { setCallstatsEnabled(it) }
-            }
-
             conferenceModify[ConferenceModifyIQ.RTCSTATS_ENABLED_ATTR_NAME]?.let {
                 if (it is Boolean) { setRtcstatsEnabled(it) }
             }
