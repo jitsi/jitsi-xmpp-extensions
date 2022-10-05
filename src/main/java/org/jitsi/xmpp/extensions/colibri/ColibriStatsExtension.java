@@ -31,6 +31,8 @@ import javax.xml.namespace.*;
  *
  * @author Hristo Terezov
  * @author Boris Grozev
+ *
+ * TODO: remove unused constants.
  */
 public class ColibriStatsExtension
     extends AbstractPacketExtension
@@ -428,7 +430,7 @@ public class ColibriStatsExtension
 
     /**
      * The name of the number of video channels statistic. Its runtime type is
-     * {@code Integer}. We only use this for callstats.
+     * {@code Integer}.
      */
     public static final String VIDEO_CHANNELS = "videochannels";
 

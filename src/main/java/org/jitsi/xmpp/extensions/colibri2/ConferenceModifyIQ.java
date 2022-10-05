@@ -38,16 +38,6 @@ public class ConferenceModifyIQ
     public static final boolean RTCSTATS_ENABLED_DEFAULT = true;
 
     /**
-     * The XML name of the attribute which controls whether callstats reporting should be enabled.
-     */
-    public static final String CALLSTATS_ENABLED_ATTR_NAME = "callstats-enabled";
-
-    /**
-     * The default value of the "callstats-enabled" attribute.
-     */
-    public static final boolean CALLSTATS_ENABLED_DEFAULT = true;
-
-    /**
      * The XML name of the <tt>name</tt> attribute.
      */
     public static final String NAME_ATTR_NAME = "name";
@@ -94,12 +84,6 @@ public class ConferenceModifyIQ
      */
     private final boolean rtcstatsEnabled;
 
-    /**
-     * Whether callstats reporting should be enabled for the conference. This defaults to "true" if the XML attribute is
-     * missing.
-     */
-    private final boolean callstatsEnabled;
-
     private final boolean create;
     private final boolean expire;
 
@@ -109,7 +93,6 @@ public class ConferenceModifyIQ
         super(b, ELEMENT);
 
         rtcstatsEnabled = b.rtcstatsEnabled;
-        callstatsEnabled = b.callstatsEnabled;
         create = b.create;
         expire = b.expire;
 
@@ -135,10 +118,6 @@ public class ConferenceModifyIQ
         if (rtcstatsEnabled != RTCSTATS_ENABLED_DEFAULT)
         {
             xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, rtcstatsEnabled);
-        }
-        if (callstatsEnabled != CALLSTATS_ENABLED_DEFAULT)
-        {
-            xml.attribute(CALLSTATS_ENABLED_ATTR_NAME, callstatsEnabled);
         }
         if (create != CREATE_DEFAULT)
         {
@@ -174,11 +153,6 @@ public class ConferenceModifyIQ
     public boolean isRtcstatsEnabled()
     {
         return rtcstatsEnabled;
-    }
-
-    public boolean isCallstatsEnabled()
-    {
-        return callstatsEnabled;
     }
 
     /**
@@ -218,7 +192,6 @@ public class ConferenceModifyIQ
         extends AbstractConferenceModificationIQ.Builder<ConferenceModifyIQ>
     {
         private boolean rtcstatsEnabled = RTCSTATS_ENABLED_DEFAULT;
-        private boolean callstatsEnabled = CALLSTATS_ENABLED_DEFAULT;
         private boolean create = CREATE_DEFAULT;
         private boolean expire = EXPIRE_DEFAULT;
         private String conferenceName;
@@ -242,12 +215,6 @@ public class ConferenceModifyIQ
         public Builder setRtcstatsEnabled(boolean rtcstatsEnabled)
         {
             this.rtcstatsEnabled = rtcstatsEnabled;
-            return this;
-        }
-
-        public Builder setCallstatsEnabled(boolean callstatsEnabled)
-        {
-            this.callstatsEnabled = callstatsEnabled;
             return this;
         }
 

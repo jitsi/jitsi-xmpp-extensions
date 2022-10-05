@@ -102,7 +102,7 @@ private val expectedMappings = listOf(
         name = "Endpoint with sources (same as Colibri2IQTest)",
         xml = """
 <iq xmlns='jabber:client' id='id' type='get'>
-  <conference-modify xmlns='jitsi:colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example' callstats-enabled='false' create='true'>
+  <conference-modify xmlns='jitsi:colibri2' meeting-id='88ff288c-5eeb-4ea9-bc2f-93ea38c43b78' name='myconference@jitsi.example' create='true'>
     <endpoint xmlns='jitsi:colibri2' id='bd9b6765' stats-id='Jayme-Clv'>
       <media type='audio'>
         <payload-type xmlns='urn:xmpp:jingle:apps:rtp:1' name='opus' clockrate='48000' channels='2'/>
@@ -122,7 +122,6 @@ private val expectedMappings = listOf(
 {
   "meeting-id":"88ff288c-5eeb-4ea9-bc2f-93ea38c43b78",
   "name":"myconference@jitsi.example",
-  "callstats-enabled":false,
   "create":true,
   "endpoints":[
     {
@@ -142,7 +141,7 @@ private val expectedMappings = listOf(
         name = "Something that should be exercising all the fields",
         xml = """
 <iq xmlns="jabber:client" id="id" type="get">
-  <conference-modify xmlns="jitsi:colibri2" meeting-id="beccf2ed-5441-4bfe-96d6-f0f3a6796378" name="torture819371@conference.beta.meet.jit.si" callstats-enabled="false" create="true">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="beccf2ed-5441-4bfe-96d6-f0f3a6796378" name="torture819371@conference.beta.meet.jit.si" create="true">
     <endpoint xmlns="jitsi:colibri2" create="true" id="79f0273e" stats-id="Garett-w1o" muc-role="visitor">
       <media type="audio">
         <payload-type xmlns="urn:xmpp:jingle:apps:rtp:1" channels="2" name="red" id="112" clockrate="48000">
@@ -196,7 +195,6 @@ private val expectedMappings = listOf(
 {
   "meeting-id":"beccf2ed-5441-4bfe-96d6-f0f3a6796378",
   "name":"torture819371@conference.beta.meet.jit.si",
-  "callstats-enabled":false,
   "create":true,
   "endpoints":[
     {

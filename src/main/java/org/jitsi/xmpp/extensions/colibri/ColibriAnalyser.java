@@ -137,7 +137,6 @@ public class ColibriAnalyser
         conferenceResult.setGID(conferenceResponse.getGID());
         conferenceResult.setName(conferenceResponse.getName());
         conferenceResult.setMeetingId(conferenceResponse.getMeetingId());
-        conferenceResult.setCallStatsEnabled(conferenceResponse.isCallStatsEnabled());
         conferenceResult.setRtcStatsEnabled(conferenceResponse.isRtcStatsEnabled());
 
         // FIXME: we support single bundle for all channels

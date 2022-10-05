@@ -53,12 +53,6 @@ public class ConferenceModifyIQProvider extends IqProvider<ConferenceModifyIQ>
             builder.setRtcstatsEnabled(Boolean.parseBoolean(rtcStatsEnabled));
         }
 
-        String callstatsEnabled = parser.getAttributeValue(ConferenceModifyIQ.CALLSTATS_ENABLED_ATTR_NAME);
-        if (callstatsEnabled != null)
-        {
-            builder.setCallstatsEnabled(Boolean.parseBoolean(callstatsEnabled));
-        }
-
         String create = parser.getAttributeValue(ConferenceModifyIQ.CREATE_ATTR_NAME);
         if (create != null)
         {

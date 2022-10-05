@@ -277,7 +277,6 @@ public class ColibriBuilder
         request.setGID(conferenceState.getGID());
         request.setMeetingId(conferenceState.getMeetingId());
         request.setRtcStatsEnabled(conferenceState.isRtcStatsEnabled());
-        request.setCallStatsEnabled(conferenceState.isCallStatsEnabled());
 
         request.setType(IQ.Type.set);
     }
