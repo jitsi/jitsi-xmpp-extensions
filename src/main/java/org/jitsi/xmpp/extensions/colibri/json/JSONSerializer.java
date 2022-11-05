@@ -653,6 +653,13 @@ public final class JSONSerializer
             serializeAbstractPacketExtensionAttributes(
                     fingerprint,
                     fingerprintJSONObject);
+            Object cryptex = fingerprintJSONObject.get(DtlsFingerprintPacketExtension.CRYPTEX_ATTR_NAME);
+            if (cryptex instanceof String)
+            {
+                /* Represent cryptex as a boolean. */
+                fingerprintJSONObject.put(DtlsFingerprintPacketExtension.CRYPTEX_ATTR_NAME,
+                    Boolean.parseBoolean((String)cryptex));
+            }
         }
         return fingerprintJSONObject;
     }

@@ -69,6 +69,12 @@ public class DtlsFingerprintPacketExtension
      */
     private static final String SETUP_ATTR_NAME = "setup";
 
+    /**
+     * The XML name of the <tt>fingerprint</tt> element's attribute which
+     * signals whether it supports the cryptex extension.  Note: This is non-standard.
+     */
+    public static final String CRYPTEX_ATTR_NAME = "cryptex";
+
     /** Initializes a new <tt>DtlsFingerprintPacketExtension</tt> instance. */
     public DtlsFingerprintPacketExtension()
     {
@@ -118,6 +124,17 @@ public class DtlsFingerprintPacketExtension
     }
 
     /**
+     * Returns value of 'cryptex' attribute.  See {@link #CRYPTEX_ATTR_NAME} for more
+     * info.
+     */
+    public boolean getCryptex()
+    {
+        String attr = getAttributeAsString(CRYPTEX_ATTR_NAME);
+
+        return (attr == null) ? false : Boolean.parseBoolean(attr);
+    }
+
+    /**
      * Sets the fingerprint to be carried/represented by this instance.
      *
      * @param fingerprint the fingerprint to be carried/represented by this
@@ -156,5 +173,14 @@ public class DtlsFingerprintPacketExtension
     public void setSetup(String setup)
     {
         setAttribute(SETUP_ATTR_NAME, setup);
+    }
+
+    /**
+     * Sets new value for 'cryptex' attribute.
+     * @param cryptex see {@link #CRYPTEX_ATTR_NAME} for details.
+     */
+    public void setCryptex(Boolean cryptex)
+    {
+        setAttribute(CRYPTEX_ATTR_NAME, cryptex);
     }
 }
