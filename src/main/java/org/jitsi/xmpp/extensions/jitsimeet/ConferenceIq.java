@@ -77,6 +77,8 @@ public class ConferenceIq
      */
     public static final String IDENTITY_ATTR_NAME = "identity";
 
+    public static final String VNODE_ATTR_NAME = "vnode";
+
     /**
      * MUC room name hosting Jitsi Meet conference.
      */
@@ -108,6 +110,8 @@ public class ConferenceIq
      */
     private String identity;
 
+    private String vnode;
+
     /**
      * Creates new instance of <tt>ConferenceIq</tt>.
      */
@@ -124,7 +128,8 @@ public class ConferenceIq
             .optAttribute(FOCUS_JID_ATTR_NAME, focusJid)
             .optAttribute(SESSION_ID_ATTR_NAME, sessionId)
             .optAttribute(MACHINE_UID_ATTR_NAME, machineUID)
-            .optAttribute(IDENTITY_ATTR_NAME, identity);
+            .optAttribute(IDENTITY_ATTR_NAME, identity)
+            .optAttribute(VNODE_ATTR_NAME, vnode);
 
         if (ready != null)
         {
@@ -168,6 +173,16 @@ public class ConferenceIq
     public void setRoom(EntityBareJid room)
     {
         this.room = room;
+    }
+
+    public String getVnode()
+    {
+        return vnode;
+    }
+
+    public void setVnode(String vnode)
+    {
+        this.vnode = vnode;
     }
 
     /**
