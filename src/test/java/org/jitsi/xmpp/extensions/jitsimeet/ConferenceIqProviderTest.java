@@ -138,27 +138,21 @@ public class ConferenceIqProviderTest
         conferenceIq.setTo(JidCreate.from("toJid@example.com"));
         conferenceIq.setFrom(JidCreate.from("fromJid@example.com"));
 
-        conferenceIq.setRoom(JidCreate.entityBareFrom(
-            "testroom1234@example.com"));
+        conferenceIq.setRoom(JidCreate.entityBareFrom("testroom1234@example.com"));
+        conferenceIq.setVnode("v1");
         conferenceIq.setReady(false);
         conferenceIq.addProperty(
             new ConferenceIq.Property("prop1", "some1"));
         conferenceIq.addProperty(
             new ConferenceIq.Property("name2", "xyz2"));
 
-        Diff diff = DiffBuilder.compare("<iq to='tojid@example.com' " +
-                "from='fromjid@example.com' " +
-                "id='123xyz' " +
-                "type='get'>" +
-                "<conference " +
-                "xmlns='http://jitsi.org/protocol/focus' " +
-                "room='testroom1234@example.com' ready='false'" +
-                ">" +
-                "<property xmlns='http://jitsi.org/protocol/focus' name='prop1' value='some1'/>"
-                +
-                "<property xmlns='http://jitsi.org/protocol/focus' name='name2' value='xyz2'/>"
-                +
-                "</conference>" +
+        Diff diff = DiffBuilder.compare(
+                "<iq to='tojid@example.com' from='fromjid@example.com' id='123xyz' type='get'>" +
+                    "<conference xmlns='http://jitsi.org/protocol/focus' " +
+                        "room='testroom1234@example.com' ready='false' vnode='v1'>" +
+                        "<property name='prop1' value='some1'/>" +
+                        "<property name='name2' value='xyz2'/>" +
+                    "</conference>" +
                 "</iq>")
             .withTest(conferenceIq.toXML(jabberClientNs).toString())
             .checkForIdentical()
