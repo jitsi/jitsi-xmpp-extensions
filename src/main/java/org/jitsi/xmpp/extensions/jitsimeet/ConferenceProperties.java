@@ -62,6 +62,18 @@ public class ConferenceProperties
     public static final String KEY_BRIDGE_COUNT = "bridge-count";
 
     /**
+     * The property key used to signal that visitor-mode (otherwise invisible) participants are
+     * supported in this conference.
+     */
+    public static final String KEY_VISITORS_ENABLED = "visitors-enabled";
+
+    /**
+     * The property key used to signal the number of visitor-mode participants currently
+     * in the conference.
+     */
+    public static final String KEY_VISITOR_COUNT = "visitor-count";
+
+    /**
      * The property key used to signal support for session restart to the current conference.
      */
     public static final String KEY_SUPPORTS_SESSION_RESTART = "support-terminate-restart";
