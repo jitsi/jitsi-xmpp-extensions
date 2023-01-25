@@ -155,6 +155,9 @@ public class IqProviderUtils
         ProviderManager.addExtensionProvider(ParameterPacketExtension.ELEMENT,
             ParameterPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(ParameterPacketExtension.class));
+        ProviderManager.addExtensionProvider(SourceParameterPacketExtension.ELEMENT,
+            SourceParameterPacketExtension.NAMESPACE,
+            new DefaultPacketExtensionProvider<>(SourceParameterPacketExtension.class));
         ProviderManager.addExtensionProvider(RTPHdrExtPacketExtension.ELEMENT,
             RTPHdrExtPacketExtension.NAMESPACE,
             new DefaultPacketExtensionProvider<>(RTPHdrExtPacketExtension.class));

@@ -86,6 +86,13 @@ public final class JSONSerializer
 
     /**
      * The name of the JSON pair which specifies the value of the
+     * <tt>parameters</tt> property of <tt>SourcePacketExtension</tt>.
+     */
+    static final String SOURCE_PARAMETERS
+        = SourceParameterPacketExtension.ELEMENT + "s";
+
+    /**
+     * The name of the JSON pair which specifies the value of the
      * <tt>payloadTypes</tt> property of <tt>ColibriConferenceIQ.Channel</tt>.
      */
     static final String PAYLOAD_TYPES
@@ -704,6 +711,35 @@ public final class JSONSerializer
         return parametersJSONObject;
     }
 
+    public static JSONObject serializeSourceParameters(
+            Collection<SourceParameterPacketExtension> parameters)
+    {
+        /*
+         * A parameter is a key-value pair and the order of the parameters in a
+         * payload-type does not appear to matter so a natural representation of
+         * a parameter set is a JSONObject rather than a JSONArray.
+         */
+        JSONObject parametersJSONObject;
+
+        if (parameters == null)
+        {
+            parametersJSONObject = null;
+        }
+        else
+        {
+            parametersJSONObject = new JSONObject();
+            for (SourceParameterPacketExtension parameter : parameters)
+            {
+                String name = parameter.getName();
+                String value = parameter.getValue();
+
+                if ((name != null) || (value != null))
+                    parametersJSONObject.put(name, value);
+            }
+        }
+        return parametersJSONObject;
+    }
+
     public static JSONArray serializeRtcpFbs(
             @NotNull Collection<RtcpFbPacketExtension> rtcpFbs)
     {
@@ -914,7 +950,7 @@ public final class JSONSerializer
         String name = source.getName();
         String videoType = source.getVideoType();
         String rid = source.getRid();
-        List<ParameterPacketExtension> parameters = source.getParameters();
+        List<SourceParameterPacketExtension> parameters = source.getParameters();
 
         /* Backward compatibility - sources used to just be their ssrc values. */
         if (name == null && rid == null && parameters.isEmpty())
@@ -939,7 +975,7 @@ public final class JSONSerializer
         }
         if (!parameters.isEmpty())
         {
-            sourceJSONObject.put(JSONSerializer.PARAMETERS, serializeParameters(parameters));
+            sourceJSONObject.put(JSONSerializer.SOURCE_PARAMETERS, serializeSourceParameters(parameters));
         }
 
         return sourceJSONObject;

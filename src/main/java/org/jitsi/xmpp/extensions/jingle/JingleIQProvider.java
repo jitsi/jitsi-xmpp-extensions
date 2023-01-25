@@ -61,9 +61,16 @@ public class JingleIQProvider extends IqProvider<JingleIQ>
         //<parameter/> provider
         ProviderManager.addExtensionProvider(
                 ParameterPacketExtension.ELEMENT,
-                RtpDescriptionPacketExtension.NAMESPACE,
+                ParameterPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                     <>(ParameterPacketExtension.class));
+
+        //<parameter/> inside <source/> provider
+        ProviderManager.addExtensionProvider(
+                SourceParameterPacketExtension.ELEMENT,
+                SourceParameterPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider
+                    <>(SourceParameterPacketExtension.class));
 
         //<rtp-hdrext/> provider
         ProviderManager.addExtensionProvider(

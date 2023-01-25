@@ -295,12 +295,12 @@ private val expectedMappings = listOf(
     <sources xmlns="jitsi:colibri2">
       <media-source type="audio" id="jvb-a0">
         <source xmlns="urn:xmpp:jingle:apps:rtp:ssma:0" ssrc="411312308" name="jvb-a0">
-          <parameter xmlns="urn:xmpp:jingle:apps:rtp:1" name="msid" value="mixedmslabel mixedlabelaudio0"/>
+          <parameter name="msid" value="mixedmslabel mixedlabelaudio0"/>
         </source>
       </media-source>
       <media-source type="video" id="jvb-v0">
         <source xmlns="urn:xmpp:jingle:apps:rtp:ssma:0" ssrc="3929652146" name="jvb-v0">
-          <parameter xmlns="urn:xmpp:jingle:apps:rtp:1" name="msid" value="mixedmslabel mixedlabelvideo0"/>
+          <parameter name="msid" value="mixedmslabel mixedlabelvideo0"/>
         </source>
       </media-source>
     </sources>
