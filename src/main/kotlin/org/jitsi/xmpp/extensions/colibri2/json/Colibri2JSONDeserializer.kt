@@ -30,6 +30,7 @@ import org.jitsi.xmpp.extensions.colibri2.MediaSource
 import org.jitsi.xmpp.extensions.colibri2.Sctp
 import org.jitsi.xmpp.extensions.colibri2.Sources
 import org.jitsi.xmpp.extensions.colibri2.Transport
+import org.jitsi.xmpp.extensions.jingle.ExtmapAllowMixedPacketExtension
 import org.jitsi.xmpp.extensions.jingle.IceUdpTransportPacketExtension
 import org.jivesoftware.smackx.muc.MUCRole
 import org.json.simple.JSONArray
@@ -52,6 +53,10 @@ object Colibri2JSONDeserializer {
                 if (rtpHdrExts is JSONArray) {
                     JSONDeserializer.deserializeHeaderExtensions(rtpHdrExts).forEach { addRtpHdrExt(it) }
                 }
+            }
+
+            media[ExtmapAllowMixedPacketExtension.ELEMENT]?.let {
+                if (it is Boolean) { setExtmapAllowMixed(ExtmapAllowMixedPacketExtension()) }
             }
         }.build()
     }

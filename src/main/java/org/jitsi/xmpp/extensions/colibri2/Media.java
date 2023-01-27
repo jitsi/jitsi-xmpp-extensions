@@ -80,6 +80,11 @@ public class Media
         {
             addChildExtension(ext);
         }
+
+        if (b.extmapAllowMixed != null)
+        {
+            addChildExtension(b.extmapAllowMixed);
+        }
     }
 
     /**
@@ -106,7 +111,15 @@ public class Media
         return getChildExtensionsOfType(RTPHdrExtPacketExtension.class);
     }
 
-   /**
+    /**
+     * Get the extmap-allow-mixed extension of this media.
+     */
+    public @Nullable ExtmapAllowMixedPacketExtension getExtmapAllowMixed()
+    {
+        return getFirstChildOfType(ExtmapAllowMixedPacketExtension.class);
+    }
+
+    /**
      * Get a builder for Media objects.
      */
     public static Builder getBuilder()
@@ -139,6 +152,11 @@ public class Media
             = new ArrayList<>();
 
         /**
+         * The <tt>extmap-allow-mixed</tt> element defined by XEP-0294
+         */
+        private ExtmapAllowMixedPacketExtension extmapAllowMixed = null;
+
+        /**
          * Sets the media type for the media being built.
          */
         public Builder setType(MediaType t)
@@ -162,6 +180,12 @@ public class Media
         public Builder addRtpHdrExt(RTPHdrExtPacketExtension ext)
         {
             rtpHeaderExtensions.add(ext);
+            return this;
+        }
+
+        public Builder setExtmapAllowMixed(ExtmapAllowMixedPacketExtension ext)
+        {
+            extmapAllowMixed = ext;
             return this;
         }
 
