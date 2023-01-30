@@ -75,6 +75,11 @@ public class ConferenceIqProvider
                     parser.getAttributeValue("", ConferenceIq.ROOM_ATTR_NAME));
 
             iq.setRoom(room);
+            String vnode = parser.getAttributeValue("", ConferenceIq.VNODE_ATTR_NAME);
+            if (StringUtils.isNotEmpty(vnode))
+            {
+                iq.setVnode(vnode);
+            }
 
             String ready
                 = parser.getAttributeValue("", ConferenceIq.READY_ATTR_NAME);
