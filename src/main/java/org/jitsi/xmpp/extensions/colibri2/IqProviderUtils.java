@@ -20,7 +20,6 @@ import org.jitsi.utils.logging2.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.colibri.*;
 import org.jitsi.xmpp.extensions.jingle.*;
-import org.jitsi.xmpp.extensions.jitsimeet.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
@@ -141,11 +140,7 @@ public class IqProviderUtils
         ProviderManager.addExtensionProvider(Transport.ELEMENT, Transport.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Transport.class));
 
-        // Elements from jingle that we reuse
-        ProviderManager.addExtensionProvider(
-                RtcpFbPacketExtension.ELEMENT,
-                RtcpFbPacketExtension.NAMESPACE,
-                new DefaultPacketExtensionProvider<>(RtcpFbPacketExtension.class));
+        // Elements from jingle that we reuse (and are not automatically registered by JingleIQProvider)
         ProviderManager.addExtensionProvider(
                 SourcePacketExtension.ELEMENT,
                 SourcePacketExtension.NAMESPACE,
@@ -171,22 +166,11 @@ public class IqProviderUtils
                 SourcePacketExtension.NAMESPACE,
                 parameterProvider);
 
-        // ssrc-info
-        ProviderManager.addExtensionProvider(
-                SSRCInfoPacketExtension.ELEMENT,
-                SSRCInfoPacketExtension.NAMESPACE,
-                new DefaultPacketExtensionProvider<>(SSRCInfoPacketExtension.class));
-
-        /* Colibri2 shares extensions with jingle. */
-        ProviderManager.addIQProvider(JingleIQ.ELEMENT, JingleIQ.NAMESPACE, new JingleIQProvider());
+        // Colibri2 shares extensions with jingle. Instantiating JingleIQProvider registers the extensions, but not
+        // Jingle provider itself.
+        new JingleIQProvider();
 
         /* Original colibri does something weird with these elements' namespaces, so register them here. */
-        ProviderManager.addExtensionProvider(PayloadTypePacketExtension.ELEMENT,
-            PayloadTypePacketExtension.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(PayloadTypePacketExtension.class));
-        ProviderManager.addExtensionProvider(RTPHdrExtPacketExtension.ELEMENT,
-            RTPHdrExtPacketExtension.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(RTPHdrExtPacketExtension.class));
         ProviderManager.addExtensionProvider(ForceMute.ELEMENT, ForceMute.NAMESPACE, new ForceMute.Provider());
         ProviderManager.addExtensionProvider(Capability.ELEMENT, Capability.NAMESPACE, new Capability.Provider());
         ProviderManager.addExtensionProvider(Sctp.ELEMENT, Sctp.NAMESPACE, new Sctp.Provider());
