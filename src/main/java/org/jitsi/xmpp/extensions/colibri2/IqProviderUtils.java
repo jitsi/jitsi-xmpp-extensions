@@ -115,7 +115,22 @@ public class IqProviderUtils
         }
     }
 
+    /** Whether the colibri2 extension and IQ providers have been registered with Smack's ProviderManager. */
+    private static boolean providersRegistered = false;
+
     public static void registerProviders()
+    {
+        synchronized (IqProviderUtils.class)
+        {
+            if (!providersRegistered)
+            {
+                doRegisterProviders();
+                providersRegistered = true;
+            }
+        }
+    }
+
+    private static void doRegisterProviders()
     {
         ProviderManager.addIQProvider(ConferenceModifyIQ.ELEMENT, ConferenceModifyIQ.NAMESPACE,
             new ConferenceModifyIQProvider());
