@@ -219,6 +219,26 @@ public class JingleIQProvider extends IqProvider<JingleIQ>
                 SSRCInfoPacketExtension.NAMESPACE,
                 new DefaultPacketExtensionProvider
                     <>(SSRCInfoPacketExtension.class));
+
+        ProviderManager.addExtensionProvider(
+                SourcePacketExtension.ELEMENT,
+                SourcePacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider<>(SourcePacketExtension.class));
+
+        ProviderManager.addExtensionProvider(
+                SourceGroupPacketExtension.ELEMENT,
+                SourceGroupPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider<>(SourceGroupPacketExtension.class));
+
+        ProviderManager.addExtensionProvider(
+                SourceRidGroupPacketExtension.ELEMENT,
+                SourceRidGroupPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider<>(SourceRidGroupPacketExtension.class));
+
+        ProviderManager.addExtensionProvider(
+                ParameterPacketExtension.ELEMENT,
+                SourcePacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider<>(ParameterPacketExtension.class));
     }
 
     /**

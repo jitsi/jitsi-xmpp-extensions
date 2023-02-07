@@ -15,7 +15,6 @@
  */
 package org.jitsi.xmpp.extensions.colibri2.json
 
-import org.jitsi.xmpp.extensions.colibri.ColibriConferenceIQ
 import org.jitsi.xmpp.extensions.colibri.SourcePacketExtension
 import org.jitsi.xmpp.extensions.colibri.json.JSONSerializer
 import org.jitsi.xmpp.extensions.colibri2.AbstractConferenceEntity
@@ -43,7 +42,7 @@ object Colibri2JSONSerializer {
      * The name of the JSON item which specifies the value of the
      * [ConferenceModifyIQ.getEndpoints] property of [ConferenceModifyIQ].
      */
-    const val ENDPOINTS = ColibriConferenceIQ.Endpoint.ELEMENT + "s"
+    const val ENDPOINTS = "endpoints"
 
     /**
      * The name of the JSON item which specifies the value of the

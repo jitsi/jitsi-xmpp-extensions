@@ -115,7 +115,22 @@ public class IqProviderUtils
         }
     }
 
+    /** Whether the colibri2 extension and IQ providers have been registered with Smack's ProviderManager. */
+    private static boolean providersRegistered = false;
+
     public static void registerProviders()
+    {
+        synchronized (IqProviderUtils.class)
+        {
+            if (!providersRegistered)
+            {
+                doRegisterProviders();
+                providersRegistered = true;
+            }
+        }
+    }
+
+    private static void doRegisterProviders()
     {
         ProviderManager.addIQProvider(ConferenceModifyIQ.ELEMENT, ConferenceModifyIQ.NAMESPACE,
             new ConferenceModifyIQProvider());
@@ -140,24 +155,14 @@ public class IqProviderUtils
         ProviderManager.addExtensionProvider(Transport.ELEMENT, Transport.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Transport.class));
 
-        /* Colibri2 shares extensions with original colibri, so register both. */
-        ProviderManager.addIQProvider(ColibriConferenceIQ.ELEMENT, ColibriConferenceIQ.NAMESPACE,
-            new ColibriConferenceIqProvider());
-        /* Similarly for Jingle. */
-        ProviderManager.addIQProvider(JingleIQ.ELEMENT, JingleIQ.NAMESPACE,
-            new JingleIQProvider()
-        );
+        ProviderManager.addExtensionProvider(ParameterPacketExtension.ELEMENT, ColibriConferenceIQ.NAMESPACE,
+            new DefaultPacketExtensionProvider<>(ParameterPacketExtension.class));
+
+        // Colibri2 shares extensions with jingle. Instantiating JingleIQProvider registers the extensions, but not
+        // Jingle provider itself.
+        new JingleIQProvider();
 
         /* Original colibri does something weird with these elements' namespaces, so register them here. */
-        ProviderManager.addExtensionProvider(PayloadTypePacketExtension.ELEMENT,
-            PayloadTypePacketExtension.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(PayloadTypePacketExtension.class));
-        ProviderManager.addExtensionProvider(ParameterPacketExtension.ELEMENT,
-            ParameterPacketExtension.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(ParameterPacketExtension.class));
-        ProviderManager.addExtensionProvider(RTPHdrExtPacketExtension.ELEMENT,
-            RTPHdrExtPacketExtension.NAMESPACE,
-            new DefaultPacketExtensionProvider<>(RTPHdrExtPacketExtension.class));
         ProviderManager.addExtensionProvider(ForceMute.ELEMENT, ForceMute.NAMESPACE, new ForceMute.Provider());
         ProviderManager.addExtensionProvider(Capability.ELEMENT, Capability.NAMESPACE, new Capability.Provider());
         ProviderManager.addExtensionProvider(Sctp.ELEMENT, Sctp.NAMESPACE, new Sctp.Provider());
