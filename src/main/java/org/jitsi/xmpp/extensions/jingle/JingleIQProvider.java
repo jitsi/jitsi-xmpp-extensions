@@ -72,6 +72,13 @@ public class JingleIQProvider extends IqProvider<JingleIQ>
                 new DefaultPacketExtensionProvider
                     <>(RTPHdrExtPacketExtension.class));
 
+        //<extmap-allow-mixed> provider
+        ProviderManager.addExtensionProvider(
+                ExtmapAllowMixedPacketExtension.ELEMENT,
+                ExtmapAllowMixedPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider
+                    <>(ExtmapAllowMixedPacketExtension.class));
+
         // <sctpmap/> provider
         ProviderManager.addExtensionProvider(
                 SctpMapExtension.ELEMENT,

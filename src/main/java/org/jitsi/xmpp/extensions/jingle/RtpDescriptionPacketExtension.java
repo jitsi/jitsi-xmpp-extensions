@@ -68,6 +68,12 @@ public class RtpDescriptionPacketExtension
     private BandwidthPacketExtension bandwidth;
 
     /**
+     * An optional extmap-allow-mixed element that specifies that mixed RTP header extensions are allowed
+     * in the same session
+     */
+    private ExtmapAllowMixedPacketExtension extmapAllowMixed;
+
+    /**
      * A <tt>List</tt> of the optional <tt>extmap</tt> elements that allow
      * negotiating RTP extension headers as per RFC 5282.
      */
@@ -195,6 +201,9 @@ public class RtpDescriptionPacketExtension
         //extmap elements
         children.addAll(extmapList);
 
+        if (extmapAllowMixed != null)
+            children.add(extmapAllowMixed);
+
         children.addAll(super.getChildExtensions());
 
         return children;
@@ -220,6 +229,9 @@ public class RtpDescriptionPacketExtension
 
         else if (childExtension instanceof RTPHdrExtPacketExtension)
             this.addExtmap((RTPHdrExtPacketExtension)childExtension);
+
+        else if (childExtension instanceof ExtmapAllowMixedPacketExtension)
+            this.setExtmapAllowMixed((ExtmapAllowMixedPacketExtension)extmapAllowMixed);
         else
             super.addChildExtension(childExtension);
     }
@@ -294,5 +306,28 @@ public class RtpDescriptionPacketExtension
     public List<RTPHdrExtPacketExtension> getExtmapList()
     {
         return extmapList;
+    }
+
+    /**
+     * Sets an optional extmap-allow-mixed element indicates that mixed types of RTP header extensions
+     * are allowed in this session.
+     *
+     * @param extmapAllowMixed the extmap-allow-mixed indication.
+     */
+    public void setExtmapAllowMixed(ExtmapAllowMixedPacketExtension extmapAllowMixed)
+    {
+        this.extmapAllowMixed = extmapAllowMixed;
+    }
+
+    /**
+     * Returns an optional extmap-allow-mixed element indicates that mixed types of RTP header extensions
+     *      * are allowed in this session.
+     *
+     * @return the extmap-allow-mixed indication for this session or <tt>null</tt>
+     * if none has been set yet.
+     */
+    public ExtmapAllowMixedPacketExtension getExtmapAllowMixed()
+    {
+        return extmapAllowMixed;
     }
 }

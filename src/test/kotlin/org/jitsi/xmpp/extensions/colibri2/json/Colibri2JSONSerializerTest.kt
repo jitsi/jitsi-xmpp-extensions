@@ -154,6 +154,7 @@ private val expectedMappings = listOf(
         </payload-type>
         <rtp-hdrext xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0" uri="urn:ietf:params:rtp-hdrext:ssrc-audio-level" id="1"/>
         <rtp-hdrext xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0" uri="http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01" id="5"/>
+        <extmap-allow-mixed xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0" />
       </media>
       <media type="video">
         <payload-type xmlns="urn:xmpp:jingle:apps:rtp:1" name="VP8" id="100" clockrate="90000">
@@ -184,6 +185,7 @@ private val expectedMappings = listOf(
         </payload-type>
         <rtp-hdrext xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0" uri="http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time" id="3"/>
         <rtp-hdrext xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0" uri="http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01" id="5"/>
+        <extmap-allow-mixed xmlns="urn:xmpp:jingle:apps:rtp:rtp-hdrext:0" />
       </media>
       <transport ice-controlling="true"/>
       <capability name="source-names"/>
@@ -219,7 +221,8 @@ private val expectedMappings = listOf(
           "rtp-hdrexts":[
             { "uri":"urn:ietf:params:rtp-hdrext:ssrc-audio-level", "id":1 },
             { "uri":"http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01", "id":5 }
-          ]
+          ],
+          "extmap-allow-mixed":true
         },
         {
           "type": "video",
@@ -266,7 +269,8 @@ private val expectedMappings = listOf(
           "rtp-hdrexts":[
             { "uri":"http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time", "id":3 },
             { "uri":"http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01", "id":5 }
-          ]
+          ],
+          "extmap-allow-mixed":true
         }
       ],
       "transport": { "ice-controlling": true },
