@@ -155,31 +155,8 @@ public class IqProviderUtils
         ProviderManager.addExtensionProvider(Transport.ELEMENT, Transport.NAMESPACE,
             new DefaultPacketExtensionProvider<>(Transport.class));
 
-        // Elements from jingle that we reuse (and are not automatically registered by JingleIQProvider)
-        ProviderManager.addExtensionProvider(
-                SourcePacketExtension.ELEMENT,
-                SourcePacketExtension.NAMESPACE,
-                new DefaultPacketExtensionProvider<>(SourcePacketExtension.class));
-        ProviderManager.addExtensionProvider(
-                SourceGroupPacketExtension.ELEMENT,
-                SourceGroupPacketExtension.NAMESPACE,
-                new DefaultPacketExtensionProvider<>(SourceGroupPacketExtension.class));
-        ProviderManager.addExtensionProvider(
-                SourceRidGroupPacketExtension.ELEMENT,
-                SourceRidGroupPacketExtension.NAMESPACE,
-                new DefaultPacketExtensionProvider<>(SourceRidGroupPacketExtension.class));
-
-        ExtensionElementProvider<ParameterPacketExtension> parameterProvider
-                = new DefaultPacketExtensionProvider<>(ParameterPacketExtension.class);
-
-        ProviderManager.addExtensionProvider(
-                ParameterPacketExtension.ELEMENT,
-                ColibriConferenceIQ.NAMESPACE,
-                parameterProvider);
-        ProviderManager.addExtensionProvider(
-                ParameterPacketExtension.ELEMENT,
-                SourcePacketExtension.NAMESPACE,
-                parameterProvider);
+        ProviderManager.addExtensionProvider(ParameterPacketExtension.ELEMENT, ColibriConferenceIQ.NAMESPACE,
+            new DefaultPacketExtensionProvider<>(ParameterPacketExtension.class));
 
         // Colibri2 shares extensions with jingle. Instantiating JingleIQProvider registers the extensions, but not
         // Jingle provider itself.
