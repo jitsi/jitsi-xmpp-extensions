@@ -189,40 +189,4 @@ public class CoinIQProvider
 
         return coinIQ;
     }
-
-    /**
-     * Returns the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element that
-     * we encounter in <tt>parser</tt>.
-     *
-     * @param parser the parse that we'll be probing for text.
-     *
-     * @return the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element we
-     * come across or <tt>null</tt> if we encounter a closing tag first.
-     *
-     * @throws java.lang.Exception if an error occurs parsing the XML.
-     */
-    public static String parseText(XmlPullParser parser)
-        throws XmlPullParserException, IOException, SmackParsingException
-    {
-        boolean done = false;
-
-        XmlPullParser.Event eventType;
-        String text = null;
-
-        while (!done)
-        {
-            eventType = parser.next();
-
-            if (eventType == XmlPullParser.Event.TEXT_CHARACTERS)
-            {
-                text = parser.getText();
-            }
-            else if (eventType == XmlPullParser.Event.END_ELEMENT)
-            {
-                done = true;
-            }
-        }
-
-        return text;
-    }
 }

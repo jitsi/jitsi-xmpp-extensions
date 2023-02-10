@@ -65,13 +65,13 @@ public class DescriptionProvider
                 switch (elementName)
                 {
                 case DescriptionPacketExtension.ELEMENT_SUBJECT:
-                    ext.setSubject(CoinIQProvider.parseText(parser));
+                    ext.setSubject(ParsingUtils.parseText(parser));
                     break;
                 case DescriptionPacketExtension.ELEMENT_FREE_TEXT:
-                    ext.setFreeText(CoinIQProvider.parseText(parser));
+                    ext.setFreeText(ParsingUtils.parseText(parser));
                     break;
                 case DescriptionPacketExtension.ELEMENT_DISPLAY_TEXT:
-                    ext.setDisplayText(CoinIQProvider.parseText(parser));
+                    ext.setDisplayText(ParsingUtils.parseText(parser));
                     break;
                 }
             }

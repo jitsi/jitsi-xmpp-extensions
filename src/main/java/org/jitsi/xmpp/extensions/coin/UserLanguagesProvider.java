@@ -64,7 +64,7 @@ public class UserLanguagesProvider
                 if (elementName.equals(
                         UserLanguagesPacketExtension.ELEMENT_LANGUAGES))
                 {
-                    ext.setLanguages(CoinIQProvider.parseText(parser));
+                    ext.setLanguages(ParsingUtils.parseText(parser));
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)

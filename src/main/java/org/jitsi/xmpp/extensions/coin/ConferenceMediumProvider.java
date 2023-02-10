@@ -74,13 +74,13 @@ public class ConferenceMediumProvider
                 switch (elementName)
                 {
                 case MediaPacketExtension.ELEMENT_DISPLAY_TEXT:
-                    ext.setDisplayText(CoinIQProvider.parseText(parser));
+                    ext.setDisplayText(ParsingUtils.parseText(parser));
                     break;
                 case MediaPacketExtension.ELEMENT_STATUS:
-                    ext.setStatus(CoinIQProvider.parseText(parser));
+                    ext.setStatus(ParsingUtils.parseText(parser));
                     break;
                 case MediaPacketExtension.ELEMENT_TYPE:
-                    ext.setType(CoinIQProvider.parseText(parser));
+                    ext.setType(ParsingUtils.parseText(parser));
                     break;
                 }
             }

@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jingle;
 
+import org.jitsi.xmpp.extensions.coin.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
@@ -74,7 +75,7 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
                 else if (elementName.equals(
                                 ReasonPacketExtension.TEXT_ELEMENT))
                 {
-                    text = parseText(parser);
+                    text = ParsingUtils.parseText(parser);
                 }
             }
             else if (eventType == XmlPullParser.Event.END_ELEMENT)
@@ -90,39 +91,4 @@ public class ReasonProvider extends ExtensionElementProvider<ReasonPacketExtensi
 
     }
 
-    /**
-     * Returns the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element that
-     * we encounter in <tt>parser</tt>.
-     *
-     * @param parser the parse that we'll be probing for text.
-     *
-     * @return the content of the next {@link XmlPullParser.Event#TEXT_CHARACTERS} element we
-     * come across or <tt>null</tt> if we encounter a closing tag first.
-     *
-     * @throws java.lang.Exception if an error occurs parsing the XML.
-     */
-    public String parseText(XmlPullParser parser)
-        throws XmlPullParserException, IOException, SmackParsingException
-    {
-        boolean done = false;
-
-        XmlPullParser.Event eventType;
-        String text = null;
-
-        while (!done)
-        {
-            eventType = parser.next();
-
-            if (eventType == XmlPullParser.Event.TEXT_CHARACTERS)
-            {
-                text = parser.getText();
-            }
-            else if (eventType == XmlPullParser.Event.END_ELEMENT)
-            {
-                done = true;
-            }
-        }
-
-        return text;
-    }
 }

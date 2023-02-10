@@ -80,7 +80,7 @@ public class UserProvider
             {
                 if (elementName.equals(UserPacketExtension.ELEMENT_DISPLAY_TEXT))
                 {
-                    ext.setDisplayText(CoinIQProvider.parseText(parser));
+                    ext.setDisplayText(ParsingUtils.parseText(parser));
                 }
                 else if (elementName.equals(EndpointPacketExtension.ELEMENT))
                 {
