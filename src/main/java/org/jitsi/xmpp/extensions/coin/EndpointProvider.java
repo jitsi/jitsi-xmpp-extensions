@@ -79,7 +79,7 @@ public class EndpointProvider
                 switch (elementName)
                 {
                 case EndpointPacketExtension.ELEMENT_DISPLAY_TEXT:
-                    ext.setDisplayText(CoinIQProvider.parseText(parser));
+                    ext.setDisplayText(ParsingUtils.parseText(parser));
                     break;
                 case EndpointPacketExtension.ELEMENT_DISCONNECTION:
                     ext.setDisconnectionType(
@@ -87,11 +87,11 @@ public class EndpointProvider
                     break;
                 case EndpointPacketExtension.ELEMENT_JOINING:
                     ext.setJoiningType(JoiningType.parseString(
-                        CoinIQProvider.parseText(parser)));
+                        ParsingUtils.parseText(parser)));
                     break;
                 case EndpointPacketExtension.ELEMENT_STATUS:
                     ext.setStatus(EndpointStatusType.parseString(
-                        CoinIQProvider.parseText(parser)));
+                        ParsingUtils.parseText(parser)));
                     break;
                 case CallInfoPacketExtension.ELEMENT:
                 {

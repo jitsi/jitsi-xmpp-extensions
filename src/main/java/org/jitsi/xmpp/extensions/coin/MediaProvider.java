@@ -73,19 +73,19 @@ public class MediaProvider
                 switch (elementName)
                 {
                 case MediaPacketExtension.ELEMENT_DISPLAY_TEXT:
-                    ext.setDisplayText(CoinIQProvider.parseText(parser));
+                    ext.setDisplayText(ParsingUtils.parseText(parser));
                     break;
                 case MediaPacketExtension.ELEMENT_LABEL:
-                    ext.setLabel(CoinIQProvider.parseText(parser));
+                    ext.setLabel(ParsingUtils.parseText(parser));
                     break;
                 case MediaPacketExtension.ELEMENT_SRC_ID:
-                    ext.setSrcID(CoinIQProvider.parseText(parser));
+                    ext.setSrcID(ParsingUtils.parseText(parser));
                     break;
                 case MediaPacketExtension.ELEMENT_STATUS:
-                    ext.setStatus(CoinIQProvider.parseText(parser));
+                    ext.setStatus(ParsingUtils.parseText(parser));
                     break;
                 case MediaPacketExtension.ELEMENT_TYPE:
-                    ext.setType(CoinIQProvider.parseText(parser));
+                    ext.setType(ParsingUtils.parseText(parser));
                     break;
                 }
             }
