@@ -289,7 +289,7 @@ private val expectedMappings = listOf(
     <endpoint xmlns="jitsi:colibri2" id="79f0273e">
       <transport>
         <transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" pwd="1a5ejbent91k6io6a3fauikg22" ufrag="2ivqh1fvtf0l3h">
-          <fingerprint xmlns="urn:xmpp:jingle:apps:dtls:0" setup="actpass" hash="sha-256">2E:CC:85:71:32:5B:B5:60:64:C8:F6:7B:6D:45:D4:34:2B:51:A0:06:B5:EA:2F:84:BC:7B:64:1F:A3:0A:69:23</fingerprint>
+          <fingerprint xmlns="urn:xmpp:jingle:apps:dtls:0" setup="actpass" hash="sha-256" cryptex="true">2E:CC:85:71:32:5B:B5:60:64:C8:F6:7B:6D:45:D4:34:2B:51:A0:06:B5:EA:2F:84:BC:7B:64:1F:A3:0A:69:23</fingerprint>
           <web-socket xmlns="http://jitsi.org/protocol/colibri" url="wss://beta-us-ashburn-1-global-2808-jvb-83-102-26.jitsi.net:443/colibri-ws/default-id/3d937bbdf97a23e0/79f0273e?pwd=1a5ejbent91k6io6a3fauikg22"/>
           <rtcp-mux/>
           <candidate component="1" foundation="2" generation="0" id="653aa1ba295b62480ffffffffdc52c0d9" network="0" priority="1694498815" protocol="udp" type="srflx" ip="129.80.210.199" port="10000" rel-addr="0.0.0.0" rel-port="9"/>
@@ -346,7 +346,8 @@ private val expectedMappings = listOf(
             {
               "fingerprint": "2E:CC:85:71:32:5B:B5:60:64:C8:F6:7B:6D:45:D4:34:2B:51:A0:06:B5:EA:2F:84:BC:7B:64:1F:A3:0A:69:23",
               "setup": "actpass",
-              "hash": "sha-256"
+              "hash": "sha-256",
+              "cryptex": true
             }
           ]
         }
