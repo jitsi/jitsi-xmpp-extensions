@@ -190,7 +190,7 @@ public class ConferenceIqProvider
      * @return a bare JID constructed from the given parts.
      * @throws XmppStringprepException if an error occurs.
      */
-    private EntityBareJid getRoomJid(String unescapedValue)
+    public static EntityBareJid getRoomJid(String unescapedValue)
         throws XmppStringprepException
     {
         // the node part of the jid may contain '@' which is not allowed
