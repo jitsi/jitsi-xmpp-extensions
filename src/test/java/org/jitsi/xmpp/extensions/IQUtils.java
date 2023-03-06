@@ -67,6 +67,12 @@ public final class IQUtils
                     .ofType(IQ.Type.fromString(type));
 
                 eventType = parser.next();
+                if (eventType == XmlPullParser.Event.TEXT_CHARACTERS)
+                {
+                    // Ignore any TEXT_CHARACTERS in an <iq> to allow e.g. parsing pretty XML with an "\n" after the
+                    // opening of the <iq> or other whitespace.
+                    eventType = parser.next();
+                }
                 if (XmlPullParser.Event.START_ELEMENT == eventType)
                 {
                     smackIQ = iqProvider.parse(parser, iqData);

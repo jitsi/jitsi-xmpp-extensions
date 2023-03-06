@@ -26,6 +26,7 @@ import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
 
 import java.io.*;
+import java.util.*;
 
 /**
  * Utility class for parsing Colibri2 IQs.
@@ -34,9 +35,19 @@ public class IqProviderUtils
 {
     private static final Logger logger = new LoggerImpl(IqProviderUtils.class.getName());
 
-    static void parseExtensions(XmlPullParser parser, int initialDepth, IQ iq)
+    public static void parseExtensions(XmlPullParser parser, int initialDepth, IQ iq)
             throws XmlPullParserException, IOException, SmackParsingException
     {
+        for (ExtensionElement ext : parseExtensions(parser, initialDepth))
+        {
+            iq.addExtension(ext);
+        }
+    }
+
+    public static List<ExtensionElement> parseExtensions(XmlPullParser parser, int initialDepth)
+            throws XmlPullParserException, IOException, SmackParsingException
+    {
+        List<ExtensionElement> ret = new ArrayList<>();
         while (true)
         {
             XmlPullParser.Event eventType = parser.next();
@@ -50,14 +61,14 @@ public class IqProviderUtils
 
                 if (extension != null)
                 {
-                    iq.addExtension(extension);
+                    ret.add(extension);
                 }
                 break;
 
             case END_ELEMENT:
                 if (parser.getDepth() == initialDepth)
                 {
-                    return;
+                    return ret;
                 }
                 break;
             default:
