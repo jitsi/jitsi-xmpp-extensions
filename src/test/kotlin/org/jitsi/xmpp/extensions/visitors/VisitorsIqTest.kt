@@ -19,6 +19,7 @@ package org.jitsi.xmpp.extensions.visitors
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.jitsi.xmpp.extensions.IQUtils
 import org.jivesoftware.smack.packet.IQ
@@ -36,6 +37,10 @@ class VisitorsIqTest : ShouldSpec() {
             IQUtils.parse(validXml, provider).let { iq ->
                 iq.shouldBeInstanceOf<VisitorsIq>()
                 iq.room shouldBe jid
+                iq.getBroadcastExtension().let {
+                    it shouldNotBe null
+                    it!!.enabled shouldBe true
+                }
                 iq.getConnectVnodeExtensions().let {
                     it.size shouldBe 1
                     it[0].vnode shouldBe "v1"
@@ -70,6 +75,31 @@ class VisitorsIqTest : ShouldSpec() {
                     provider
                 )
             }
+            shouldThrow<Exception> {
+                IQUtils.parse(
+                    """
+<iq to='t' from='f' type='set'>
+    <visitors xmlns='jitsi:visitors' room='room@example.com'>
+        <broadcast/>
+    </visitors>
+</iq>
+                    """.trimIndent(),
+                    provider
+                )
+            }
+            shouldThrow<Exception> {
+                IQUtils.parse(
+                    """
+<iq to='t' from='f' type='set'>
+    <visitors xmlns='jitsi:visitors' room='room@example.com'>
+        <broadcast enabled='true'/>
+        <broadcast enabled='true'/>
+    </visitors>
+</iq>
+                    """.trimIndent(),
+                    provider
+                )
+            }
         }
 
         context("Serializing") {
@@ -77,6 +107,7 @@ class VisitorsIqTest : ShouldSpec() {
                 room = jid
                 addExtension(ConnectVnodePacketExtension("v1"))
                 addExtension(DisconnectVnodePacketExtension("v2"))
+                addExtension(BroadcastPacketExtension(true))
                 to(JidCreate.from("t"))
                 from(JidCreate.from("f"))
                 ofType(IQ.Type.set)
@@ -97,5 +128,6 @@ private val validXml = "<iq xmlns='jabber:client' to='t' from='f' id='id' type='
     "<visitors xmlns='jitsi:visitors' room='room@example.com'>" +
     "<connect-vnode xmlns='jitsi:visitors' vnode='v1'/>" +
     "<disconnect-vnode xmlns='jitsi:visitors' vnode='v2'/>" +
+    "<broadcast xmlns='jitsi:visitors' enabled='true'/>" +
     "</visitors>" +
     "</iq>"
