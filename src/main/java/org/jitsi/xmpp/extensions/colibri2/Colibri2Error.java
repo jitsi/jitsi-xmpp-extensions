@@ -95,6 +95,7 @@ public class Colibri2Error
     {
         CONFERENCE_NOT_FOUND,
         CONFERENCE_ALREADY_EXISTS,
+        FEATURE_NOT_IMPLEMENTED,
         GRACEFUL_SHUTDOWN,
         UNKNOWN_ENDPOINT,
         UNSPECIFIED;
