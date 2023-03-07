@@ -23,23 +23,22 @@ import org.jivesoftware.smack.xml.XmlPullParser
 import org.jivesoftware.smack.xml.XmlPullParserException
 import java.io.IOException
 
-class DisconnectVnodePacketExtension(val vnode: String) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
+class BroadcastPacketExtension(val enabled: Boolean) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
     init {
-        setAttribute(VNODE_ATTR_NAME, vnode)
+        setAttribute(ENABLED_ATTR_NAME, enabled)
     }
-
     companion object {
-        const val ELEMENT = "disconnect-vnode"
+        const val ELEMENT = "broadcast"
         const val NAMESPACE = VisitorsIq.NAMESPACE
-        const val VNODE_ATTR_NAME = "vnode"
+        const val ENABLED_ATTR_NAME = "enabled"
     }
 }
 
-class DisconnectVnodePacketExtensionProvider : ExtensionElementProvider<DisconnectVnodePacketExtension>() {
+class BroadcastPacketExtensionProvider : ExtensionElementProvider<BroadcastPacketExtension>() {
     @Throws(XmlPullParserException::class, IOException::class, SmackParsingException::class)
-    override fun parse(parser: XmlPullParser, depth: Int, xml: XmlEnvironment?): DisconnectVnodePacketExtension {
-        val vnode = parser.getAttributeValue("", DisconnectVnodePacketExtension.VNODE_ATTR_NAME)
-            ?: throw SmackParsingException.RequiredAttributeMissingException("Missing 'vnode' attribute")
-        return DisconnectVnodePacketExtension(vnode)
+    override fun parse(parser: XmlPullParser, depth: Int, xml: XmlEnvironment?): BroadcastPacketExtension {
+        val enabled = parser.getAttributeValue("", BroadcastPacketExtension.ENABLED_ATTR_NAME)
+            ?: throw SmackParsingException.RequiredAttributeMissingException("Missing 'enabled' attribute")
+        return BroadcastPacketExtension(enabled.toBoolean())
     }
 }

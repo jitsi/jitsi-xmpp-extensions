@@ -42,9 +42,13 @@ class VisitorsIq private constructor(b: Builder) : IQ(b, ELEMENT, NAMESPACE) {
     fun getConnectVnodeExtensions(): List<ConnectVnodePacketExtension> = getExtensions(
         ConnectVnodePacketExtension::class.java
     )
+
     fun getDisconnectVnodeExtensions(): List<DisconnectVnodePacketExtension> = getExtensions(
         DisconnectVnodePacketExtension::class.java
     )
+
+    fun getBroadcastExtension(): BroadcastPacketExtension? =
+        getExtensions(BroadcastPacketExtension::class.java).firstOrNull()
 
     companion object {
         const val NAMESPACE = "jitsi:visitors"
@@ -62,6 +66,11 @@ class VisitorsIq private constructor(b: Builder) : IQ(b, ELEMENT, NAMESPACE) {
                 DisconnectVnodePacketExtension.ELEMENT,
                 NAMESPACE,
                 DisconnectVnodePacketExtensionProvider()
+            )
+            ProviderManager.addExtensionProvider(
+                BroadcastPacketExtension.ELEMENT,
+                NAMESPACE,
+                BroadcastPacketExtensionProvider()
             )
         }
     }
@@ -94,6 +103,9 @@ class VisitorsIqProvider : IqProvider<VisitorsIq>() {
         return VisitorsIq.Builder(data).apply {
             room = ConferenceIqProvider.getRoomJid(parser.getAttributeValue("", VisitorsIq.ROOM_ATTR_NAME))
             addExtensions(IqProviderUtils.parseExtensions(parser, initialDepth))
+            if (getExtensions(BroadcastPacketExtension::class.java).size > 1) {
+                throw SmackParsingException("More than one 'broadcast' child extension present.")
+            }
         }.build()
     }
 }
