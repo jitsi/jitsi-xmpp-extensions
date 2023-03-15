@@ -175,6 +175,7 @@ public class IqProviderUtils
 
         /* Original colibri does something weird with these elements' namespaces, so register them here. */
         ProviderManager.addExtensionProvider(ForceMute.ELEMENT, ForceMute.NAMESPACE, new ForceMute.Provider());
+        ProviderManager.addExtensionProvider(InitialLastN.ELEMENT, InitialLastN.NAMESPACE, new InitialLastNProvider());
         ProviderManager.addExtensionProvider(Capability.ELEMENT, Capability.NAMESPACE, new Capability.Provider());
         ProviderManager.addExtensionProvider(Sctp.ELEMENT, Sctp.NAMESPACE, new Sctp.Provider());
         ProviderManager.addExtensionProvider(Colibri2Error.ELEMENT,
