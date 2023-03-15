@@ -25,6 +25,7 @@ import org.jitsi.xmpp.extensions.colibri2.ConferenceModifiedIQ
 import org.jitsi.xmpp.extensions.colibri2.ConferenceModifyIQ
 import org.jitsi.xmpp.extensions.colibri2.Endpoints
 import org.jitsi.xmpp.extensions.colibri2.ForceMute
+import org.jitsi.xmpp.extensions.colibri2.InitialLastN
 import org.jitsi.xmpp.extensions.colibri2.Media
 import org.jitsi.xmpp.extensions.colibri2.MediaSource
 import org.jitsi.xmpp.extensions.colibri2.Sctp
@@ -35,6 +36,7 @@ import org.jitsi.xmpp.extensions.jingle.IceUdpTransportPacketExtension
 import org.jivesoftware.smackx.muc.MUCRole
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
+import java.lang.IllegalArgumentException
 
 object Colibri2JSONDeserializer {
     private fun deserializeMedia(media: JSONObject): Media {
@@ -166,6 +168,11 @@ object Colibri2JSONDeserializer {
         }
     }
 
+    private fun deserializeInitialLastN(initialLastN: JSONObject) = InitialLastN(
+        initialLastN[InitialLastN.VALUE_ATTR_NAME]?.toString()?.toInt()
+            ?: throw IllegalArgumentException("Invalid 'value'")
+    )
+
     private fun deserializeForceMute(forceMute: JSONObject): ForceMute {
         val audio = forceMute[ForceMute.AUDIO_ATTR_NAME]
         val video = forceMute[ForceMute.VIDEO_ATTR_NAME]
@@ -190,6 +197,12 @@ object Colibri2JSONDeserializer {
 
             endpoint[ForceMute.ELEMENT]?.let {
                 if (it is JSONObject) { setForceMute(deserializeForceMute(it)) }
+            }
+
+            endpoint[InitialLastN.ELEMENT]?.let {
+                if (it is JSONObject) {
+                    setInitialLastN(deserializeInitialLastN(it))
+                }
             }
 
             endpoint[Colibri2JSONSerializer.CAPABILITIES_LIST]?.let { capabilities ->
