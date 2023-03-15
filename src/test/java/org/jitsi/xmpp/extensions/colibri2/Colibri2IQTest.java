@@ -64,6 +64,7 @@ public class Colibri2IQTest
             + "<force-mute audio='true' video='true'/>"
             + "<capability name='cap1'/>"
             + "<capability name='cap2'/>"
+            + "<initial-last-n value='13'/>"
             + "</endpoint>"
             + "</conference-modify>"
             + "</iq>";
@@ -130,6 +131,7 @@ public class Colibri2IQTest
         endpointBuilder.setTransport(transportBuilder.build());
         endpointBuilder.setSources(sourcesBuilder.build());
         endpointBuilder.setForceMute(true, true);
+        endpointBuilder.setInitialLastN(13);
         endpointBuilder.addCapability("cap1");
         endpointBuilder.addCapability("cap2");
 
@@ -160,6 +162,9 @@ public class Colibri2IQTest
         assertNotNull(endpoint.getForceMute(), "force-mute must be present");
         assertTrue(endpoint.getForceMute().getAudio(), "force-mute audio must be true");
         assertTrue(endpoint.getForceMute().getVideo(), "force-mute video must be true");
+
+        assertNotNull(endpoint.getInitialLastN());
+        assertEquals(endpoint.getInitialLastN().getValue(), 13);
 
         Diff diff = DiffBuilder.compare(expectedXml).
             withTest(iq.toXML().toString()).
@@ -218,5 +223,8 @@ public class Colibri2IQTest
         assertNotNull(endpoint.getForceMute(), "force-mute must not be null");
         assertTrue(endpoint.getForceMute().getAudio(), "force-mute audio must be true");
         assertTrue(endpoint.getForceMute().getVideo(), "force-mute video must be true");
+
+        assertNotNull(endpoint.getInitialLastN());
+        assertEquals(endpoint.getInitialLastN().getValue(), 13);
     }
 }

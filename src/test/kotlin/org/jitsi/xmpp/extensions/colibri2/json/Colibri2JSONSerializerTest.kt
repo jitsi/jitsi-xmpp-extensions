@@ -114,6 +114,7 @@ private val expectedMappings = listOf(
         </media-source>
       </sources>
       <force-mute audio='true' video='true'/>
+      <initial-last-n value='13'/>
     </endpoint>
   </conference-modify>
 </iq>
@@ -130,7 +131,8 @@ private val expectedMappings = listOf(
       "medias": [{"type":"audio", "payload-types": [{"name":"opus", "clockrate":"48000", "channels": "2"}]}],
       "transport": {"ice-controlling":true},
       "sources": [{"type":"video", "id":"bd9b6765-v1", "sources":[803354056]}],
-      "force-mute": {"audio":true, "video":true}
+      "force-mute": {"audio":true, "video":true},
+      "initial-last-n": {"value": 13 }
     }
   ]
 }

@@ -25,6 +25,7 @@ import org.jitsi.xmpp.extensions.colibri2.Colibri2Relay
 import org.jitsi.xmpp.extensions.colibri2.ConferenceModifiedIQ
 import org.jitsi.xmpp.extensions.colibri2.ConferenceModifyIQ
 import org.jitsi.xmpp.extensions.colibri2.ForceMute
+import org.jitsi.xmpp.extensions.colibri2.InitialLastN
 import org.jitsi.xmpp.extensions.colibri2.Media
 import org.jitsi.xmpp.extensions.colibri2.MediaSource
 import org.jitsi.xmpp.extensions.colibri2.Sctp
@@ -178,6 +179,10 @@ object Colibri2JSONSerializer {
         }
     }
 
+    private fun serializeInitialLastN(initialLastN: InitialLastN) = JSONObject().apply {
+        put(InitialLastN.VALUE_ATTR_NAME, initialLastN.value)
+    }
+
     private fun serializeCapabilities(capabilities: Collection<Capability>): JSONArray {
         return JSONArray().apply {
             capabilities.forEach { add(it.name) }
@@ -189,6 +194,7 @@ object Colibri2JSONSerializer {
             endpoint.statsId?.apply { put(Colibri2Endpoint.STATS_ID_ATTR_NAME, this) }
             endpoint.mucRole?.apply { put(Colibri2Endpoint.MUC_ROLE_ATTR_NAME, this.toString()) }
             endpoint.forceMute?.apply { put(ForceMute.ELEMENT, serializeForceMute(this)) }
+            endpoint.initialLastN?.apply { put(InitialLastN.ELEMENT, serializeInitialLastN(this)) }
             if (endpoint.capabilities.isNotEmpty()) {
                 put(CAPABILITIES_LIST, serializeCapabilities(endpoint.capabilities))
             }

@@ -86,6 +86,11 @@ public class Colibri2Endpoint
         {
             addChildExtension(c);
         }
+
+        if (b.initialLastN != null)
+        {
+            addChildExtension((b.initialLastN));
+        }
     }
 
     /**
@@ -110,6 +115,14 @@ public class Colibri2Endpoint
     public @Nullable ForceMute getForceMute()
     {
         return getFirstChildOfType(ForceMute.class);
+    }
+
+    /**
+     * @return the initial-last-n extension of this {@link Colibri2Endpoint}, if it has one.
+     */
+    public @Nullable InitialLastN getInitialLastN()
+    {
+        return getFirstChildOfType(InitialLastN.class);
     }
 
     /**
@@ -163,6 +176,9 @@ public class Colibri2Endpoint
          */
         private final List<Capability> capabilities = new LinkedList<>();
 
+        @Nullable
+        private InitialLastN initialLastN = null;
+
         private Builder()
         {
             super();
@@ -213,6 +229,17 @@ public class Colibri2Endpoint
         public Builder addCapability(String capabilityName)
         {
             capabilities.add(new Capability(capabilityName));
+            return this;
+        }
+
+        public Builder setInitialLastN(int initialLastN)
+        {
+            return setInitialLastN(new InitialLastN(initialLastN));
+        }
+
+        public Builder setInitialLastN(@Nullable InitialLastN initialLastN)
+        {
+            this.initialLastN = initialLastN;
             return this;
         }
 
