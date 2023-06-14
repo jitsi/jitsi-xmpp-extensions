@@ -153,7 +153,7 @@ public abstract class AbstractPacketExtension
      *
      * @return an XML representation of this extension.
      */
-    public String toXML(XmlEnvironment enclosingNamespace)
+    public CharSequence toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder(this, enclosingNamespace);
 
@@ -207,7 +207,7 @@ public abstract class AbstractPacketExtension
 
         xml.closeElement(getElementName());
 
-        return xml.toString();
+        return xml;
     }
 
     /**
