@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.visitors
 
+import org.jitsi.xmpp.extensions.SafeParseIqProvider
 import org.jitsi.xmpp.extensions.colibri2.IqProviderUtils
 import org.jitsi.xmpp.extensions.jitsimeet.ConferenceIqProvider
 import org.jivesoftware.smack.XMPPConnection
@@ -23,12 +24,9 @@ import org.jivesoftware.smack.packet.IqBuilder
 import org.jivesoftware.smack.packet.IqData
 import org.jivesoftware.smack.packet.XmlEnvironment
 import org.jivesoftware.smack.parsing.SmackParsingException
-import org.jivesoftware.smack.provider.IqProvider
 import org.jivesoftware.smack.provider.ProviderManager
 import org.jivesoftware.smack.xml.XmlPullParser
-import org.jivesoftware.smack.xml.XmlPullParserException
 import org.jxmpp.jid.EntityBareJid
-import java.io.IOException
 import java.lang.IllegalArgumentException
 
 class VisitorsIq private constructor(b: Builder) : IQ(b, ELEMENT, NAMESPACE) {
@@ -90,9 +88,9 @@ class VisitorsIq private constructor(b: Builder) : IQ(b, ELEMENT, NAMESPACE) {
     }
 }
 
-class VisitorsIqProvider : IqProvider<VisitorsIq>() {
-    @Throws(XmlPullParserException::class, IOException::class, SmackParsingException::class)
-    override fun parse(
+class VisitorsIqProvider : SafeParseIqProvider<VisitorsIq>() {
+    @Throws(Exception::class)
+    override fun doParse(
         parser: XmlPullParser,
         initialDepth: Int,
         data: IqData,

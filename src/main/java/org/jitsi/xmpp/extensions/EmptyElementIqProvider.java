@@ -16,8 +16,8 @@
 package org.jitsi.xmpp.extensions;
 
 import java.io.*;
+
 import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smack.xml.XmlPullParser.*;
@@ -26,7 +26,7 @@ import org.jivesoftware.smack.xml.XmlPullParser.*;
  * Implements an {@link IqProvider} for empty elements.
  */
 public abstract class EmptyElementIqProvider<T extends IQ>
-    extends IqProvider<T>
+    extends SafeParseIqProvider<T>
 {
     private final String element;
 
@@ -49,9 +49,10 @@ public abstract class EmptyElementIqProvider<T extends IQ>
      * @return a new <tt>IQ</tt> instance parsed from the specified IQ
      * sub-document
      */
-    public final T parse(XmlPullParser parser, int initialDepth,
+    @Override
+    protected T doParse(XmlPullParser parser, int initialDepth,
         IqData data, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+        throws XmlPullParserException, IOException
     {
         T iq;
 

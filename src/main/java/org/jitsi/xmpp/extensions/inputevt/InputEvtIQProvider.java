@@ -15,12 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.inputevt;
 
-import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
-import org.jivesoftware.smack.provider.*;
+import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.xml.*;
-
-import java.io.*;
 
 /**
  * Implements an <tt>IQProvider</tt> which parses incoming <tt>InputEvtIQ</tt>s.
@@ -28,7 +24,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class InputEvtIQProvider
-    extends IqProvider<InputEvtIQ>
+    extends SafeParseIqProvider<InputEvtIQ>
 {
     /**
      * Parse the Input IQ sub-document and returns the corresponding
@@ -39,13 +35,11 @@ public class InputEvtIQProvider
      * @throws Exception if something goes wrong during parsing
      */
     @Override
-    public InputEvtIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+    protected InputEvtIQ doParse(XmlPullParser parser)
+        throws Exception
     {
         InputEvtIQ inputEvtIQ = new InputEvtIQ();
-        InputEvtAction action
-            = InputEvtAction.parseString(
-                    parser.getAttributeValue("", InputEvtIQ.ACTION_ATTR_NAME));
+        InputEvtAction action = InputEvtAction.parseString(parser.getAttributeValue("", InputEvtIQ.ACTION_ATTR_NAME));
 
         inputEvtIQ.setAction(action);
 
@@ -57,13 +51,10 @@ public class InputEvtIQProvider
             {
             case START_ELEMENT:
                 // <remote-control>
-                if (RemoteControlExtensionProvider.ELEMENT_REMOTE_CONTROL
-                        .equals(parser.getName()))
+                if (RemoteControlExtensionProvider.ELEMENT_REMOTE_CONTROL.equals(parser.getName()))
                 {
-                    RemoteControlExtensionProvider provider
-                        = new RemoteControlExtensionProvider();
-                    RemoteControlExtension item
-                        = provider.parse(parser);
+                    RemoteControlExtensionProvider provider = new RemoteControlExtensionProvider();
+                    RemoteControlExtension item = provider.parse(parser);
 
                     inputEvtIQ.addRemoteControl(item);
                 }
@@ -71,7 +62,9 @@ public class InputEvtIQProvider
 
             case END_ELEMENT:
                 if (InputEvtIQ.ELEMENT.equals(parser.getName()))
+                {
                     done = true;
+                }
                 break;
             }
         }

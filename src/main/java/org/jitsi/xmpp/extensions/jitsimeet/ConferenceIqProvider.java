@@ -18,7 +18,7 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.jivesoftware.smack.packet.*;
+import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 
@@ -37,7 +37,7 @@ import java.io.*;
  * @author Pawel Domas
  */
 public class ConferenceIqProvider
-    extends IqProvider<ConferenceIq>
+    extends SafeParseIqProvider<ConferenceIq>
 {
     /**
      * Creates new instance of <tt>ConferenceIqProvider</tt>.
@@ -46,14 +46,11 @@ public class ConferenceIqProvider
     {
         // <conference>
         ProviderManager.addIQProvider(
-            ConferenceIq.ELEMENT, ConferenceIq.NAMESPACE, this);
+                ConferenceIq.ELEMENT, ConferenceIq.NAMESPACE, this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public ConferenceIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
+    protected ConferenceIq doParse(XmlPullParser parser)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         String namespace = parser.getNamespace();
@@ -196,11 +193,12 @@ public class ConferenceIqProvider
         // the node part of the jid may contain '@' which is not allowed
         // and passing the correct node value to Localpart.from will check
         // for all not allowed jid characters
-        int ix = unescapedValue.lastIndexOf("@");
+        int ix = unescapedValue == null ? -1 : unescapedValue.lastIndexOf("@");
 
         if (ix == -1)
-            throw new XmppStringprepException(unescapedValue,
-                "wrong room name jid format");
+        {
+            throw new XmppStringprepException(unescapedValue, "wrong room name jid format");
+        }
 
         String domainPart = unescapedValue.substring(ix + 1);
         String localPart = unescapedValue.substring(0, ix);
@@ -211,7 +209,6 @@ public class ConferenceIqProvider
             throw new XmppStringprepException(unescapedValue, "Localpart must not contain '@'");
         }
 
-        return JidCreate.entityBareFrom(
-            Localpart.from(localPart), Domainpart.from(domainPart));
+        return JidCreate.entityBareFrom(Localpart.from(localPart), Domainpart.from(domainPart));
     }
 }

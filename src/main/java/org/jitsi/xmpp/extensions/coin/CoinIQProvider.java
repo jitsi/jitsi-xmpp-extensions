@@ -17,7 +17,7 @@ package org.jitsi.xmpp.extensions.coin;
 
 import org.jitsi.xmpp.extensions.*;
 
-import org.jivesoftware.smack.packet.*;
+import org.jitsi.xmpp.extensions.colibri2.*;
 import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
@@ -30,7 +30,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class CoinIQProvider
-    extends IqProvider<CoinIQ>
+    extends SafeParseIqProvider<CoinIQ>
 {
     /**
      * Provider for description packet extension.
@@ -110,10 +110,12 @@ public class CoinIQProvider
      *
      * @param parser XML parser
      * @return <tt>CoinIQ</tt>
-     * @throws Exception if something goes wrong during parsing
+     * @throws XmlPullParserException if something goes wrong during parsing
+     * @throws IOException if something goes wrong during parsing
+     * @throws SmackParsingException if something goes wrong during parsing
      */
     @Override
-    public CoinIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
+    protected CoinIQ doParse(XmlPullParser parser)
         throws XmlPullParserException, IOException, SmackParsingException
     {
         CoinIQ coinIQ = new CoinIQ();

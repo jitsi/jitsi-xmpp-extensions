@@ -16,21 +16,18 @@
 package org.jitsi.xmpp.extensions.thumbnail;
 
 import org.jitsi.utils.logging2.*;
-import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
-import org.jivesoftware.smack.provider.*;
+import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.xml.*;
 import org.jivesoftware.smackx.si.packet.*;
 import org.jivesoftware.smackx.xdata.packet.*;
 import org.jivesoftware.smackx.xdata.provider.*;
 import org.jxmpp.util.XmppDateTime;
 
-import java.io.*;
 import java.text.*;
 import java.util.*;
 
 public class ThumbnailStreamInitiationProvider
-    extends IqProvider<StreamInitiation>
+    extends SafeParseIqProvider<StreamInitiation>
 {
     private static final Logger logger = new LoggerImpl(ThumbnailStreamInitiationProvider.class.getName());
 
@@ -40,8 +37,8 @@ public class ThumbnailStreamInitiationProvider
      * @param parser the parser to parse
      */
     @Override
-    public StreamInitiation parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+    protected StreamInitiation doParse(XmlPullParser parser)
+        throws Exception
     {
         boolean done = false;
 

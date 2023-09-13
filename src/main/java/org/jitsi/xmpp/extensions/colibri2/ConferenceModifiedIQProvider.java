@@ -16,9 +16,9 @@
 
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.parsing.*;
-import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
 
 import java.io.*;
@@ -26,10 +26,10 @@ import java.io.*;
 /**
  * Provider for Colibri2 conference-modify IQs.
  */
-public class ConferenceModifiedIQProvider extends IqProvider<ConferenceModifiedIQ>
+public class ConferenceModifiedIQProvider extends SafeParseIqProvider<ConferenceModifiedIQ>
 {
     @Override
-    public ConferenceModifiedIQ parse(
+    protected ConferenceModifiedIQ doParse(
             XmlPullParser parser,
             int initialDepth,
             IqData iqData,
