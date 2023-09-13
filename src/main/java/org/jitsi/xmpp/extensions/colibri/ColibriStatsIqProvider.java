@@ -18,8 +18,7 @@ package org.jitsi.xmpp.extensions.colibri;
 
 import java.io.*;
 import org.jitsi.xmpp.extensions.*;
-import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
+import org.jitsi.xmpp.extensions.colibri2.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
 
@@ -31,7 +30,7 @@ import org.jivesoftware.smack.xml.*;
  * @author Boris Grozev
  */
 public class ColibriStatsIqProvider
-    extends IqProvider<ColibriStatsIQ>
+    extends SafeParseIqProvider<ColibriStatsIQ>
 {
     /** Initializes a new <tt>ColibriIQProvider</tt> instance. */
     public ColibriStatsIqProvider()
@@ -64,8 +63,9 @@ public class ColibriStatsIqProvider
      * @return a new <tt>IQ</tt> instance parsed from the specified IQ
      * sub-document
      */
-    public ColibriStatsIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+    @Override
+    protected ColibriStatsIQ doParse(XmlPullParser parser)
+        throws XmlPullParserException, IOException
     {
         String namespace = parser.getNamespace();
         ColibriStatsIQ iq;

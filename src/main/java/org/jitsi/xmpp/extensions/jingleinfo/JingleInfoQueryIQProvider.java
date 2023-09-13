@@ -17,12 +17,9 @@ package org.jitsi.xmpp.extensions.jingleinfo;
 
 import org.jitsi.xmpp.extensions.*;
 
-import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
+import org.jitsi.xmpp.extensions.colibri2.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.xml.*;
-
-import java.io.*;
 
 /**
  * Provider for the <tt>JingleInfoQueryIQ</tt>.
@@ -30,7 +27,7 @@ import java.io.*;
  * @author Sebastien Vincent
  */
 public class JingleInfoQueryIQProvider
-    extends IqProvider<JingleInfoQueryIQ>
+    extends SafeParseIqProvider<JingleInfoQueryIQ>
 {
     /**
      * STUN packet extension provider.
@@ -63,8 +60,8 @@ public class JingleInfoQueryIQProvider
      * @throws Exception if an error occurs parsing the XML.
      */
     @Override
-    public JingleInfoQueryIQ parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+    protected JingleInfoQueryIQ doParse(XmlPullParser parser)
+        throws Exception
     {
         boolean done = false;
         JingleInfoQueryIQ iq = new JingleInfoQueryIQ();

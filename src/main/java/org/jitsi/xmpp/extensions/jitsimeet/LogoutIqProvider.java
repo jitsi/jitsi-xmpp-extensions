@@ -17,13 +17,11 @@ package org.jitsi.xmpp.extensions.jitsimeet;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.jitsi.xmpp.extensions.*;
 import org.jivesoftware.smack.packet.*;
-import org.jivesoftware.smack.parsing.*;
 import org.jivesoftware.smack.provider.*;
 import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
-
-import java.io.*;
 
 /**
  * Provider handles parsing of {@link ConferenceIq} and {@link LoginUrlIq}
@@ -32,7 +30,7 @@ import java.io.*;
  * @author Pawel Domas
  */
 public class LogoutIqProvider
-    extends IqProvider<LogoutIq>
+    extends SafeParseIqProvider<LogoutIq>
 {
     /**
      * Creates new instance of <tt>ConferenceIqProvider</tt>.
@@ -48,8 +46,8 @@ public class LogoutIqProvider
      * {@inheritDoc}
      */
     @Override
-    public LogoutIq parse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
-        throws XmlPullParserException, IOException, SmackParsingException
+    protected LogoutIq doParse(XmlPullParser parser, int initialDepth, IqData data, XmlEnvironment xmlEnvironment)
+        throws Exception
     {
         String namespace = parser.getNamespace();
 
