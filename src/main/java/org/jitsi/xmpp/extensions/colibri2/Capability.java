@@ -41,6 +41,11 @@ public class Capability extends AbstractPacketExtension
     public static final String CAP_SSRC_REWRITING_SUPPORT = "ssrc-rewriting";
 
     /**
+     * The endpoint supports ICE connections via private addresses.
+     */
+    public static final String CAP_PRIVATE_ADDRESS_CONNECTIVITY = "private-address-connectivity";
+
+    /**
      * Creates an {@link Capability} instance.
      */
     public Capability()
