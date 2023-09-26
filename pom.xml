@@ -8,9 +8,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <smack.version>4.4.6</smack.version>
-    <junit.version>5.8.2</junit.version>
-    <kotlin.version>1.6.21</kotlin.version>
-    <kotest.version>5.3.0</kotest.version>
+    <junit.version>5.10.0</junit.version>
+    <kotlin.version>1.9.10</kotlin.version>
+    <kotest.version>5.7.2</kotest.version>
   </properties>
   <name>jitsi-xmpp-extensions</name>
   <url>https://github.com/jitsi/jitsi-xmpp-extensions</url>
