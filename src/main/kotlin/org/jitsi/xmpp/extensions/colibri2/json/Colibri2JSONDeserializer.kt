@@ -42,7 +42,9 @@ object Colibri2JSONDeserializer {
     private fun deserializeMedia(media: JSONObject): Media {
         return Media.getBuilder().apply {
             media[Media.TYPE_ATTR_NAME]?.let {
-                if (it is String) { setType(MediaType.parseString(it)) }
+                if (it is String) {
+                    setType(MediaType.parseString(it))
+                }
             }
 
             media[Colibri2JSONSerializer.PAYLOAD_TYPES]?.let { payloadTypes ->
@@ -58,7 +60,9 @@ object Colibri2JSONDeserializer {
             }
 
             media[ExtmapAllowMixedPacketExtension.ELEMENT]?.let {
-                if (it is Boolean) { setExtmapAllowMixed(ExtmapAllowMixedPacketExtension()) }
+                if (it is Boolean) {
+                    setExtmapAllowMixed(ExtmapAllowMixedPacketExtension())
+                }
             }
         }.build()
     }
@@ -66,11 +70,15 @@ object Colibri2JSONDeserializer {
     private fun deserializeSctp(sctp: JSONObject): Sctp {
         return Sctp.Builder().apply {
             sctp[Sctp.ROLE_ATTR_NAME]?.let {
-                if (it is String) { setRole(Sctp.Role.parseString(it)) }
+                if (it is String) {
+                    setRole(Sctp.Role.parseString(it))
+                }
             }
 
             sctp[Sctp.PORT_ATTR_NAME]?.let {
-                if (it is Number) { setPort(it.toInt()) }
+                if (it is Number) {
+                    setPort(it.toInt())
+                }
             }
         }.build()
     }
@@ -78,19 +86,27 @@ object Colibri2JSONDeserializer {
     private fun deserializeTransport(transport: JSONObject): Transport {
         return Transport.getBuilder().apply {
             transport[Transport.ICE_CONTROLLING_ATTR_NAME]?.let {
-                if (it is Boolean) { setIceControlling(it) }
+                if (it is Boolean) {
+                    setIceControlling(it)
+                }
             }
 
             transport[Transport.USE_UNIQUE_PORT_ATTR_NAME]?.let {
-                if (it is Boolean) { setUseUniquePort(it) }
+                if (it is Boolean) {
+                    setUseUniquePort(it)
+                }
             }
 
             transport[IceUdpTransportPacketExtension.ELEMENT]?.let {
-                if (it is JSONObject) { setIceUdpExtension(JSONDeserializer.deserializeTransport(it)) }
+                if (it is JSONObject) {
+                    setIceUdpExtension(JSONDeserializer.deserializeTransport(it))
+                }
             }
 
             transport[Sctp.ELEMENT]?.let {
-                if (it is JSONObject) { setSctp(deserializeSctp(it)) }
+                if (it is JSONObject) {
+                    setSctp(deserializeSctp(it))
+                }
             }
         }.build()
     }
@@ -98,11 +114,15 @@ object Colibri2JSONDeserializer {
     private fun deserializeMediaSource(mediaSource: JSONObject): MediaSource {
         return MediaSource.getBuilder().apply {
             mediaSource[MediaSource.TYPE_ATTR_NAME]?.let {
-                if (it is String) { setType(MediaType.parseString(it)) }
+                if (it is String) {
+                    setType(MediaType.parseString(it))
+                }
             }
 
             mediaSource[MediaSource.ID_NAME]?.let {
-                if (it is String) { setId(it) }
+                if (it is String) {
+                    setId(it)
+                }
             }
 
             mediaSource[Colibri2JSONSerializer.SOURCES]?.let { sources ->
@@ -122,7 +142,9 @@ object Colibri2JSONDeserializer {
     private fun deserializeMedias(medias: JSONArray): Collection<Media> {
         return ArrayList<Media>().apply {
             medias.forEach {
-                if (it is JSONObject) { add(deserializeMedia(it)) }
+                if (it is JSONObject) {
+                    add(deserializeMedia(it))
+                }
             }
         }
     }
@@ -142,15 +164,21 @@ object Colibri2JSONDeserializer {
         builder: AbstractConferenceEntity.Builder
     ) {
         entity[AbstractConferenceEntity.ID_ATTR_NAME]?.let {
-            if (it is String) { builder.setId(it) }
+            if (it is String) {
+                builder.setId(it)
+            }
         }
 
         entity[AbstractConferenceEntity.CREATE_ATTR_NAME]?.let {
-            if (it is Boolean) { builder.setCreate(it) }
+            if (it is Boolean) {
+                builder.setCreate(it)
+            }
         }
 
         entity[AbstractConferenceEntity.EXPIRE_ATTR_NAME]?.let {
-            if (it is Boolean) { builder.setExpire(it) }
+            if (it is Boolean) {
+                builder.setExpire(it)
+            }
         }
 
         entity[Colibri2JSONSerializer.MEDIA_LIST]?.let { medias ->
@@ -160,11 +188,15 @@ object Colibri2JSONDeserializer {
         }
 
         entity[Transport.ELEMENT]?.let {
-            if (it is JSONObject) { builder.setTransport(deserializeTransport(it)) }
+            if (it is JSONObject) {
+                builder.setTransport(deserializeTransport(it))
+            }
         }
 
         entity[Sources.ELEMENT]?.let {
-            if (it is JSONArray) { builder.setSources(deserializeSources(it)) }
+            if (it is JSONArray) {
+                builder.setSources(deserializeSources(it))
+            }
         }
     }
 
@@ -178,8 +210,16 @@ object Colibri2JSONDeserializer {
         val video = forceMute[ForceMute.VIDEO_ATTR_NAME]
 
         return ForceMute(
-            if (audio is Boolean) { audio } else { ForceMute.AUDIO_DEFAULT },
-            if (video is Boolean) { video } else { ForceMute.VIDEO_DEFAULT }
+            if (audio is Boolean) {
+                audio
+            } else {
+                ForceMute.AUDIO_DEFAULT
+            },
+            if (video is Boolean) {
+                video
+            } else {
+                ForceMute.VIDEO_DEFAULT
+            }
         )
     }
 
@@ -188,15 +228,21 @@ object Colibri2JSONDeserializer {
             deserializeAbstractConferenceEntityToBuilder(endpoint, this)
 
             endpoint[Colibri2Endpoint.STATS_ID_ATTR_NAME]?.let {
-                if (it is String) { setStatsId(it) }
+                if (it is String) {
+                    setStatsId(it)
+                }
             }
 
             endpoint[Colibri2Endpoint.MUC_ROLE_ATTR_NAME]?.let {
-                if (it is String) { setMucRole(MUCRole.fromString(it)) }
+                if (it is String) {
+                    setMucRole(MUCRole.fromString(it))
+                }
             }
 
             endpoint[ForceMute.ELEMENT]?.let {
-                if (it is JSONObject) { setForceMute(deserializeForceMute(it)) }
+                if (it is JSONObject) {
+                    setForceMute(deserializeForceMute(it))
+                }
             }
 
             endpoint[InitialLastN.ELEMENT]?.let {
@@ -207,7 +253,11 @@ object Colibri2JSONDeserializer {
 
             endpoint[Colibri2JSONSerializer.CAPABILITIES_LIST]?.let { capabilities ->
                 if (capabilities is JSONArray) {
-                    capabilities.forEach { if (it is String) { addCapability(it) } }
+                    capabilities.forEach {
+                        if (it is String) {
+                            addCapability(it)
+                        }
+                    }
                 }
             }
         }.build()
@@ -218,7 +268,9 @@ object Colibri2JSONDeserializer {
             deserializeAbstractConferenceEntityToBuilder(relay, this)
 
             relay[Colibri2Relay.MESH_ID_ATTR_NAME]?.let {
-                if (it is String) { setMeshId(it) }
+                if (it is String) {
+                    setMeshId(it)
+                }
             }
 
             relay[Colibri2JSONSerializer.ENDPOINTS]?.let { endpoints ->
@@ -236,7 +288,9 @@ object Colibri2JSONDeserializer {
     private fun deserializeEndpoints(endpoints: JSONArray): Collection<Colibri2Endpoint> {
         return ArrayList<Colibri2Endpoint>().apply {
             endpoints.forEach {
-                if (it is JSONObject) { add(deserializeEndpoint(it)) }
+                if (it is JSONObject) {
+                    add(deserializeEndpoint(it))
+                }
             }
         }
     }
@@ -244,7 +298,9 @@ object Colibri2JSONDeserializer {
     private fun deserializeRelays(relays: JSONArray): Collection<Colibri2Relay> {
         return ArrayList<Colibri2Relay>().apply {
             relays.forEach {
-                if (it is JSONObject) { add(deserializeRelay(it)) }
+                if (it is JSONObject) {
+                    add(deserializeRelay(it))
+                }
             }
         }
     }
@@ -272,23 +328,33 @@ object Colibri2JSONDeserializer {
             deserializeAbstractConferenceModificationToBuilder(conferenceModify, this)
 
             conferenceModify[ConferenceModifyIQ.MEETING_ID_ATTR_NAME]?.let {
-                if (it is String) { setMeetingId(it) }
+                if (it is String) {
+                    setMeetingId(it)
+                }
             }
 
             conferenceModify[ConferenceModifyIQ.NAME_ATTR_NAME]?.let {
-                if (it is String) { setConferenceName(it) }
+                if (it is String) {
+                    setConferenceName(it)
+                }
             }
 
             conferenceModify[ConferenceModifyIQ.CREATE_ATTR_NAME]?.let {
-                if (it is Boolean) { setCreate(it) }
+                if (it is Boolean) {
+                    setCreate(it)
+                }
             }
 
             conferenceModify[ConferenceModifyIQ.EXPIRE_ATTR_NAME]?.let {
-                if (it is Boolean) { setExpire(it) }
+                if (it is Boolean) {
+                    setExpire(it)
+                }
             }
 
             conferenceModify[ConferenceModifyIQ.RTCSTATS_ENABLED_ATTR_NAME]?.let {
-                if (it is Boolean) { setRtcstatsEnabled(it) }
+                if (it is Boolean) {
+                    setRtcstatsEnabled(it)
+                }
             }
         }
     }
@@ -298,7 +364,9 @@ object Colibri2JSONDeserializer {
         return ConferenceModifiedIQ.builder("id").apply {
             deserializeAbstractConferenceModificationToBuilder(conferenceModified, this)
             conferenceModified[Sources.ELEMENT]?.let {
-                if (it is JSONArray) { setSources(deserializeSources(it)) }
+                if (it is JSONArray) {
+                    setSources(deserializeSources(it))
+                }
             }
         }
     }
