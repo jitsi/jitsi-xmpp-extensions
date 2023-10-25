@@ -84,8 +84,8 @@ public class StanzaErrorPE
      * {@inheritDoc}
      */
     @Override
-    public String toXML(XmlEnvironment enclosingNamespace)
+    public CharSequence toXML(XmlEnvironment enclosingNamespace)
     {
-        return error.toXML().toString();
+        return error.toXML();
     }
 }

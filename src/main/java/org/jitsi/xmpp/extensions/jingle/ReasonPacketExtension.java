@@ -172,7 +172,8 @@ public class ReasonPacketExtension
      *
      * @return the packet extension as XML.
      */
-    public String toXML(XmlEnvironment enclosingNamespace)
+    @Override
+    public CharSequence toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
         xml.openElement(getElementName());
@@ -193,6 +194,6 @@ public class ReasonPacketExtension
 
         xml.closeElement(getElementName());
 
-        return xml.toString();
+        return xml;
     }
 }
