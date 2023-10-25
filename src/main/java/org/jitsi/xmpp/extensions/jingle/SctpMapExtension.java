@@ -92,7 +92,7 @@ public class SctpMapExtension
      * {@inheritDoc}
      */
     @Override
-    public String toXML(XmlEnvironment enclosingNamespace)
+    public CharSequence toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
@@ -105,7 +105,7 @@ public class SctpMapExtension
 
         xml.closeEmptyElement();
 
-        return xml.toString();
+        return xml;
     }
 
     public void setPort(int port)

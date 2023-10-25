@@ -77,7 +77,7 @@ public class RelayPacketExtension
      * @return XML string representation
      */
     @Override
-    public String toXML(XmlEnvironment enclosingNamespace)
+    public CharSequence toXML(XmlEnvironment enclosingNamespace)
     {
         XmlStringBuilder xml = new XmlStringBuilder();
 
@@ -95,6 +95,6 @@ public class RelayPacketExtension
 
         xml.closeElement(ELEMENT);
 
-        return xml.toString();
+        return xml;
     }
 }

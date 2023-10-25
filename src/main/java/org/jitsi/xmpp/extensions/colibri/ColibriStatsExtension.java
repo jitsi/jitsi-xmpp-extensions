@@ -679,7 +679,7 @@ public class ColibriStatsExtension
         }
 
         @Override
-        public String toXML(XmlEnvironment enclosingNamespace)
+        public CharSequence toXML(XmlEnvironment enclosingNamespace)
         {
             String name = getName();
             Object value = getValue();
@@ -694,8 +694,7 @@ public class ColibriStatsExtension
                     .halfOpenElement(ELEMENT)
                     .attribute(NAME_ATTR_NAME, name)
                     .attribute(VALUE_ATTR_NAME, value.toString())
-                    .closeEmptyElement()
-                    .toString();
+                    .closeEmptyElement();
             }
         }
     }

@@ -129,7 +129,8 @@ public class RemoteControlExtension
      *
      * @return XML representation of the item
      */
-    public String toXML(XmlEnvironment enclosingNamespace)
+    @Override
+    public CharSequence toXML(XmlEnvironment enclosingNamespace)
     {
         String ret = null;
 
@@ -174,7 +175,7 @@ public class RemoteControlExtension
         else if (event instanceof KeyEvent)
         {
             KeyEvent e = (KeyEvent)event;
-            int keycode = e.getKeyCode();
+            int keycode;
             int key = e.getKeyChar();
 
             if (key != KeyEvent.CHAR_UNDEFINED)
