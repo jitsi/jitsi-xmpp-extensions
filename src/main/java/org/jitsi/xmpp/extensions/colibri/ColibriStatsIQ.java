@@ -16,6 +16,7 @@
 package org.jitsi.xmpp.extensions.colibri;
 
 import org.jivesoftware.smack.packet.*;
+import org.jitsi.xmpp.util.*;
 
 /**
  * The stats IQ that can be used to request Colibri stats on demand
@@ -51,7 +52,7 @@ public class ColibriStatsIQ
     protected IQ.IQChildElementXmlStringBuilder getIQChildElementBuilder(IQ.IQChildElementXmlStringBuilder buf)
     {
         buf.rightAngleBracket();
-        buf.append(backEnd.toXML());
+        buf.append(XmlStringBuilderUtil.toStringOpt(backEnd));
         return buf;
     }
 

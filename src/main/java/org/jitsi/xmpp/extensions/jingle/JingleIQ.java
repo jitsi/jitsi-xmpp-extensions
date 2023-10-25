@@ -19,6 +19,7 @@ import java.math.*;
 import java.security.*;
 import java.util.*;
 
+import org.jitsi.xmpp.util.*;
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.Jid;
 
@@ -155,18 +156,18 @@ public class JingleIQ extends IQ
             //content
             for (ContentPacketExtension cpe : contentList)
             {
-                bldr.append(cpe.toXML());
+                XmlStringBuilderUtil.append0(bldr, cpe.toXML());
             }
 
             //reason
             if (reason != null)
-                bldr.append(reason.toXML());
+                XmlStringBuilderUtil.append0(bldr, reason.toXML());
 
             //session-info
             //XXX: this is RTP specific so we should probably handle it in a
             //subclass
             if (sessionInfo != null)
-                bldr.append(sessionInfo.toXML());
+                XmlStringBuilderUtil.append0(bldr, sessionInfo.toXML());
         }
 
         return bldr;

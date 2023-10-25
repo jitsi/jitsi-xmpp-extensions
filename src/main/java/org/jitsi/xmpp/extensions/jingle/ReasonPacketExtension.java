@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.jingle;
 
+import org.jitsi.xmpp.util.*;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 
@@ -189,7 +190,7 @@ public class ReasonPacketExtension
         //add the extra element if it has been specified.
         if (getOtherExtension() != null)
         {
-            xml.append(getOtherExtension().toXML());
+            xml.append(XmlStringBuilderUtil.toStringOpt(getOtherExtension()));
         }
 
         xml.closeElement(getElementName());
