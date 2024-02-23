@@ -74,6 +74,12 @@ public class ConferenceProperties
     public static final String KEY_VISITOR_COUNT = "visitor-count";
 
     /**
+     * The property key used to indicate the set of video codecs supported by all visitors
+     * currently in the conference
+     */
+    public static final String KEY_VISITOR_CODECS = "visitor-codecs";
+
+    /**
      * The property key used to signal support for session restart to the current conference.
      */
     public static final String KEY_SUPPORTS_SESSION_RESTART = "support-terminate-restart";
