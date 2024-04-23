@@ -7,6 +7,8 @@
   <packaging>bundle</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Make sure this matches the version of the jxmpp artifacts inheriteb from smack. -->
+    <jxmpp.version>1.0.3</jxmpp.version>
     <smack.version>4.4.6</smack.version>
     <junit.version>5.10.0</junit.version>
     <kotlin.version>1.9.10</kotlin.version>
@@ -38,6 +40,11 @@
            and this fails to happen unless we include smack-xmlparser-stax.  -->
       <artifactId>smack-xmlparser-stax</artifactId>
       <version>${smack.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jxmpp</groupId>
+      <artifactId>jxmpp-stringprep-rocksxmppprecis</artifactId>
+      <version>${jxmpp.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jitsi</groupId>
