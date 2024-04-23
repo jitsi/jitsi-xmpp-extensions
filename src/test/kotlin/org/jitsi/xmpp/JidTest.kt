@@ -125,5 +125,6 @@ val invalidJids = listOf(
     // Leading - in domain part.
     "user@-do-main.com",
     // Trailing - in domain part.
-    "user@do-main-.com"
+    "user@do-main-.com",
+    "user@conference..example.org"
 )
