@@ -109,10 +109,12 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
             namespace = parser.getNamespace();
 
             if (logger.isLoggable(Level.FINEST))
+            {
                 logger.finest("Will parse event " + eventType
-                    + " for " + elementName
-                    + " ns=" + namespace
-                    + " class=" + packetExtension.getClass().getSimpleName());
+                        + " for " + elementName
+                        + " ns=" + namespace
+                        + " class=" + packetExtension.getClass().getSimpleName());
+            }
 
             if (eventType == XmlPullParser.Event.START_ELEMENT)
             {
@@ -122,7 +124,7 @@ public class DefaultPacketExtensionProvider<C extends AbstractPacketExtension>
                 if (provider == null)
                 {
                     //we don't know how to handle this kind of extensions.
-                    logger.fine("Could not add a provider for element "
+                    logger.fine("Could not find a provider for element "
                         + elementName + " from namespace " + namespace);
                 }
                 else
