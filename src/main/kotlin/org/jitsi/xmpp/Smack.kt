@@ -37,7 +37,7 @@ object Smack {
 
         // Force XmppStringPrepUtil to load before we override the context, otherwise it gets reverted.
         // https://github.com/igniterealtime/jxmpp/pull/44
-        JidCreate.from("example.com")
+        JidCreate.from("example")
         logger.info("Using JitsiXmppStringprep.")
         JxmppContext.setDefaultXmppStringprep(JitsiXmppStringprep.INSTANCE)
 

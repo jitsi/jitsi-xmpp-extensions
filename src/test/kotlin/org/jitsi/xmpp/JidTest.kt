@@ -89,7 +89,11 @@ val validJids = listOf(
     // "user@averylongdomainpartisstillvalideventhoughitexceedsthesixtyfourbytelimitofdnslabels",
     "long-conference-name-1245c711a15e466687b6333577d83e0b@" +
         "conference.vpaas-magic-cookie-a32a0c3311ee432eab711fa1fdf34793.8x8.vc",
-    "user@example.org/🍺"
+    "user@example.org/🍺",
+    // These are not valid according to the XMPP spec, but we accept it intentionally.
+    "do_main.com",
+    "u_s_e_r@_do_main_.com",
+    "user@do_ma-in.com"
 )
 
 val invalidJids = listOf(
@@ -117,5 +121,9 @@ val invalidJids = listOf(
     "xsf@muc.xmpp.org/؜x",
     "username@example.org@example.org",
     "foo\u0000bar@example.org",
-    "foobar@ex\u0000ample.org"
+    "foobar@ex\u0000ample.org",
+    // Leading - in domain part.
+    "user@-do-main.com",
+    // Trailing - in domain part.
+    "user@do-main-.com"
 )

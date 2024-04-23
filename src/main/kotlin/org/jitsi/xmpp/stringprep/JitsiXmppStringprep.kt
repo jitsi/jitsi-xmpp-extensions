@@ -51,10 +51,9 @@ class JitsiXmppStringprep : XmppStringprep by RocksXmppPrecisStringprep.INSTANCE
 class IDNWithUnderscoreProfile : PrecisProfile(false) {
     override fun prepare(input: CharSequence): String {
         val str = input.toString()
-        val strNoUnderscore = str.trim('_').trimEnd('_').replace('_', '-')
 
-        // Throws if [strNoUnderscore] contains invalid characters
-        IDN.toASCII(strNoUnderscore, IDN.USE_STD3_ASCII_RULES)
+        // Throws if it contains invalid characters
+        IDN.toASCII(str.replace("_", ""), IDN.USE_STD3_ASCII_RULES)
 
         return IDN.toUnicode(IDN.toASCII(str), IDN.USE_STD3_ASCII_RULES)
     }
