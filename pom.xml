@@ -7,7 +7,7 @@
   <packaging>bundle</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- Make sure this matches the version of the jxmpp artifacts inheriteb from smack. -->
+    <!-- Make sure this matches the version of the jxmpp artifacts inherited from smack. -->
     <jxmpp.version>1.0.3</jxmpp.version>
     <smack.version>4.4.8</smack.version>
     <junit.version>5.10.0</junit.version>
