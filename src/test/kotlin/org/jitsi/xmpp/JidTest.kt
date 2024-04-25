@@ -146,7 +146,10 @@ val idns = listOf(
     listOf("büchxr.de", "xn--bchxr-kva.de"),
     listOf("büch_r.de", "xn--bch_r-kva.de"),
     listOf("buch_ü"),
-    listOf("__б__")
+    listOf("__б__"),
+    // IDNA2003 converts this to "fussball", while IDNA2008 leaves the "ß" as is. OpenJDK 11, 17, 21 implement the older
+    // standard. This is here to document the behavior and alert if it changes.
+    listOf("fussball", "fußball")
 )
 
 val invalidIdns = listOf(
@@ -184,6 +187,7 @@ val validJids = listOf(
     "juliet@example.com/foo bar",
     "juliet@example.com/foo@bar",
     "foo\\20bar@example.com",
+    "foo%bar@example.com/f%b",
     "fussball@example.com",
     "fußball@example.com",
     "π@example.com",
@@ -197,13 +201,10 @@ val validJids = listOf(
     "server/resource@foo/bar",
     "user@CaSe-InSeNsItIvE",
     "user@192.168.1.1",
-    // "user@[2001:638:a000:4134::ffff:40]",
-    // "user@[2001:638:a000:4134::ffff:40%eno1]",
-    // "user@averylongdomainpartisstillvalideventhoughitexceedsthesixtyfourbytelimitofdnslabels",
     "long-conference-name-1245c711a15e466687b6333577d83e0b@" +
         "conference.vpaas-magic-cookie-a32a0c3311ee432eab711fa1fdf34793.8x8.vc",
     "user@example.org/🍺",
-    // These are not valid according to the XMPP spec, but we accept it intentionally.
+    // These are not valid according to the XMPP spec, but we accept them intentionally.
     "do_main.com",
     "u_s_e_r@_do_main_.com",
     "user@do_ma-in.com"
@@ -239,5 +240,11 @@ val invalidJids = listOf(
     "user@-do-main.com",
     // Trailing - in domain part.
     "user@do-main-.com",
-    "user@conference..example.org"
+    "user@conference..example.org",
+    // These are VALID according to the XMPP spec (see the valid corpus), but we currently do not accept them.
+    // [ is an ASSCI symbol that's not allowed in domain names.
+    "user@[2001:638:a000:4134::ffff:40]",
+    "user@[2001:638:a000:4134::ffff:40%eno1]",
+    // A single label in the domain part is limited to 63
+    "user@averylongdomainpartisstillvalideventhoughitexceedsthesixtyfourbytelimitofdnslabels",
 )
