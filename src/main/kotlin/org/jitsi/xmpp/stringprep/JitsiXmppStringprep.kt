@@ -52,8 +52,8 @@ class IDNWithUnderscoreProfile : PrecisProfile(false) {
     override fun prepare(input: CharSequence): String {
         // We're calling toASCII and toUnicode without the [IDN.USE_STD3_ASCII_RULES] flag, so we have to do the
         // (relaxed) verification.
-        val ascii = verifyLDHU(IDN.toASCII(input.toString()))
-        return verifyLDHU(IDN.toUnicode(ascii))
+        val ascii = verifyLDHUP(IDN.toASCII(input.toString()))
+        return verifyLDHUP(IDN.toUnicode(ascii))
     }
 
     /**
@@ -66,12 +66,12 @@ class IDNWithUnderscoreProfile : PrecisProfile(false) {
      *
      * @throws IllegalStateException if any of the assertions fail.
      */
-    private fun verifyLDHU(s: String) = s.also {
+    private fun verifyLDHUP(s: String) = s.also {
         val dest = StringBuffer(s)
         require(dest.isNotEmpty()) { "Empty label is not a legal name" }
 
         for (i in s.indices) {
-            require(!dest[i].code.isNonLDHUPAsciiCodePoint()) { "Contains non-LDHU ASCII characters: ${dest[i]}" }
+            require(!dest[i].code.isNonLDHUPAsciiCodePoint()) { "Contains non-LDHUP ASCII characters: ${dest[i]}" }
             if (dest[i].isLabelSeparator()) {
                 require(i != 0) { "Empty label is not a legal name" }
                 require(dest[i - 1] != '-') { "Label has trailing hyphen" }
