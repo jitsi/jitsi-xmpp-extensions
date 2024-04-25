@@ -22,8 +22,10 @@ import io.kotest.assertions.withClue
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.core.test.TestCase
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
+import org.jitsi.xmpp.stringprep.IDNWithUnderscoreProfile
 import org.jitsi.xmpp.stringprep.JitsiXmppStringprep
 import org.jxmpp.JxmppContext
 import org.jxmpp.jid.impl.JidCreate
@@ -62,8 +64,119 @@ class JidTest : ShouldSpec() {
                 }
             }
         }
+        context("Parsing internationalized domains") {
+            val idnWithUnderscoreProfile = IDNWithUnderscoreProfile()
+
+            idns.forEach { idnGroup ->
+                idnGroup.forEach { idn ->
+                    withClue(idn) {
+                        // prepare() doesn't always normalize, but it shouldn't throw an exception.
+                        idnWithUnderscoreProfile.prepare(idn)
+
+                        idnWithUnderscoreProfile.enforce(idn) shouldBe idnGroup[0]
+                        JidCreate.from(idn).toString() shouldBe idnGroup[0]
+                    }
+                }
+            }
+        }
+        context("Parsing invalid domains") {
+            val idnWithUnderscoreProfile = IDNWithUnderscoreProfile()
+
+            invalidIdns.forEach { idn ->
+                withClue(idn) {
+                    shouldThrow<IllegalArgumentException> {
+                        idnWithUnderscoreProfile.prepare(idn)
+                    }
+                    shouldThrow<IllegalArgumentException> {
+                        idnWithUnderscoreProfile.enforce(idn)
+                    }
+                }
+            }
+        }
+        context("JIDs with IDNs") {
+            listOf("user", "юзер", "π", "测试").forEach { username ->
+                listOf("resource", "ресурс", "🍺").forEach { resource ->
+                    idns.forEach { idnGroup ->
+                        idnGroup.forEach { idn ->
+                            val str = "$username@$idn/$resource"
+                            withClue(str) {
+                                val jid = JidCreate.from(str)
+                                jid.resourceOrNull.toString() shouldBe resource
+                                jid.localpartOrNull.toString() shouldBe username
+                                jid.domain.toString() shouldBe idnGroup[0]
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
+/**
+ * Valid internationalized domain names. The first entry in each group is the normalized form that we expect, the other
+ * entries are other encodings of the same domain.
+ *
+ * https://www.iana.org/domains/reserved
+ */
+val idns = listOf(
+    listOf("إختبار", "XN--KGBECHTV", "xn--KGBEchtv"),
+    listOf("آزمایشی", "XN--HGBK6AJ7F53BBA", "xn--hgbK6AJ7F53BBA"),
+    listOf("测试", "XN--0ZWM56D", "Xn--0Zwm56D"),
+    listOf("測試", "XN--G6W251D", "Xn--G6W251d"),
+    listOf("испытание", "XN--80AKHBYKNJ4F", "XN--80AKHBYKNJ4f", "испытаНИЕ"),
+    listOf("испыта-ние", "испыта-НИЕ", "xn----7sbqjc3alpk3g"),
+    listOf("abc-испытание-def", "ABc-испытаНИЕ-DeF", "xn--abc--def-46g4c5ab8d0a3ar6m"),
+    listOf("испытание.com", "XN--80AKHBYKNJ4F\u3002com", "XN--80AKHBYKNJ4f\uFF0Ecom", "испытаНИЕ\uFF61com"),
+    listOf("испыта-ние.com", "испыта-НИЕ\u3002com", "xn----7sbqjc3alpk3g\uFF0Ecom", "XN----7SBQJC3ALPK3G\uFF61com"),
+    listOf(
+        "abc-испытание-def.com",
+        "ABc-испытаНИЕ-DeF\u3002com",
+        "xn--abc--def-46g4c5ab8d0a3ar6m\uFF0Ecom",
+        "ABc-испытаНИЕ-DeF\uFF61com"
+    ),
+    listOf("abc.испытание-def.com", "ABc.испытаНИЕ-DeF\u3002com", "ABc.испытаНИЕ-DeF\uFF61com"),
+    listOf("परीक्षा", "XN--11B5BS3A9AJ6G", "xn--11B5bs3A9AJ6G"),
+    listOf("δοκιμή", "XN--JXALPDLP"),
+    listOf("테스트", "XN--9T4B11YI5A"),
+    listOf("טעסט", "XN--DEBA0AD"),
+    listOf("テスト", "XN--ZCKZAH"),
+    listOf("பரிட்சை", "XN--HLCJ6AYA9ESC7A"),
+    listOf("bücher.de", "xn--bcher-kva.de"),
+    listOf("büchxr.de", "xn--bchxr-kva.de"),
+    listOf("büch_r.de", "xn--bch_r-kva.de"),
+    listOf("buch_ü"),
+    listOf("__б__")
+)
+
+val invalidIdns = listOf(
+    // Invalid ascii characters
+    "buch?r",
+    "büch?r",
+    "büch[r",
+    // Leading hyphens
+    "-bücher",
+    "-bücher.com",
+    "sub.-bücher.com",
+    "sub\u3002-bücher\uFF61com",
+    "sub\uFF0E-bücher.com",
+    "sub\uFF61-bücher\uFF61com",
+    // Trailing hyphens
+    "bücher-",
+    "bücher-.com",
+    "sub-.bücher.com",
+    "bücher-\u3002com",
+    "bücher-\uFF0Ecom",
+    "bücher-\uFF61com",
+    // Empty labels
+    "example..com",
+    "example\uFF0E\u3002com",
+    "example.com..",
+    "example.com...",
+    "example\uFF61com\uFF0E\u3002",
+    "\u3002\uFF61example.com",
+    ".example.com",
+)
 
 val validJids = listOf(
     "juliet@example.com",

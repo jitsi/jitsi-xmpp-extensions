@@ -50,12 +50,37 @@ class JitsiXmppStringprep : XmppStringprep by RocksXmppPrecisStringprep.INSTANCE
  */
 class IDNWithUnderscoreProfile : PrecisProfile(false) {
     override fun prepare(input: CharSequence): String {
-        val str = input.toString()
+        // We're calling toASCII and toUnicode without the [IDN.USE_STD3_ASCII_RULES] flag, so we have to do the
+        // (relaxed) verification.
+        val ascii = verifyLDHU(IDN.toASCII(input.toString()))
+        return verifyLDHU(IDN.toUnicode(ascii))
+    }
 
-        // Throws if it contains invalid characters
-        IDN.toASCII(str.replace("_", ""), IDN.USE_STD3_ASCII_RULES)
+    /**
+     * Assert that, after splitting [s] into labels separated, each label:
+     *  -- Is not empty.
+     *  -- All ASCII characters are Letters/Digits/Hyphen/Underscore.
+     *  -- Does not begin or end with a hyphen.
+     *
+     * Based on the implementation in java's IDN.
+     *
+     * @throws IllegalStateException if any of the assertions fail.
+     */
+    private fun verifyLDHU(s: String) = s.also {
+        val dest = StringBuffer(s)
+        require(dest.isNotEmpty()) { "Empty label is not a legal name" }
 
-        return IDN.toUnicode(IDN.toASCII(str), IDN.USE_STD3_ASCII_RULES)
+        for (i in s.indices) {
+            require(!dest[i].code.isNonLDHUAsciiCodePoint()) { "Contains non-LDHU ASCII characters: ${dest[i]}" }
+            if (dest[i].isLabelSeparator()) {
+                require(i != 0) { "Empty label is not a legal name" }
+                require(dest[i - 1] != '-') { "Label has trailing hyphen" }
+                require(!dest[i - 1].isLabelSeparator()) { "Empty label is not a legal name" }
+                require(i == dest.length - 1 || dest[i + 1] != '-') { "Label has leading hyphen" }
+                require(i == dest.length - 1 || !dest[i + 1].isLabelSeparator()) { "Empty label" }
+            }
+        }
+        require(dest[0] != '-' && dest[dest.length - 1] != '-') { "Has leading or trailing hyphen" }
     }
 
     override fun applyWidthMappingRule(charSequence: CharSequence) = widthMap(charSequence)
@@ -69,7 +94,19 @@ class IDNWithUnderscoreProfile : PrecisProfile(false) {
     override fun applyDirectionalityRule(charSequence: CharSequence) = charSequence
 
     companion object {
-        private const val DOTS: String = "[.\u3002\uFF0E\uFF61]"
-        private val LABEL_SEPARATOR: Pattern = Pattern.compile(DOTS)
+        private val dots = listOf('.', '\u3002', '\uFF0E', '\uFF61').toCharArray()
+        private val LABEL_SEPARATOR = Pattern.compile("[${dots.joinToString(separator = "")}]")
+
+        private fun Char.isLabelSeparator() = dots.contains(this)
+
+        /** Return true if [this] is a code for an ASCII character that is not a Letter/Digit/Hyphen/Underscore. */
+        private fun Int.isNonLDHUAsciiCodePoint(): Boolean {
+            return (this in 0x0000..0x002C) ||
+                (this == 0x002F) ||
+                (this in 0x003A..0x0040) ||
+                (this in 0x005B..0x005e) ||
+                (this == 0x0060) ||
+                (this in 0x007B..0x007F)
+        }
     }
 }
