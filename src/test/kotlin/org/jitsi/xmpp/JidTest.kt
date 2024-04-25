@@ -147,6 +147,9 @@ val idns = listOf(
     listOf("büch_r.de", "xn--bch_r-kva.de"),
     listOf("buch_ü"),
     listOf("__б__"),
+    listOf("büch%r.de", "xn--bch%r-kva.de"),
+    listOf("buch%ü"),
+    listOf("_%б%_"),
     // IDNA2003 converts this to "fussball", while IDNA2008 leaves the "ß" as is. OpenJDK 11, 17, 21 implement the older
     // standard. This is here to document the behavior and alert if it changes.
     listOf("fussball", "fußball")
@@ -207,7 +210,10 @@ val validJids = listOf(
     // These are not valid according to the XMPP spec, but we accept them intentionally.
     "do_main.com",
     "u_s_e_r@_do_main_.com",
-    "user@do_ma-in.com"
+    "user@do_ma-in.com",
+    "do%main.com",
+    "u%s%e%r@%do%main%.com",
+    "user@do%ma-in.com"
 )
 
 val invalidJids = listOf(

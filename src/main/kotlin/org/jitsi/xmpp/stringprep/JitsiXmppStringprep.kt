@@ -27,8 +27,8 @@ import java.util.regex.Pattern
  * Extends [RocksXmppPrecisStringprep] to allow underscores (_) in the domain part.
  *
  * This is needed because jitsi-meet URLs of the form https://domain/tenant/room get translated into a JID of the
- * form room@tenant.conference.domain, and the tenant field has been allowed to use underscores for a long time (in
- * fact '.' in the tenant is translated into '_').
+ * form room@tenant.conference.domain, and the tenant field has been allowed to use _ and % for a long time (in
+ * fact '.' in the tenant is translated into '_', while unicode characters get url encoded into e.g. %c3%9f).
  */
 class JitsiXmppStringprep : XmppStringprep by RocksXmppPrecisStringprep.INSTANCE {
     override fun domainprep(string: String?): String {
@@ -59,10 +59,10 @@ class IDNWithUnderscoreProfile : PrecisProfile(false) {
     /**
      * Assert that, after splitting [s] into labels separated, each label:
      *  -- Is not empty.
-     *  -- All ASCII characters are Letters/Digits/Hyphen/Underscore.
+     *  -- All ASCII characters are Letters/Digits/Hyphen/Underscore/Percent.
      *  -- Does not begin or end with a hyphen.
      *
-     * Based on the implementation in java's IDN.
+     * Based on the implementation in java's IDN, but relaxed to accept _ and % as part of a label.
      *
      * @throws IllegalStateException if any of the assertions fail.
      */
@@ -71,7 +71,7 @@ class IDNWithUnderscoreProfile : PrecisProfile(false) {
         require(dest.isNotEmpty()) { "Empty label is not a legal name" }
 
         for (i in s.indices) {
-            require(!dest[i].code.isNonLDHUAsciiCodePoint()) { "Contains non-LDHU ASCII characters: ${dest[i]}" }
+            require(!dest[i].code.isNonLDHUPAsciiCodePoint()) { "Contains non-LDHU ASCII characters: ${dest[i]}" }
             if (dest[i].isLabelSeparator()) {
                 require(i != 0) { "Empty label is not a legal name" }
                 require(dest[i - 1] != '-') { "Label has trailing hyphen" }
@@ -99,9 +99,12 @@ class IDNWithUnderscoreProfile : PrecisProfile(false) {
 
         private fun Char.isLabelSeparator() = dots.contains(this)
 
-        /** Return true if [this] is a code for an ASCII character that is not a Letter/Digit/Hyphen/Underscore. */
-        private fun Int.isNonLDHUAsciiCodePoint(): Boolean {
-            return (this in 0x0000..0x002C) ||
+        /**
+         *  Return true if [this] is a code for an ASCII character that is not a Letter/Digit/Hyphen/Underscore/Percent.
+         */
+        private fun Int.isNonLDHUPAsciiCodePoint(): Boolean {
+            return (this in 0x0000..0x0024) ||
+                (this in 0x0026..0x002C) ||
                 (this == 0x002F) ||
                 (this in 0x003A..0x0040) ||
                 (this in 0x005B..0x005e) ||
