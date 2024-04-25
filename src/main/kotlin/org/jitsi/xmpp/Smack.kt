@@ -26,7 +26,7 @@ import org.jxmpp.jid.impl.JidCreate
 object Smack {
     val logger = createLogger()
 
-    fun initialize() {
+    fun initialize(useJitsiXmppStringprep: Boolean = true) {
         logger.info("Setting XML parsing limits.")
         System.setProperty("jdk.xml.entityExpansionLimit", "0")
         System.setProperty("jdk.xml.maxOccurLimit", "0")
@@ -35,11 +35,13 @@ object Smack {
         System.setProperty("jdk.xml.maxXMLNameLimit", "524288")
         System.setProperty("jdk.xml.entityReplacementLimit", "0")
 
-        // Force XmppStringPrepUtil to load before we override the context, otherwise it gets reverted.
-        // https://github.com/igniterealtime/jxmpp/pull/44
-        JidCreate.from("example")
-        logger.info("Using JitsiXmppStringprep.")
-        JxmppContext.setDefaultXmppStringprep(JitsiXmppStringprep.INSTANCE)
+        if (useJitsiXmppStringprep) {
+            // Force XmppStringPrepUtil to load before we override the context, otherwise it gets reverted.
+            // https://github.com/igniterealtime/jxmpp/pull/44
+            JidCreate.from("example")
+            logger.info("Using JitsiXmppStringprep.")
+            JxmppContext.setDefaultXmppStringprep(JitsiXmppStringprep.INSTANCE)
+        }
 
         // if there is a parsing error, do not break the connection to the server(the default behaviour) as we need
         // it for the other conferences.
