@@ -23,6 +23,8 @@ import org.jitsi.xmpp.extensions.colibri2.Colibri2Endpoint
 import org.jitsi.xmpp.extensions.colibri2.Colibri2Relay
 import org.jitsi.xmpp.extensions.colibri2.ConferenceModifiedIQ
 import org.jitsi.xmpp.extensions.colibri2.ConferenceModifyIQ
+import org.jitsi.xmpp.extensions.colibri2.Connect
+import org.jitsi.xmpp.extensions.colibri2.Connects
 import org.jitsi.xmpp.extensions.colibri2.Endpoints
 import org.jitsi.xmpp.extensions.colibri2.ForceMute
 import org.jitsi.xmpp.extensions.colibri2.InitialLastN
@@ -37,6 +39,7 @@ import org.jivesoftware.smackx.muc.MUCRole
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import java.lang.IllegalArgumentException
+import java.net.URI
 
 object Colibri2JSONDeserializer {
     private fun deserializeMedia(media: JSONObject): Media {
@@ -354,6 +357,32 @@ object Colibri2JSONDeserializer {
             conferenceModify[ConferenceModifyIQ.RTCSTATS_ENABLED_ATTR_NAME]?.let {
                 if (it is Boolean) {
                     setRtcstatsEnabled(it)
+                }
+            }
+
+            conferenceModify[Connects.ELEMENT]?.let {
+                if (it is JSONArray) {
+                    var added = false
+                    it.forEach { connect ->
+                        if (connect is JSONObject) {
+                            addConnect(
+                                Connect(
+                                    URI(connect[Connect.URL_ATTR_NAME] as String),
+                                    protocol = Connect.Protocols.valueOf(
+                                        (connect[Connect.PROTOCOL_ATTR_NAME] as String).uppercase()
+                                    ),
+                                    type = Connect.Types.valueOf(
+                                        (connect[Connect.TYPE_ATTR_NAME] as String).uppercase()
+                                    ),
+                                    audio = connect[Connect.AUDIO_ATTR_NAME]?.toString()?.toBoolean() ?: false,
+                                    video = connect[Connect.VIDEO_ATTR_NAME]?.toString()?.toBoolean() ?: false
+                                )
+                            )
+                            added = true
+                        }
+                    }
+                    // An empty array is distinct from no value specified.
+                    if (!added) setEmptyConnects()
                 }
             }
         }
