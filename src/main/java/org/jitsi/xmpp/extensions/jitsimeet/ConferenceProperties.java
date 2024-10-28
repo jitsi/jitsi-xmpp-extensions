@@ -42,6 +42,11 @@ public class ConferenceProperties
     public static final String ELEMENT = "conference-properties";
 
     /**
+     * The property key used for indicating that there is an ongoing audio recording.
+     */
+    public static final String KEY_AUDIO_RECORDING_ENABLED = "audio-recording-enabled";
+
+    /**
      * The property key used for the conference creation timestamp (in
      * milliseconds since the Epoch).
      */
