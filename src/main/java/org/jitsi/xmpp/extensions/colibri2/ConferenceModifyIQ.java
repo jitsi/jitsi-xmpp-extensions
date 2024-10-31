@@ -95,6 +95,10 @@ public class ConferenceModifyIQ
         rtcstatsEnabled = b.rtcstatsEnabled;
         create = b.create;
         expire = b.expire;
+        if (b.connects != null)
+        {
+            addExtension(b.connects);
+        }
 
         if (b.meetingId == null)
         {
@@ -170,6 +174,12 @@ public class ConferenceModifyIQ
         return expire;
     }
 
+    @Nullable
+    public Connects getConnects()
+    {
+        return getExtension(Connects.class);
+    }
+
     @Contract("_ -> new")
     public static @NotNull Builder builder(XMPPConnection connection)
     {
@@ -196,6 +206,7 @@ public class ConferenceModifyIQ
         private boolean expire = EXPIRE_DEFAULT;
         private String conferenceName;
         private String meetingId;
+        private Connects connects = null;
 
         private Builder(IqData iqCommon)
         {
@@ -215,6 +226,22 @@ public class ConferenceModifyIQ
         public Builder setRtcstatsEnabled(boolean rtcstatsEnabled)
         {
             this.rtcstatsEnabled = rtcstatsEnabled;
+            return this;
+        }
+
+        public Builder setEmptyConnects()
+        {
+            connects = new Connects();
+            return this;
+        }
+
+        public Builder addConnect(@NotNull Connect connect)
+        {
+            if (connects == null)
+            {
+                connects = new Connects();
+            }
+            connects.addConnect(connect);
             return this;
         }
 

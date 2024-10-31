@@ -24,6 +24,8 @@ import org.jitsi.xmpp.extensions.colibri2.Colibri2Endpoint
 import org.jitsi.xmpp.extensions.colibri2.Colibri2Relay
 import org.jitsi.xmpp.extensions.colibri2.ConferenceModifiedIQ
 import org.jitsi.xmpp.extensions.colibri2.ConferenceModifyIQ
+import org.jitsi.xmpp.extensions.colibri2.Connect
+import org.jitsi.xmpp.extensions.colibri2.Connects
 import org.jitsi.xmpp.extensions.colibri2.ForceMute
 import org.jitsi.xmpp.extensions.colibri2.InitialLastN
 import org.jitsi.xmpp.extensions.colibri2.Media
@@ -231,6 +233,18 @@ object Colibri2JSONSerializer {
         }
     }
 
+    private fun serializeConnect(connect: Connect) = JSONObject().apply {
+        put(Connect.URL_ATTR_NAME, connect.url.toString())
+        put(Connect.PROTOCOL_ATTR_NAME, connect.protocol.toString().lowercase())
+        put(Connect.TYPE_ATTR_NAME, connect.type.toString().lowercase())
+        if (connect.audio) put(Connect.AUDIO_ATTR_NAME, true)
+        if (connect.video) put(Connect.VIDEO_ATTR_NAME, true)
+    }
+
+    private fun serializeConnects(connects: Connects) = JSONArray().apply {
+        connects.getConnects().forEach { add(serializeConnect(it)) }
+    }
+
     @JvmStatic
     fun serializeConferenceModify(iq: ConferenceModifyIQ): JSONObject {
         return serializeAbstractConferenceModificationIQ(iq).apply {
@@ -244,6 +258,10 @@ object Colibri2JSONSerializer {
 
             if (iq.isRtcstatsEnabled != ConferenceModifyIQ.RTCSTATS_ENABLED_DEFAULT) {
                 put(ConferenceModifyIQ.RTCSTATS_ENABLED_ATTR_NAME, iq.isRtcstatsEnabled)
+            }
+
+            iq.connects?.let {
+                put(Connects.ELEMENT, serializeConnects(it))
             }
 
             put(ConferenceModifyIQ.MEETING_ID_ATTR_NAME, iq.meetingId)
