@@ -285,7 +285,7 @@ private val expectedMappings = listOf(
   ],
   "connects": [
     { "url": "wss://example.com/audio", "protocol": "mediajson", "type": "transcriber", "audio": true },
-    { "url": "wss://example.com/video", "protocol":"mediajson", "type": "recorder", "video": true }
+    { "url": "wss://example.com/video", "protocol": "mediajson", "type": "recorder", "video": true }
   ]
 }
         """,
