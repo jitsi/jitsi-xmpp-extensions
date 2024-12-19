@@ -192,6 +192,10 @@ private val expectedMappings = listOf(
       <transport ice-controlling="true"/>
       <capability name="source-names"/>
     </endpoint>
+    <connects>
+      <connect url='wss://example.com/audio' protocol='mediajson' type='transcriber' audio='true'/>
+      <connect url='wss://example.com/video' protocol='mediajson' type='recorder' video='true'/>
+    </connects>
   </conference-modify>
 </iq>
         """,
@@ -278,6 +282,10 @@ private val expectedMappings = listOf(
       "transport": { "ice-controlling": true },
       "capabilities": [ "source-names" ]
     }
+  ],
+  "connects": [
+    { "url": "wss://example.com/audio", "protocol": "mediajson", "type": "transcriber", "audio": true },
+    { "url": "wss://example.com/video", "protocol": "mediajson", "type": "recorder", "video": true }
   ]
 }
         """,
