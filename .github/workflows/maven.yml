@@ -10,6 +10,9 @@ on:
   pull_request:
     branches:
       - master
+env:
+  # Java version to use for the release
+  RELEASE_JAVA_VERSION: 11
 
 jobs:
   build:
@@ -34,3 +37,64 @@ jobs:
 
       - name: Build and verify code style with Maven
         run:  mvn verify -B
+
+  release:
+    if: github.ref == 'refs/heads/master'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: ${{ env.RELEASE_JAVA_VERSION }}
+          cache: maven
+          server-id: ossrh
+          server-username: SONATYPE_USER
+          server-password: SONATYPE_PW
+
+      - name: Install xmllint
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install -y libxml2-utils
+
+      - name: Set tag Version
+        id: sets-tag-version
+        run: |
+          MVNVER=$(xmllint --xpath "/*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
+          TAG_NAME="v${MVNVER/-SNAPSHOT/}"
+          echo "Tag name: ${TAG_NAME}"
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Create Tag
+        uses: rickstaa/action-create-tag@v1.7.2
+        with:
+          tag_exists_error: false
+          tag: ${{ steps.sets-tag-version.outputs.TAG_NAME }}
+          message: "Automated tag"
+
+      - name: Set version
+        run: |
+          VERSION=`git describe --match "v[0-9\.]*" --long --dirty --always`
+          mvn -B versions:set -DnewVersion=${VERSION:1} -DgenerateBackupPoms=false
+
+      - name: Release to Maven Central
+        env:
+          SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
+          SONATYPE_PW: ${{ secrets.SONATYPE_PW }}
+        run: |
+          cat <(echo -e "${{ secrets.GPG_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+          mvn \
+            --no-transfer-progress \
+            --batch-mode \
+            -Dgpg.passphrase="${{ secrets.GPG_PW }}" \
+            -Drelease=true \
+            -DskipTests \
+            deploy
