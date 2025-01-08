@@ -285,7 +285,7 @@
     </plugins>
   </build>
   <profiles>
-     <profile>
+    <profile>
       <id>release</id>
       <activation>
         <property>
