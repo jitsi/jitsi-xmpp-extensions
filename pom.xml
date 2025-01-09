@@ -17,6 +17,13 @@
   <name>jitsi-xmpp-extensions</name>
   <description>Smack extensions used in Jitsi projects</description>
   <url>https://github.com/jitsi/jitsi-xmpp-extensions</url>
+  <developers>
+    <developer>
+      <id>org.jitsi</id>
+      <name>Jitsi Team</name>
+      <email>dev@jitsi.org</email>
+    </developer>
+  </developers>
   <licenses>
     <license>
       <name>Apache-2.0</name>
