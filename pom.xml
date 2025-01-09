@@ -15,7 +15,20 @@
     <kotest.version>5.7.2</kotest.version>
   </properties>
   <name>jitsi-xmpp-extensions</name>
+  <description>Smack extensions used in Jitsi projects</description>
   <url>https://github.com/jitsi/jitsi-xmpp-extensions</url>
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://github.com/jitsi/ice4j/blob/master/LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>https://github.com/jitsi/jitsi-xmpp-extensions</url>
+    <connection>scm:git:https://github.com/jitsi/jitsi-xmpp-extensions.git</connection>
+    <developerConnection>scm:git:https://github.com/jitsi/jitsi-xmpp-extensions.git</developerConnection>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>org.igniterealtime.smack</groupId>
