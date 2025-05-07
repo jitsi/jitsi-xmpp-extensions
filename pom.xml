@@ -9,7 +9,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Make sure this matches the version of the jxmpp artifacts inherited from smack. -->
     <jxmpp.version>1.0.3</jxmpp.version>
-    <smack.version>4.4.8</smack.version>
+    <smack.version>4.4.8-jitsi-1</smack.version>
     <junit.version>5.10.0</junit.version>
     <kotlin.version>1.9.10</kotlin.version>
     <kotest.version>5.7.2</kotest.version>
@@ -315,6 +315,32 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>jitsi-maven-repository-releases</id>
+      <layout>default</layout>
+      <name>Jitsi Maven Repository (Releases)</name>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <url>https://github.com/jitsi/jitsi-maven-repository/raw/master/releases/</url>
+    </repository>
+    <repository>
+      <id>jitsi-maven-repository-snapshots</id>
+      <layout>default</layout>
+      <name>Jitsi Maven Repository (Snapshots)</name>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>https://github.com/jitsi/jitsi-maven-repository/raw/master/snapshots/</url>
+    </repository>
+  </repositories>
   <profiles>
     <profile>
       <id>release</id>
