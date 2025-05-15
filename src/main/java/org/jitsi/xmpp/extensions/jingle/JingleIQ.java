@@ -152,22 +152,22 @@ public class JingleIQ extends IQ
         {
             bldr.rightAngleBracket();
 
-            //FIXME use extensions list of IQ
-            //content
+            // FIXME use extensions list of IQ content
             for (ContentPacketExtension cpe : contentList)
             {
-                XmlStringBuilderUtil.append0(bldr, cpe.toXML());
+                bldr.append(cpe.toXML());
             }
 
-            //reason
             if (reason != null)
-                XmlStringBuilderUtil.append0(bldr, reason.toXML());
+            {
+                bldr.append(reason.toXML());
+            }
 
-            //session-info
-            //XXX: this is RTP specific so we should probably handle it in a
-            //subclass
+            // XXX: this is RTP specific so we should probably handle it in a subclass
             if (sessionInfo != null)
-                XmlStringBuilderUtil.append0(bldr, sessionInfo.toXML());
+            {
+                bldr.append(sessionInfo.toXML());
+            }
         }
 
         return bldr;

@@ -31,6 +31,8 @@ class XmlStringBuilderPerfTest : ShouldSpec() {
     val logger = createLogger()
 
     init {
+        // This offers a good performance boost compared to the default
+        // XmlStringBuilder.setAppendMethod(XmlStringBuilder.AppendApproach.FLAT)
         xcontext("XmlStringBuilder.toString() performance") {
             test1()
             test2()

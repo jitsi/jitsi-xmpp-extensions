@@ -190,7 +190,7 @@ public class ReasonPacketExtension
         //add the extra element if it has been specified.
         if (getOtherExtension() != null)
         {
-            xml.append(XmlStringBuilderUtil.toStringOpt(getOtherExtension()));
+            xml.append(getOtherExtension().toXML());
         }
 
         xml.closeElement(getElementName());
