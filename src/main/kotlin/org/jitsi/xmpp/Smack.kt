@@ -19,7 +19,6 @@ import org.jitsi.utils.logging2.createLogger
 import org.jitsi.xmpp.stringprep.JitsiXmppStringprep
 import org.jivesoftware.smack.SmackConfiguration
 import org.jivesoftware.smack.parsing.ExceptionLoggingCallback
-import org.jivesoftware.smack.util.XmlStringBuilder
 import org.jivesoftware.smackx.bytestreams.socks5.Socks5Proxy
 import org.jxmpp.JxmppContext
 import org.jxmpp.jid.impl.JidCreate
@@ -43,7 +42,6 @@ object Smack {
             logger.info("Using JitsiXmppStringprep.")
             JxmppContext.setDefaultXmppStringprep(JitsiXmppStringprep.INSTANCE)
         }
-        XmlStringBuilder.setAppendMethod(XmlStringBuilder.AppendApproach.FLAT)
 
         // if there is a parsing error, do not break the connection to the server(the default behaviour) as we need
         // it for the other conferences.
