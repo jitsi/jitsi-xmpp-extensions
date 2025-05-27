@@ -140,6 +140,7 @@ public class ConferenceIqProviderTest
 
         conferenceIq.setRoom(JidCreate.entityBareFrom("testroom1234@example.com"));
         conferenceIq.setVnode("v1");
+        conferenceIq.setToken("token1234");
         conferenceIq.setReady(false);
         conferenceIq.addProperty(
             new ConferenceIq.Property("prop1", "some1"));
@@ -149,7 +150,7 @@ public class ConferenceIqProviderTest
         Diff diff = DiffBuilder.compare(
                 "<iq to='tojid@example.com' from='fromjid@example.com' id='123xyz' type='get'>" +
                     "<conference xmlns='http://jitsi.org/protocol/focus' " +
-                        "room='testroom1234@example.com' ready='false' vnode='v1'>" +
+                        "room='testroom1234@example.com' ready='false' vnode='v1' token='token1234'>" +
                         "<property name='prop1' value='some1'/>" +
                         "<property name='name2' value='xyz2'/>" +
                     "</conference>" +

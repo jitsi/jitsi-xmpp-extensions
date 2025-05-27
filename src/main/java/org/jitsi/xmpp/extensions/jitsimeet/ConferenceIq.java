@@ -79,6 +79,8 @@ public class ConferenceIq
 
     public static final String VNODE_ATTR_NAME = "vnode";
 
+    public static final String TOKEN_ATTR_NAME = "token";
+
     /**
      * MUC room name hosting Jitsi Meet conference.
      */
@@ -112,6 +114,8 @@ public class ConferenceIq
 
     private String vnode;
 
+    private String token;
+
     /**
      * Creates new instance of <tt>ConferenceIq</tt>.
      */
@@ -129,7 +133,8 @@ public class ConferenceIq
             .optAttribute(SESSION_ID_ATTR_NAME, sessionId)
             .optAttribute(MACHINE_UID_ATTR_NAME, machineUID)
             .optAttribute(IDENTITY_ATTR_NAME, identity)
-            .optAttribute(VNODE_ATTR_NAME, vnode);
+            .optAttribute(VNODE_ATTR_NAME, vnode)
+            .optAttribute(TOKEN_ATTR_NAME, token);
 
         if (ready != null)
         {
@@ -183,6 +188,16 @@ public class ConferenceIq
     public void setVnode(String vnode)
     {
         this.vnode = vnode;
+    }
+
+    public String getToken()
+    {
+        return token;
+    }
+
+    public void setToken(String token)
+    {
+        this.token = token;
     }
 
     /**
