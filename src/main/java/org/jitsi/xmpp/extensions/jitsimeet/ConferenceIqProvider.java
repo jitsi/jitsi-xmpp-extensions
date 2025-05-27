@@ -78,6 +78,12 @@ public class ConferenceIqProvider
                 iq.setVnode(vnode);
             }
 
+            String token = parser.getAttributeValue("", ConferenceIq.TOKEN_ATTR_NAME);
+            if (StringUtils.isNotEmpty(token))
+            {
+                iq.setToken(token);
+            }
+
             String ready
                 = parser.getAttributeValue("", ConferenceIq.READY_ATTR_NAME);
             if (StringUtils.isNotEmpty(ready))
