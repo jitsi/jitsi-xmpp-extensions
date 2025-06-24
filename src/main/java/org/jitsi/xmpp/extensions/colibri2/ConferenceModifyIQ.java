@@ -15,6 +15,7 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.apache.commons.lang3.*;
 import org.jetbrains.annotations.*;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.*;
@@ -100,7 +101,7 @@ public class ConferenceModifyIQ
             addExtension(b.connects);
         }
 
-        if (b.meetingId == null)
+        if (StringUtils.isBlank(b.meetingId))
         {
             throw new IllegalArgumentException("meeting-id must be set for " + ELEMENT + " IQ");
         }
