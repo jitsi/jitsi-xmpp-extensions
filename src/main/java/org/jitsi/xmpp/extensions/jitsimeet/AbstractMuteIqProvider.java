@@ -15,63 +15,56 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
+import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
-import org.jivesoftware.smack.provider.*;
 
 import org.jivesoftware.smack.xml.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
 
-/**
- * The parser of {@link MuteVideoIq}.
- *
- * @author Steffen Kolmer
- */
-public class MuteVideoIqProvider
-    extends SafeParseIqProvider<MuteVideoIq>
+public abstract class AbstractMuteIqProvider<T extends AbstractMuteIq>
+    extends SafeParseIqProvider<T>
 {
-    /**
-     * Registers this IQ provider into given <tt>ProviderManager</tt>.
-     */
-    public static void registerMuteVideoIqProvider()
+    @NotNull
+    private final String namespace;
+
+    public AbstractMuteIqProvider(@NotNull String namespace)
     {
-        ProviderManager.addIQProvider(
-            MuteVideoIq.ELEMENT,
-            MuteVideoIq.NAMESPACE,
-            new MuteVideoIqProvider());
+        this.namespace = namespace;
     }
+
+    abstract protected T createMuteIq();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected MuteVideoIq doParse(XmlPullParser parser)
+    protected T doParse(XmlPullParser parser)
         throws Exception
     {
         String namespace = parser.getNamespace();
 
         // Check the namespace
-        if (!MuteVideoIq.NAMESPACE.equals(namespace))
+        if (!this.namespace.equals(namespace))
         {
             return null;
         }
 
         String rootElement = parser.getName();
 
-        MuteVideoIq iq;
+        T iq;
 
-        if (MuteVideoIq.ELEMENT.equals(rootElement))
+        if (AbstractMuteIq.ELEMENT.equals(rootElement))
         {
-            iq = new MuteVideoIq();
-            String jidStr = parser.getAttributeValue("", MuteVideoIq.JID_ATTR_NAME);
+            iq = createMuteIq();
+            String jidStr = parser.getAttributeValue("", AbstractMuteIq.JID_ATTR_NAME);
             if (jidStr != null)
             {
                 Jid jid = JidCreate.from(jidStr);
                 iq.setJid(jid);
             }
 
-            String actorStr
-                = parser.getAttributeValue("", MuteVideoIq.ACTOR_ATTR_NAME);
+            String actorStr = parser.getAttributeValue("", AbstractMuteIq.ACTOR_ATTR_NAME);
             if (actorStr != null)
             {
                 Jid actor = JidCreate.from(actorStr);
