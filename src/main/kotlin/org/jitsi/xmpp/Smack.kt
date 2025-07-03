@@ -16,9 +16,17 @@
 package org.jitsi.xmpp
 
 import org.jitsi.utils.logging2.createLogger
+import org.jitsi.xmpp.extensions.jitsimeet.AbstractMuteIq
+import org.jitsi.xmpp.extensions.jitsimeet.MuteDesktopIq
+import org.jitsi.xmpp.extensions.jitsimeet.MuteDesktopIqProvider
+import org.jitsi.xmpp.extensions.jitsimeet.MuteIq
+import org.jitsi.xmpp.extensions.jitsimeet.MuteIqProvider
+import org.jitsi.xmpp.extensions.jitsimeet.MuteVideoIq
+import org.jitsi.xmpp.extensions.jitsimeet.MuteVideoIqProvider
 import org.jitsi.xmpp.stringprep.JitsiXmppStringprep
 import org.jivesoftware.smack.SmackConfiguration
 import org.jivesoftware.smack.parsing.ExceptionLoggingCallback
+import org.jivesoftware.smack.provider.ProviderManager
 import org.jivesoftware.smackx.bytestreams.socks5.Socks5Proxy
 import org.jxmpp.JxmppContext
 import org.jxmpp.jid.impl.JidCreate
@@ -47,5 +55,11 @@ object Smack {
         // it for the other conferences.
         SmackConfiguration.setDefaultParsingExceptionCallback(ExceptionLoggingCallback())
         Socks5Proxy.setLocalSocks5ProxyEnabled(false)
+    }
+
+    fun registerMuteIqProviders() {
+        ProviderManager.addIQProvider(AbstractMuteIq.ELEMENT, MuteIq.NAMESPACE, MuteIqProvider())
+        ProviderManager.addIQProvider(AbstractMuteIq.ELEMENT, MuteVideoIq.NAMESPACE, MuteVideoIqProvider())
+        ProviderManager.addIQProvider(AbstractMuteIq.ELEMENT, MuteDesktopIq.NAMESPACE, MuteDesktopIqProvider())
     }
 }

@@ -15,23 +15,19 @@
  */
 package org.jitsi.xmpp.extensions.jitsimeet;
 
+import org.jetbrains.annotations.*;
 import org.jivesoftware.smack.packet.*;
 import org.jxmpp.jid.*;
 
 /**
- * IQ used for the signaling of video muting functionality in Jitsi Meet
+ * IQ used for the signaling of audio muting functionality in Jitsi Meet
  * conferences.
  *
- * @author Steffen Kolmer
+ * @author Pawel Domas
  */
-public class MuteVideoIq
+public abstract class AbstractMuteIq
     extends IQ
 {
-    /**
-     * Name space of mute packet extension.
-     */
-    public static final String NAMESPACE = "http://jitsi.org/jitmeet/video";
-
     /**
      * XML element name of mute packet extension.
      */
@@ -65,9 +61,9 @@ public class MuteVideoIq
     /**
      * Creates a new instance of this class.
      */
-    public MuteVideoIq()
+    public AbstractMuteIq(@NotNull String namespace)
     {
-        super(ELEMENT, NAMESPACE);
+        super(ELEMENT, namespace);
     }
 
     @Override
