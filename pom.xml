@@ -69,7 +69,7 @@
     <dependency>
       <groupId>org.jitsi</groupId>
       <artifactId>jitsi-utils</artifactId>
-      <version>1.0-114-g43815ed</version>
+      <version>1.0-143-g65e2bd7</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
