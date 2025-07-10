@@ -33,7 +33,7 @@ class MuteVideoIqProvider : AbstractMuteIqProvider<MuteVideoIq>(MuteVideoIq.NAME
     override fun createMuteIq() = MuteVideoIq()
 }
 
-class MuteDesktopIq : AbstractMuteIq("NAMESPACE") {
+class MuteDesktopIq : AbstractMuteIq(NAMESPACE) {
     companion object {
         const val NAMESPACE = "http://jitsi.org/jitmeet/desktop"
     }
