@@ -98,5 +98,125 @@ class ConnectTest : ShouldSpec() {
                 provider.parse(PacketParserUtils.getParserFor("<connect url='$url' protocol='mediajson' type='inv'/>"))
             }
         }
+
+        context("Parsing with HTTP headers") {
+            context("Single HTTP header") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor(
+                        """<connect url='$url' protocol='mediajson' type='recorder'>
+                            <http-header name='Authorization' value='Bearer token123'/>
+                        </connect>"""
+                    )
+                )
+                connect.getHttpHeaders().size shouldBe 1
+                val header = connect.getHttpHeaders().first()
+                header.name shouldBe "Authorization"
+                header.value shouldBe "Bearer token123"
+            }
+
+            context("Multiple HTTP headers") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor(
+                        """<connect url='$url' protocol='mediajson' type='recorder'>
+                            <http-header name='Authorization' value='Bearer token123'/>
+                            <http-header name='Content-Type' value='application/json'/>
+                            <http-header name='User-Agent' value='blabla'/>
+                        </connect>"""
+                    )
+                )
+                connect.getHttpHeaders().size shouldBe 3
+
+                val headers = connect.getHttpHeaders().associateBy { it.name }
+                headers["Authorization"]?.value shouldBe "Bearer token123"
+                headers["Content-Type"]?.value shouldBe "application/json"
+                headers["User-Agent"]?.value shouldBe "blabla"
+            }
+
+            context("No HTTP headers") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor("<connect url='$url' protocol='mediajson' type='recorder'/>")
+                )
+                connect.getHttpHeaders().size shouldBe 0
+            }
+
+            context("Invalid HTTP headers") {
+                context("Missing name attribute") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <http-header value='Bearer token123'/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+
+                context("Missing value attribute") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <http-header name='Authorization'/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+
+                context("Both attributes missing") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <http-header/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        context("HTTP header manipulation") {
+            context("Adding headers") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.RECORDER)
+
+                connect.addHttpHeader("Authorization", "Bearer token123")
+                connect.addHttpHeader("Content-Type", "application/json")
+
+                connect.getHttpHeaders().size shouldBe 2
+                val headers = connect.getHttpHeaders().associateBy { it.name }
+                headers["Authorization"]?.value shouldBe "Bearer token123"
+                headers["Content-Type"]?.value shouldBe "application/json"
+            }
+
+            context("Adding header object") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.RECORDER)
+                val header = Connect.HttpHeader("Custom-Header", "custom-value")
+
+                connect.addHttpHeader(header)
+
+                connect.getHttpHeaders().size shouldBe 1
+                connect.getHttpHeaders().first().name shouldBe "Custom-Header"
+                connect.getHttpHeaders().first().value shouldBe "custom-value"
+            }
+
+            context("Removing headers") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.RECORDER)
+
+                connect.addHttpHeader("Authorization", "Bearer token123")
+                connect.addHttpHeader("Content-Type", "application/json")
+                connect.addHttpHeader("Authorization", "Bearer newtoken") // Add another Authorization header
+
+                connect.getHttpHeaders().size shouldBe 3
+
+                connect.removeHttpHeader("Authorization")
+
+                connect.getHttpHeaders().size shouldBe 1
+                connect.getHttpHeaders().first().name shouldBe "Content-Type"
+                connect.getHttpHeaders().first().value shouldBe "application/json"
+            }
+        }
     }
 }

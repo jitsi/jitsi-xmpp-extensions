@@ -365,19 +365,30 @@ object Colibri2JSONDeserializer {
                     var added = false
                     it.forEach { connect ->
                         if (connect is JSONObject) {
-                            addConnect(
-                                Connect(
-                                    URI(connect[Connect.URL_ATTR_NAME] as String),
-                                    protocol = Connect.Protocols.valueOf(
-                                        (connect[Connect.PROTOCOL_ATTR_NAME] as String).uppercase()
-                                    ),
-                                    type = Connect.Types.valueOf(
-                                        (connect[Connect.TYPE_ATTR_NAME] as String).uppercase()
-                                    ),
-                                    audio = connect[Connect.AUDIO_ATTR_NAME]?.toString()?.toBoolean() ?: false,
-                                    video = connect[Connect.VIDEO_ATTR_NAME]?.toString()?.toBoolean() ?: false
-                                )
+                            val connectObj = Connect(
+                                URI(connect[Connect.URL_ATTR_NAME] as String),
+                                protocol = Connect.Protocols.valueOf(
+                                    (connect[Connect.PROTOCOL_ATTR_NAME] as String).uppercase()
+                                ),
+                                type = Connect.Types.valueOf(
+                                    (connect[Connect.TYPE_ATTR_NAME] as String).uppercase()
+                                ),
+                                audio = connect[Connect.AUDIO_ATTR_NAME]?.toString()?.toBoolean() ?: false,
+                                video = connect[Connect.VIDEO_ATTR_NAME]?.toString()?.toBoolean() ?: false
                             )
+
+                            // Deserialize HTTP headers
+                            connect["headers"]?.let { headers ->
+                                if (headers is JSONObject) {
+                                    headers.forEach { (name, value) ->
+                                        if (name is String && value is String) {
+                                            connectObj.addHttpHeader(name, value)
+                                        }
+                                    }
+                                }
+                            }
+
+                            addConnect(connectObj)
                             added = true
                         }
                     }

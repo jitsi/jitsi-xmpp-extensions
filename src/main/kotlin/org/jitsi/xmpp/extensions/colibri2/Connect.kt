@@ -48,6 +48,25 @@ class Connect(
     val video: Boolean
         get() = getAttributeAsString(VIDEO_ATTR_NAME)?.toBoolean() ?: false
 
+    fun getHttpHeaders(): List<HttpHeader> = getChildExtensionsOfType(HttpHeader::class.java)
+    fun addHttpHeader(name: String, value: String) = addChildExtension(HttpHeader(name, value))
+    fun addHttpHeader(header: HttpHeader) = addChildExtension(header)
+    fun removeHttpHeader(name: String) =
+        getHttpHeaders().filter { it.name == name }.forEach { removeChildExtension(it) }
+
+    class HttpHeader(val name: String, val value: String) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
+        init {
+            setAttribute(NAME_ATTR_NAME, name)
+            setAttribute(VALUE_ATTR_NAME, value)
+        }
+
+        companion object {
+            const val ELEMENT = "http-header"
+            const val NAME_ATTR_NAME = "name"
+            const val VALUE_ATTR_NAME = "value"
+        }
+    }
+
     enum class Protocols(val value: String) {
         MEDIAJSON("mediajson")
     }
@@ -95,6 +114,35 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
             throw SmackParsingException("Invalid 'type': $typeStr")
         }
 
-        return Connect(url = uri, protocol = protocol, type = type, audio = audio, video = video)
+        val connect = Connect(url = uri, protocol = protocol, type = type, audio = audio, video = video)
+
+        // Parse child http-header elements manually
+        var done = false
+        while (!done) {
+            val eventType = parser.next()
+            when (eventType) {
+                XmlPullParser.Event.START_ELEMENT -> {
+                    if (parser.name == Connect.HttpHeader.ELEMENT) {
+                        val headerName = parser.getAttributeValue("", Connect.HttpHeader.NAME_ATTR_NAME)
+                            ?: throw SmackParsingException.RequiredAttributeMissingException(
+                                "Missing 'name' attribute in http-header element"
+                            )
+                        val headerValue = parser.getAttributeValue("", Connect.HttpHeader.VALUE_ATTR_NAME)
+                            ?: throw SmackParsingException.RequiredAttributeMissingException(
+                                "Missing 'value' attribute in http-header element"
+                            )
+                        connect.addHttpHeader(headerName, headerValue)
+                    }
+                }
+                XmlPullParser.Event.END_ELEMENT -> {
+                    if (parser.name == Connect.ELEMENT && parser.depth <= depth) {
+                        done = true
+                    }
+                }
+                else -> { /* ignore */ }
+            }
+        }
+
+        return connect
     }
 }

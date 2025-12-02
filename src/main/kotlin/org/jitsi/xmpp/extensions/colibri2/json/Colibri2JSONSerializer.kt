@@ -239,6 +239,16 @@ object Colibri2JSONSerializer {
         put(Connect.TYPE_ATTR_NAME, connect.type.toString().lowercase())
         if (connect.audio) put(Connect.AUDIO_ATTR_NAME, true)
         if (connect.video) put(Connect.VIDEO_ATTR_NAME, true)
+
+        // Serialize HTTP headers
+        val headers = connect.getHttpHeaders()
+        if (headers.isNotEmpty()) {
+            val headersObj = JSONObject()
+            headers.forEach { header ->
+                headersObj[header.name] = header.value
+            }
+            put("headers", headersObj)
+        }
     }
 
     private fun serializeConnects(connects: Connects) = JSONArray().apply {

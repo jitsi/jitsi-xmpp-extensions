@@ -569,5 +569,37 @@ private val expectedMappings = listOf(
 }
         """,
         clazz = ConferenceModifyIQ::class
+    ),
+    Mapping(
+        name = "Connect with HTTP headers",
+        xml = """
+<iq xmlns="jabber:client" id="id" type="get">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
+    <connects>
+      <connect url='wss://example.com/webhook' protocol='mediajson' type='recorder' audio='true'>
+        <http-header name='Authorization' value='Bearer token123'/>
+      </connect>
+    </connects>
+  </conference-modify>
+</iq>
+        """,
+        json = """
+{
+  "meeting-id": "test-meeting-id",
+  "create": true,
+  "connects": [
+    {
+      "url": "wss://example.com/webhook",
+      "protocol": "mediajson",
+      "type": "recorder",
+      "audio": true,
+      "headers": {
+        "Authorization": "Bearer token123"
+      }
+    }
+  ]
+}
+        """,
+        clazz = ConferenceModifyIQ::class
     )
 )
