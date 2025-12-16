@@ -601,5 +601,78 @@ private val expectedMappings = listOf(
 }
         """,
         clazz = ConferenceModifyIQ::class
+    ),
+    Mapping(
+        name = "Connect with Ping",
+        xml = """
+<iq xmlns="jabber:client" id="id" type="get">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
+    <connects>
+      <connect url='wss://example.com/webhook' protocol='mediajson' type='recorder' video='true'>
+        <ping interval='1234' timeout='5678'/>
+      </connect>
+    </connects>
+  </conference-modify>
+</iq>
+        """,
+        json = """
+{
+  "meeting-id": "test-meeting-id",
+  "create": true,
+  "connects": [
+    {
+      "url": "wss://example.com/webhook",
+      "protocol": "mediajson",
+      "type": "recorder",
+      "video": true,
+      "ping": {
+        "interval": 1234,
+        "timeout": 5678
+      }
+    }
+  ]
+}
+        """,
+        clazz = ConferenceModifyIQ::class
+    ),
+    Mapping(
+        name = "Connect with HTTP headers and Ping",
+        xml = """
+<iq xmlns="jabber:client" id="id" type="get">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
+    <connects>
+      <connect url='wss://example.com/webhook' protocol='mediajson' type='transcriber' audio='true' video='true'>
+        <http-header name='Authorization' value='Bearer token123'/>
+        <http-header name='Content-Type' value='application/json'/>
+        <ping interval='1000' timeout='2000'/>
+      </connect>
+    </connects>
+  </conference-modify>
+</iq>
+        """,
+        json = """
+{
+  "meeting-id": "test-meeting-id",
+  "create": true,
+  "connects": [
+    {
+      "url": "wss://example.com/webhook",
+      "protocol": "mediajson",
+      "type": "transcriber",
+      "audio": true,
+      "video": true,
+      "headers": {
+        "Authorization": "Bearer token123",
+        "Content-Type": "application/json"
+      },
+      "ping": {
+        "interval": 1000,
+        "timeout": 2000
+      }
+    }
+  ]
+}
+        """,
+        clazz = ConferenceModifyIQ::class
     )
 )

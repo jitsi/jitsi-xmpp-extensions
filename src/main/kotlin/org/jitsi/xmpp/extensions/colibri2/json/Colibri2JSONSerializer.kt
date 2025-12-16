@@ -249,6 +249,14 @@ object Colibri2JSONSerializer {
             }
             put("headers", headersObj)
         }
+
+        // Serialize ping
+        connect.getPing()?.let { ping ->
+            val pingObj = JSONObject()
+            pingObj[Connect.Ping.INTERVAL_ATTR_NAME] = ping.interval
+            pingObj[Connect.Ping.TIMEOUT_ATTR_NAME] = ping.timeout
+            put("ping", pingObj)
+        }
     }
 
     private fun serializeConnects(connects: Connects) = JSONArray().apply {
