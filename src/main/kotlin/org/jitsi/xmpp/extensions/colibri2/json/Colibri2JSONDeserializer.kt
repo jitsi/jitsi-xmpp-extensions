@@ -388,17 +388,6 @@ object Colibri2JSONDeserializer {
                                 }
                             }
 
-                            // Deserialize ping
-                            connect["ping"]?.let { ping ->
-                                if (ping is JSONObject) {
-                                    val interval = (ping[Connect.Ping.INTERVAL_ATTR_NAME] as? Number)?.toInt()
-                                    val timeout = (ping[Connect.Ping.TIMEOUT_ATTR_NAME] as? Number)?.toInt()
-                                    if (interval != null && timeout != null) {
-                                        connectObj.setPing(interval, timeout)
-                                    }
-                                }
-                            }
-
                             addConnect(connectObj)
                             added = true
                         }
