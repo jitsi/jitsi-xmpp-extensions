@@ -54,17 +54,6 @@ class Connect(
     fun removeHttpHeader(name: String) =
         getHttpHeaders().filter { it.name == name }.forEach { removeChildExtension(it) }
 
-    fun getPing(): Ping? = getChildExtensionsOfType(Ping::class.java).firstOrNull()
-    fun setPing(interval: Int, timeout: Int) {
-        removePing()
-        addChildExtension(Ping(interval, timeout))
-    }
-    fun setPing(ping: Ping) {
-        removePing()
-        addChildExtension(ping)
-    }
-    fun removePing() = getPing()?.let { removeChildExtension(it) }
-
     class HttpHeader(val name: String, val value: String) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
         init {
             setAttribute(NAME_ATTR_NAME, name)
@@ -75,19 +64,6 @@ class Connect(
             const val ELEMENT = "http-header"
             const val NAME_ATTR_NAME = "name"
             const val VALUE_ATTR_NAME = "value"
-        }
-    }
-
-    class Ping(val interval: Int, val timeout: Int) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
-        init {
-            setAttribute(INTERVAL_ATTR_NAME, interval)
-            setAttribute(TIMEOUT_ATTR_NAME, timeout)
-        }
-
-        companion object {
-            const val ELEMENT = "ping"
-            const val INTERVAL_ATTR_NAME = "interval"
-            const val TIMEOUT_ATTR_NAME = "timeout"
         }
     }
 
@@ -140,45 +116,22 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
 
         val connect = Connect(url = uri, protocol = protocol, type = type, audio = audio, video = video)
 
-        // Parse child elements manually
+        // Parse child http-header elements manually
         var done = false
         while (!done) {
             val eventType = parser.next()
             when (eventType) {
                 XmlPullParser.Event.START_ELEMENT -> {
-                    when (parser.name) {
-                        Connect.HttpHeader.ELEMENT -> {
-                            val headerName = parser.getAttributeValue("", Connect.HttpHeader.NAME_ATTR_NAME)
-                                ?: throw SmackParsingException.RequiredAttributeMissingException(
-                                    "Missing 'name' attribute in http-header element"
-                                )
-                            val headerValue = parser.getAttributeValue("", Connect.HttpHeader.VALUE_ATTR_NAME)
-                                ?: throw SmackParsingException.RequiredAttributeMissingException(
-                                    "Missing 'value' attribute in http-header element"
-                                )
-                            connect.addHttpHeader(headerName, headerValue)
-                        }
-                        Connect.Ping.ELEMENT -> {
-                            val intervalStr = parser.getAttributeValue("", Connect.Ping.INTERVAL_ATTR_NAME)
-                                ?: throw SmackParsingException.RequiredAttributeMissingException(
-                                    "Missing 'interval' attribute in ping element"
-                                )
-                            val timeoutStr = parser.getAttributeValue("", Connect.Ping.TIMEOUT_ATTR_NAME)
-                                ?: throw SmackParsingException.RequiredAttributeMissingException(
-                                    "Missing 'timeout' attribute in ping element"
-                                )
-                            val interval = try {
-                                intervalStr.toInt()
-                            } catch (e: NumberFormatException) {
-                                throw SmackParsingException("Invalid 'interval' value: $intervalStr")
-                            }
-                            val timeout = try {
-                                timeoutStr.toInt()
-                            } catch (e: NumberFormatException) {
-                                throw SmackParsingException("Invalid 'timeout' value: $timeoutStr")
-                            }
-                            connect.setPing(interval, timeout)
-                        }
+                    if (parser.name == Connect.HttpHeader.ELEMENT) {
+                        val headerName = parser.getAttributeValue("", Connect.HttpHeader.NAME_ATTR_NAME)
+                            ?: throw SmackParsingException.RequiredAttributeMissingException(
+                                "Missing 'name' attribute in http-header element"
+                            )
+                        val headerValue = parser.getAttributeValue("", Connect.HttpHeader.VALUE_ATTR_NAME)
+                            ?: throw SmackParsingException.RequiredAttributeMissingException(
+                                "Missing 'value' attribute in http-header element"
+                            )
+                        connect.addHttpHeader(headerName, headerValue)
                     }
                 }
                 XmlPullParser.Event.END_ELEMENT -> {
