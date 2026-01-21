@@ -334,6 +334,17 @@ public class IceUdpTransportPacketExtension
 
                 dst.addChildExtension(copy);
             }
+            for (DtlsRawKeyFingerprintPacketExtension rawKeyFingerprint
+                 : src.getChildExtensionsOfType(
+                         DtlsRawKeyFingerprintPacketExtension.class))
+            {
+                DtlsRawKeyFingerprintPacketExtension copy =
+                    new DtlsRawKeyFingerprintPacketExtension();
+                copy.setFingerprint(rawKeyFingerprint.getFingerprint());
+                copy.setHash(rawKeyFingerprint.getHash());
+
+                dst.addChildExtension(copy);
+            }
         }
         return dst;
     }

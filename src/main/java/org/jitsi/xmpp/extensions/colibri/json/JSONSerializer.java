@@ -48,6 +48,13 @@ public final class JSONSerializer
     static final String FINGERPRINTS = DtlsFingerprintPacketExtension.ELEMENT + "s";
 
     /**
+     * The name of the JSON pair which specifies the array of
+     * <tt>DtlsRawKeyFingerprintPacketExtension</tt> child extensions of
+     * <tt>IceUdpTransportPacketExtension</tt>.
+     */
+    static final String RAW_KEY_FINGERPRINTS = DtlsRawKeyFingerprintPacketExtension.ELEMENT + "s";
+
+    /**
      * The name of the JSON pair which specifies the value of the
      * <tt>parameters</tt> property of <tt>PayloadTypePacketExtension</tt>.
      */
@@ -194,6 +201,53 @@ public final class JSONSerializer
             fingerprintsJSONArray = new JSONArray();
             for (DtlsFingerprintPacketExtension fingerprint : fingerprints)
                 fingerprintsJSONArray.add(serializeFingerprint(fingerprint));
+        }
+        return fingerprintsJSONArray;
+    }
+
+    public static JSONObject serializeRawKeyFingerprint(
+            DtlsRawKeyFingerprintPacketExtension fingerprint)
+    {
+        JSONObject fingerprintJSONObject;
+
+        if (fingerprint == null)
+        {
+            fingerprintJSONObject = null;
+        }
+        else
+        {
+            String theFingerprint = fingerprint.getFingerprint();
+
+            fingerprintJSONObject = new JSONObject();
+            // fingerprint
+            if (theFingerprint != null)
+            {
+                fingerprintJSONObject.put(
+                        fingerprint.getElementName(),
+                        theFingerprint);
+            }
+            // attributes
+            serializeAbstractPacketExtensionAttributes(
+                    fingerprint,
+                    fingerprintJSONObject);
+        }
+        return fingerprintJSONObject;
+    }
+
+    public static JSONArray serializeRawKeyFingerprints(
+            Collection<DtlsRawKeyFingerprintPacketExtension> fingerprints)
+    {
+        JSONArray fingerprintsJSONArray;
+
+        if (fingerprints == null)
+        {
+            fingerprintsJSONArray = null;
+        }
+        else
+        {
+            fingerprintsJSONArray = new JSONArray();
+            for (DtlsRawKeyFingerprintPacketExtension fingerprint : fingerprints)
+                fingerprintsJSONArray.add(serializeRawKeyFingerprint(fingerprint));
         }
         return fingerprintsJSONArray;
     }
@@ -508,6 +562,9 @@ public final class JSONSerializer
             List<DtlsFingerprintPacketExtension> fingerprints
                 = transport.getChildExtensionsOfType(
                         DtlsFingerprintPacketExtension.class);
+            List<DtlsRawKeyFingerprintPacketExtension> rawKeyFingerprints
+                = transport.getChildExtensionsOfType(
+                        DtlsRawKeyFingerprintPacketExtension.class);
             List<CandidatePacketExtension> candidateList
                 = transport.getCandidateList();
             List<WebSocketPacketExtension> webSocketList
@@ -529,6 +586,12 @@ public final class JSONSerializer
                 jsonObject.put(
                         FINGERPRINTS,
                         serializeFingerprints(fingerprints));
+            }
+            if ((rawKeyFingerprints != null) && !rawKeyFingerprints.isEmpty())
+            {
+                jsonObject.put(
+                        RAW_KEY_FINGERPRINTS,
+                        serializeRawKeyFingerprints(rawKeyFingerprints));
             }
             // candidateList
             if ((candidateList != null) && !candidateList.isEmpty())
