@@ -218,5 +218,150 @@ class ConnectTest : ShouldSpec() {
                 connect.getHttpHeaders().first().value shouldBe "application/json"
             }
         }
+
+        context("Parsing with Ping") {
+            context("With ping element") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor(
+                        """<connect url='$url' protocol='mediajson' type='recorder'>
+                            <ping interval='1234' timeout='5678'/>
+                        </connect>"""
+                    )
+                )
+                val ping = connect.getPing()!!
+                ping.interval shouldBe 1234
+                ping.timeout shouldBe 5678
+            }
+
+            context("Without ping element") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor("<connect url='$url' protocol='mediajson' type='recorder'/>")
+                )
+                connect.getPing() shouldBe null
+            }
+
+            context("With ping and HTTP headers") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor(
+                        """<connect url='$url' protocol='mediajson' type='recorder'>
+                            <http-header name='Authorization' value='Bearer token123'/>
+                            <ping interval='1000' timeout='2000'/>
+                        </connect>"""
+                    )
+                )
+                connect.getHttpHeaders().size shouldBe 1
+                connect.getHttpHeaders().first().name shouldBe "Authorization"
+
+                val ping = connect.getPing()!!
+                ping.interval shouldBe 1000
+                ping.timeout shouldBe 2000
+            }
+
+            context("Invalid ping elements") {
+                context("Missing interval attribute") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <ping timeout='5678'/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+
+                context("Missing timeout attribute") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <ping interval='1234'/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+
+                context("Both attributes missing") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <ping/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+
+                context("Invalid interval value") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <ping interval='not-a-number' timeout='5678'/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+
+                context("Invalid timeout value") {
+                    shouldThrow<SmackParsingException> {
+                        provider.parse(
+                            PacketParserUtils.getParserFor(
+                                """<connect url='$url' protocol='mediajson' type='recorder'>
+                                    <ping interval='1234' timeout='not-a-number'/>
+                                </connect>"""
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        context("Ping manipulation") {
+            context("Setting ping") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.RECORDER)
+
+                connect.setPing(1234, 5678)
+
+                val ping = connect.getPing()!!
+                ping.interval shouldBe 1234
+                ping.timeout shouldBe 5678
+            }
+
+            context("Setting ping object") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.RECORDER)
+                val pingObj = Connect.Ping(3000, 4000)
+
+                connect.setPing(pingObj)
+
+                val ping = connect.getPing()!!
+                ping.interval shouldBe 3000
+                ping.timeout shouldBe 4000
+            }
+
+            context("Replacing ping") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.RECORDER)
+
+                connect.setPing(1000, 2000)
+                connect.setPing(3000, 4000)
+
+                val ping = connect.getPing()!!
+                ping.interval shouldBe 3000
+                ping.timeout shouldBe 4000
+            }
+
+            context("Removing ping") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.RECORDER)
+
+                connect.setPing(1234, 5678)
+                connect.getPing()!!
+
+                connect.removePing()
+                connect.getPing() shouldBe null
+            }
+        }
     }
 }
