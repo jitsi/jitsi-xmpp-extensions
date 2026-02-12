@@ -183,4 +183,16 @@ public class DtlsFingerprintPacketExtension
     {
         setAttribute(CRYPTEX_ATTR_NAME, cryptex);
     }
+
+    public DtlsFingerprintPacketExtension copy()
+    {
+        DtlsFingerprintPacketExtension copy = new DtlsFingerprintPacketExtension();
+        copy.setFingerprint(getFingerprint());
+        copy.setHash(getHash());
+        copy.setRequired(getRequired());
+        copy.setSetup(getSetup());
+        copy.setCryptex(getCryptex());
+
+        return copy;
+    }
 }

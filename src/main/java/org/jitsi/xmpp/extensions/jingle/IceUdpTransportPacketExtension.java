@@ -324,15 +324,7 @@ public class IceUdpTransportPacketExtension
                 : src.getChildExtensionsOfType(
                 DtlsFingerprintPacketExtension.class))
             {
-                DtlsFingerprintPacketExtension copy
-                    = new DtlsFingerprintPacketExtension();
-
-                copy.setFingerprint(dtlsFingerprint.getFingerprint());
-                copy.setHash(dtlsFingerprint.getHash());
-                copy.setRequired(dtlsFingerprint.getRequired());
-                copy.setSetup(dtlsFingerprint.getSetup());
-
-                dst.addChildExtension(copy);
+                dst.addChildExtension(dtlsFingerprint.copy());
             }
         }
         return dst;
