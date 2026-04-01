@@ -23,7 +23,7 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
 
-class RedactColibriIp {
+class RedactColibri {
     companion object {
         private val redactHttpHeaderValuesXslt =
             """

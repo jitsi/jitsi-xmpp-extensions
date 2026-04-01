@@ -18,11 +18,11 @@ package org.jitsi.xmpp.util
 import io.kotest.assertions.asClue
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
-import org.jitsi.xmpp.util.RedactColibriIp.Companion.redact
-import org.jitsi.xmpp.util.RedactColibriIp.Companion.redactHttpHeaderValues
+import org.jitsi.xmpp.util.RedactColibri.Companion.redact
+import org.jitsi.xmpp.util.RedactColibri.Companion.redactHttpHeaderValues
 import org.xmlunit.builder.DiffBuilder
 
-class RedactColibriIpTest : ShouldSpec() {
+class RedactColibriTest : ShouldSpec() {
     init {
         context("Redacting an IPv4 address from a Colibri message") {
             val sourceXml =
