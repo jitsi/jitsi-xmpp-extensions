@@ -23,8 +23,45 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
 
-class RedactColibriIp {
+class RedactColibri {
     companion object {
+        private val redactHttpHeaderValuesXslt =
+            """
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:j="jabber:client"
+                xmlns:c="jitsi:colibri2"
+                >
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
+
+  <xsl:template match="node()|@*">
+    <xsl:copy>
+      <xsl:apply-templates select="node()|@*"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match='j:iq/c:conference-modify/c:connects/c:connect/c:http-header/@value'>
+    <xsl:attribute name="value">
+      <xsl:value-of select='"[redacted]"'/>
+    </xsl:attribute>
+  </xsl:template>
+</xsl:stylesheet>
+            """
+
+        private val httpHeaderTemplates: Templates by lazy {
+            factory.newTemplates(
+                StreamSource(StringReader(redactHttpHeaderValuesXslt))
+            )
+        }
+
+        fun redactHttpHeaderValues(input: String): String {
+            val source = StreamSource(StringReader(input))
+            val writer = StringWriter()
+            val result = StreamResult(writer)
+            val transformer = httpHeaderTemplates.newTransformer()
+            transformer.transform(source, result)
+            return writer.toString()
+        }
+
         private val redactXslt =
             """
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -90,7 +127,7 @@ class RedactColibriIp {
             )
         }
 
-        fun redact(input: String): String {
+        fun redactIp(input: String): String {
             val source = StreamSource(StringReader(input))
             val writer = StringWriter()
             val result = StreamResult(writer)

@@ -18,10 +18,11 @@ package org.jitsi.xmpp.util
 import io.kotest.assertions.asClue
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
-import org.jitsi.xmpp.util.RedactColibriIp.Companion.redact
+import org.jitsi.xmpp.util.RedactColibri.Companion.redactHttpHeaderValues
+import org.jitsi.xmpp.util.RedactColibri.Companion.redactIp
 import org.xmlunit.builder.DiffBuilder
 
-class RedactColibriIpTest : ShouldSpec() {
+class RedactColibriTest : ShouldSpec() {
     init {
         context("Redacting an IPv4 address from a Colibri message") {
             val sourceXml =
@@ -120,7 +121,7 @@ class RedactColibriIpTest : ShouldSpec() {
 </iq>
                 """
 
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Convert to expected xml") {
                 val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
@@ -154,7 +155,7 @@ class RedactColibriIpTest : ShouldSpec() {
     </transport>
 </transport></endpoint></conference-modify></iq>
                     """
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Convert to expected xml") {
                 val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
@@ -178,7 +179,7 @@ class RedactColibriIpTest : ShouldSpec() {
 </transport></endpoint></conference-modify></iq>
            """
 
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Be unchanged") {
                 val diff = DiffBuilder.compare(sourceXml).withTest(redacted)
@@ -207,7 +208,7 @@ class RedactColibriIpTest : ShouldSpec() {
     </transport>
 </transport></endpoint></conference-modify></iq>
             """
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Convert to expected xml") {
                 val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
@@ -219,6 +220,50 @@ class RedactColibriIpTest : ShouldSpec() {
                 }
             }
         }
+        context("Redacting http-header values") {
+            val sourceXml =
+                """
+<iq xmlns="jabber:client" to="jvb@auth.example.com/abc" from="jvbbrewery@muc.example.com/focus" id="id1" type="get">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="meeting1">
+    <connects>
+      <connect url="wss://example.com/transcribe" protocol="mediajson" type="transcriber" audio="true">
+        <http-header name="CF-Access-Client-Id" value="cbe9a437e2708707613764d16541fc95.access"/>
+        <http-header name="CF-Access-Client-Secret" value="c76b8d1e20ccfd6b4059fc2837737514a9c91845eb7349d5e66a8127b03dd852"/>
+        <http-header name="X-Custom-Api-Key" value="sk-proj-supersecret"/>
+      </connect>
+    </connects>
+  </conference-modify>
+</iq>
+                """
+
+            val expectedXml =
+                """
+<iq xmlns="jabber:client" to="jvb@auth.example.com/abc" from="jvbbrewery@muc.example.com/focus" id="id1" type="get">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="meeting1">
+    <connects>
+      <connect url="wss://example.com/transcribe" protocol="mediajson" type="transcriber" audio="true">
+        <http-header name="CF-Access-Client-Id" value="[redacted]"/>
+        <http-header name="CF-Access-Client-Secret" value="[redacted]"/>
+        <http-header name="X-Custom-Api-Key" value="[redacted]"/>
+      </connect>
+    </connects>
+  </conference-modify>
+</iq>
+                """
+
+            val redacted = redactHttpHeaderValues(sourceXml)
+
+            should("Redact all http-header values") {
+                val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
+                    .ignoreWhitespace()
+                    .checkForIdentical().build()
+
+                diff.asClue {
+                    diff.hasDifferences() shouldBe false
+                }
+            }
+        }
+
         context("Candidates of relays") {
             val sourceXml = """
 <iq xmlns="jabber:client" to="jvb@auth.jvb.meet.jit.si/QZsC1sBuSi9w" from="jvbbrewery@muc.jvb.meet.jit.si/focus" id="anZiQGF1dGguanZiLm1lZXQuaml0LnNpL1Fac0Mxc0J1U2k5dwBVMUNKWi0xNzUzNzE2AKg5GKSodsNR" type="get">
@@ -236,7 +281,7 @@ class RedactColibriIpTest : ShouldSpec() {
   </conference-modify>
 </iq>
             """
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Be unchanged") {
                 val diff = DiffBuilder.compare(sourceXml).withTest(redacted)
