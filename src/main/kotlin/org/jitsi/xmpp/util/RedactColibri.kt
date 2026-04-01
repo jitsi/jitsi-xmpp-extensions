@@ -127,7 +127,7 @@ class RedactColibri {
             )
         }
 
-        fun redact(input: String): String {
+        fun redactIp(input: String): String {
             val source = StreamSource(StringReader(input))
             val writer = StringWriter()
             val result = StreamResult(writer)

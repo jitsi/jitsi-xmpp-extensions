@@ -18,8 +18,8 @@ package org.jitsi.xmpp.util
 import io.kotest.assertions.asClue
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
-import org.jitsi.xmpp.util.RedactColibri.Companion.redact
 import org.jitsi.xmpp.util.RedactColibri.Companion.redactHttpHeaderValues
+import org.jitsi.xmpp.util.RedactColibri.Companion.redactIp
 import org.xmlunit.builder.DiffBuilder
 
 class RedactColibriTest : ShouldSpec() {
@@ -121,7 +121,7 @@ class RedactColibriTest : ShouldSpec() {
 </iq>
                 """
 
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Convert to expected xml") {
                 val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
@@ -155,7 +155,7 @@ class RedactColibriTest : ShouldSpec() {
     </transport>
 </transport></endpoint></conference-modify></iq>
                     """
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Convert to expected xml") {
                 val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
@@ -179,7 +179,7 @@ class RedactColibriTest : ShouldSpec() {
 </transport></endpoint></conference-modify></iq>
            """
 
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Be unchanged") {
                 val diff = DiffBuilder.compare(sourceXml).withTest(redacted)
@@ -208,7 +208,7 @@ class RedactColibriTest : ShouldSpec() {
     </transport>
 </transport></endpoint></conference-modify></iq>
             """
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Convert to expected xml") {
                 val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
@@ -281,7 +281,7 @@ class RedactColibriTest : ShouldSpec() {
   </conference-modify>
 </iq>
             """
-            val redacted = redact(sourceXml)
+            val redacted = redactIp(sourceXml)
 
             should("Be unchanged") {
                 val diff = DiffBuilder.compare(sourceXml).withTest(redacted)
