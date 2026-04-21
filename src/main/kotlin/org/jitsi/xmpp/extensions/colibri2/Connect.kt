@@ -155,11 +155,15 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
                                 ?: throw SmackParsingException.RequiredAttributeMissingException(
                                     "Missing 'name' attribute in http-header element"
                                 )
+                            if (!headerName.matches(Regex("[A-Za-z0-9\\-]+"))) {
+                                throw SmackParsingException("Invalid HTTP header name: $headerName")
+                            }
                             val headerValue = parser.getAttributeValue("", Connect.HttpHeader.VALUE_ATTR_NAME)
                                 ?: throw SmackParsingException.RequiredAttributeMissingException(
                                     "Missing 'value' attribute in http-header element"
                                 )
-                            connect.addHttpHeader(headerName, headerValue)
+                            val sanitizedValue = headerValue.replace("\r", "").replace("\n", "")
+                            connect.addHttpHeader(headerName, sanitizedValue)
                         }
                         Connect.Ping.ELEMENT -> {
                             val intervalStr = parser.getAttributeValue("", Connect.Ping.INTERVAL_ATTR_NAME)
