@@ -121,6 +121,9 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
         } catch (e: Exception) {
             throw SmackParsingException("Invalid 'url': ${e.message}")
         }
+        if (uri.scheme !in listOf("ws", "wss")) {
+            throw SmackParsingException("Invalid 'url' scheme: ${uri.scheme}. Only 'ws' and 'wss' are allowed.")
+        }
         val audio = parser.getAttributeValue("", Connect.AUDIO_ATTR_NAME)?.toBoolean() ?: false
         val video = parser.getAttributeValue("", Connect.VIDEO_ATTR_NAME)?.toBoolean() ?: false
         val protocolStr = parser.getAttributeValue("", Connect.PROTOCOL_ATTR_NAME)
@@ -152,11 +155,15 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
                                 ?: throw SmackParsingException.RequiredAttributeMissingException(
                                     "Missing 'name' attribute in http-header element"
                                 )
+                            if (!headerName.matches(Regex("[A-Za-z0-9\\-]+"))) {
+                                throw SmackParsingException("Invalid HTTP header name: $headerName")
+                            }
                             val headerValue = parser.getAttributeValue("", Connect.HttpHeader.VALUE_ATTR_NAME)
                                 ?: throw SmackParsingException.RequiredAttributeMissingException(
                                     "Missing 'value' attribute in http-header element"
                                 )
-                            connect.addHttpHeader(headerName, headerValue)
+                            val sanitizedValue = headerValue.replace("\r", "").replace("\n", "")
+                            connect.addHttpHeader(headerName, sanitizedValue)
                         }
                         Connect.Ping.ELEMENT -> {
                             val intervalStr = parser.getAttributeValue("", Connect.Ping.INTERVAL_ATTR_NAME)
