@@ -231,6 +231,60 @@ public final class JSONDeserializer
         }
     }
 
+    public static DtlsRawKeyFingerprintPacketExtension deserializeRawKeyFingerprint(
+            JSONObject fingerprint,
+            IceUdpTransportPacketExtension transportIQ)
+    {
+        DtlsRawKeyFingerprintPacketExtension fingerprintIQ;
+
+        if (fingerprint == null)
+        {
+            fingerprintIQ = null;
+        }
+        else
+        {
+            Object theFingerprint
+                    = fingerprint.get(DtlsRawKeyFingerprintPacketExtension.ELEMENT);
+
+            fingerprintIQ = new DtlsRawKeyFingerprintPacketExtension();
+            // fingerprint
+            if (theFingerprint != null)
+            {
+                fingerprintIQ.setFingerprint(theFingerprint.toString());
+            }
+            // attributes
+            deserializeAbstractPacketExtensionAttributes(
+                    fingerprint,
+                    fingerprintIQ);
+            /*
+             * XXX The fingerprint is stored as the text of the
+             * DtlsFingerprintPacketExtension instance. But it is a Java String
+             * and, consequently, the
+             * deserializeAbstractPacketExtensionAttributes method will
+             * deserialize it into an attribute of the
+             * DtlsFingerprintPacketExtension instance.
+             */
+            fingerprintIQ.removeAttribute(
+                    DtlsRawKeyFingerprintPacketExtension.ELEMENT);
+
+            transportIQ.addChildExtension(fingerprintIQ);
+        }
+        return fingerprintIQ;
+    }
+
+    public static void deserializeRawKeyFingerprints(
+            JSONArray fingerprints,
+            IceUdpTransportPacketExtension transportIQ)
+    {
+        if ((fingerprints != null) && !fingerprints.isEmpty())
+        {
+            for (Object fingerprint : fingerprints)
+            {
+                deserializeRawKeyFingerprint((JSONObject) fingerprint, transportIQ);
+            }
+        }
+    }
+
     public static void deserializeParameters(
             JSONObject parameters,
             PayloadTypePacketExtension payloadTypeIQ)
@@ -564,6 +618,7 @@ public final class JSONDeserializer
         {
             Object xmlns = transport.get(JSONSerializer.XMLNS);
             Object fingerprints = transport.get(JSONSerializer.FINGERPRINTS);
+            Object rawKeyFingerprints = transport.get(JSONSerializer.RAW_KEY_FINGERPRINTS);
             Object candidateList = transport.get(JSONSerializer.CANDIDATE_LIST);
             Object webSocketList = transport.get(JSONSerializer.WEBSOCKET_LIST);
             Object remoteCandidate
@@ -595,6 +650,12 @@ public final class JSONDeserializer
                 {
                     deserializeFingerprints(
                             (JSONArray) fingerprints,
+                            transportIQ);
+                }
+                if (rawKeyFingerprints != null)
+                {
+                    deserializeRawKeyFingerprints(
+                            (JSONArray) rawKeyFingerprints,
                             transportIQ);
                 }
                 // candidateList

@@ -167,6 +167,12 @@ public class JingleIQProvider extends SafeParseIqProvider<JingleIQ>
                 new DefaultPacketExtensionProvider
                     <>(DtlsFingerprintPacketExtension.class));
 
+        ProviderManager.addExtensionProvider(
+                DtlsRawKeyFingerprintPacketExtension.ELEMENT,
+                DtlsRawKeyFingerprintPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider
+                        <>(DtlsRawKeyFingerprintPacketExtension.class));
+
         /*
          * XEP-0251: Jingle Session Transfer <transfer/> and <transferred>
          * providers
