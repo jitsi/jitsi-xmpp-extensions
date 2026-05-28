@@ -111,6 +111,11 @@ public class JibriIq
     static final String APP_DATA_ATTR_NAME = "app_data";
 
     /**
+     * The name of the XML attribute which stores whether rtcstats is enabled.
+     */
+    static final String RTCSTATS_ENABLED_ATTR_NAME = "rtcstats_enabled";
+
+    /**
      * The name of XML attribute which stores the recording mode which can be
      * either 'stream' or 'file'. If the attribute is not present, but
      * {@link #STREAM_ID_ATTR_NAME} is, then it defaults to 'stream'. But if
@@ -202,6 +207,11 @@ public class JibriIq
      * The name of the conference room to be recorded.
      */
     private EntityBareJid room = null;
+
+    /**
+     * Whether rtcstats is enabled for this conference. Null means not specified.
+     */
+    private Boolean rtcStatsEnabled = null;
 
     public JibriIq()
     {
@@ -343,6 +353,16 @@ public class JibriIq
         this.room = room;
     }
 
+    public Boolean getRtcStatsEnabled()
+    {
+        return rtcStatsEnabled;
+    }
+
+    public void setRtcStatsEnabled(Boolean rtcStatsEnabled)
+    {
+        this.rtcStatsEnabled = rtcStatsEnabled;
+    }
+
     /**
      * Whether or not this IQ represents a failure from Jibri
      * @return true if it represents failure, false otherwise
@@ -385,6 +405,10 @@ public class JibriIq
             xml.attribute(SHOULD_RETRY_ATTR_NAME, shouldRetry);
         }
         xml.optAttribute(APP_DATA_ATTR_NAME, appData);
+        if (rtcStatsEnabled != null)
+        {
+            xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, rtcStatsEnabled);
+        }
 
         xml.setEmptyElement();
 

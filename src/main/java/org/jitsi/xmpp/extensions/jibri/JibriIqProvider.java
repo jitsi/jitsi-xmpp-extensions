@@ -121,6 +121,13 @@ public class JibriIqProvider
                 = parser.getAttributeValue("", JibriIq.SIP_ADDRESS_ATTR_NAME);
             if (StringUtils.isNotEmpty(sipAddress))
                 iq.setSipAddress(sipAddress);
+
+            String rtcStatsEnabledStr
+                = parser.getAttributeValue("", JibriIq.RTCSTATS_ENABLED_ATTR_NAME);
+            if (StringUtils.isNotEmpty(rtcStatsEnabledStr))
+            {
+                iq.setRtcStatsEnabled(Boolean.valueOf(rtcStatsEnabledStr));
+            }
         }
         else
         {
