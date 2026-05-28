@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions.jibri;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.jitsi.xmpp.extensions.*;
+import org.jivesoftware.smack.packet.*;
 import org.junit.jupiter.api.*;
 
 /**
@@ -54,5 +55,56 @@ public class JibriIqProviderTest
         assertTrue(jibriIq.getSessionId().equalsIgnoreCase("abcd"));
 
         assertNull(jibriIq.getError());
+    }
+
+    @Test
+    public void testParseRtcStatsEnabled()
+        throws Exception
+    {
+        JibriIqProvider provider = new JibriIqProvider();
+
+        String iqWithTrue =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri'" +
+                "   action='start' rtcstats_enabled='true'" +
+                "/>" +
+                "</iq>";
+        JibriIq iqTrue = IQUtils.parse(iqWithTrue, provider);
+        assertEquals(Boolean.TRUE, iqTrue.getRtcStatsEnabled());
+
+        String iqWithFalse =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri'" +
+                "   action='start' rtcstats_enabled='false'" +
+                "/>" +
+                "</iq>";
+        JibriIq iqFalse = IQUtils.parse(iqWithFalse, provider);
+        assertEquals(Boolean.FALSE, iqFalse.getRtcStatsEnabled());
+
+        String iqWithoutFlag =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri'" +
+                "   action='start'" +
+                "/>" +
+                "</iq>";
+        JibriIq iqAbsent = IQUtils.parse(iqWithoutFlag, provider);
+        assertNull(iqAbsent.getRtcStatsEnabled());
+    }
+
+    @Test
+    public void testSerializeRtcStatsEnabled()
+    {
+        JibriIq iq = new JibriIq();
+        iq.setType(IQ.Type.set);
+        iq.setAction(JibriIq.Action.START);
+
+        iq.setRtcStatsEnabled(true);
+        assertTrue(iq.toXML().toString().contains("rtcstats_enabled='true'"));
+
+        iq.setRtcStatsEnabled(false);
+        assertTrue(iq.toXML().toString().contains("rtcstats_enabled='false'"));
+
+        iq.setRtcStatsEnabled(null);
+        assertFalse(iq.toXML().toString().contains("rtcstats_enabled"));
     }
 }
