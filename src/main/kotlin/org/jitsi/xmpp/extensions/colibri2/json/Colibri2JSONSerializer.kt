@@ -15,6 +15,9 @@
  */
 package org.jitsi.xmpp.extensions.colibri2.json
 
+import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.ObjectNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.jitsi.xmpp.extensions.colibri.SourcePacketExtension
 import org.jitsi.xmpp.extensions.colibri.json.JSONSerializer
 import org.jitsi.xmpp.extensions.colibri2.AbstractConferenceEntity
@@ -38,8 +41,8 @@ import org.jitsi.xmpp.extensions.jingle.IceUdpTransportPacketExtension
 import org.jitsi.xmpp.extensions.jingle.PayloadTypePacketExtension
 import org.jitsi.xmpp.extensions.jingle.RTPHdrExtPacketExtension
 import org.jitsi.xmpp.extensions.jingle.SourceGroupPacketExtension
-import org.json.simple.JSONArray
-import org.json.simple.JSONObject
+
+private val jsonMapper = jacksonObjectMapper()
 
 object Colibri2JSONSerializer {
     /**
@@ -90,28 +93,28 @@ object Colibri2JSONSerializer {
      */
     const val SOURCES = SourcePacketExtension.ELEMENT + "s"
 
-    private fun serializeMedia(media: Media): JSONObject {
-        return JSONObject().apply {
+    private fun serializeMedia(media: Media): ObjectNode {
+        return jsonMapper.createObjectNode().apply {
             put(Media.TYPE_ATTR_NAME, media.type.toString())
             if (media.payloadTypes.isNotEmpty()) {
-                put(PAYLOAD_TYPES, JSONSerializer.serializePayloadTypes(media.payloadTypes))
+                set<ObjectNode>(PAYLOAD_TYPES, JSONSerializer.serializePayloadTypes(media.payloadTypes))
             }
             if (media.rtpHdrExts.isNotEmpty()) {
-                put(RTP_HEADER_EXTS, JSONSerializer.serializeRtpHdrExts(media.rtpHdrExts))
+                set<ObjectNode>(RTP_HEADER_EXTS, JSONSerializer.serializeRtpHdrExts(media.rtpHdrExts))
             }
             media.extmapAllowMixed?.let { put(ExtmapAllowMixedPacketExtension.ELEMENT, true) }
         }
     }
 
-    private fun serializeSctp(sctp: Sctp): JSONObject {
-        return JSONObject().apply {
+    private fun serializeSctp(sctp: Sctp): ObjectNode {
+        return jsonMapper.createObjectNode().apply {
             sctp.port?.let { put(Sctp.PORT_ATTR_NAME, it) }
-            sctp.role?.let { put(Sctp.ROLE_ATTR_NAME, it) }
+            sctp.role?.let { put(Sctp.ROLE_ATTR_NAME, it.toString()) }
         }
     }
 
-    private fun serializeTransport(transport: Transport): JSONObject {
-        return JSONObject().apply {
+    private fun serializeTransport(transport: Transport): ObjectNode {
+        return jsonMapper.createObjectNode().apply {
             if (transport.iceControlling != Transport.ICE_CONTROLLING_DEFAULT) {
                 put(Transport.ICE_CONTROLLING_ATTR_NAME, transport.iceControlling)
             }
@@ -119,41 +122,41 @@ object Colibri2JSONSerializer {
                 put(Transport.USE_UNIQUE_PORT_ATTR_NAME, transport.useUniquePort)
             }
             transport.iceUdpTransport?.let {
-                put(IceUdpTransportPacketExtension.ELEMENT, JSONSerializer.serializeTransport(it))
+                set<ObjectNode>(IceUdpTransportPacketExtension.ELEMENT, JSONSerializer.serializeTransport(it))
             }
             transport.sctp?.let {
-                put(Sctp.ELEMENT, serializeSctp(it))
+                set<ObjectNode>(Sctp.ELEMENT, serializeSctp(it))
             }
         }
     }
 
-    private fun serializeMediaSource(source: MediaSource): JSONObject {
-        return JSONObject().apply {
+    private fun serializeMediaSource(source: MediaSource): ObjectNode {
+        return jsonMapper.createObjectNode().apply {
             put(MediaSource.TYPE_ATTR_NAME, source.type.toString())
             put(MediaSource.ID_NAME, source.id)
             if (source.sources.isNotEmpty()) {
-                put(SOURCES, JSONSerializer.serializeSources(source.sources))
+                set<ObjectNode>(SOURCES, JSONSerializer.serializeSources(source.sources))
             }
             if (source.ssrcGroups.isNotEmpty()) {
-                put(SOURCE_GROUPS, JSONSerializer.serializeSourceGroups(source.ssrcGroups))
+                set<ObjectNode>(SOURCE_GROUPS, JSONSerializer.serializeSourceGroups(source.ssrcGroups))
             }
         }
     }
 
-    private fun serializeMedias(medias: Collection<Media>): JSONArray {
-        return JSONArray().apply {
+    private fun serializeMedias(medias: Collection<Media>): ArrayNode {
+        return jsonMapper.createArrayNode().apply {
             medias.forEach { add(serializeMedia(it)) }
         }
     }
 
-    private fun serializeSources(sources: Sources): JSONArray {
-        return JSONArray().apply {
+    private fun serializeSources(sources: Sources): ArrayNode {
+        return jsonMapper.createArrayNode().apply {
             sources.mediaSources.forEach { add(serializeMediaSource(it)) }
         }
     }
 
-    private fun serializeAbstractConferenceEntity(entity: AbstractConferenceEntity): JSONObject {
-        return JSONObject().apply {
+    private fun serializeAbstractConferenceEntity(entity: AbstractConferenceEntity): ObjectNode {
+        return jsonMapper.createObjectNode().apply {
             put(AbstractConferenceEntity.ID_ATTR_NAME, entity.id)
 
             if (entity.create != AbstractConferenceEntity.CREATE_DEFAULT) {
@@ -165,75 +168,75 @@ object Colibri2JSONSerializer {
             }
 
             if (entity.media.isNotEmpty()) {
-                put(MEDIA_LIST, serializeMedias(entity.media))
+                set<ObjectNode>(MEDIA_LIST, serializeMedias(entity.media))
             }
 
-            entity.transport?.let { put(Transport.ELEMENT, serializeTransport(it)) }
+            entity.transport?.let { set<ObjectNode>(Transport.ELEMENT, serializeTransport(it)) }
 
-            entity.sources?.let { put(Sources.ELEMENT, serializeSources(it)) }
+            entity.sources?.let { set<ObjectNode>(Sources.ELEMENT, serializeSources(it)) }
         }
     }
 
-    private fun serializeForceMute(forceMute: ForceMute): JSONObject {
-        return JSONObject().apply {
+    private fun serializeForceMute(forceMute: ForceMute): ObjectNode {
+        return jsonMapper.createObjectNode().apply {
             put(ForceMute.AUDIO_ATTR_NAME, forceMute.audio)
             put(ForceMute.VIDEO_ATTR_NAME, forceMute.video)
         }
     }
 
-    private fun serializeInitialLastN(initialLastN: InitialLastN) = JSONObject().apply {
+    private fun serializeInitialLastN(initialLastN: InitialLastN) = jsonMapper.createObjectNode().apply {
         put(InitialLastN.VALUE_ATTR_NAME, initialLastN.value)
     }
 
-    private fun serializeCapabilities(capabilities: Collection<Capability>): JSONArray {
-        return JSONArray().apply {
+    private fun serializeCapabilities(capabilities: Collection<Capability>): ArrayNode {
+        return jsonMapper.createArrayNode().apply {
             capabilities.forEach { add(it.name) }
         }
     }
 
-    private fun serializeEndpoint(endpoint: Colibri2Endpoint): JSONObject {
+    private fun serializeEndpoint(endpoint: Colibri2Endpoint): ObjectNode {
         return serializeAbstractConferenceEntity(endpoint).apply {
             endpoint.statsId?.apply { put(Colibri2Endpoint.STATS_ID_ATTR_NAME, this) }
             endpoint.mucRole?.apply { put(Colibri2Endpoint.MUC_ROLE_ATTR_NAME, this.toString()) }
-            endpoint.forceMute?.apply { put(ForceMute.ELEMENT, serializeForceMute(this)) }
-            endpoint.initialLastN?.apply { put(InitialLastN.ELEMENT, serializeInitialLastN(this)) }
+            endpoint.forceMute?.apply { set<ObjectNode>(ForceMute.ELEMENT, serializeForceMute(this)) }
+            endpoint.initialLastN?.apply { set<ObjectNode>(InitialLastN.ELEMENT, serializeInitialLastN(this)) }
             if (endpoint.capabilities.isNotEmpty()) {
-                put(CAPABILITIES_LIST, serializeCapabilities(endpoint.capabilities))
+                set<ObjectNode>(CAPABILITIES_LIST, serializeCapabilities(endpoint.capabilities))
             }
         }
     }
 
-    private fun serializeRelay(relay: Colibri2Relay): JSONObject {
+    private fun serializeRelay(relay: Colibri2Relay): ObjectNode {
         return serializeAbstractConferenceEntity(relay).apply {
             relay.meshId?.apply { put(Colibri2Relay.MESH_ID_ATTR_NAME, this) }
-            relay.endpoints?.let { put(ENDPOINTS, serializeEndpoints(it.endpoints)) }
+            relay.endpoints?.let { set<ObjectNode>(ENDPOINTS, serializeEndpoints(it.endpoints)) }
         }
     }
 
-    private fun serializeEndpoints(endpoints: Collection<Colibri2Endpoint>): JSONArray {
-        return JSONArray().apply {
+    private fun serializeEndpoints(endpoints: Collection<Colibri2Endpoint>): ArrayNode {
+        return jsonMapper.createArrayNode().apply {
             endpoints.forEach { add(serializeEndpoint(it)) }
         }
     }
 
-    private fun serializeRelays(relays: Collection<Colibri2Relay>): JSONArray {
-        return JSONArray().apply {
+    private fun serializeRelays(relays: Collection<Colibri2Relay>): ArrayNode {
+        return jsonMapper.createArrayNode().apply {
             relays.forEach { add(serializeRelay(it)) }
         }
     }
 
-    private fun serializeAbstractConferenceModificationIQ(iq: AbstractConferenceModificationIQ<*>): JSONObject {
-        return JSONObject().apply {
+    private fun serializeAbstractConferenceModificationIQ(iq: AbstractConferenceModificationIQ<*>): ObjectNode {
+        return jsonMapper.createObjectNode().apply {
             if (iq.endpoints.isNotEmpty()) {
-                put(ENDPOINTS, serializeEndpoints(iq.endpoints))
+                set<ObjectNode>(ENDPOINTS, serializeEndpoints(iq.endpoints))
             }
             if (iq.relays.isNotEmpty()) {
-                put(RELAYS, serializeRelays(iq.relays))
+                set<ObjectNode>(RELAYS, serializeRelays(iq.relays))
             }
         }
     }
 
-    private fun serializeConnect(connect: Connect) = JSONObject().apply {
+    private fun serializeConnect(connect: Connect) = jsonMapper.createObjectNode().apply {
         put(Connect.URL_ATTR_NAME, connect.url.toString())
         put(Connect.PROTOCOL_ATTR_NAME, connect.protocol.toString().lowercase())
         put(Connect.TYPE_ATTR_NAME, connect.type.toString().lowercase())
@@ -243,28 +246,28 @@ object Colibri2JSONSerializer {
         // Serialize HTTP headers
         val headers = connect.getHttpHeaders()
         if (headers.isNotEmpty()) {
-            val headersObj = JSONObject()
+            val headersObj = jsonMapper.createObjectNode()
             headers.forEach { header ->
-                headersObj[header.name] = header.value
+                headersObj.put(header.name, header.value)
             }
-            put("headers", headersObj)
+            set<ObjectNode>("headers", headersObj)
         }
 
         // Serialize ping
         connect.getPing()?.let { ping ->
-            val pingObj = JSONObject()
-            pingObj[Connect.Ping.INTERVAL_ATTR_NAME] = ping.interval
-            pingObj[Connect.Ping.TIMEOUT_ATTR_NAME] = ping.timeout
-            put("ping", pingObj)
+            val pingObj = jsonMapper.createObjectNode()
+            pingObj.put(Connect.Ping.INTERVAL_ATTR_NAME, ping.interval)
+            pingObj.put(Connect.Ping.TIMEOUT_ATTR_NAME, ping.timeout)
+            set<ObjectNode>("ping", pingObj)
         }
     }
 
-    private fun serializeConnects(connects: Connects) = JSONArray().apply {
+    private fun serializeConnects(connects: Connects) = jsonMapper.createArrayNode().apply {
         connects.getConnects().forEach { add(serializeConnect(it)) }
     }
 
     @JvmStatic
-    fun serializeConferenceModify(iq: ConferenceModifyIQ): JSONObject {
+    fun serializeConferenceModify(iq: ConferenceModifyIQ): ObjectNode {
         return serializeAbstractConferenceModificationIQ(iq).apply {
             if (iq.create != ConferenceModifyIQ.CREATE_DEFAULT) {
                 put(ConferenceModifyIQ.CREATE_ATTR_NAME, iq.create)
@@ -279,7 +282,7 @@ object Colibri2JSONSerializer {
             }
 
             iq.connects?.let {
-                put(Connects.ELEMENT, serializeConnects(it))
+                set<ObjectNode>(Connects.ELEMENT, serializeConnects(it))
             }
 
             put(ConferenceModifyIQ.MEETING_ID_ATTR_NAME, iq.meetingId)
@@ -289,9 +292,9 @@ object Colibri2JSONSerializer {
     }
 
     @JvmStatic
-    fun serializeConferenceModified(iq: ConferenceModifiedIQ): JSONObject {
+    fun serializeConferenceModified(iq: ConferenceModifiedIQ): ObjectNode {
         return serializeAbstractConferenceModificationIQ(iq).apply {
-            iq.sources?.let { put(Sources.ELEMENT, serializeSources(it)) }
+            iq.sources?.let { set<ObjectNode>(Sources.ELEMENT, serializeSources(it)) }
         }
     }
 }

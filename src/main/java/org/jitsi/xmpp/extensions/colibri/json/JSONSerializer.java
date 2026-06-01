@@ -18,11 +18,11 @@ package org.jitsi.xmpp.extensions.colibri.json;
 import java.net.*;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.node.*;
 import org.jetbrains.annotations.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.colibri.*;
 import org.jitsi.xmpp.extensions.jingle.*;
-import org.json.simple.*;
 
 /**
  * Implements (utility) functions to serialize instances of
@@ -30,9 +30,10 @@ import org.json.simple.*;
  *
  * @author Lyubomir Marinov
  */
-@SuppressWarnings("unchecked")
 public final class JSONSerializer
 {
+    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+
     /**
      * The name of the JSON pair which specifies the value of the
      * <tt>candidateList</tt> property of
@@ -79,16 +80,16 @@ public final class JSONSerializer
 
     /**
      * Serializes the attribute values of an <tt>AbstractPacketExtension</tt>
-     * into values of a <tt>JSONObject</tt>.
+     * into values of a <tt>ObjectNode</tt>.
      *
      * @param abstractPacketExtension the <tt>AbstractPacketExtension</tt> whose
      * attribute values are to be serialized into values of <tt>jsonObject</tt>
-     * @param jsonObject the <tt>JSONObject</tt> into which the attribute values
+     * @param jsonObject the <tt>ObjectNode</tt> into which the attribute values
      * of <tt>abstractPacketExtension</tt> are to be serialized
      */
     public static void serializeAbstractPacketExtensionAttributes(
             AbstractPacketExtension abstractPacketExtension,
-            JSONObject jsonObject)
+            ObjectNode jsonObject)
     {
         for (String name : abstractPacketExtension.getAttributeNames())
         {
@@ -102,14 +103,23 @@ public final class JSONSerializer
             if (value instanceof Enum)
                 value = value.toString();
 
-            jsonObject.put(name, value);
+            if (value instanceof String)
+                jsonObject.put(name, (String) value);
+            else if (value instanceof Boolean)
+                jsonObject.put(name, (Boolean) value);
+            else if (value instanceof Integer)
+                jsonObject.put(name, (Integer) value);
+            else if (value instanceof Long)
+                jsonObject.put(name, (Long) value);
+            else if (value != null)
+                jsonObject.put(name, value.toString());
         }
     }
 
-    public static JSONObject serializeCandidate(
+    public static ObjectNode serializeCandidate(
             CandidatePacketExtension candidate)
     {
-        JSONObject candidateJSONObject;
+        ObjectNode candidateJSONObject;
 
         if (candidate == null)
         {
@@ -117,7 +127,7 @@ public final class JSONSerializer
         }
         else
         {
-            candidateJSONObject = new JSONObject();
+            candidateJSONObject = factory.objectNode();
             // attributes
             serializeAbstractPacketExtensionAttributes(
                     candidate,
@@ -126,10 +136,10 @@ public final class JSONSerializer
         return candidateJSONObject;
     }
 
-    public static JSONArray serializeCandidates(
+    public static ArrayNode serializeCandidates(
             Collection<CandidatePacketExtension> candidates)
     {
-        JSONArray candidatesJSONArray;
+        ArrayNode candidatesJSONArray;
 
         if (candidates == null)
         {
@@ -137,17 +147,17 @@ public final class JSONSerializer
         }
         else
         {
-            candidatesJSONArray = new JSONArray();
+            candidatesJSONArray = factory.arrayNode();
             for (CandidatePacketExtension candidate : candidates)
                 candidatesJSONArray.add(serializeCandidate(candidate));
         }
         return candidatesJSONArray;
     }
 
-    public static JSONObject serializeFingerprint(
+    public static ObjectNode serializeFingerprint(
             DtlsFingerprintPacketExtension fingerprint)
     {
-        JSONObject fingerprintJSONObject;
+        ObjectNode fingerprintJSONObject;
 
         if (fingerprint == null)
         {
@@ -157,7 +167,7 @@ public final class JSONSerializer
         {
             String theFingerprint = fingerprint.getFingerprint();
 
-            fingerprintJSONObject = new JSONObject();
+            fingerprintJSONObject = factory.objectNode();
             // fingerprint
             if (theFingerprint != null)
             {
@@ -169,21 +179,22 @@ public final class JSONSerializer
             serializeAbstractPacketExtensionAttributes(
                     fingerprint,
                     fingerprintJSONObject);
-            Object cryptex = fingerprintJSONObject.get(DtlsFingerprintPacketExtension.CRYPTEX_ATTR_NAME);
-            if (cryptex instanceof String)
+            com.fasterxml.jackson.databind.JsonNode cryptex =
+                fingerprintJSONObject.get(DtlsFingerprintPacketExtension.CRYPTEX_ATTR_NAME);
+            if (cryptex != null && cryptex.isTextual())
             {
                 /* Represent cryptex as a boolean. */
                 fingerprintJSONObject.put(DtlsFingerprintPacketExtension.CRYPTEX_ATTR_NAME,
-                    Boolean.parseBoolean((String)cryptex));
+                    Boolean.parseBoolean(cryptex.asText()));
             }
         }
         return fingerprintJSONObject;
     }
 
-    public static JSONArray serializeFingerprints(
+    public static ArrayNode serializeFingerprints(
             Collection<DtlsFingerprintPacketExtension> fingerprints)
     {
-        JSONArray fingerprintsJSONArray;
+        ArrayNode fingerprintsJSONArray;
 
         if (fingerprints == null)
         {
@@ -191,22 +202,22 @@ public final class JSONSerializer
         }
         else
         {
-            fingerprintsJSONArray = new JSONArray();
+            fingerprintsJSONArray = factory.arrayNode();
             for (DtlsFingerprintPacketExtension fingerprint : fingerprints)
                 fingerprintsJSONArray.add(serializeFingerprint(fingerprint));
         }
         return fingerprintsJSONArray;
     }
 
-    public static JSONObject serializeParameters(
+    public static ObjectNode serializeParameters(
             Collection<ParameterPacketExtension> parameters)
     {
         /*
          * A parameter is a key-value pair and the order of the parameters in a
          * payload-type does not appear to matter so a natural representation of
-         * a parameter set is a JSONObject rather than a JSONArray.
+         * a parameter set is a ObjectNode rather than a ArrayNode.
          */
-        JSONObject parametersJSONObject;
+        ObjectNode parametersJSONObject;
 
         if (parameters == null)
         {
@@ -214,25 +225,28 @@ public final class JSONSerializer
         }
         else
         {
-            parametersJSONObject = new JSONObject();
+            parametersJSONObject = factory.objectNode();
             for (ParameterPacketExtension parameter : parameters)
             {
                 String name = parameter.getName();
                 String value = parameter.getValue();
 
                 if ((name != null) || (value != null))
-                    parametersJSONObject.put(name, value);
+                {
+                    /* JSON doesn't allow null keys; use the string "null" to match deserializer convention. */
+                    parametersJSONObject.put(name != null ? name : "null", value);
+                }
             }
         }
         return parametersJSONObject;
     }
 
-    public static JSONArray serializeRtcpFbs(
+    public static ArrayNode serializeRtcpFbs(
             @NotNull Collection<RtcpFbPacketExtension> rtcpFbs)
     {
-        JSONArray rtcpFbsJSON = new JSONArray();
+        ArrayNode rtcpFbsJSON = factory.arrayNode();
         /*
-         * A rtcp-fb is an JSONObject with type / subtype data.
+         * A rtcp-fb is an ObjectNode with type / subtype data.
          * "rtcp-fbs": [ {
                 "type": "ccm",
                 "subtype": "fir"
@@ -249,7 +263,7 @@ public final class JSONSerializer
 
             if (type != null)
             {
-                JSONObject rtcpFbJSON = new JSONObject();
+                ObjectNode rtcpFbJSON = factory.objectNode();
                 rtcpFbJSON.put(RtcpFbPacketExtension.TYPE_ATTR_NAME, type);
                 if (subtype != null)
                 {
@@ -263,10 +277,10 @@ public final class JSONSerializer
         return rtcpFbsJSON;
     }
 
-    public static JSONObject serializePayloadType(
+    public static ObjectNode serializePayloadType(
             PayloadTypePacketExtension payloadType)
     {
-        JSONObject payloadTypeJSONObject;
+        ObjectNode payloadTypeJSONObject;
 
         if (payloadType == null)
         {
@@ -277,7 +291,7 @@ public final class JSONSerializer
             List<ParameterPacketExtension> parameters
                 = payloadType.getParameters();
 
-            payloadTypeJSONObject = new JSONObject();
+            payloadTypeJSONObject = factory.objectNode();
             // attributes
             serializeAbstractPacketExtensionAttributes(
                     payloadType,
@@ -285,7 +299,7 @@ public final class JSONSerializer
             // parameters
             if ((parameters != null) && !parameters.isEmpty())
             {
-                payloadTypeJSONObject.put(
+                payloadTypeJSONObject.set(
                         PARAMETERS,
                         serializeParameters(parameters));
             }
@@ -294,7 +308,7 @@ public final class JSONSerializer
             if ((rtcpFeedbackTypeList != null) &&
                     !rtcpFeedbackTypeList.isEmpty())
             {
-                payloadTypeJSONObject.put(
+                payloadTypeJSONObject.set(
                         RTCP_FBS,
                         serializeRtcpFbs(rtcpFeedbackTypeList));
             }
@@ -302,10 +316,10 @@ public final class JSONSerializer
         return payloadTypeJSONObject;
     }
 
-    public static JSONArray serializePayloadTypes(
+    public static ArrayNode serializePayloadTypes(
             Collection<PayloadTypePacketExtension> payloadTypes)
     {
-        JSONArray payloadTypesJSONArray;
+        ArrayNode payloadTypesJSONArray;
 
         if (payloadTypes == null)
         {
@@ -313,17 +327,17 @@ public final class JSONSerializer
         }
         else
         {
-            payloadTypesJSONArray = new JSONArray();
+            payloadTypesJSONArray = factory.arrayNode();
             for (PayloadTypePacketExtension payloadType : payloadTypes)
                 payloadTypesJSONArray.add(serializePayloadType(payloadType));
         }
         return payloadTypesJSONArray;
     }
 
-    public static JSONObject serializeRtpHdrExt(
+    public static ObjectNode serializeRtpHdrExt(
         RTPHdrExtPacketExtension rtpHdrExt)
     {
-        JSONObject rtpHdrExtJSONObject;
+        ObjectNode rtpHdrExtJSONObject;
 
         if (rtpHdrExt == null)
         {
@@ -331,7 +345,7 @@ public final class JSONSerializer
         }
         else
         {
-            rtpHdrExtJSONObject = new JSONObject();
+            rtpHdrExtJSONObject = factory.objectNode();
 
             String id = rtpHdrExt.getID();
             if (id != null)
@@ -368,10 +382,10 @@ public final class JSONSerializer
         return rtpHdrExtJSONObject;
     }
 
-    public static JSONArray serializeRtpHdrExts(
+    public static ArrayNode serializeRtpHdrExts(
         Collection<RTPHdrExtPacketExtension> rtpHdrExts)
     {
-        JSONArray rtpHdrExtsJSONArray;
+        ArrayNode rtpHdrExtsJSONArray;
 
         if (rtpHdrExts == null)
         {
@@ -379,7 +393,7 @@ public final class JSONSerializer
         }
         else
         {
-            rtpHdrExtsJSONArray = new JSONArray();
+            rtpHdrExtsJSONArray = factory.arrayNode();
             for (RTPHdrExtPacketExtension rtpHdrExt : rtpHdrExts)
                 rtpHdrExtsJSONArray.add(serializeRtpHdrExt(rtpHdrExt));
         }
@@ -404,7 +418,7 @@ public final class JSONSerializer
             return source.getSSRC();
         }
 
-        JSONObject sourceJSONObject = new JSONObject();
+        ObjectNode sourceJSONObject = factory.objectNode();
 
         sourceJSONObject.put(SourcePacketExtension.SSRC_ATTR_NAME, source.getSSRC());
         if (name != null)
@@ -421,7 +435,7 @@ public final class JSONSerializer
         }
         if (!parameters.isEmpty())
         {
-            sourceJSONObject.put(JSONSerializer.PARAMETERS, serializeParameters(parameters));
+            sourceJSONObject.set(JSONSerializer.PARAMETERS, serializeParameters(parameters));
         }
 
         return sourceJSONObject;
@@ -435,19 +449,19 @@ public final class JSONSerializer
                 && sourceGroup.getSources() != null
                 && sourceGroup.getSources().size() != 0)
         {
-            JSONObject sourceGroupJSONObject = new JSONObject();
+            ObjectNode sourceGroupJSONObject = factory.objectNode();
 
             // Add semantics
             sourceGroupJSONObject.put(
                     SourceGroupPacketExtension.SEMANTICS_ATTR_NAME,
-                    JSONValue.escape(sourceGroup.getSemantics()));
+                    sourceGroup.getSemantics());
 
             // Add sources
-            JSONArray ssrcsJSONArray = new JSONArray();
+            ArrayNode ssrcsJSONArray = factory.arrayNode();
             for (SourcePacketExtension source : sourceGroup.getSources())
                 ssrcsJSONArray.add(source.getSSRC());
 
-            sourceGroupJSONObject.put(SOURCES, ssrcsJSONArray);
+            sourceGroupJSONObject.set(SOURCES, ssrcsJSONArray);
 
             return sourceGroupJSONObject;
         }
@@ -457,10 +471,10 @@ public final class JSONSerializer
         }
     }
 
-    public static JSONArray serializeSourceGroups(
+    public static ArrayNode serializeSourceGroups(
             Collection<SourceGroupPacketExtension> sourceGroups)
     {
-        JSONArray sourceGroupsJSONArray;
+        ArrayNode sourceGroupsJSONArray;
 
         if (sourceGroups == null || sourceGroups.size() == 0)
         {
@@ -468,17 +482,23 @@ public final class JSONSerializer
         }
         else
         {
-            sourceGroupsJSONArray = new JSONArray();
+            sourceGroupsJSONArray = factory.arrayNode();
             for (SourceGroupPacketExtension sourceGroup : sourceGroups)
-                sourceGroupsJSONArray.add(serializeSourceGroup(sourceGroup));
+            {
+                Object serialized = serializeSourceGroup(sourceGroup);
+                if (serialized instanceof ObjectNode)
+                    sourceGroupsJSONArray.add((ObjectNode) serialized);
+                else if (serialized == null)
+                    sourceGroupsJSONArray.addNull();
+            }
         }
         return sourceGroupsJSONArray;
     }
 
-    public static JSONArray serializeSources(
+    public static ArrayNode serializeSources(
             Collection<SourcePacketExtension> sources)
     {
-        JSONArray sourcesJSONArray;
+        ArrayNode sourcesJSONArray;
 
         if (sources == null)
         {
@@ -486,17 +506,27 @@ public final class JSONSerializer
         }
         else
         {
-            sourcesJSONArray = new JSONArray();
+            sourcesJSONArray = factory.arrayNode();
             for (SourcePacketExtension source : sources)
-                sourcesJSONArray.add(serializeSource(source));
+            {
+                Object serialized = serializeSource(source);
+                if (serialized instanceof ObjectNode)
+                    sourcesJSONArray.add((ObjectNode) serialized);
+                else if (serialized instanceof Long)
+                    sourcesJSONArray.add((Long) serialized);
+                else if (serialized instanceof Integer)
+                    sourcesJSONArray.add((Integer) serialized);
+                else if (serialized == null)
+                    sourcesJSONArray.addNull();
+            }
         }
         return sourcesJSONArray;
     }
 
-    public static JSONObject serializeTransport(
+    public static ObjectNode serializeTransport(
             IceUdpTransportPacketExtension transport)
     {
-        JSONObject jsonObject;
+        ObjectNode jsonObject;
 
         if (transport == null)
         {
@@ -517,7 +547,7 @@ public final class JSONSerializer
                 = transport.getRemoteCandidate();
             boolean rtcpMux = transport.isRtcpMux();
 
-            jsonObject = new JSONObject();
+            jsonObject = factory.objectNode();
             // xmlns
             if (xmlns != null)
                 jsonObject.put(XMLNS, xmlns);
@@ -526,27 +556,27 @@ public final class JSONSerializer
             // fingerprints
             if ((fingerprints != null) && !fingerprints.isEmpty())
             {
-                jsonObject.put(
+                jsonObject.set(
                         FINGERPRINTS,
                         serializeFingerprints(fingerprints));
             }
             // candidateList
             if ((candidateList != null) && !candidateList.isEmpty())
             {
-                jsonObject.put(
+                jsonObject.set(
                         CANDIDATE_LIST,
                         serializeCandidates(candidateList));
             }
             // remoteCandidate
             if (remoteCandidate != null)
             {
-                jsonObject.put(
+                jsonObject.set(
                         remoteCandidate.getElementName(),
                         serializeCandidate(remoteCandidate));
             }
             if ( (webSocketList != null) && (!webSocketList.isEmpty()) )
             {
-                jsonObject.put(
+                jsonObject.set(
                         WEBSOCKET_LIST,
                         serializeWebSockets(webSocketList));
             }
@@ -574,10 +604,10 @@ public final class JSONSerializer
         }
     }
 
-    private static JSONArray serializeWebSockets(
+    private static ArrayNode serializeWebSockets(
              List<WebSocketPacketExtension> webSocketList)
     {
-        JSONArray webSocketsJSONArray;
+        ArrayNode webSocketsJSONArray;
 
         if (webSocketList == null)
         {
@@ -585,7 +615,7 @@ public final class JSONSerializer
         }
         else
         {
-            webSocketsJSONArray = new JSONArray();
+            webSocketsJSONArray = factory.arrayNode();
             for (WebSocketPacketExtension webSocket : webSocketList)
                 webSocketsJSONArray.add(serializeWebSocket(webSocket));
         }

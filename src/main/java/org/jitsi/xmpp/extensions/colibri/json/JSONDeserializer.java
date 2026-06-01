@@ -19,10 +19,11 @@ import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.*;
 import org.jitsi.xmpp.extensions.*;
 import org.jitsi.xmpp.extensions.colibri.*;
 import org.jitsi.xmpp.extensions.jingle.*;
-import org.json.simple.*;
 
 /**
  * Implements (utility) functions to deserialize instances of
@@ -30,53 +31,46 @@ import org.json.simple.*;
  *
  * @author Lyubomir Marinov
  */
-@SuppressWarnings("unchecked")
 public final class JSONDeserializer
 {
     /**
-     * Deserializes the values of a <tt>JSONObject</tt> which are neither
-     * <tt>JSONArray</tt>, nor <tt>JSONObject</tt> into attribute values
+     * Deserializes the values of a <tt>ObjectNode</tt> which are neither
+     * <tt>ArrayNode</tt>, nor <tt>ObjectNode</tt> into attribute values
      * a <tt>AbstractPacketExtension</tt>.
      *
-     * @param jsonObject the <tt>JSONObject</tt> whose values which are neither
-     * <tt>JSONArray</tt>, nor <tt>JSONObject</tt> to deserialize into attribute
+     * @param jsonObject the <tt>ObjectNode</tt> whose values which are neither
+     * <tt>ArrayNode</tt>, nor <tt>ObjectNode</tt> to deserialize into attribute
      * values of <tt>abstractPacketExtension</tt>
      * @param abstractPacketExtension the <tt>AbstractPacketExtension</tt> in
      * the attributes of which the values of <tt>jsonObject</tt> which are
-     * neither <tt>JSONObject</tt>, nor <tt>JSONArray</tt> are to be
+     * neither <tt>ObjectNode</tt>, nor <tt>ArrayNode</tt> are to be
      * deserialized
      */
     public static void deserializeAbstractPacketExtensionAttributes(
-            JSONObject jsonObject,
+            ObjectNode jsonObject,
             AbstractPacketExtension abstractPacketExtension)
     {
-
-        for (Map.Entry<Object, Object> e : (Iterable<Map.Entry<Object,
-            Object>>) jsonObject
-            .entrySet())
+        jsonObject.fields().forEachRemaining(e ->
         {
-            Object key = e.getKey();
+            String name = e.getKey();
+            JsonNode value = e.getValue();
 
-            if (key != null)
+            if (name != null && !(value instanceof ObjectNode) && !(value instanceof ArrayNode))
             {
-                String name = key.toString();
-
-                if (name != null)
-                {
-                    Object value = e.getValue();
-
-                    if (!(value instanceof JSONObject)
-                        && !(value instanceof JSONArray))
-                    {
-                        abstractPacketExtension.setAttribute(name, value);
-                    }
-                }
+                if (value.isTextual())
+                    abstractPacketExtension.setAttribute(name, value.asText());
+                else if (value.isBoolean())
+                    abstractPacketExtension.setAttribute(name, value.asBoolean());
+                else if (value.isNumber())
+                    abstractPacketExtension.setAttribute(name, value.asLong());
+                else
+                    abstractPacketExtension.setAttribute(name, value.asText());
             }
-        }
+        });
     }
 
     public static <T extends CandidatePacketExtension> T deserializeCandidate(
-            JSONObject candidate,
+            ObjectNode candidate,
             Class<T> candidateIQClass,
             IceUdpTransportPacketExtension transportIQ)
     {
@@ -108,15 +102,15 @@ public final class JSONDeserializer
     }
 
     public static void deserializeCandidates(
-            JSONArray candidates,
+            ArrayNode candidates,
             IceUdpTransportPacketExtension transportIQ)
     {
-        if ((candidates != null) && !candidates.isEmpty())
+        if ((candidates != null) && candidates.size() > 0)
         {
-            for (Object candidate : candidates)
+            for (JsonNode candidate : candidates)
             {
                 deserializeCandidate(
-                        (JSONObject) candidate,
+                        (ObjectNode) candidate,
                         IceCandidatePacketExtension.class,
                         transportIQ);
             }
@@ -151,34 +145,31 @@ public final class JSONDeserializer
     }
 
     public static void deserializeWebsockets(
-        JSONArray webSockets,
+        ArrayNode webSockets,
         IceUdpTransportPacketExtension transportIQ)
     {
-        if ((webSockets != null) && !webSockets.isEmpty())
+        if ((webSockets != null) && webSockets.size() > 0)
         {
-            for (Object webSocket : webSockets)
+            for (JsonNode webSocket : webSockets)
             {
                 deserializeWebsocket(
-                    (String)webSocket,
+                    webSocket.isTextual() ? webSocket.asText() : null,
                     transportIQ);
             }
         }
     }
 
-    private static Boolean objectToBoolean(Object o)
+    private static Boolean jsonNodeToBoolean(JsonNode node)
     {
-        if (o instanceof Boolean)
-        {
-            return (Boolean) o;
-        }
-        else
-        {
-            return Boolean.valueOf(o.toString());
-        }
+        if (node == null)
+            return null;
+        if (node.isBoolean())
+            return node.asBoolean();
+        return Boolean.valueOf(node.asText());
     }
 
     public static DtlsFingerprintPacketExtension deserializeFingerprint(
-            JSONObject fingerprint,
+            ObjectNode fingerprint,
             IceUdpTransportPacketExtension transportIQ)
     {
         DtlsFingerprintPacketExtension fingerprintIQ;
@@ -189,14 +180,14 @@ public final class JSONDeserializer
         }
         else
         {
-            Object theFingerprint
+            JsonNode theFingerprint
                 = fingerprint.get(DtlsFingerprintPacketExtension.ELEMENT);
 
             fingerprintIQ = new DtlsFingerprintPacketExtension();
             // fingerprint
             if (theFingerprint != null)
             {
-                fingerprintIQ.setFingerprint(theFingerprint.toString());
+                fingerprintIQ.setFingerprint(theFingerprint.asText());
             }
             // attributes
             deserializeAbstractPacketExtensionAttributes(
@@ -219,63 +210,56 @@ public final class JSONDeserializer
     }
 
     public static void deserializeFingerprints(
-            JSONArray fingerprints,
+            ArrayNode fingerprints,
             IceUdpTransportPacketExtension transportIQ)
     {
-        if ((fingerprints != null) && !fingerprints.isEmpty())
+        if ((fingerprints != null) && fingerprints.size() > 0)
         {
-            for (Object fingerprint : fingerprints)
+            for (JsonNode fingerprint : fingerprints)
             {
-                deserializeFingerprint((JSONObject) fingerprint, transportIQ);
+                deserializeFingerprint((ObjectNode) fingerprint, transportIQ);
             }
         }
     }
 
     public static void deserializeParameters(
-            JSONObject parameters,
+            ObjectNode parameters,
             PayloadTypePacketExtension payloadTypeIQ)
     {
         if (parameters != null)
         {
-
-            for (Map.Entry<Object, Object> e
-                        : (Iterable<Map.Entry<Object, Object>>) parameters
-                                .entrySet())
+            parameters.fields().forEachRemaining(e ->
             {
-                Object name = e.getKey();
-                Object value = e.getValue();
+                String name = e.getKey();
+                JsonNode valueNode = e.getValue();
+                String value = valueNode.isNull() ? null : valueNode.asText();
 
                 /* Some payload formats - notably red - have a parameter without a name, but
                  * JSON doesn't allow null as a key name */
-                if (name instanceof String && name.equals("null"))
-                {
-                    name = null;
-                }
+                String actualName = "null".equals(name) ? null : name;
 
-                if ((name != null) || (value != null))
+                if ((actualName != null) || (value != null))
                 {
                     payloadTypeIQ.addParameter(
-                            new ParameterPacketExtension(
-                                    Objects.toString(name, null),
-                                    Objects.toString(value, null)));
+                            new ParameterPacketExtension(actualName, value));
                 }
-            }
+            });
         }
     }
 
     public static void deserializeRtcpFbs(
-            JSONArray rtcpFbs,
+            ArrayNode rtcpFbs,
             PayloadTypePacketExtension payloadTypeIQ)
     {
         if (rtcpFbs != null)
         {
-            for (Object iter : rtcpFbs)
+            for (JsonNode iter : rtcpFbs)
             {
-                JSONObject rtcpFb = (JSONObject) iter;
-                String type = (String)
-                        rtcpFb.get(RtcpFbPacketExtension.TYPE_ATTR_NAME);
-                String subtype = (String)
-                        rtcpFb.get(RtcpFbPacketExtension.SUBTYPE_ATTR_NAME);
+                ObjectNode rtcpFb = (ObjectNode) iter;
+                JsonNode typeNode = rtcpFb.get(RtcpFbPacketExtension.TYPE_ATTR_NAME);
+                JsonNode subtypeNode = rtcpFb.get(RtcpFbPacketExtension.SUBTYPE_ATTR_NAME);
+                String type = (typeNode != null && typeNode.isTextual()) ? typeNode.asText() : null;
+                String subtype = (subtypeNode != null && subtypeNode.isTextual()) ? subtypeNode.asText() : null;
                 if (type != null)
                 {
                     RtcpFbPacketExtension ext = new RtcpFbPacketExtension();
@@ -291,7 +275,7 @@ public final class JSONDeserializer
     }
 
     public static RTPHdrExtPacketExtension deserializeHeaderExtension(
-            JSONObject headerExtension)
+            ObjectNode headerExtension)
     {
         RTPHdrExtPacketExtension headerExtensionIQ;
         if (headerExtension == null)
@@ -300,18 +284,20 @@ public final class JSONDeserializer
         }
         else
         {
-            Long id = (Long)headerExtension.get(RTPHdrExtPacketExtension.ID_ATTR_NAME);
-            String uriString = (String)headerExtension.get(RTPHdrExtPacketExtension.URI_ATTR_NAME);
+            JsonNode idNode = headerExtension.get(RTPHdrExtPacketExtension.ID_ATTR_NAME);
+            JsonNode uriNode = headerExtension.get(RTPHdrExtPacketExtension.URI_ATTR_NAME);
+            Long id = (idNode != null && idNode.isNumber()) ? idNode.asLong() : null;
+            String uriString = (uriNode != null && uriNode.isTextual()) ? uriNode.asText() : null;
             URI uri;
             try
             {
-                uri = new URI(uriString);
+                uri = uriString != null ? new URI(uriString) : null;
             }
             catch (URISyntaxException e)
             {
                 uri = null;
             }
-            if (uri != null)
+            if (uri != null && id != null)
             {
                 headerExtensionIQ = new RTPHdrExtPacketExtension();
                 headerExtensionIQ.setID(String.valueOf(id));
@@ -326,12 +312,12 @@ public final class JSONDeserializer
     }
 
     public static Collection<RTPHdrExtPacketExtension> deserializeHeaderExtensions(
-        JSONArray headerExtensions)
+        ArrayNode headerExtensions)
     {
         Collection<RTPHdrExtPacketExtension> headerExtensionIQs = new ArrayList<>();
-        for (Object headerExtension : headerExtensions)
+        for (JsonNode headerExtension : headerExtensions)
         {
-            RTPHdrExtPacketExtension headerExtensionIQ = deserializeHeaderExtension((JSONObject) headerExtension);
+            RTPHdrExtPacketExtension headerExtensionIQ = deserializeHeaderExtension((ObjectNode) headerExtension);
             if (headerExtensionIQ != null)
             {
                 headerExtensionIQs.add(headerExtensionIQ);
@@ -341,7 +327,7 @@ public final class JSONDeserializer
     }
 
     public static PayloadTypePacketExtension deserializePayloadType(
-            JSONObject payloadType)
+            ObjectNode payloadType)
     {
         PayloadTypePacketExtension payloadTypeIQ;
 
@@ -351,7 +337,7 @@ public final class JSONDeserializer
         }
         else
         {
-            Object parameters = payloadType.get(JSONSerializer.PARAMETERS);
+            JsonNode parameters = payloadType.get(JSONSerializer.PARAMETERS);
 
             payloadTypeIQ = new PayloadTypePacketExtension();
             // attributes
@@ -359,42 +345,42 @@ public final class JSONDeserializer
                     payloadType,
                     payloadTypeIQ);
             // parameters
-            if (parameters != null)
+            if (parameters instanceof ObjectNode)
             {
-                deserializeParameters((JSONObject) parameters, payloadTypeIQ);
+                deserializeParameters((ObjectNode) parameters, payloadTypeIQ);
             }
 
-            Object rtcpFbs = payloadType.get(JSONSerializer.RTCP_FBS);
+            JsonNode rtcpFbs = payloadType.get(JSONSerializer.RTCP_FBS);
 
-            if (rtcpFbs instanceof JSONArray)
+            if (rtcpFbs instanceof ArrayNode)
             {
-                deserializeRtcpFbs((JSONArray) rtcpFbs, payloadTypeIQ);
+                deserializeRtcpFbs((ArrayNode) rtcpFbs, payloadTypeIQ);
             }
         }
         return payloadTypeIQ;
     }
 
     public static Collection<PayloadTypePacketExtension> deserializePayloadTypes(
-            JSONArray payloadTypes)
+            ArrayNode payloadTypes)
     {
         Collection<PayloadTypePacketExtension> payloadTypeIQs = new ArrayList<>();
-        for (Object payloadType : payloadTypes)
+        for (JsonNode payloadType : payloadTypes)
         {
-            payloadTypeIQs.add(deserializePayloadType((JSONObject) payloadType));
+            payloadTypeIQs.add(deserializePayloadType((ObjectNode) payloadType));
         }
         return payloadTypeIQs;
     }
 
 
-    public static SourcePacketExtension deserializeSource(Object source)
+    public static SourcePacketExtension deserializeSource(JsonNode source)
     {
         SourcePacketExtension sourceIQ;
 
-        if (source == null)
+        if (source == null || source.isNull())
         {
             sourceIQ = null;
         }
-        else if (source instanceof Number || source instanceof String)
+        else if (source.isNumber() || source.isTextual())
         {
             long ssrc;
             try
@@ -408,10 +394,10 @@ public final class JSONDeserializer
             sourceIQ = new SourcePacketExtension();
             sourceIQ.setSSRC(ssrc);
         }
-        else if (source instanceof JSONObject)
+        else if (source instanceof ObjectNode)
         {
-            JSONObject sourceJSONObject = (JSONObject) source;
-            Object ssrcAttr = sourceJSONObject.get(SourcePacketExtension.SSRC_ATTR_NAME);
+            ObjectNode sourceJSONObject = (ObjectNode) source;
+            JsonNode ssrcAttr = sourceJSONObject.get(SourcePacketExtension.SSRC_ATTR_NAME);
             long ssrc;
 
             try
@@ -425,38 +411,38 @@ public final class JSONDeserializer
             sourceIQ = new SourcePacketExtension();
             sourceIQ.setSSRC(ssrc);
 
-            Object name = sourceJSONObject.get(SourcePacketExtension.NAME_ATTR_NAME);
-            Object videoType = sourceJSONObject.get(SourcePacketExtension.VIDEO_TYPE_ATTR_NAME);
-            Object rid = sourceJSONObject.get(SourcePacketExtension.RID_ATTR_NAME);
-            Object parameters = sourceJSONObject.get(JSONSerializer.PARAMETERS);
-            if (name instanceof String)
+            JsonNode name = sourceJSONObject.get(SourcePacketExtension.NAME_ATTR_NAME);
+            JsonNode videoType = sourceJSONObject.get(SourcePacketExtension.VIDEO_TYPE_ATTR_NAME);
+            JsonNode rid = sourceJSONObject.get(SourcePacketExtension.RID_ATTR_NAME);
+            JsonNode parameters = sourceJSONObject.get(JSONSerializer.PARAMETERS);
+            if (name != null && name.isTextual())
             {
-                sourceIQ.setName((String)name);
+                sourceIQ.setName(name.asText());
             }
-            if (videoType instanceof String)
+            if (videoType != null && videoType.isTextual())
             {
-                sourceIQ.setVideoType((String) videoType);
+                sourceIQ.setVideoType(videoType.asText());
             }
-            if (rid instanceof String)
+            if (rid != null && rid.isTextual())
             {
-                sourceIQ.setRid((String)rid);
+                sourceIQ.setRid(rid.asText());
             }
-            if (parameters instanceof JSONObject)
+            if (parameters instanceof ObjectNode)
             {
-                for (Map.Entry<Object, Object> e
-                    : (Iterable<Map.Entry<Object, Object>>)((JSONObject)parameters).entrySet())
+                ((ObjectNode) parameters).fields().forEachRemaining(e ->
                 {
-                    Object paramName = e.getKey();
-                    Object paramValue = e.getValue();
+                    JsonNode paramValueNode = e.getValue();
+                    String paramName = e.getKey();
+                    String paramValue = paramValueNode.isNull() ? null : paramValueNode.asText();
 
                     if ((paramName != null) || (paramValue != null))
                     {
                         sourceIQ.addParameter(
                             new ParameterPacketExtension(
                                 Objects.toString(paramName, null),
-                                Objects.toString(paramValue, null)));
+                                paramValue));
                     }
-                }
+                });
             }
         }
         else
@@ -467,35 +453,35 @@ public final class JSONDeserializer
     }
 
     public static SourceGroupPacketExtension deserializeSourceGroup(
-            Object sourceGroup)
+            JsonNode sourceGroup)
     {
         SourceGroupPacketExtension sourceGroupIQ;
 
-        if (!(sourceGroup instanceof JSONObject))
+        if (!(sourceGroup instanceof ObjectNode))
         {
             sourceGroupIQ = null;
         }
         else
         {
-            JSONObject sourceGroupJSONObject = (JSONObject) sourceGroup;
+            ObjectNode sourceGroupJSONObject = (ObjectNode) sourceGroup;
 
             // semantics
-            Object semantics = sourceGroupJSONObject
+            JsonNode semantics = sourceGroupJSONObject
                     .get(SourceGroupPacketExtension.SEMANTICS_ATTR_NAME);
 
-            if (semantics instanceof String && ((String) semantics).length() != 0)
+            if (semantics != null && semantics.isTextual() && semantics.asText().length() != 0)
             {
                 // ssrcs
-                Object sourcesObject = sourceGroupJSONObject
+                JsonNode sourcesObject = sourceGroupJSONObject
                         .get(JSONSerializer.SOURCES);
 
-                if (sourcesObject instanceof JSONArray && ((JSONArray) sourcesObject).size() != 0)
+                if (sourcesObject instanceof ArrayNode && ((ArrayNode) sourcesObject).size() != 0)
                 {
-                    JSONArray sourcesJSONArray = (JSONArray) sourcesObject;
+                    ArrayNode sourcesJSONArray = (ArrayNode) sourcesObject;
                     List<SourcePacketExtension> sourcePacketExtensions
                         = new ArrayList<>();
 
-                    for (Object source : sourcesJSONArray)
+                    for (JsonNode source : sourcesJSONArray)
                     {
                         SourcePacketExtension sourcePacketExtension
                                 = deserializeSource(source);
@@ -507,7 +493,7 @@ public final class JSONDeserializer
                     }
 
                     sourceGroupIQ = new SourceGroupPacketExtension();
-                    sourceGroupIQ.setSemantics(Objects.toString(semantics));
+                    sourceGroupIQ.setSemantics(semantics.asText());
                     sourceGroupIQ.addSources(sourcePacketExtensions);
                 }
                 else
@@ -523,20 +509,20 @@ public final class JSONDeserializer
         return sourceGroupIQ;
     }
 
-    public static int deserializeSSRC(Object o)
+    public static long deserializeSSRC(JsonNode o)
         throws NumberFormatException
     {
-        int i = 0;
+        long i = 0;
 
-        if (o != null)
+        if (o != null && !o.isNull())
         {
-            if (o instanceof Number)
+            if (o.isNumber())
             {
-                i = ((Number) o).intValue();
+                i = o.asLong();
             }
             else
             {
-                String s = o.toString();
+                String s = o.asText();
 
                 if (s.startsWith("-"))
                 {
@@ -544,7 +530,7 @@ public final class JSONDeserializer
                 }
                 else
                 {
-                    i = (int) Long.parseLong(s);
+                    i = Long.parseLong(s);
                 }
             }
         }
@@ -552,7 +538,7 @@ public final class JSONDeserializer
     }
 
     public static IceUdpTransportPacketExtension deserializeTransport(
-            JSONObject transport)
+            ObjectNode transport)
     {
         IceUdpTransportPacketExtension transportIQ;
 
@@ -562,15 +548,16 @@ public final class JSONDeserializer
         }
         else
         {
-            Object xmlns = transport.get(JSONSerializer.XMLNS);
-            Object fingerprints = transport.get(JSONSerializer.FINGERPRINTS);
-            Object candidateList = transport.get(JSONSerializer.CANDIDATE_LIST);
-            Object webSocketList = transport.get(JSONSerializer.WEBSOCKET_LIST);
-            Object remoteCandidate
+            JsonNode xmlns = transport.get(JSONSerializer.XMLNS);
+            JsonNode fingerprints = transport.get(JSONSerializer.FINGERPRINTS);
+            JsonNode candidateList = transport.get(JSONSerializer.CANDIDATE_LIST);
+            JsonNode webSocketList = transport.get(JSONSerializer.WEBSOCKET_LIST);
+            JsonNode remoteCandidate
                 = transport.get(RemoteCandidatePacketExtension.ELEMENT);
-            Object rtcpMux = transport.get(IceRtcpmuxPacketExtension.ELEMENT);
+            JsonNode rtcpMux = transport.get(IceRtcpmuxPacketExtension.ELEMENT);
 
-            if (IceUdpTransportPacketExtension.NAMESPACE.equals(xmlns))
+            if (IceUdpTransportPacketExtension.NAMESPACE.equals(
+                    xmlns != null ? xmlns.asText() : null))
             {
                 transportIQ = new IceUdpTransportPacketExtension();
             }
@@ -591,38 +578,42 @@ public final class JSONDeserializer
                 // it's an element
                 transportIQ.removeAttribute(IceRtcpmuxPacketExtension.ELEMENT);
                 // fingerprints
-                if (fingerprints != null)
+                if (fingerprints instanceof ArrayNode)
                 {
                     deserializeFingerprints(
-                            (JSONArray) fingerprints,
+                            (ArrayNode) fingerprints,
                             transportIQ);
                 }
                 // candidateList
-                if (candidateList != null)
+                if (candidateList instanceof ArrayNode)
                 {
                     deserializeCandidates(
-                            (JSONArray) candidateList,
+                            (ArrayNode) candidateList,
                             transportIQ);
                 }
-                if (webSocketList != null)
+                if (webSocketList instanceof ArrayNode)
                 {
                     deserializeWebsockets(
-                        (JSONArray) webSocketList,
+                        (ArrayNode) webSocketList,
                         transportIQ);
                 }
                 // remoteCandidate
-                if (remoteCandidate != null)
+                if (remoteCandidate instanceof ObjectNode)
                 {
                     deserializeCandidate(
-                            (JSONObject) remoteCandidate,
+                            (ObjectNode) remoteCandidate,
                             RemoteCandidatePacketExtension.class,
                             transportIQ);
                 }
                 // rtcpMux
-                if (rtcpMux != null && objectToBoolean(rtcpMux))
+                if (rtcpMux != null)
                 {
-                    transportIQ.addChildExtension(
-                        new IceRtcpmuxPacketExtension());
+                    Boolean b = jsonNodeToBoolean(rtcpMux);
+                    if (b != null && b)
+                    {
+                        transportIQ.addChildExtension(
+                            new IceRtcpmuxPacketExtension());
+                    }
                 }
             }
         }
