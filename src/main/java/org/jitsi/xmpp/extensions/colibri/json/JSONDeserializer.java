@@ -509,16 +509,16 @@ public final class JSONDeserializer
         return sourceGroupIQ;
     }
 
-    public static long deserializeSSRC(JsonNode o)
+    public static int deserializeSSRC(JsonNode o)
         throws NumberFormatException
     {
-        long i = 0;
+        int i = 0;
 
         if (o != null && !o.isNull())
         {
             if (o.isNumber())
             {
-                i = o.asLong();
+                i = o.asInt();
             }
             else
             {
@@ -530,7 +530,7 @@ public final class JSONDeserializer
                 }
                 else
                 {
-                    i = Long.parseLong(s);
+                    i = (int) Long.parseLong(s);
                 }
             }
         }
