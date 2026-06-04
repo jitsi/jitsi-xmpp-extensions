@@ -82,6 +82,10 @@ public class StartMutedProvider
                 {
                     done = true;
                 }
+                else
+                {
+                    parser.next();
+                }
                 break;
             }
             default:
