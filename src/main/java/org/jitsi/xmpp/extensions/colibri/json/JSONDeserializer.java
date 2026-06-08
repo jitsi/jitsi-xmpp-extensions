@@ -50,7 +50,7 @@ public final class JSONDeserializer
             ObjectNode jsonObject,
             AbstractPacketExtension abstractPacketExtension)
     {
-        jsonObject.fields().forEachRemaining(e ->
+        jsonObject.properties().forEach(e ->
         {
             String name = e.getKey();
             JsonNode value = e.getValue();
@@ -228,7 +228,7 @@ public final class JSONDeserializer
     {
         if (parameters != null)
         {
-            parameters.fields().forEachRemaining(e ->
+            parameters.properties().forEach(e ->
             {
                 String name = e.getKey();
                 JsonNode valueNode = e.getValue();
@@ -443,7 +443,7 @@ public final class JSONDeserializer
             {
                 if (!(parameters instanceof ObjectNode))
                     throw new IllegalArgumentException("Expected object for source parameters, got: " + parameters.getNodeType());
-                ((ObjectNode) parameters).fields().forEachRemaining(e ->
+                parameters.properties().forEach(e ->
                 {
                     JsonNode paramValueNode = e.getValue();
                     String paramName = e.getKey();
