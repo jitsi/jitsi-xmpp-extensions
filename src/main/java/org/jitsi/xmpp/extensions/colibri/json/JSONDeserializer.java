@@ -152,9 +152,9 @@ public final class JSONDeserializer
         {
             for (JsonNode webSocket : webSockets)
             {
-                deserializeWebsocket(
-                    webSocket.isTextual() ? webSocket.asText() : null,
-                    transportIQ);
+                if (!webSocket.isTextual())
+                    throw new IllegalArgumentException("Expected string websocket, got: " + webSocket.getNodeType());
+                deserializeWebsocket(webSocket.asText(), transportIQ);
             }
         }
     }
@@ -258,8 +258,12 @@ public final class JSONDeserializer
                 ObjectNode rtcpFb = (ObjectNode) iter;
                 JsonNode typeNode = rtcpFb.get(RtcpFbPacketExtension.TYPE_ATTR_NAME);
                 JsonNode subtypeNode = rtcpFb.get(RtcpFbPacketExtension.SUBTYPE_ATTR_NAME);
-                String type = (typeNode != null && typeNode.isTextual()) ? typeNode.asText() : null;
-                String subtype = (subtypeNode != null && subtypeNode.isTextual()) ? subtypeNode.asText() : null;
+                if (typeNode != null && !typeNode.isTextual())
+                    throw new IllegalArgumentException("Expected string rtcp-fb type, got: " + typeNode.getNodeType());
+                if (subtypeNode != null && !subtypeNode.isTextual())
+                    throw new IllegalArgumentException("Expected string rtcp-fb subtype, got: " + subtypeNode.getNodeType());
+                String type = typeNode != null ? typeNode.asText() : null;
+                String subtype = subtypeNode != null ? subtypeNode.asText() : null;
                 if (type != null)
                 {
                     RtcpFbPacketExtension ext = new RtcpFbPacketExtension();
@@ -286,8 +290,12 @@ public final class JSONDeserializer
         {
             JsonNode idNode = headerExtension.get(RTPHdrExtPacketExtension.ID_ATTR_NAME);
             JsonNode uriNode = headerExtension.get(RTPHdrExtPacketExtension.URI_ATTR_NAME);
-            Long id = (idNode != null && idNode.isNumber()) ? idNode.asLong() : null;
-            String uriString = (uriNode != null && uriNode.isTextual()) ? uriNode.asText() : null;
+            if (idNode != null && !idNode.isNumber())
+                throw new IllegalArgumentException("Expected numeric header extension id, got: " + idNode.getNodeType());
+            if (uriNode != null && !uriNode.isTextual())
+                throw new IllegalArgumentException("Expected string header extension uri, got: " + uriNode.getNodeType());
+            Long id = idNode != null ? idNode.asLong() : null;
+            String uriString = uriNode != null ? uriNode.asText() : null;
             URI uri;
             try
             {
@@ -345,15 +353,19 @@ public final class JSONDeserializer
                     payloadType,
                     payloadTypeIQ);
             // parameters
-            if (parameters instanceof ObjectNode)
+            if (parameters != null && !parameters.isNull())
             {
+                if (!(parameters instanceof ObjectNode))
+                    throw new IllegalArgumentException("Expected object for parameters, got: " + parameters.getNodeType());
                 deserializeParameters((ObjectNode) parameters, payloadTypeIQ);
             }
 
             JsonNode rtcpFbs = payloadType.get(JSONSerializer.RTCP_FBS);
 
-            if (rtcpFbs instanceof ArrayNode)
+            if (rtcpFbs != null && !rtcpFbs.isNull())
             {
+                if (!(rtcpFbs instanceof ArrayNode))
+                    throw new IllegalArgumentException("Expected array for rtcp-fbs, got: " + rtcpFbs.getNodeType());
                 deserializeRtcpFbs((ArrayNode) rtcpFbs, payloadTypeIQ);
             }
         }
@@ -427,8 +439,10 @@ public final class JSONDeserializer
             {
                 sourceIQ.setRid(rid.asText());
             }
-            if (parameters instanceof ObjectNode)
+            if (parameters != null && !parameters.isNull())
             {
+                if (!(parameters instanceof ObjectNode))
+                    throw new IllegalArgumentException("Expected object for source parameters, got: " + parameters.getNodeType());
                 ((ObjectNode) parameters).fields().forEachRemaining(e ->
                 {
                     JsonNode paramValueNode = e.getValue();
@@ -447,7 +461,7 @@ public final class JSONDeserializer
         }
         else
         {
-            sourceIQ = null;
+            throw new IllegalArgumentException("Unexpected source node type: " + source.getNodeType());
         }
         return sourceIQ;
     }
@@ -457,9 +471,13 @@ public final class JSONDeserializer
     {
         SourceGroupPacketExtension sourceGroupIQ;
 
-        if (!(sourceGroup instanceof ObjectNode))
+        if (sourceGroup == null || sourceGroup.isNull())
         {
             sourceGroupIQ = null;
+        }
+        else if (!(sourceGroup instanceof ObjectNode))
+        {
+            throw new IllegalArgumentException("Expected object for source group, got: " + sourceGroup.getNodeType());
         }
         else
         {
@@ -469,11 +487,22 @@ public final class JSONDeserializer
             JsonNode semantics = sourceGroupJSONObject
                     .get(SourceGroupPacketExtension.SEMANTICS_ATTR_NAME);
 
-            if (semantics != null && semantics.isTextual() && semantics.asText().length() != 0)
+            if (semantics == null || semantics.isNull() || semantics.asText().length() == 0)
+            {
+                sourceGroupIQ = null;
+            }
+            else if (!semantics.isTextual())
+            {
+                throw new IllegalArgumentException("Expected string semantics, got: " + semantics.getNodeType());
+            }
+            else
             {
                 // ssrcs
                 JsonNode sourcesObject = sourceGroupJSONObject
                         .get(JSONSerializer.SOURCES);
+
+                if (sourcesObject != null && !sourcesObject.isNull() && !(sourcesObject instanceof ArrayNode))
+                    throw new IllegalArgumentException("Expected array for sources, got: " + sourcesObject.getNodeType());
 
                 if (sourcesObject instanceof ArrayNode && ((ArrayNode) sourcesObject).size() != 0)
                 {
@@ -500,10 +529,6 @@ public final class JSONDeserializer
                 {
                     sourceGroupIQ = null;
                 }
-            }
-            else
-            {
-                sourceGroupIQ = null;
             }
         }
         return sourceGroupIQ;
@@ -578,28 +603,30 @@ public final class JSONDeserializer
                 // it's an element
                 transportIQ.removeAttribute(IceRtcpmuxPacketExtension.ELEMENT);
                 // fingerprints
-                if (fingerprints instanceof ArrayNode)
+                if (fingerprints != null && !fingerprints.isNull())
                 {
-                    deserializeFingerprints(
-                            (ArrayNode) fingerprints,
-                            transportIQ);
+                    if (!(fingerprints instanceof ArrayNode))
+                        throw new IllegalArgumentException("Expected array for fingerprints, got: " + fingerprints.getNodeType());
+                    deserializeFingerprints((ArrayNode) fingerprints, transportIQ);
                 }
                 // candidateList
-                if (candidateList instanceof ArrayNode)
+                if (candidateList != null && !candidateList.isNull())
                 {
-                    deserializeCandidates(
-                            (ArrayNode) candidateList,
-                            transportIQ);
+                    if (!(candidateList instanceof ArrayNode))
+                        throw new IllegalArgumentException("Expected array for candidates, got: " + candidateList.getNodeType());
+                    deserializeCandidates((ArrayNode) candidateList, transportIQ);
                 }
-                if (webSocketList instanceof ArrayNode)
+                if (webSocketList != null && !webSocketList.isNull())
                 {
-                    deserializeWebsockets(
-                        (ArrayNode) webSocketList,
-                        transportIQ);
+                    if (!(webSocketList instanceof ArrayNode))
+                        throw new IllegalArgumentException("Expected array for websockets, got: " + webSocketList.getNodeType());
+                    deserializeWebsockets((ArrayNode) webSocketList, transportIQ);
                 }
                 // remoteCandidate
-                if (remoteCandidate instanceof ObjectNode)
+                if (remoteCandidate != null && !remoteCandidate.isNull())
                 {
+                    if (!(remoteCandidate instanceof ObjectNode))
+                        throw new IllegalArgumentException("Expected object for remoteCandidate, got: " + remoteCandidate.getNodeType());
                     deserializeCandidate(
                             (ObjectNode) remoteCandidate,
                             RemoteCandidatePacketExtension.class,
