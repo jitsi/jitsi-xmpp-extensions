@@ -45,27 +45,25 @@ object Colibri2JSONDeserializer {
     private fun deserializeMedia(media: ObjectNode): Media {
         return Media.getBuilder().apply {
             media[Media.TYPE_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setType(MediaType.parseString(it.asText()))
-                }
+                require(it.isTextual) { "Expected string for ${Media.TYPE_ATTR_NAME}, got ${it.nodeType}" }
+                setType(MediaType.parseString(it.asText()))
             }
 
             media[Colibri2JSONSerializer.PAYLOAD_TYPES]?.let { payloadTypes ->
-                if (payloadTypes is ArrayNode) {
-                    JSONDeserializer.deserializePayloadTypes(payloadTypes).forEach { addPayloadType(it) }
-                }
+                require(payloadTypes is ArrayNode) { "Expected array for payloadTypes, got ${payloadTypes.nodeType}" }
+                JSONDeserializer.deserializePayloadTypes(payloadTypes).forEach { addPayloadType(it) }
             }
 
             media[Colibri2JSONSerializer.RTP_HEADER_EXTS]?.let { rtpHdrExts ->
-                if (rtpHdrExts is ArrayNode) {
-                    JSONDeserializer.deserializeHeaderExtensions(rtpHdrExts).forEach { addRtpHdrExt(it) }
-                }
+                require(rtpHdrExts is ArrayNode) { "Expected array for rtpHdrExts, got ${rtpHdrExts.nodeType}" }
+                JSONDeserializer.deserializeHeaderExtensions(rtpHdrExts).forEach { addRtpHdrExt(it) }
             }
 
             media[ExtmapAllowMixedPacketExtension.ELEMENT]?.let {
-                if (it.isBoolean) {
-                    setExtmapAllowMixed(ExtmapAllowMixedPacketExtension())
+                require(it.isBoolean) {
+                    "Expected boolean for ${ExtmapAllowMixedPacketExtension.ELEMENT}, got ${it.nodeType}"
                 }
+                setExtmapAllowMixed(ExtmapAllowMixedPacketExtension())
             }
         }.build()
     }
@@ -73,15 +71,13 @@ object Colibri2JSONDeserializer {
     private fun deserializeSctp(sctp: ObjectNode): Sctp {
         return Sctp.Builder().apply {
             sctp[Sctp.ROLE_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setRole(Sctp.Role.parseString(it.asText()))
-                }
+                require(it.isTextual) { "Expected string for ${Sctp.ROLE_ATTR_NAME}, got ${it.nodeType}" }
+                setRole(Sctp.Role.parseString(it.asText()))
             }
 
             sctp[Sctp.PORT_ATTR_NAME]?.let {
-                if (it.isNumber) {
-                    setPort(it.asInt())
-                }
+                require(it.isNumber) { "Expected number for ${Sctp.PORT_ATTR_NAME}, got ${it.nodeType}" }
+                setPort(it.asInt())
             }
         }.build()
     }
@@ -89,27 +85,29 @@ object Colibri2JSONDeserializer {
     private fun deserializeTransport(transport: ObjectNode): Transport {
         return Transport.getBuilder().apply {
             transport[Transport.ICE_CONTROLLING_ATTR_NAME]?.let {
-                if (it.isBoolean) {
-                    setIceControlling(it.asBoolean())
+                require(it.isBoolean) {
+                    "Expected boolean for ${Transport.ICE_CONTROLLING_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setIceControlling(it.asBoolean())
             }
 
             transport[Transport.USE_UNIQUE_PORT_ATTR_NAME]?.let {
-                if (it.isBoolean) {
-                    setUseUniquePort(it.asBoolean())
+                require(it.isBoolean) {
+                    "Expected boolean for ${Transport.USE_UNIQUE_PORT_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setUseUniquePort(it.asBoolean())
             }
 
             transport[IceUdpTransportPacketExtension.ELEMENT]?.let {
-                if (it is ObjectNode) {
-                    setIceUdpExtension(JSONDeserializer.deserializeTransport(it))
+                require(it is ObjectNode) {
+                    "Expected object for ${IceUdpTransportPacketExtension.ELEMENT}, got ${it.nodeType}"
                 }
+                setIceUdpExtension(JSONDeserializer.deserializeTransport(it))
             }
 
             transport[Sctp.ELEMENT]?.let {
-                if (it is ObjectNode) {
-                    setSctp(deserializeSctp(it))
-                }
+                require(it is ObjectNode) { "Expected object for ${Sctp.ELEMENT}, got ${it.nodeType}" }
+                setSctp(deserializeSctp(it))
             }
         }.build()
     }
@@ -117,27 +115,23 @@ object Colibri2JSONDeserializer {
     private fun deserializeMediaSource(mediaSource: ObjectNode): MediaSource {
         return MediaSource.getBuilder().apply {
             mediaSource[MediaSource.TYPE_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setType(MediaType.parseString(it.asText()))
-                }
+                require(it.isTextual) { "Expected string for ${MediaSource.TYPE_ATTR_NAME}, got ${it.nodeType}" }
+                setType(MediaType.parseString(it.asText()))
             }
 
             mediaSource[MediaSource.ID_NAME]?.let {
-                if (it.isTextual) {
-                    setId(it.asText())
-                }
+                require(it.isTextual) { "Expected string for ${MediaSource.ID_NAME}, got ${it.nodeType}" }
+                setId(it.asText())
             }
 
             mediaSource[Colibri2JSONSerializer.SOURCES]?.let { sources ->
-                if (sources is ArrayNode) {
-                    sources.forEach { addSource(JSONDeserializer.deserializeSource(it)) }
-                }
+                require(sources is ArrayNode) { "Expected array for sources, got ${sources.nodeType}" }
+                sources.forEach { addSource(JSONDeserializer.deserializeSource(it)) }
             }
 
             mediaSource[Colibri2JSONSerializer.SOURCE_GROUPS]?.let { sourceGroups ->
-                if (sourceGroups is ArrayNode) {
-                    sourceGroups.forEach { addSsrcGroup(JSONDeserializer.deserializeSourceGroup(it)) }
-                }
+                require(sourceGroups is ArrayNode) { "Expected array for sourceGroups, got ${sourceGroups.nodeType}" }
+                sourceGroups.forEach { addSsrcGroup(JSONDeserializer.deserializeSourceGroup(it)) }
             }
         }.build()
     }
@@ -145,9 +139,8 @@ object Colibri2JSONDeserializer {
     private fun deserializeMedias(medias: ArrayNode): Collection<Media> {
         return ArrayList<Media>().apply {
             medias.forEach {
-                if (it is ObjectNode) {
-                    add(deserializeMedia(it))
-                }
+                require(it is ObjectNode) { "Expected object for media element, got ${it.nodeType}" }
+                add(deserializeMedia(it))
             }
         }
     }
@@ -155,9 +148,8 @@ object Colibri2JSONDeserializer {
     private fun deserializeSources(sources: ArrayNode): Sources {
         return Sources.getBuilder().apply {
             sources.forEach {
-                if (it is ObjectNode) {
-                    addMediaSource(deserializeMediaSource(it))
-                }
+                require(it is ObjectNode) { "Expected object for source element, got ${it.nodeType}" }
+                addMediaSource(deserializeMediaSource(it))
             }
         }.build()
     }
@@ -167,39 +159,37 @@ object Colibri2JSONDeserializer {
         builder: AbstractConferenceEntity.Builder
     ) {
         entity[AbstractConferenceEntity.ID_ATTR_NAME]?.let {
-            if (it.isTextual) {
-                builder.setId(it.asText())
-            }
+            require(it.isTextual) { "Expected string for ${AbstractConferenceEntity.ID_ATTR_NAME}, got ${it.nodeType}" }
+            builder.setId(it.asText())
         }
 
         entity[AbstractConferenceEntity.CREATE_ATTR_NAME]?.let {
-            if (it.isBoolean) {
-                builder.setCreate(it.asBoolean())
+            require(it.isBoolean) {
+                "Expected boolean for ${AbstractConferenceEntity.CREATE_ATTR_NAME}, got ${it.nodeType}"
             }
+            builder.setCreate(it.asBoolean())
         }
 
         entity[AbstractConferenceEntity.EXPIRE_ATTR_NAME]?.let {
-            if (it.isBoolean) {
-                builder.setExpire(it.asBoolean())
+            require(it.isBoolean) {
+                "Expected boolean for ${AbstractConferenceEntity.EXPIRE_ATTR_NAME}, got ${it.nodeType}"
             }
+            builder.setExpire(it.asBoolean())
         }
 
         entity[Colibri2JSONSerializer.MEDIA_LIST]?.let { medias ->
-            if (medias is ArrayNode) {
-                deserializeMedias(medias).forEach { builder.addMedia(it) }
-            }
+            require(medias is ArrayNode) { "Expected array for mediaList, got ${medias.nodeType}" }
+            deserializeMedias(medias).forEach { builder.addMedia(it) }
         }
 
         entity[Transport.ELEMENT]?.let {
-            if (it is ObjectNode) {
-                builder.setTransport(deserializeTransport(it))
-            }
+            require(it is ObjectNode) { "Expected object for ${Transport.ELEMENT}, got ${it.nodeType}" }
+            builder.setTransport(deserializeTransport(it))
         }
 
         entity[Sources.ELEMENT]?.let {
-            if (it is ArrayNode) {
-                builder.setSources(deserializeSources(it))
-            }
+            require(it is ArrayNode) { "Expected array for ${Sources.ELEMENT}, got ${it.nodeType}" }
+            builder.setSources(deserializeSources(it))
         }
     }
 
@@ -212,17 +202,16 @@ object Colibri2JSONDeserializer {
         val audio = forceMute[ForceMute.AUDIO_ATTR_NAME]
         val video = forceMute[ForceMute.VIDEO_ATTR_NAME]
 
+        if (audio != null) {
+            require(audio.isBoolean) { "Expected boolean for ${ForceMute.AUDIO_ATTR_NAME}, got ${audio.nodeType}" }
+        }
+        if (video != null) {
+            require(video.isBoolean) { "Expected boolean for ${ForceMute.VIDEO_ATTR_NAME}, got ${video.nodeType}" }
+        }
+
         return ForceMute(
-            if (audio != null && audio.isBoolean) {
-                audio.asBoolean()
-            } else {
-                ForceMute.AUDIO_DEFAULT
-            },
-            if (video != null && video.isBoolean) {
-                video.asBoolean()
-            } else {
-                ForceMute.VIDEO_DEFAULT
-            }
+            audio?.asBoolean() ?: ForceMute.AUDIO_DEFAULT,
+            video?.asBoolean() ?: ForceMute.VIDEO_DEFAULT
         )
     }
 
@@ -231,36 +220,36 @@ object Colibri2JSONDeserializer {
             deserializeAbstractConferenceEntityToBuilder(endpoint, this)
 
             endpoint[Colibri2Endpoint.STATS_ID_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setStatsId(it.asText())
+                require(it.isTextual) {
+                    "Expected string for ${Colibri2Endpoint.STATS_ID_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setStatsId(it.asText())
             }
 
             endpoint[Colibri2Endpoint.MUC_ROLE_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setMucRole(MUCRole.fromString(it.asText()))
+                require(it.isTextual) {
+                    "Expected string for ${Colibri2Endpoint.MUC_ROLE_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setMucRole(MUCRole.fromString(it.asText()))
             }
 
             endpoint[ForceMute.ELEMENT]?.let {
-                if (it is ObjectNode) {
-                    setForceMute(deserializeForceMute(it))
-                }
+                require(it is ObjectNode) { "Expected object for ${ForceMute.ELEMENT}, got ${it.nodeType}" }
+                setForceMute(deserializeForceMute(it))
             }
 
             endpoint[InitialLastN.ELEMENT]?.let {
-                if (it is ObjectNode) {
-                    setInitialLastN(deserializeInitialLastN(it))
-                }
+                require(it is ObjectNode) { "Expected object for ${InitialLastN.ELEMENT}, got ${it.nodeType}" }
+                setInitialLastN(deserializeInitialLastN(it))
             }
 
             endpoint[Colibri2JSONSerializer.CAPABILITIES_LIST]?.let { capabilities ->
-                if (capabilities is ArrayNode) {
-                    capabilities.forEach {
-                        if (it.isTextual) {
-                            addCapability(it.asText())
-                        }
-                    }
+                require(capabilities is ArrayNode) {
+                    "Expected array for capabilitiesList, got ${capabilities.nodeType}"
+                }
+                capabilities.forEach {
+                    require(it.isTextual) { "Expected string capability, got ${it.nodeType}" }
+                    addCapability(it.asText())
                 }
             }
         }.build()
@@ -271,19 +260,17 @@ object Colibri2JSONDeserializer {
             deserializeAbstractConferenceEntityToBuilder(relay, this)
 
             relay[Colibri2Relay.MESH_ID_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setMeshId(it.asText())
-                }
+                require(it.isTextual) { "Expected string for ${Colibri2Relay.MESH_ID_ATTR_NAME}, got ${it.nodeType}" }
+                setMeshId(it.asText())
             }
 
             relay[Colibri2JSONSerializer.ENDPOINTS]?.let { endpoints ->
-                if (endpoints is ArrayNode) {
-                    setEndpoints(
-                        Endpoints.getBuilder().apply {
-                            deserializeEndpoints(endpoints).forEach { addEndpoint(it) }
-                        }.build()
-                    )
-                }
+                require(endpoints is ArrayNode) { "Expected array for endpoints, got ${endpoints.nodeType}" }
+                setEndpoints(
+                    Endpoints.getBuilder().apply {
+                        deserializeEndpoints(endpoints).forEach { addEndpoint(it) }
+                    }.build()
+                )
             }
         }.build()
     }
@@ -291,9 +278,8 @@ object Colibri2JSONDeserializer {
     private fun deserializeEndpoints(endpoints: ArrayNode): Collection<Colibri2Endpoint> {
         return ArrayList<Colibri2Endpoint>().apply {
             endpoints.forEach {
-                if (it is ObjectNode) {
-                    add(deserializeEndpoint(it))
-                }
+                require(it is ObjectNode) { "Expected object for endpoint element, got ${it.nodeType}" }
+                add(deserializeEndpoint(it))
             }
         }
     }
@@ -301,9 +287,8 @@ object Colibri2JSONDeserializer {
     private fun deserializeRelays(relays: ArrayNode): Collection<Colibri2Relay> {
         return ArrayList<Colibri2Relay>().apply {
             relays.forEach {
-                if (it is ObjectNode) {
-                    add(deserializeRelay(it))
-                }
+                require(it is ObjectNode) { "Expected object for relay element, got ${it.nodeType}" }
+                add(deserializeRelay(it))
             }
         }
     }
@@ -312,16 +297,14 @@ object Colibri2JSONDeserializer {
         modification: ObjectNode,
         builder: AbstractConferenceModificationIQ.Builder<*>
     ) {
-        modification[Colibri2JSONSerializer.ENDPOINTS].let { endpoints ->
-            if (endpoints is ArrayNode) {
-                deserializeEndpoints(endpoints).forEach { builder.addConferenceEntity(it) }
-            }
+        modification[Colibri2JSONSerializer.ENDPOINTS]?.let { endpoints ->
+            require(endpoints is ArrayNode) { "Expected array for endpoints, got ${endpoints.nodeType}" }
+            deserializeEndpoints(endpoints).forEach { builder.addConferenceEntity(it) }
         }
 
-        modification[Colibri2JSONSerializer.RELAYS].let { relays ->
-            if (relays is ArrayNode) {
-                deserializeRelays(relays).forEach { builder.addConferenceEntity(it) }
-            }
+        modification[Colibri2JSONSerializer.RELAYS]?.let { relays ->
+            require(relays is ArrayNode) { "Expected array for relays, got ${relays.nodeType}" }
+            deserializeRelays(relays).forEach { builder.addConferenceEntity(it) }
         }
     }
 
@@ -331,83 +314,93 @@ object Colibri2JSONDeserializer {
             deserializeAbstractConferenceModificationToBuilder(conferenceModify, this)
 
             conferenceModify[ConferenceModifyIQ.MEETING_ID_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setMeetingId(it.asText())
+                require(it.isTextual) {
+                    "Expected string for ${ConferenceModifyIQ.MEETING_ID_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setMeetingId(it.asText())
             }
 
             conferenceModify[ConferenceModifyIQ.NAME_ATTR_NAME]?.let {
-                if (it.isTextual) {
-                    setConferenceName(it.asText())
-                }
+                require(it.isTextual) { "Expected string for ${ConferenceModifyIQ.NAME_ATTR_NAME}, got ${it.nodeType}" }
+                setConferenceName(it.asText())
             }
 
             conferenceModify[ConferenceModifyIQ.CREATE_ATTR_NAME]?.let {
-                if (it.isBoolean) {
-                    setCreate(it.asBoolean())
+                require(it.isBoolean) {
+                    "Expected boolean for ${ConferenceModifyIQ.CREATE_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setCreate(it.asBoolean())
             }
 
             conferenceModify[ConferenceModifyIQ.EXPIRE_ATTR_NAME]?.let {
-                if (it.isBoolean) {
-                    setExpire(it.asBoolean())
+                require(it.isBoolean) {
+                    "Expected boolean for ${ConferenceModifyIQ.EXPIRE_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setExpire(it.asBoolean())
             }
 
             conferenceModify[ConferenceModifyIQ.RTCSTATS_ENABLED_ATTR_NAME]?.let {
-                if (it.isBoolean) {
-                    setRtcstatsEnabled(it.asBoolean())
+                require(it.isBoolean) {
+                    "Expected boolean for ${ConferenceModifyIQ.RTCSTATS_ENABLED_ATTR_NAME}, got ${it.nodeType}"
                 }
+                setRtcstatsEnabled(it.asBoolean())
             }
 
             conferenceModify[Connects.ELEMENT]?.let {
-                if (it is ArrayNode) {
-                    var added = false
-                    it.forEach { connect ->
-                        if (connect is ObjectNode) {
-                            val connectObj = Connect(
-                                URI(connect[Connect.URL_ATTR_NAME]!!.asText()),
-                                protocol = Connect.Protocols.valueOf(
-                                    connect[Connect.PROTOCOL_ATTR_NAME]!!.asText().uppercase()
-                                ),
-                                type = Connect.Types.valueOf(
-                                    connect[Connect.TYPE_ATTR_NAME]!!.asText().uppercase()
-                                ),
-                                audio = connect[Connect.AUDIO_ATTR_NAME]?.asBoolean() ?: false,
-                                video = connect[Connect.VIDEO_ATTR_NAME]?.asBoolean() ?: false
-                            )
+                require(it is ArrayNode) { "Expected array for ${Connects.ELEMENT}, got ${it.nodeType}" }
+                var added = false
+                it.forEach { connect ->
+                    require(connect is ObjectNode) { "Expected object for connect element, got ${connect.nodeType}" }
+                    val connectObj = Connect(
+                        URI(connect[Connect.URL_ATTR_NAME]!!.asText()),
+                        protocol = Connect.Protocols.valueOf(
+                            connect[Connect.PROTOCOL_ATTR_NAME]!!.asText().uppercase()
+                        ),
+                        type = Connect.Types.valueOf(
+                            connect[Connect.TYPE_ATTR_NAME]!!.asText().uppercase()
+                        ),
+                        audio = connect[Connect.AUDIO_ATTR_NAME]?.asBoolean() ?: false,
+                        video = connect[Connect.VIDEO_ATTR_NAME]?.asBoolean() ?: false
+                    )
 
-                            // Deserialize HTTP headers
-                            connect["headers"]?.let { headers ->
-                                if (headers is ObjectNode) {
-                                    headers.fields().forEach { e ->
-                                        if (e.value.isTextual) {
-                                            connectObj.addHttpHeader(e.key, e.value.asText())
-                                        }
-                                    }
-                                }
+                    // Deserialize HTTP headers
+                    connect["headers"]?.let { headers ->
+                        require(headers is ObjectNode) { "Expected object for headers, got ${headers.nodeType}" }
+                        headers.properties().forEach { e ->
+                            require(e.value.isTextual) {
+                                "Expected string header value for ${e.key}, got ${e.value.nodeType}"
                             }
-
-                            // Deserialize ping
-                            connect["ping"]?.let { ping ->
-                                if (ping is ObjectNode) {
-                                    val interval = ping[Connect.Ping.INTERVAL_ATTR_NAME]
-                                        ?.takeIf { it.isNumber }?.asInt()
-                                    val timeout = ping[Connect.Ping.TIMEOUT_ATTR_NAME]
-                                        ?.takeIf { it.isNumber }?.asInt()
-                                    if (interval != null && timeout != null) {
-                                        connectObj.setPing(interval, timeout)
-                                    }
-                                }
-                            }
-
-                            addConnect(connectObj)
-                            added = true
+                            connectObj.addHttpHeader(e.key, e.value.asText())
                         }
                     }
-                    // An empty array is distinct from no value specified.
-                    if (!added) setEmptyConnects()
+
+                    // Deserialize ping
+                    connect["ping"]?.let { ping ->
+                        require(ping is ObjectNode) { "Expected object for ping, got ${ping.nodeType}" }
+                        val interval = ping[Connect.Ping.INTERVAL_ATTR_NAME]
+                            ?.also {
+                                require(it.isNumber) {
+                                    "Expected number for ${Connect.Ping.INTERVAL_ATTR_NAME}, got ${it.nodeType}"
+                                }
+                            }
+                            ?.asInt()
+                        val timeout = ping[Connect.Ping.TIMEOUT_ATTR_NAME]
+                            ?.also {
+                                require(it.isNumber) {
+                                    "Expected number for ${Connect.Ping.TIMEOUT_ATTR_NAME}, got ${it.nodeType}"
+                                }
+                            }
+                            ?.asInt()
+                        if (interval != null && timeout != null) {
+                            connectObj.setPing(interval, timeout)
+                        }
+                    }
+
+                    addConnect(connectObj)
+                    added = true
                 }
+                // An empty array is distinct from no value specified.
+                if (!added) setEmptyConnects()
             }
         }
     }
@@ -417,9 +410,8 @@ object Colibri2JSONDeserializer {
         return ConferenceModifiedIQ.builder("id").apply {
             deserializeAbstractConferenceModificationToBuilder(conferenceModified, this)
             conferenceModified[Sources.ELEMENT]?.let {
-                if (it is ArrayNode) {
-                    setSources(deserializeSources(it))
-                }
+                require(it is ArrayNode) { "Expected array for ${Sources.ELEMENT}, got ${it.nodeType}" }
+                setSources(deserializeSources(it))
             }
         }
     }

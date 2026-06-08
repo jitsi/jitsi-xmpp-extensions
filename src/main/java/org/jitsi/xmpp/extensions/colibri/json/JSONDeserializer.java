@@ -261,7 +261,8 @@ public final class JSONDeserializer
                 if (typeNode != null && !typeNode.isTextual())
                     throw new IllegalArgumentException("Expected string rtcp-fb type, got: " + typeNode.getNodeType());
                 if (subtypeNode != null && !subtypeNode.isTextual())
-                    throw new IllegalArgumentException("Expected string rtcp-fb subtype, got: " + subtypeNode.getNodeType());
+                    throw new IllegalArgumentException(
+                        "Expected string rtcp-fb subtype, got: " + subtypeNode.getNodeType());
                 String type = typeNode != null ? typeNode.asText() : null;
                 String subtype = subtypeNode != null ? subtypeNode.asText() : null;
                 if (type != null)
@@ -291,9 +292,11 @@ public final class JSONDeserializer
             JsonNode idNode = headerExtension.get(RTPHdrExtPacketExtension.ID_ATTR_NAME);
             JsonNode uriNode = headerExtension.get(RTPHdrExtPacketExtension.URI_ATTR_NAME);
             if (idNode != null && !idNode.isNumber())
-                throw new IllegalArgumentException("Expected numeric header extension id, got: " + idNode.getNodeType());
+                throw new IllegalArgumentException(
+                    "Expected numeric header extension id, got: " + idNode.getNodeType());
             if (uriNode != null && !uriNode.isTextual())
-                throw new IllegalArgumentException("Expected string header extension uri, got: " + uriNode.getNodeType());
+                throw new IllegalArgumentException(
+                    "Expected string header extension uri, got: " + uriNode.getNodeType());
             Long id = idNode != null ? idNode.asLong() : null;
             String uriString = uriNode != null ? uriNode.asText() : null;
             URI uri;
@@ -356,7 +359,8 @@ public final class JSONDeserializer
             if (parameters != null && !parameters.isNull())
             {
                 if (!(parameters instanceof ObjectNode))
-                    throw new IllegalArgumentException("Expected object for parameters, got: " + parameters.getNodeType());
+                    throw new IllegalArgumentException(
+                        "Expected object for parameters, got: " + parameters.getNodeType());
                 deserializeParameters((ObjectNode) parameters, payloadTypeIQ);
             }
 
@@ -442,7 +446,8 @@ public final class JSONDeserializer
             if (parameters != null && !parameters.isNull())
             {
                 if (!(parameters instanceof ObjectNode))
-                    throw new IllegalArgumentException("Expected object for source parameters, got: " + parameters.getNodeType());
+                    throw new IllegalArgumentException(
+                        "Expected object for source parameters, got: " + parameters.getNodeType());
                 parameters.properties().forEach(e ->
                 {
                     JsonNode paramValueNode = e.getValue();
@@ -502,7 +507,8 @@ public final class JSONDeserializer
                         .get(JSONSerializer.SOURCES);
 
                 if (sourcesObject != null && !sourcesObject.isNull() && !(sourcesObject instanceof ArrayNode))
-                    throw new IllegalArgumentException("Expected array for sources, got: " + sourcesObject.getNodeType());
+                    throw new IllegalArgumentException(
+                        "Expected array for sources, got: " + sourcesObject.getNodeType());
 
                 if (sourcesObject instanceof ArrayNode && ((ArrayNode) sourcesObject).size() != 0)
                 {
@@ -606,27 +612,31 @@ public final class JSONDeserializer
                 if (fingerprints != null && !fingerprints.isNull())
                 {
                     if (!(fingerprints instanceof ArrayNode))
-                        throw new IllegalArgumentException("Expected array for fingerprints, got: " + fingerprints.getNodeType());
+                        throw new IllegalArgumentException(
+                            "Expected array for fingerprints, got: " + fingerprints.getNodeType());
                     deserializeFingerprints((ArrayNode) fingerprints, transportIQ);
                 }
                 // candidateList
                 if (candidateList != null && !candidateList.isNull())
                 {
                     if (!(candidateList instanceof ArrayNode))
-                        throw new IllegalArgumentException("Expected array for candidates, got: " + candidateList.getNodeType());
+                        throw new IllegalArgumentException(
+                            "Expected array for candidates, got: " + candidateList.getNodeType());
                     deserializeCandidates((ArrayNode) candidateList, transportIQ);
                 }
                 if (webSocketList != null && !webSocketList.isNull())
                 {
                     if (!(webSocketList instanceof ArrayNode))
-                        throw new IllegalArgumentException("Expected array for websockets, got: " + webSocketList.getNodeType());
+                        throw new IllegalArgumentException(
+                            "Expected array for websockets, got: " + webSocketList.getNodeType());
                     deserializeWebsockets((ArrayNode) webSocketList, transportIQ);
                 }
                 // remoteCandidate
                 if (remoteCandidate != null && !remoteCandidate.isNull())
                 {
                     if (!(remoteCandidate instanceof ObjectNode))
-                        throw new IllegalArgumentException("Expected object for remoteCandidate, got: " + remoteCandidate.getNodeType());
+                        throw new IllegalArgumentException(
+                            "Expected object for remoteCandidate, got: " + remoteCandidate.getNodeType());
                     deserializeCandidate(
                             (ObjectNode) remoteCandidate,
                             RemoteCandidatePacketExtension.class,
