@@ -673,5 +673,48 @@ private val expectedMappings = listOf(
 }
         """,
         clazz = ConferenceModifyIQ::class
+    ),
+    Mapping(
+        name = "Connect with exports and requests",
+        xml = """
+<iq xmlns="jabber:client" id="id" type="get">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
+    <connects>
+      <connect url='wss://example.com/webhook' protocol='mediajson' type='translator'>
+        <exports>
+          <export name='523834112-a0'/>
+          <export name='2394a3432-a0'/>
+        </exports>
+        <requests>
+          <request name='523834112-a0.en'/>
+          <request name='2394a3432-a0.hi'/>
+        </requests>
+      </connect>
+    </connects>
+  </conference-modify>
+</iq>
+        """,
+        json = """
+{
+  "meeting-id": "test-meeting-id",
+  "create": true,
+  "connects": [
+    {
+      "url": "wss://example.com/webhook",
+      "protocol": "mediajson",
+      "type": "translator",
+      "exports": [
+        "523834112-a0",
+        "2394a3432-a0"
+      ],
+      "requests": [
+        "523834112-a0.en",
+        "2394a3432-a0.hi"
+      ]
+    }
+  ]
+}
+        """,
+        clazz = ConferenceModifyIQ::class
     )
 )

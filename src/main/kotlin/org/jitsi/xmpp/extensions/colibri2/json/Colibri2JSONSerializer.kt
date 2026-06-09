@@ -258,6 +258,22 @@ object Colibri2JSONSerializer {
             pingObj.put(Connect.Ping.TIMEOUT_ATTR_NAME, ping.timeout)
             set<ObjectNode>("ping", pingObj)
         }
+
+        // Serialize exports
+        val exports = connect.getExports()
+        if (exports.isNotEmpty()) {
+            val exportsArray = JsonNodeFactory.instance.arrayNode()
+            exports.forEach { exportsArray.add(it) }
+            set<ArrayNode>(Connect.Exports.ELEMENT, exportsArray)
+        }
+
+        // Serialize requests
+        val requests = connect.getRequests()
+        if (requests.isNotEmpty()) {
+            val requestsArray = JsonNodeFactory.instance.arrayNode()
+            requests.forEach { requestsArray.add(it) }
+            set<ArrayNode>(Connect.Requests.ELEMENT, requestsArray)
+        }
     }
 
     private fun serializeConnects(connects: Connects) = JsonNodeFactory.instance.arrayNode().apply {
