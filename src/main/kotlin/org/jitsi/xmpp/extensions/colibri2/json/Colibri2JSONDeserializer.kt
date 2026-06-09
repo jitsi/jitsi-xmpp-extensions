@@ -396,6 +396,32 @@ object Colibri2JSONDeserializer {
                         }
                     }
 
+                    // Deserialize exports
+                    connect[Connect.Exports.ELEMENT]?.let { exports ->
+                        require(exports is ArrayNode) {
+                            "Expected array for ${Connect.Exports.ELEMENT}, got ${exports.nodeType}"
+                        }
+                        exports.forEach { export ->
+                            require(export.isTextual) {
+                                "Expected string for ${Connect.Export.ELEMENT}, got ${export.nodeType}"
+                            }
+                            connectObj.addExport(export.asText())
+                        }
+                    }
+
+                    // Deserialize requests
+                    connect[Connect.Requests.ELEMENT]?.let { requests ->
+                        require(requests is ArrayNode) {
+                            "Expected array for ${Connect.Requests.ELEMENT}, got ${requests.nodeType}"
+                        }
+                        requests.forEach { request ->
+                            require(request.isTextual) {
+                                "Expected string for ${Connect.Request.ELEMENT}, got ${request.nodeType}"
+                            }
+                            connectObj.addRequest(request.asText())
+                        }
+                    }
+
                     addConnect(connectObj)
                     added = true
                 }

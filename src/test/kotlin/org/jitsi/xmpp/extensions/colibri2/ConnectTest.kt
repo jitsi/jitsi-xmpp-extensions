@@ -363,5 +363,114 @@ class ConnectTest : ShouldSpec() {
                 connect.getPing() shouldBe null
             }
         }
+
+        context("Parsing exports and requests") {
+            context("With exports and requests") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor(
+                        """<connect url='$url' protocol='mediajson' type='translator'>
+                            <exports>
+                                <export name='523834112-a0'/>
+                                <export name='2394a3432-a0'/>
+                            </exports>
+                            <requests>
+                                <request name='523834112-a0.en'/>
+                                <request name='2394a3432-a0.hi'/>
+                            </requests>
+                        </connect>"""
+                    )
+                )
+                connect.type shouldBe Connect.Types.TRANSLATOR
+                connect.getExports() shouldBe listOf("523834112-a0", "2394a3432-a0")
+                connect.getRequests() shouldBe listOf("523834112-a0.en", "2394a3432-a0.hi")
+            }
+
+            context("With empty containers") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor(
+                        """<connect url='$url' protocol='mediajson' type='translator'>
+                            <exports/>
+                            <requests/>
+                        </connect>"""
+                    )
+                )
+                connect.getExports() shouldBe emptyList()
+                connect.getRequests() shouldBe emptyList()
+            }
+
+            context("Without exports or requests") {
+                val connect = provider.parse(
+                    PacketParserUtils.getParserFor("<connect url='$url' protocol='mediajson' type='translator'/>")
+                )
+                connect.getExports() shouldBe emptyList()
+                connect.getRequests() shouldBe emptyList()
+            }
+
+            context("Export missing name attribute") {
+                shouldThrow<SmackParsingException> {
+                    provider.parse(
+                        PacketParserUtils.getParserFor(
+                            """<connect url='$url' protocol='mediajson' type='translator'>
+                                <exports><export/></exports>
+                            </connect>"""
+                        )
+                    )
+                }
+            }
+
+            context("Request missing name attribute") {
+                shouldThrow<SmackParsingException> {
+                    provider.parse(
+                        PacketParserUtils.getParserFor(
+                            """<connect url='$url' protocol='mediajson' type='translator'>
+                                <requests><request/></requests>
+                            </connect>"""
+                        )
+                    )
+                }
+            }
+        }
+
+        context("Exports and requests manipulation") {
+            context("Setting exports and requests") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.TRANSLATOR)
+
+                connect.setExports(listOf("523834112-a0", "2394a3432-a0"))
+                connect.setRequests(listOf("523834112-a0.en"))
+
+                connect.getExports() shouldBe listOf("523834112-a0", "2394a3432-a0")
+                connect.getRequests() shouldBe listOf("523834112-a0.en")
+            }
+
+            context("Adding exports and requests") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.TRANSLATOR)
+
+                connect.addExport("523834112-a0")
+                connect.addExport("2394a3432-a0")
+                connect.addRequest("523834112-a0.en")
+
+                connect.getExports() shouldBe listOf("523834112-a0", "2394a3432-a0")
+                connect.getRequests() shouldBe listOf("523834112-a0.en")
+            }
+
+            context("Replacing exports") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.TRANSLATOR)
+
+                connect.setExports(listOf("523834112-a0"))
+                connect.setExports(listOf("2394a3432-a0"))
+
+                connect.getExports() shouldBe listOf("2394a3432-a0")
+            }
+
+            context("Round-trip through XML") {
+                val connect = Connect(URI(url), Connect.Protocols.MEDIAJSON, Connect.Types.TRANSLATOR)
+                connect.setExports(listOf("523834112-a0", "2394a3432-a0"))
+                connect.setRequests(listOf("523834112-a0.en", "2394a3432-a0.hi"))
+
+                val parsed = provider.parse(PacketParserUtils.getParserFor(connect.toXML().toString()))
+                parsed.getExports() shouldBe listOf("523834112-a0", "2394a3432-a0")
+                parsed.getRequests() shouldBe listOf("523834112-a0.en", "2394a3432-a0.hi")
+            }
+        }
     }
 }
