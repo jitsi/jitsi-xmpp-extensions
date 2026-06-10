@@ -124,6 +124,11 @@ object Colibri2JSONDeserializer {
                 setId(it.asText())
             }
 
+            mediaSource[MediaSource.SYNTHETIC_ATTR_NAME]?.let {
+                require(it.isBoolean) { "Expected boolean for ${MediaSource.SYNTHETIC_ATTR_NAME}, got ${it.nodeType}" }
+                setSynthetic(it.asBoolean())
+            }
+
             mediaSource[Colibri2JSONSerializer.SOURCES]?.let { sources ->
                 require(sources is ArrayNode) { "Expected array for sources, got ${sources.nodeType}" }
                 sources.forEach { addSource(JSONDeserializer.deserializeSource(it)) }

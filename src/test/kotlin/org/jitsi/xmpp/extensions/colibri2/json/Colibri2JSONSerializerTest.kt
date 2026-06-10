@@ -306,7 +306,7 @@ private val expectedMappings = listOf(
       </transport>
     </endpoint>
     <sources xmlns="jitsi:colibri2">
-      <media-source type="audio" id="jvb-a0">
+      <media-source type="audio" id="jvb-a0" synthetic="true">
         <source xmlns="urn:xmpp:jingle:apps:rtp:ssma:0" ssrc="411312308" name="jvb-a0">
           <parameter xmlns="urn:xmpp:jingle:apps:rtp:1" name="msid" value="mixedmslabel mixedlabelaudio0"/>
         </source>
@@ -367,6 +367,7 @@ private val expectedMappings = listOf(
     {
       "type": "audio",
       "id": "jvb-a0",
+      "synthetic": true,
       "sources": [
         { "ssrc":411312308, "name": "jvb-a0", "parameters": { "msid": "mixedmslabel mixedlabelaudio0" } }
       ]

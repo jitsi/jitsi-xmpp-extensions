@@ -132,6 +132,7 @@ object Colibri2JSONSerializer {
         return JsonNodeFactory.instance.objectNode().apply {
             put(MediaSource.TYPE_ATTR_NAME, source.type.toString())
             put(MediaSource.ID_NAME, source.id)
+            if (source.isSynthetic) put(MediaSource.SYNTHETIC_ATTR_NAME, true)
             if (source.sources.isNotEmpty()) {
                 set<ObjectNode>(SOURCES, JSONSerializer.serializeSources(source.sources))
             }

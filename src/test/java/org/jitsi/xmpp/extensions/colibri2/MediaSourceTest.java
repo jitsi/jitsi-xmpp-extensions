@@ -15,11 +15,14 @@
  */
 package org.jitsi.xmpp.extensions.colibri2;
 
+import org.jitsi.utils.*;
 import org.jivesoftware.smack.util.*;
 import org.junit.jupiter.api.*;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MediaSourceTest
 {
@@ -49,5 +52,29 @@ public class MediaSourceTest
                 () -> provider.parse(PacketParserUtils.getParserFor("<media-source type='invalid' id='id'/>")),
                 "An invalid type must result in an exception"
         );
+    }
+
+    @Test
+    public void syntheticTest()
+            throws Exception
+    {
+        MediaSource notSynthetic =
+                provider.parse(PacketParserUtils.getParserFor("<media-source type='audio' id='id'/>"));
+        assertFalse(notSynthetic.isSynthetic(), "Synthetic must default to false when the attribute is absent");
+
+        MediaSource synthetic =
+                provider.parse(PacketParserUtils.getParserFor("<media-source type='audio' id='id' synthetic='true'/>"));
+        assertTrue(synthetic.isSynthetic());
+
+        MediaSource built = MediaSource.getBuilder()
+                .setType(MediaType.AUDIO)
+                .setId("id")
+                .setSynthetic(true)
+                .build();
+        assertTrue(built.isSynthetic());
+
+        // The attribute is only emitted when true, so it round-trips through XML.
+        MediaSource reparsed = provider.parse(PacketParserUtils.getParserFor(built.toXML().toString()));
+        assertTrue(reparsed.isSynthetic());
     }
 }
