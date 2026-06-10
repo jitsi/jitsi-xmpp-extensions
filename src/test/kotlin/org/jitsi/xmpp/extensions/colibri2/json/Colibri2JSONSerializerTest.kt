@@ -15,6 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.colibri2.json
 
+import com.fasterxml.jackson.databind.node.ObjectNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotest.assertions.asClue
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.core.spec.style.ShouldSpec
@@ -28,8 +30,6 @@ import org.jitsi.xmpp.extensions.colibri2.ConferenceModifyIQ
 import org.jitsi.xmpp.extensions.colibri2.IqProviderUtils
 import org.jivesoftware.smack.packet.IQ
 import org.jivesoftware.smack.util.PacketParserUtils
-import org.json.simple.JSONObject
-import org.json.simple.parser.JSONParser
 import org.xmlunit.builder.DiffBuilder
 import java.lang.IllegalStateException
 import kotlin.reflect.KClass
@@ -50,7 +50,7 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
                     is ConferenceModifyIQ -> Colibri2JSONSerializer.serializeConferenceModify(iq)
                     is ConferenceModifiedIQ -> Colibri2JSONSerializer.serializeConferenceModified(iq)
                     else -> throw IllegalStateException("Bad type in test")
-                }.toJSONString()
+                }.toString()
 
                 should("To JSON: ${it.name}") {
                     json.shouldEqualJson(it.json)
@@ -60,15 +60,14 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
 
         context("deserializing JSON") {
             expectedMappings.forEach {
-                val parser = JSONParser()
-                val json = parser.parse(it.json)
-                json.shouldBeInstanceOf<JSONObject>()
+                val json = jacksonObjectMapper().readTree(it.json)
+                json.shouldBeInstanceOf<ObjectNode>()
 
                 val builder = when (it.clazz) {
                     ConferenceModifyIQ::class -> Colibri2JSONDeserializer.deserializeConferenceModify(json)
                     ConferenceModifiedIQ::class -> {
-                        Colibri2JSONDeserializer.deserializeConferenceModified(json).also {
-                            it.ofType(IQ.Type.result)
+                        Colibri2JSONDeserializer.deserializeConferenceModified(json).also { b ->
+                            b.ofType(IQ.Type.result)
                         }
                     }
                     else -> throw IllegalStateException("Bad type in test")
