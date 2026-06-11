@@ -65,6 +65,30 @@ class Connect(
     }
     fun removePing() = getPing()?.let { removeChildExtension(it) }
 
+    fun getExports(): List<String> = getChildExtension(Exports::class.java)?.getNames() ?: emptyList()
+    fun addExport(name: String) {
+        val exports = getChildExtension(Exports::class.java) ?: Exports().also { addChildExtension(it) }
+        exports.addExport(name)
+    }
+    fun setExports(names: List<String>) {
+        getChildExtension(Exports::class.java)?.let { removeChildExtension(it) }
+        if (names.isNotEmpty()) {
+            addChildExtension(Exports(names))
+        }
+    }
+
+    fun getRequests(): List<String> = getChildExtension(Requests::class.java)?.getNames() ?: emptyList()
+    fun addRequest(name: String) {
+        val requests = getChildExtension(Requests::class.java) ?: Requests().also { addChildExtension(it) }
+        requests.addRequest(name)
+    }
+    fun setRequests(names: List<String>) {
+        getChildExtension(Requests::class.java)?.let { removeChildExtension(it) }
+        if (names.isNotEmpty()) {
+            addChildExtension(Requests(names))
+        }
+    }
+
     class HttpHeader(val name: String, val value: String) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
         init {
             setAttribute(NAME_ATTR_NAME, name)
@@ -91,13 +115,72 @@ class Connect(
         }
     }
 
+    /** A container for the source names this connection should export (send out). */
+    class Exports() : AbstractPacketExtension(NAMESPACE, ELEMENT) {
+        constructor(names: List<String>) : this() {
+            names.forEach { addChildExtension(Export(it)) }
+        }
+
+        fun getNames(): List<String> = getChildExtensionsOfType(Export::class.java).map { it.name }
+        fun addExport(name: String) = addChildExtension(Export(name))
+
+        companion object {
+            const val ELEMENT = "exports"
+        }
+    }
+
+    /** A single exported source, identified by its source name. */
+    class Export(name: String) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
+        init {
+            setAttribute(NAME_ATTR_NAME, name)
+        }
+
+        val name: String
+            get() = getAttributeAsString(NAME_ATTR_NAME)
+
+        companion object {
+            const val ELEMENT = "export"
+            const val NAME_ATTR_NAME = "name"
+        }
+    }
+
+    /** A container for the source names this connection requests (wants to receive). */
+    class Requests() : AbstractPacketExtension(NAMESPACE, ELEMENT) {
+        constructor(names: List<String>) : this() {
+            names.forEach { addChildExtension(Request(it)) }
+        }
+
+        fun getNames(): List<String> = getChildExtensionsOfType(Request::class.java).map { it.name }
+        fun addRequest(name: String) = addChildExtension(Request(name))
+
+        companion object {
+            const val ELEMENT = "requests"
+        }
+    }
+
+    /** A single requested source, identified by its source name. */
+    class Request(name: String) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
+        init {
+            setAttribute(NAME_ATTR_NAME, name)
+        }
+
+        val name: String
+            get() = getAttributeAsString(NAME_ATTR_NAME)
+
+        companion object {
+            const val ELEMENT = "request"
+            const val NAME_ATTR_NAME = "name"
+        }
+    }
+
     enum class Protocols(val value: String) {
         MEDIAJSON("mediajson")
     }
 
     enum class Types(val value: String) {
         RECORDER("recorder"),
-        TRANSCRIBER("transcriber")
+        TRANSCRIBER("transcriber"),
+        TRANSLATOR("translator")
     }
 
     companion object {
@@ -186,6 +269,16 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
                             }
                             connect.setPing(interval, timeout)
                         }
+                        Connect.Exports.ELEMENT -> {
+                            connect.setExports(
+                                parseSourceNames(parser, Connect.Exports.ELEMENT, Connect.Export.ELEMENT)
+                            )
+                        }
+                        Connect.Requests.ELEMENT -> {
+                            connect.setRequests(
+                                parseSourceNames(parser, Connect.Requests.ELEMENT, Connect.Request.ELEMENT)
+                            )
+                        }
                     }
                 }
                 XmlPullParser.Event.END_ELEMENT -> {
@@ -198,5 +291,35 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
         }
 
         return connect
+    }
+
+    /**
+     * Parses a container element (e.g. <exports>) holding a list of source-name items (e.g. <export name='...'/>),
+     * returning the list of source names. The parser is left positioned on the container's end element.
+     */
+    @Throws(XmlPullParserException::class, IOException::class, SmackParsingException::class)
+    private fun parseSourceNames(parser: XmlPullParser, containerElement: String, itemElement: String): List<String> {
+        val names = mutableListOf<String>()
+        var done = false
+        while (!done) {
+            when (parser.next()) {
+                XmlPullParser.Event.START_ELEMENT -> {
+                    if (parser.name == itemElement) {
+                        val name = parser.getAttributeValue("", Connect.Export.NAME_ATTR_NAME)
+                            ?: throw SmackParsingException.RequiredAttributeMissingException(
+                                "Missing 'name' attribute in $itemElement element"
+                            )
+                        names.add(name)
+                    }
+                }
+                XmlPullParser.Event.END_ELEMENT -> {
+                    if (parser.name == containerElement) {
+                        done = true
+                    }
+                }
+                else -> { /* ignore */ }
+            }
+        }
+        return names
     }
 }

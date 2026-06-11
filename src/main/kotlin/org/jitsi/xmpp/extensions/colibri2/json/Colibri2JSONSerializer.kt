@@ -132,6 +132,7 @@ object Colibri2JSONSerializer {
         return JsonNodeFactory.instance.objectNode().apply {
             put(MediaSource.TYPE_ATTR_NAME, source.type.toString())
             put(MediaSource.ID_NAME, source.id)
+            if (source.isSynthetic) put(MediaSource.SYNTHETIC_ATTR_NAME, true)
             if (source.sources.isNotEmpty()) {
                 set<ObjectNode>(SOURCES, JSONSerializer.serializeSources(source.sources))
             }
@@ -257,6 +258,22 @@ object Colibri2JSONSerializer {
             pingObj.put(Connect.Ping.INTERVAL_ATTR_NAME, ping.interval)
             pingObj.put(Connect.Ping.TIMEOUT_ATTR_NAME, ping.timeout)
             set<ObjectNode>("ping", pingObj)
+        }
+
+        // Serialize exports
+        val exports = connect.getExports()
+        if (exports.isNotEmpty()) {
+            val exportsArray = JsonNodeFactory.instance.arrayNode()
+            exports.forEach { exportsArray.add(it) }
+            set<ArrayNode>(Connect.Exports.ELEMENT, exportsArray)
+        }
+
+        // Serialize requests
+        val requests = connect.getRequests()
+        if (requests.isNotEmpty()) {
+            val requestsArray = JsonNodeFactory.instance.arrayNode()
+            requests.forEach { requestsArray.add(it) }
+            set<ArrayNode>(Connect.Requests.ELEMENT, requestsArray)
         }
     }
 

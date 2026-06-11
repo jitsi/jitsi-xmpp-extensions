@@ -124,6 +124,11 @@ object Colibri2JSONDeserializer {
                 setId(it.asText())
             }
 
+            mediaSource[MediaSource.SYNTHETIC_ATTR_NAME]?.let {
+                require(it.isBoolean) { "Expected boolean for ${MediaSource.SYNTHETIC_ATTR_NAME}, got ${it.nodeType}" }
+                setSynthetic(it.asBoolean())
+            }
+
             mediaSource[Colibri2JSONSerializer.SOURCES]?.let { sources ->
                 require(sources is ArrayNode) { "Expected array for sources, got ${sources.nodeType}" }
                 sources.forEach { addSource(JSONDeserializer.deserializeSource(it)) }
@@ -393,6 +398,32 @@ object Colibri2JSONDeserializer {
                             ?.asInt()
                         if (interval != null && timeout != null) {
                             connectObj.setPing(interval, timeout)
+                        }
+                    }
+
+                    // Deserialize exports
+                    connect[Connect.Exports.ELEMENT]?.let { exports ->
+                        require(exports is ArrayNode) {
+                            "Expected array for ${Connect.Exports.ELEMENT}, got ${exports.nodeType}"
+                        }
+                        exports.forEach { export ->
+                            require(export.isTextual) {
+                                "Expected string for ${Connect.Export.ELEMENT}, got ${export.nodeType}"
+                            }
+                            connectObj.addExport(export.asText())
+                        }
+                    }
+
+                    // Deserialize requests
+                    connect[Connect.Requests.ELEMENT]?.let { requests ->
+                        require(requests is ArrayNode) {
+                            "Expected array for ${Connect.Requests.ELEMENT}, got ${requests.nodeType}"
+                        }
+                        requests.forEach { request ->
+                            require(request.isTextual) {
+                                "Expected string for ${Connect.Request.ELEMENT}, got ${request.nodeType}"
+                            }
+                            connectObj.addRequest(request.asText())
                         }
                     }
 

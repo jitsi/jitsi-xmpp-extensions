@@ -306,7 +306,7 @@ private val expectedMappings = listOf(
       </transport>
     </endpoint>
     <sources xmlns="jitsi:colibri2">
-      <media-source type="audio" id="jvb-a0">
+      <media-source type="audio" id="jvb-a0" synthetic="true">
         <source xmlns="urn:xmpp:jingle:apps:rtp:ssma:0" ssrc="411312308" name="jvb-a0">
           <parameter xmlns="urn:xmpp:jingle:apps:rtp:1" name="msid" value="mixedmslabel mixedlabelaudio0"/>
         </source>
@@ -367,6 +367,7 @@ private val expectedMappings = listOf(
     {
       "type": "audio",
       "id": "jvb-a0",
+      "synthetic": true,
       "sources": [
         { "ssrc":411312308, "name": "jvb-a0", "parameters": { "msid": "mixedmslabel mixedlabelaudio0" } }
       ]
@@ -668,6 +669,49 @@ private val expectedMappings = listOf(
         "interval": 1000,
         "timeout": 2000
       }
+    }
+  ]
+}
+        """,
+        clazz = ConferenceModifyIQ::class
+    ),
+    Mapping(
+        name = "Connect with exports and requests",
+        xml = """
+<iq xmlns="jabber:client" id="id" type="get">
+  <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
+    <connects>
+      <connect url='wss://example.com/webhook' protocol='mediajson' type='translator'>
+        <exports>
+          <export name='523834112-a0'/>
+          <export name='2394a3432-a0'/>
+        </exports>
+        <requests>
+          <request name='523834112-a0.en'/>
+          <request name='2394a3432-a0.hi'/>
+        </requests>
+      </connect>
+    </connects>
+  </conference-modify>
+</iq>
+        """,
+        json = """
+{
+  "meeting-id": "test-meeting-id",
+  "create": true,
+  "connects": [
+    {
+      "url": "wss://example.com/webhook",
+      "protocol": "mediajson",
+      "type": "translator",
+      "exports": [
+        "523834112-a0",
+        "2394a3432-a0"
+      ],
+      "requests": [
+        "523834112-a0.en",
+        "2394a3432-a0.hi"
+      ]
     }
   ]
 }
