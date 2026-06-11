@@ -65,29 +65,25 @@ class Connect(
     }
     fun removePing() = getPing()?.let { removeChildExtension(it) }
 
-    fun getExports(): List<String> =
-        getChildExtensionsOfType(Exports::class.java).firstOrNull()?.getNames() ?: emptyList()
+    fun getExports(): List<String> = getChildExtension(Exports::class.java)?.getNames() ?: emptyList()
     fun addExport(name: String) {
-        val exports = getChildExtensionsOfType(Exports::class.java).firstOrNull()
-            ?: Exports().also { addChildExtension(it) }
+        val exports = getChildExtension(Exports::class.java) ?: Exports().also { addChildExtension(it) }
         exports.addExport(name)
     }
     fun setExports(names: List<String>) {
-        getChildExtensionsOfType(Exports::class.java).forEach { removeChildExtension(it) }
+        getChildExtension(Exports::class.java)?.let { removeChildExtension(it) }
         if (names.isNotEmpty()) {
             addChildExtension(Exports(names))
         }
     }
 
-    fun getRequests(): List<String> =
-        getChildExtensionsOfType(Requests::class.java).firstOrNull()?.getNames() ?: emptyList()
+    fun getRequests(): List<String> = getChildExtension(Requests::class.java)?.getNames() ?: emptyList()
     fun addRequest(name: String) {
-        val requests = getChildExtensionsOfType(Requests::class.java).firstOrNull()
-            ?: Requests().also { addChildExtension(it) }
+        val requests = getChildExtension(Requests::class.java) ?: Requests().also { addChildExtension(it) }
         requests.addRequest(name)
     }
     fun setRequests(names: List<String>) {
-        getChildExtensionsOfType(Requests::class.java).forEach { removeChildExtension(it) }
+        getChildExtension(Requests::class.java)?.let { removeChildExtension(it) }
         if (names.isNotEmpty()) {
             addChildExtension(Requests(names))
         }
