@@ -30,4 +30,21 @@ public class CapabilityTest
                 checkForIdentical().build();
         assertFalse(diff1.hasDifferences(), diff1.toString());
     }
+
+    @Test
+    public void rtpMidDemuxCapabilityTest()
+            throws Exception
+    {
+        assertEquals("rtp-mid-demux", Capability.CAP_RTP_MID_DEMUX_SUPPORT);
+
+        Capability cap = new Capability.Provider().parse(PacketParserUtils.getParserFor(
+                "<capability name='" + Capability.CAP_RTP_MID_DEMUX_SUPPORT + "'/>"));
+        assertEquals(Capability.CAP_RTP_MID_DEMUX_SUPPORT, cap.getName());
+
+        Diff diff = DiffBuilder.compare(
+            "<capability xmlns='jitsi:colibri2' name='" + Capability.CAP_RTP_MID_DEMUX_SUPPORT + "'/>").
+                withTest(new Capability(Capability.CAP_RTP_MID_DEMUX_SUPPORT).toXML().toString()).
+                checkForIdentical().build();
+        assertFalse(diff.hasDifferences(), diff.toString());
+    }
 }
