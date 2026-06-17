@@ -25,13 +25,23 @@ import java.io.IOException
 import java.net.URI
 
 class Connect(
+    /**
+     * The identity of this connection within its conference. The bridge keys connections by [id], so multiple
+     * connects with the same [url] are allowed as long as their [id]s differ. Required.
+     */
+    val id: String,
     val url: URI,
     val protocol: Protocols,
     val type: Types,
     audio: Boolean = false,
-    video: Boolean = false
+    video: Boolean = false,
+    /** Marks this as a new connection. The bridge rejects a create for an already-existing [id]. */
+    create: Boolean = false,
+    /** Marks this connection for removal. */
+    expire: Boolean = false
 ) : AbstractPacketExtension(NAMESPACE, ELEMENT) {
     init {
+        setAttribute(ID_ATTR_NAME, id)
         setAttribute(URL_ATTR_NAME, url)
         setAttribute(PROTOCOL_ATTR_NAME, protocol.toString().lowercase())
         setAttribute(TYPE_ATTR_NAME, type.toString().lowercase())
@@ -41,12 +51,26 @@ class Connect(
         if (video) {
             setAttribute(VIDEO_ATTR_NAME, true)
         }
+        if (create) {
+            setAttribute(CREATE_ATTR_NAME, true)
+        }
+        if (expire) {
+            setAttribute(EXPIRE_ATTR_NAME, true)
+        }
     }
 
     val audio: Boolean
         get() = getAttributeAsString(AUDIO_ATTR_NAME)?.toBoolean() ?: false
     val video: Boolean
         get() = getAttributeAsString(VIDEO_ATTR_NAME)?.toBoolean() ?: false
+
+    /** Whether this connect is marked as a new connection. */
+    val create: Boolean
+        get() = getAttributeAsString(CREATE_ATTR_NAME)?.toBoolean() ?: false
+
+    /** Whether this connect is marked for removal. */
+    val expire: Boolean
+        get() = getAttributeAsString(EXPIRE_ATTR_NAME)?.toBoolean() ?: false
 
     fun getHttpHeaders(): List<HttpHeader> = getChildExtensionsOfType(HttpHeader::class.java)
     fun addHttpHeader(name: String, value: String) = addChildExtension(HttpHeader(name, value))
@@ -186,17 +210,22 @@ class Connect(
     companion object {
         const val ELEMENT = "connect"
         const val NAMESPACE = ConferenceModifyIQ.NAMESPACE
+        const val ID_ATTR_NAME = "id"
         const val URL_ATTR_NAME = "url"
         const val PROTOCOL_ATTR_NAME = "protocol"
         const val TYPE_ATTR_NAME = "type"
         const val AUDIO_ATTR_NAME = "audio"
         const val VIDEO_ATTR_NAME = "video"
+        const val CREATE_ATTR_NAME = "create"
+        const val EXPIRE_ATTR_NAME = "expire"
     }
 }
 
 class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.java) {
     @Throws(XmlPullParserException::class, IOException::class, SmackParsingException::class)
     override fun parse(parser: XmlPullParser, depth: Int, xml: XmlEnvironment?): Connect {
+        val id = parser.getAttributeValue("", Connect.ID_ATTR_NAME)
+            ?: throw SmackParsingException.RequiredAttributeMissingException("Missing 'id' attribute")
         val url = parser.getAttributeValue("", Connect.URL_ATTR_NAME)
             ?: throw SmackParsingException.RequiredAttributeMissingException("Missing 'url' attribute")
         val uri = try {
@@ -224,7 +253,19 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
             throw SmackParsingException("Invalid 'type': $typeStr")
         }
 
-        val connect = Connect(url = uri, protocol = protocol, type = type, audio = audio, video = video)
+        val create = parser.getAttributeValue("", Connect.CREATE_ATTR_NAME)?.toBoolean() ?: false
+        val expire = parser.getAttributeValue("", Connect.EXPIRE_ATTR_NAME)?.toBoolean() ?: false
+
+        val connect = Connect(
+            id = id,
+            url = uri,
+            protocol = protocol,
+            type = type,
+            audio = audio,
+            video = video,
+            create = create,
+            expire = expire
+        )
 
         // Parse child elements manually
         var done = false

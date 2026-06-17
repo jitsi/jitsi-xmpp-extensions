@@ -226,7 +226,7 @@ class RedactColibriTest : ShouldSpec() {
 <iq xmlns="jabber:client" to="jvb@auth.example.com/abc" from="jvbbrewery@muc.example.com/focus" id="id1" type="get">
   <conference-modify xmlns="jitsi:colibri2" meeting-id="meeting1">
     <connects>
-      <connect url="wss://example.com/transcribe" protocol="mediajson" type="transcriber" audio="true">
+      <connect id="c1" url="wss://example.com/transcribe" protocol="mediajson" type="transcriber" audio="true">
         <http-header name="CF-Access-Client-Id" value="cbe9a437e2708707613764d16541fc95.access"/>
         <http-header name="CF-Access-Client-Secret" value="c76b8d1e20ccfd6b4059fc2837737514a9c91845eb7349d5e66a8127b03dd852"/>
         <http-header name="X-Custom-Api-Key" value="sk-proj-supersecret"/>
@@ -241,7 +241,7 @@ class RedactColibriTest : ShouldSpec() {
 <iq xmlns="jabber:client" to="jvb@auth.example.com/abc" from="jvbbrewery@muc.example.com/focus" id="id1" type="get">
   <conference-modify xmlns="jitsi:colibri2" meeting-id="meeting1">
     <connects>
-      <connect url="wss://example.com/transcribe" protocol="mediajson" type="transcriber" audio="true">
+      <connect id="c1" url="wss://example.com/transcribe" protocol="mediajson" type="transcriber" audio="true">
         <http-header name="CF-Access-Client-Id" value="[redacted]"/>
         <http-header name="CF-Access-Client-Secret" value="[redacted]"/>
         <http-header name="X-Custom-Api-Key" value="[redacted]"/>

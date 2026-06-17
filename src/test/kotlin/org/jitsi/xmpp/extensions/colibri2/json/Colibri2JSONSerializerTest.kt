@@ -192,8 +192,8 @@ private val expectedMappings = listOf(
       <capability name="source-names"/>
     </endpoint>
     <connects>
-      <connect url='wss://example.com/audio' protocol='mediajson' type='transcriber' audio='true'/>
-      <connect url='wss://example.com/video' protocol='mediajson' type='recorder' video='true'/>
+      <connect id='c-audio' url='wss://example.com/audio' protocol='mediajson' type='transcriber' audio='true'/>
+      <connect id='c-video' url='wss://example.com/video' protocol='mediajson' type='recorder' video='true'/>
     </connects>
   </conference-modify>
 </iq>
@@ -283,8 +283,8 @@ private val expectedMappings = listOf(
     }
   ],
   "connects": [
-    { "url": "wss://example.com/audio", "protocol": "mediajson", "type": "transcriber", "audio": true },
-    { "url": "wss://example.com/video", "protocol": "mediajson", "type": "recorder", "video": true }
+    { "id": "c-audio", "url": "wss://example.com/audio", "protocol": "mediajson", "type": "transcriber", "audio": true },
+    { "id": "c-video", "url": "wss://example.com/video", "protocol": "mediajson", "type": "recorder", "video": true }
   ]
 }
         """,
@@ -576,7 +576,7 @@ private val expectedMappings = listOf(
 <iq xmlns="jabber:client" id="id" type="get">
   <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
     <connects>
-      <connect url='wss://example.com/webhook' protocol='mediajson' type='recorder' audio='true'>
+      <connect id='c-webhook' url='wss://example.com/webhook' protocol='mediajson' type='recorder' audio='true'>
         <http-header name='Authorization' value='Bearer token123'/>
       </connect>
     </connects>
@@ -589,6 +589,7 @@ private val expectedMappings = listOf(
   "create": true,
   "connects": [
     {
+      "id": "c-webhook",
       "url": "wss://example.com/webhook",
       "protocol": "mediajson",
       "type": "recorder",
@@ -608,7 +609,7 @@ private val expectedMappings = listOf(
 <iq xmlns="jabber:client" id="id" type="get">
   <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
     <connects>
-      <connect url='wss://example.com/webhook' protocol='mediajson' type='recorder' video='true'>
+      <connect id='c-webhook' url='wss://example.com/webhook' protocol='mediajson' type='recorder' video='true'>
         <ping interval='1234' timeout='5678'/>
       </connect>
     </connects>
@@ -621,6 +622,7 @@ private val expectedMappings = listOf(
   "create": true,
   "connects": [
     {
+      "id": "c-webhook",
       "url": "wss://example.com/webhook",
       "protocol": "mediajson",
       "type": "recorder",
@@ -641,7 +643,7 @@ private val expectedMappings = listOf(
 <iq xmlns="jabber:client" id="id" type="get">
   <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
     <connects>
-      <connect url='wss://example.com/webhook' protocol='mediajson' type='transcriber' audio='true' video='true'>
+      <connect id='c-webhook' url='wss://example.com/webhook' protocol='mediajson' type='transcriber' audio='true' video='true'>
         <http-header name='Authorization' value='Bearer token123'/>
         <http-header name='Content-Type' value='application/json'/>
         <ping interval='1000' timeout='2000'/>
@@ -656,6 +658,7 @@ private val expectedMappings = listOf(
   "create": true,
   "connects": [
     {
+      "id": "c-webhook",
       "url": "wss://example.com/webhook",
       "protocol": "mediajson",
       "type": "transcriber",
@@ -681,7 +684,7 @@ private val expectedMappings = listOf(
 <iq xmlns="jabber:client" id="id" type="get">
   <conference-modify xmlns="jitsi:colibri2" meeting-id="test-meeting-id" create="true">
     <connects>
-      <connect url='wss://example.com/webhook' protocol='mediajson' type='translator'>
+      <connect id='c-webhook' url='wss://example.com/webhook' protocol='mediajson' type='translator'>
         <exports>
           <export name='523834112-a0'/>
           <export name='2394a3432-a0'/>
@@ -701,6 +704,7 @@ private val expectedMappings = listOf(
   "create": true,
   "connects": [
     {
+      "id": "c-webhook",
       "url": "wss://example.com/webhook",
       "protocol": "mediajson",
       "type": "translator",

@@ -357,7 +357,8 @@ object Colibri2JSONDeserializer {
                 it.forEach { connect ->
                     require(connect is ObjectNode) { "Expected object for connect element, got ${connect.nodeType}" }
                     val connectObj = Connect(
-                        URI(connect[Connect.URL_ATTR_NAME]!!.asText()),
+                        id = connect[Connect.ID_ATTR_NAME]!!.asText(),
+                        url = URI(connect[Connect.URL_ATTR_NAME]!!.asText()),
                         protocol = Connect.Protocols.valueOf(
                             connect[Connect.PROTOCOL_ATTR_NAME]!!.asText().uppercase()
                         ),
@@ -365,7 +366,9 @@ object Colibri2JSONDeserializer {
                             connect[Connect.TYPE_ATTR_NAME]!!.asText().uppercase()
                         ),
                         audio = connect[Connect.AUDIO_ATTR_NAME]?.asBoolean() ?: false,
-                        video = connect[Connect.VIDEO_ATTR_NAME]?.asBoolean() ?: false
+                        video = connect[Connect.VIDEO_ATTR_NAME]?.asBoolean() ?: false,
+                        create = connect[Connect.CREATE_ATTR_NAME]?.asBoolean() ?: false,
+                        expire = connect[Connect.EXPIRE_ATTR_NAME]?.asBoolean() ?: false
                     )
 
                     // Deserialize HTTP headers

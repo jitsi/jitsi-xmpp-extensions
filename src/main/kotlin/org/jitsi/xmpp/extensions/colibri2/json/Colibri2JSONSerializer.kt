@@ -236,11 +236,14 @@ object Colibri2JSONSerializer {
     }
 
     private fun serializeConnect(connect: Connect) = JsonNodeFactory.instance.objectNode().apply {
+        put(Connect.ID_ATTR_NAME, connect.id)
         put(Connect.URL_ATTR_NAME, connect.url.toString())
         put(Connect.PROTOCOL_ATTR_NAME, connect.protocol.toString().lowercase())
         put(Connect.TYPE_ATTR_NAME, connect.type.toString().lowercase())
         if (connect.audio) put(Connect.AUDIO_ATTR_NAME, true)
         if (connect.video) put(Connect.VIDEO_ATTR_NAME, true)
+        if (connect.create) put(Connect.CREATE_ATTR_NAME, true)
+        if (connect.expire) put(Connect.EXPIRE_ATTR_NAME, true)
 
         // Serialize HTTP headers
         val headers = connect.getHttpHeaders()
