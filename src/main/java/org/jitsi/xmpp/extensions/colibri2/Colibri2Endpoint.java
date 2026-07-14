@@ -53,6 +53,11 @@ public class Colibri2Endpoint
     public static final String MUC_ROLE_ATTR_NAME = "muc-role";
 
     /**
+     * The name of the "diarize" attribute.
+     */
+    public static final String DIARIZE_ATTR_NAME = "diarize";
+
+    /**
      * Construct Colibri2Endpoint.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
     public Colibri2Endpoint()
@@ -75,6 +80,11 @@ public class Colibri2Endpoint
         if (b.mucRole != null)
         {
             setAttribute(MUC_ROLE_ATTR_NAME, b.mucRole.toString());
+        }
+
+        if (b.diarize != null)
+        {
+            setAttribute(DIARIZE_ATTR_NAME, b.diarize);
         }
 
         if (b.forceMute != null)
@@ -107,6 +117,16 @@ public class Colibri2Endpoint
     public @Nullable MUCRole getMucRole()
     {
         return MUCRole.fromString(getAttributeAsString(MUC_ROLE_ATTR_NAME));
+    }
+
+    /**
+     * Get whether this endpoint's audio should be diarized. Returns null if the attribute is absent, in which case
+     * the default should be used.
+     */
+    public @Nullable Boolean getDiarize()
+    {
+        String diarize = getAttributeAsString(DIARIZE_ATTR_NAME);
+        return diarize == null ? null : Boolean.parseBoolean(diarize);
     }
 
     /**
@@ -167,6 +187,11 @@ public class Colibri2Endpoint
         private MUCRole mucRole;
 
         /**
+         * Whether the endpoint being built should have its audio diarized.
+         */
+        private Boolean diarize;
+
+        /**
          * The force-mute element of the endpoint being built.
          */
         @Nullable private ForceMute forceMute = null;
@@ -200,6 +225,16 @@ public class Colibri2Endpoint
         public Builder setMucRole(MUCRole mucRole)
         {
             this.mucRole = mucRole;
+
+            return this;
+        }
+
+        /**
+         * Set whether the endpoint being built should have its audio diarized.
+         */
+        public Builder setDiarize(boolean diarize)
+        {
+            this.diarize = diarize;
 
             return this;
         }
