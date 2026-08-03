@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions.jibri;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.jitsi.xmpp.extensions.*;
+import org.jitsi.xmpp.extensions.colibri2.*;
 import org.jivesoftware.smack.packet.*;
 import org.junit.jupiter.api.*;
 
@@ -28,6 +29,12 @@ import org.junit.jupiter.api.*;
  */
 public class JibriIqProviderTest
 {
+    @BeforeAll
+    public static void registerProviders()
+    {
+        IqProviderUtils.registerProviders();
+    }
+
     @Test
     public void testParseIQ()
         throws Exception
@@ -106,5 +113,27 @@ public class JibriIqProviderTest
 
         iq.setRtcStatsEnabled(null);
         assertFalse(iq.toXML().toString().contains("rtcstats_enabled"));
+    }
+
+    @Test
+    public void testParseExtension()
+        throws Exception
+    {
+        JibriIqProvider provider = new JibriIqProvider();
+
+        String iqXml =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri'" +
+                "   action='start'>" +
+                "<capability xmlns='jitsi:colibri2' name='cap1'/>" +
+                "</jibri>" +
+                "</iq>";
+
+        JibriIq jibriIq = IQUtils.parse(iqXml, provider);
+
+        assertNotNull(jibriIq);
+        Capability capability = jibriIq.getExtension(Capability.class);
+        assertNotNull(capability, "extension must be attached to the parsed IQ");
+        assertEquals("cap1", capability.getName());
     }
 }
