@@ -18,6 +18,7 @@ package org.jitsi.xmpp.extensions.jibri;
 import org.apache.commons.lang3.StringUtils;
 
 import org.jitsi.xmpp.extensions.*;
+import org.jitsi.xmpp.extensions.colibri2.IqProviderUtils;
 import org.jivesoftware.smack.packet.*;
 import org.jivesoftware.smack.util.*;
 import org.jivesoftware.smack.xml.*;
@@ -133,8 +134,7 @@ public class JibriIqProvider
         {
             return null;
         }
-
-        ParserUtils.forwardToEndTagOfDepth(parser, initialDepth);
+        IqProviderUtils.parseExtensions(parser, initialDepth, iq);
         return iq;
     }
 }
