@@ -53,6 +53,21 @@ public class IceUdpTransportPacketExtension
     public static final String UFRAG_ATTR_NAME = "ufrag";
 
     /**
+     * The name of the <tt>ice-generation</tt> attribute, which tags a set of ICE credentials with the
+     * ICE restart round they belong to. It is allocated and incremented by the side that initiates the
+     * restart, and echoed back by the peer when it signals its own rotated credentials for the same
+     * round, so that concurrent or reordered restarts can be matched up and stale ones discarded.
+     * Absent means generation {@link #GENERATION_UNSPECIFIED} (a peer that predates this attribute).
+     */
+    public static final String ICE_GENERATION_ATTR_NAME = "ice-generation";
+
+    /**
+     * The value returned by {@link #getIceGeneration()} when the <tt>ice-generation</tt> attribute is
+     * absent, i.e. when the peer does not support generation tagging.
+     */
+    public static final int GENERATION_UNSPECIFIED = -1;
+
+    /**
      * A list of one or more candidates representing each of the initiator's
      * higher-priority transport candidates as determined in accordance with
      * the ICE methodology.
@@ -129,6 +144,28 @@ public class IceUdpTransportPacketExtension
     public String getUfrag()
     {
         return super.getAttributeAsString(UFRAG_ATTR_NAME);
+    }
+
+    /**
+     * Sets the ICE restart generation that the credentials in this element belong to.
+     *
+     * @param generation the ICE restart generation.
+     */
+    public void setIceGeneration(int generation)
+    {
+        super.setAttribute(ICE_GENERATION_ATTR_NAME, generation);
+    }
+
+    /**
+     * Returns the ICE restart generation that the credentials in this element belong to, or
+     * {@link #GENERATION_UNSPECIFIED} if the attribute is absent (the peer does not support
+     * generation tagging).
+     *
+     * @return the ICE restart generation, or {@link #GENERATION_UNSPECIFIED} if absent.
+     */
+    public int getIceGeneration()
+    {
+        return super.getAttributeAsInt(ICE_GENERATION_ATTR_NAME, GENERATION_UNSPECIFIED);
     }
 
     /**
