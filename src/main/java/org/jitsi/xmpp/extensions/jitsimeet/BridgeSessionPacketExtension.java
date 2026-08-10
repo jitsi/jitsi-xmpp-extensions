@@ -55,6 +55,14 @@ public class BridgeSessionPacketExtension
     private static final String RESTART_ATTR_NAME = "restart";
 
     /**
+     * The name for the "ice-restart" attribute. The {@code BridgeSessionPacketExtension} is included in
+     * 'session-info' sent by the client to Jicofo. If this attribute is set to {@code true} the client is asking for
+     * the ICE connection to the bridge to be restarted in place, keeping the existing session (as opposed to the
+     * {@link #RESTART_ATTR_NAME} flag, which asks for the whole session to be re-created).
+     */
+    private static final String ICE_RESTART_ATTR_NAME = "ice-restart";
+
+    /**
      * Creates new instance of {@code BridgeSessionPacketExtension}.
      */
     public BridgeSessionPacketExtension()
@@ -101,6 +109,23 @@ public class BridgeSessionPacketExtension
     public void setRestart(Boolean restart)
     {
         setAttribute(RESTART_ATTR_NAME, restart);
+    }
+
+    /**
+     * @return the value of {@link #ICE_RESTART_ATTR_NAME}, {@code false} if not set.
+     */
+    public Boolean isIceRestart()
+    {
+        return Boolean.parseBoolean(getAttributeAsString(ICE_RESTART_ATTR_NAME));
+    }
+
+    /**
+     * Sets new value for {@link #ICE_RESTART_ATTR_NAME}.
+     * @param iceRestart the new value to set or {@code null} to remove.
+     */
+    public void setIceRestart(Boolean iceRestart)
+    {
+        setAttribute(ICE_RESTART_ATTR_NAME, iceRestart);
     }
 
     /**

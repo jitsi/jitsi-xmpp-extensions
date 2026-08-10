@@ -60,6 +60,18 @@ public class Transport
     public static final boolean USE_UNIQUE_PORT_DEFAULT = false;
 
     /**
+     * The name of the <tt>ice-restart</tt> attribute. Set in a conference-modify request to ask the bridge to restart
+     * ICE for the endpoint, i.e. to create a new ICE agent with fresh credentials while the existing one keeps
+     * carrying media until the new one is connected (make-before-break).
+     */
+    public static final String ICE_RESTART_ATTR_NAME = "ice-restart";
+
+    /**
+     * Default value for the ice-restart attribute.
+     */
+    public static final boolean ICE_RESTART_DEFAULT = false;
+
+    /**
      * Construct a Transport.  Needs to be public for DefaultPacketExtensionProvider to work.
      */
     public Transport()
@@ -82,6 +94,11 @@ public class Transport
         if (b.useUniquePort != USE_UNIQUE_PORT_DEFAULT)
         {
             setAttribute(USE_UNIQUE_PORT_ATTR_NAME, b.useUniquePort);
+        }
+
+        if (b.iceRestart != ICE_RESTART_DEFAULT)
+        {
+            setAttribute(ICE_RESTART_ATTR_NAME, b.iceRestart);
         }
 
         if (b.iceUdpExtension != null)
@@ -127,6 +144,15 @@ public class Transport
     }
 
     /**
+     * Gets whether an ICE restart is being requested. Only meaningful in a conference-modify request.
+     */
+    public boolean getIceRestart()
+    {
+        String iceRestart = getAttributeAsString(ICE_RESTART_ATTR_NAME);
+        return iceRestart == null ? ICE_RESTART_DEFAULT : Boolean.parseBoolean(iceRestart);
+    }
+
+    /**
      * Return the contained ICE UDP Transport object, or null.
      */
     public @Nullable IceUdpTransportPacketExtension getIceUdpTransport()
@@ -158,6 +184,8 @@ public class Transport
 
         private boolean iceControlling = ICE_CONTROLLING_DEFAULT;
 
+        private boolean iceRestart = ICE_RESTART_DEFAULT;
+
         private IceUdpTransportPacketExtension iceUdpExtension;
 
         private Sctp sctp;
@@ -177,6 +205,12 @@ public class Transport
         public Builder setIceControlling(boolean i)
         {
             this.iceControlling = i;
+            return this;
+        }
+
+        public Builder setIceRestart(boolean iceRestart)
+        {
+            this.iceRestart = iceRestart;
             return this;
         }
 
