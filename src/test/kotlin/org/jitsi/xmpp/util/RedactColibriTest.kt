@@ -20,6 +20,7 @@ import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import org.jitsi.xmpp.util.RedactColibri.Companion.redactHttpHeaderValues
 import org.jitsi.xmpp.util.RedactColibri.Companion.redactIp
+import org.jitsi.xmpp.util.RedactColibri.Companion.redactToken
 import org.xmlunit.builder.DiffBuilder
 
 class RedactColibriTest : ShouldSpec() {
@@ -254,6 +255,34 @@ class RedactColibriTest : ShouldSpec() {
             val redacted = redactHttpHeaderValues(sourceXml)
 
             should("Redact all http-header values") {
+                val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
+                    .ignoreWhitespace()
+                    .checkForIdentical().build()
+
+                diff.asClue {
+                    diff.hasDifferences() shouldBe false
+                }
+            }
+        }
+
+        context("Redacting a ConferenceIq token") {
+            val sourceXml =
+                """
+<iq xmlns="jabber:client" to="focus@auth.example.com" from="user@example.com/abc" id="id1" type="set">
+  <conference xmlns="http://jitsi.org/protocol/focus" room="room1@conference.example.com" token="eyJhbGciOiJIUzI1NiJ9.super-secret-jwt"/>
+</iq>
+                """
+
+            val expectedXml =
+                """
+<iq xmlns="jabber:client" to="focus@auth.example.com" from="user@example.com/abc" id="id1" type="set">
+  <conference xmlns="http://jitsi.org/protocol/focus" room="room1@conference.example.com" token="[redacted]"/>
+</iq>
+                """
+
+            val redacted = redactToken(sourceXml)
+
+            should("Redact the token attribute") {
                 val diff = DiffBuilder.compare(expectedXml).withTest(redacted)
                     .ignoreWhitespace()
                     .checkForIdentical().build()
