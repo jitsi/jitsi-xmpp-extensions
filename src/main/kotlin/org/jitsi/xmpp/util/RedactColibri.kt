@@ -62,6 +62,43 @@ class RedactColibri {
             return writer.toString()
         }
 
+        private val redactTokenXslt =
+            """
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:j="jabber:client"
+                xmlns:f="http://jitsi.org/protocol/focus"
+                >
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
+
+  <xsl:template match="node()|@*">
+    <xsl:copy>
+      <xsl:apply-templates select="node()|@*"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match='j:iq/f:conference/@token'>
+    <xsl:attribute name="token">
+      <xsl:value-of select='"[redacted]"'/>
+    </xsl:attribute>
+  </xsl:template>
+</xsl:stylesheet>
+            """
+
+        private val tokenTemplates: Templates by lazy {
+            factory.newTemplates(
+                StreamSource(StringReader(redactTokenXslt))
+            )
+        }
+
+        fun redactToken(input: String): String {
+            val source = StreamSource(StringReader(input))
+            val writer = StringWriter()
+            val result = StreamResult(writer)
+            val transformer = tokenTemplates.newTransformer()
+            transformer.transform(source, result)
+            return writer.toString()
+        }
+
         private val redactXslt =
             """
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
