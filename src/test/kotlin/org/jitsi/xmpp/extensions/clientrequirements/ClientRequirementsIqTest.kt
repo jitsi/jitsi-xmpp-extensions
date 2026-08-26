@@ -107,6 +107,46 @@ class ClientRequirementsIqTest : ShouldSpec() {
                     )
                 }
             }
+            should("Fail with a missing-feature with no 'level'") {
+                shouldThrow<Exception> {
+                    IQUtils.parse(
+                        """
+<iq to='t' from='f' type='set'>
+    <client-requirements xmlns='jitsi:client-requirements' action='reject'>
+        <missing-feature xmlns='jitsi:client-requirements' var='f'/>
+    </client-requirements>
+</iq>
+                        """.trimIndent(),
+                        provider
+                    )
+                }
+            }
+            should("Fail with a missing-feature with an empty 'var'") {
+                shouldThrow<Exception> {
+                    IQUtils.parse(
+                        """
+<iq to='t' from='f' type='set'>
+    <client-requirements xmlns='jitsi:client-requirements' action='reject'>
+        <missing-feature xmlns='jitsi:client-requirements' var='' level='hard'/>
+    </client-requirements>
+</iq>
+                        """.trimIndent(),
+                        provider
+                    )
+                }
+            }
+            should("Fail with an empty 'action'") {
+                shouldThrow<Exception> {
+                    IQUtils.parse(
+                        """
+<iq to='t' from='f' type='set'>
+    <client-requirements xmlns='jitsi:client-requirements' action=''/>
+</iq>
+                        """.trimIndent(),
+                        provider
+                    )
+                }
+            }
             should("Fail with a missing-feature with an invalid 'level'") {
                 shouldThrow<Exception> {
                     IQUtils.parse(

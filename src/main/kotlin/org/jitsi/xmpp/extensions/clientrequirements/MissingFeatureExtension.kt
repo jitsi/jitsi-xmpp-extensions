@@ -16,6 +16,8 @@
 package org.jitsi.xmpp.extensions.clientrequirements
 
 import org.jitsi.xmpp.extensions.AbstractPacketExtension
+import org.jitsi.xmpp.extensions.StringValueEnum
+import org.jitsi.xmpp.extensions.parseStringValue
 import org.jivesoftware.smack.packet.XmlEnvironment
 import org.jivesoftware.smack.parsing.SmackParsingException
 import org.jivesoftware.smack.provider.ExtensionElementProvider
@@ -26,7 +28,7 @@ import java.io.IOException
 /**
  * The severity of a missing feature.
  */
-enum class RequirementLevel(val value: String) {
+enum class RequirementLevel(override val value: String) : StringValueEnum {
     /** The endpoint is not invited to the conference. */
     HARD("hard"),
 
@@ -34,7 +36,7 @@ enum class RequirementLevel(val value: String) {
     SOFT("soft");
 
     companion object {
-        fun parseString(s: String): RequirementLevel? = entries.find { it.value == s }
+        fun parseString(s: String): RequirementLevel? = parseStringValue<RequirementLevel>(s)
     }
 }
 
@@ -74,7 +76,9 @@ class MissingFeatureExtension(
 class MissingFeatureExtensionProvider : ExtensionElementProvider<MissingFeatureExtension>() {
     @Throws(XmlPullParserException::class, IOException::class, SmackParsingException::class)
     override fun parse(parser: XmlPullParser, depth: Int, xml: XmlEnvironment?): MissingFeatureExtension {
+        // Note that getAttributeValue returns an empty string when the attribute is present but empty.
         val feature = parser.getAttributeValue("", MissingFeatureExtension.FEATURE_ATTR_NAME)
+            ?.takeIf { it.isNotBlank() }
             ?: throw SmackParsingException.RequiredAttributeMissingException("Missing 'var' attribute")
         val levelString = parser.getAttributeValue("", MissingFeatureExtension.LEVEL_ATTR_NAME)
             ?: throw SmackParsingException.RequiredAttributeMissingException("Missing 'level' attribute")

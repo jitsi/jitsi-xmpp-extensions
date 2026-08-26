@@ -16,7 +16,9 @@
 package org.jitsi.xmpp.extensions.clientrequirements
 
 import org.jitsi.xmpp.extensions.SafeParseIqProvider
+import org.jitsi.xmpp.extensions.StringValueEnum
 import org.jitsi.xmpp.extensions.colibri2.IqProviderUtils
+import org.jitsi.xmpp.extensions.parseStringValue
 import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.packet.IQ
 import org.jivesoftware.smack.packet.IqBuilder
@@ -29,7 +31,7 @@ import org.jivesoftware.smack.xml.XmlPullParser
 /**
  * What the sender of a [ClientRequirementsIq] does about the missing features.
  */
-enum class RequirementsAction(val value: String) {
+enum class RequirementsAction(override val value: String) : StringValueEnum {
     /** At least one feature with a "hard" level is missing, and the endpoint will not be invited. */
     REJECT("reject"),
 
@@ -37,7 +39,7 @@ enum class RequirementsAction(val value: String) {
     WARN("warn");
 
     companion object {
-        fun parseString(s: String): RequirementsAction? = entries.find { it.value == s }
+        fun parseString(s: String): RequirementsAction? = parseStringValue<RequirementsAction>(s)
     }
 }
 
