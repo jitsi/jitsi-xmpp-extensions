@@ -129,6 +129,13 @@ public class JibriIqProvider
             {
                 iq.setRtcStatsEnabled(Boolean.valueOf(rtcStatsEnabledStr));
             }
+
+            String supportsBadRequestStr
+                = parser.getAttributeValue("", JibriIq.SUPPORTS_BAD_REQUEST_ATTR_NAME);
+            if (StringUtils.isNotEmpty(supportsBadRequestStr))
+            {
+                iq.setSupportsBadRequest(Boolean.valueOf(supportsBadRequestStr));
+            }
         }
         else
         {

@@ -116,6 +116,14 @@ public class JibriIq
     static final String RTCSTATS_ENABLED_ATTR_NAME = "rtcstats_enabled";
 
     /**
+     * The name of the attribute with which Jicofo tells Jibri that it understands a {@link BadRequestPacketExt} in
+     * the response to a start request. Jibri must only reject a start request synchronously when this is set,
+     * because a Jicofo which does not understand such a response treats it as unexpected and retries the request
+     * with other instances.
+     */
+    static final String SUPPORTS_BAD_REQUEST_ATTR_NAME = "supports_bad_request";
+
+    /**
      * The name of XML attribute which stores the recording mode which can be
      * either 'stream' or 'file'. If the attribute is not present, but
      * {@link #STREAM_ID_ATTR_NAME} is, then it defaults to 'stream'. But if
@@ -212,6 +220,12 @@ public class JibriIq
      * Whether rtcstats is enabled for this conference. Null means not specified.
      */
     private Boolean rtcStatsEnabled = null;
+
+    /**
+     * Whether the sender understands a {@link BadRequestPacketExt} in a response. Null means not specified, which
+     * must be treated the same as false.
+     */
+    private Boolean supportsBadRequest = null;
 
     public JibriIq()
     {
@@ -363,6 +377,16 @@ public class JibriIq
         this.rtcStatsEnabled = rtcStatsEnabled;
     }
 
+    public Boolean getSupportsBadRequest()
+    {
+        return supportsBadRequest;
+    }
+
+    public void setSupportsBadRequest(Boolean supportsBadRequest)
+    {
+        this.supportsBadRequest = supportsBadRequest;
+    }
+
     /**
      * Whether or not this IQ represents a failure from Jibri
      * @return true if it represents failure, false otherwise
@@ -408,6 +432,10 @@ public class JibriIq
         if (rtcStatsEnabled != null)
         {
             xml.attribute(RTCSTATS_ENABLED_ATTR_NAME, rtcStatsEnabled);
+        }
+        if (supportsBadRequest != null)
+        {
+            xml.attribute(SUPPORTS_BAD_REQUEST_ATTR_NAME, supportsBadRequest);
         }
 
         xml.setEmptyElement();
