@@ -65,11 +65,13 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
 
                 val builder = when (it.clazz) {
                     ConferenceModifyIQ::class -> Colibri2JSONDeserializer.deserializeConferenceModify(json)
+
                     ConferenceModifiedIQ::class -> {
                         Colibri2JSONDeserializer.deserializeConferenceModified(json).also { b ->
                             b.ofType(IQ.Type.result)
                         }
                     }
+
                     else -> throw IllegalStateException("Bad type in test")
                 }
 

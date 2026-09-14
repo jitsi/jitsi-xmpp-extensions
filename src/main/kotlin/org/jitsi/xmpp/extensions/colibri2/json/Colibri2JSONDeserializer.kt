@@ -42,122 +42,110 @@ import java.lang.IllegalArgumentException
 import java.net.URI
 
 object Colibri2JSONDeserializer {
-    private fun deserializeMedia(media: ObjectNode): Media {
-        return Media.getBuilder().apply {
-            media[Media.TYPE_ATTR_NAME]?.let {
-                require(it.isTextual) { "Expected string for ${Media.TYPE_ATTR_NAME}, got ${it.nodeType}" }
-                setType(MediaType.parseString(it.asText()))
-            }
+    private fun deserializeMedia(media: ObjectNode): Media = Media.getBuilder().apply {
+        media[Media.TYPE_ATTR_NAME]?.let {
+            require(it.isTextual) { "Expected string for ${Media.TYPE_ATTR_NAME}, got ${it.nodeType}" }
+            setType(MediaType.parseString(it.asText()))
+        }
 
-            media[Colibri2JSONSerializer.PAYLOAD_TYPES]?.let { payloadTypes ->
-                require(payloadTypes is ArrayNode) { "Expected array for payloadTypes, got ${payloadTypes.nodeType}" }
-                JSONDeserializer.deserializePayloadTypes(payloadTypes).forEach { addPayloadType(it) }
-            }
+        media[Colibri2JSONSerializer.PAYLOAD_TYPES]?.let { payloadTypes ->
+            require(payloadTypes is ArrayNode) { "Expected array for payloadTypes, got ${payloadTypes.nodeType}" }
+            JSONDeserializer.deserializePayloadTypes(payloadTypes).forEach { addPayloadType(it) }
+        }
 
-            media[Colibri2JSONSerializer.RTP_HEADER_EXTS]?.let { rtpHdrExts ->
-                require(rtpHdrExts is ArrayNode) { "Expected array for rtpHdrExts, got ${rtpHdrExts.nodeType}" }
-                JSONDeserializer.deserializeHeaderExtensions(rtpHdrExts).forEach { addRtpHdrExt(it) }
-            }
+        media[Colibri2JSONSerializer.RTP_HEADER_EXTS]?.let { rtpHdrExts ->
+            require(rtpHdrExts is ArrayNode) { "Expected array for rtpHdrExts, got ${rtpHdrExts.nodeType}" }
+            JSONDeserializer.deserializeHeaderExtensions(rtpHdrExts).forEach { addRtpHdrExt(it) }
+        }
 
-            media[ExtmapAllowMixedPacketExtension.ELEMENT]?.let {
-                require(it.isBoolean) {
-                    "Expected boolean for ${ExtmapAllowMixedPacketExtension.ELEMENT}, got ${it.nodeType}"
-                }
-                setExtmapAllowMixed(ExtmapAllowMixedPacketExtension())
+        media[ExtmapAllowMixedPacketExtension.ELEMENT]?.let {
+            require(it.isBoolean) {
+                "Expected boolean for ${ExtmapAllowMixedPacketExtension.ELEMENT}, got ${it.nodeType}"
             }
-        }.build()
-    }
+            setExtmapAllowMixed(ExtmapAllowMixedPacketExtension())
+        }
+    }.build()
 
-    private fun deserializeSctp(sctp: ObjectNode): Sctp {
-        return Sctp.Builder().apply {
-            sctp[Sctp.ROLE_ATTR_NAME]?.let {
-                require(it.isTextual) { "Expected string for ${Sctp.ROLE_ATTR_NAME}, got ${it.nodeType}" }
-                setRole(Sctp.Role.parseString(it.asText()))
-            }
+    private fun deserializeSctp(sctp: ObjectNode): Sctp = Sctp.Builder().apply {
+        sctp[Sctp.ROLE_ATTR_NAME]?.let {
+            require(it.isTextual) { "Expected string for ${Sctp.ROLE_ATTR_NAME}, got ${it.nodeType}" }
+            setRole(Sctp.Role.parseString(it.asText()))
+        }
 
-            sctp[Sctp.PORT_ATTR_NAME]?.let {
-                require(it.isNumber) { "Expected number for ${Sctp.PORT_ATTR_NAME}, got ${it.nodeType}" }
-                setPort(it.asInt())
-            }
-        }.build()
-    }
+        sctp[Sctp.PORT_ATTR_NAME]?.let {
+            require(it.isNumber) { "Expected number for ${Sctp.PORT_ATTR_NAME}, got ${it.nodeType}" }
+            setPort(it.asInt())
+        }
+    }.build()
 
-    private fun deserializeTransport(transport: ObjectNode): Transport {
-        return Transport.getBuilder().apply {
-            transport[Transport.ICE_CONTROLLING_ATTR_NAME]?.let {
-                require(it.isBoolean) {
-                    "Expected boolean for ${Transport.ICE_CONTROLLING_ATTR_NAME}, got ${it.nodeType}"
-                }
-                setIceControlling(it.asBoolean())
+    private fun deserializeTransport(transport: ObjectNode): Transport = Transport.getBuilder().apply {
+        transport[Transport.ICE_CONTROLLING_ATTR_NAME]?.let {
+            require(it.isBoolean) {
+                "Expected boolean for ${Transport.ICE_CONTROLLING_ATTR_NAME}, got ${it.nodeType}"
             }
+            setIceControlling(it.asBoolean())
+        }
 
-            transport[Transport.USE_UNIQUE_PORT_ATTR_NAME]?.let {
-                require(it.isBoolean) {
-                    "Expected boolean for ${Transport.USE_UNIQUE_PORT_ATTR_NAME}, got ${it.nodeType}"
-                }
-                setUseUniquePort(it.asBoolean())
+        transport[Transport.USE_UNIQUE_PORT_ATTR_NAME]?.let {
+            require(it.isBoolean) {
+                "Expected boolean for ${Transport.USE_UNIQUE_PORT_ATTR_NAME}, got ${it.nodeType}"
             }
+            setUseUniquePort(it.asBoolean())
+        }
 
-            transport[IceUdpTransportPacketExtension.ELEMENT]?.let {
-                require(it is ObjectNode) {
-                    "Expected object for ${IceUdpTransportPacketExtension.ELEMENT}, got ${it.nodeType}"
-                }
-                setIceUdpExtension(JSONDeserializer.deserializeTransport(it))
+        transport[IceUdpTransportPacketExtension.ELEMENT]?.let {
+            require(it is ObjectNode) {
+                "Expected object for ${IceUdpTransportPacketExtension.ELEMENT}, got ${it.nodeType}"
             }
+            setIceUdpExtension(JSONDeserializer.deserializeTransport(it))
+        }
 
-            transport[Sctp.ELEMENT]?.let {
-                require(it is ObjectNode) { "Expected object for ${Sctp.ELEMENT}, got ${it.nodeType}" }
-                setSctp(deserializeSctp(it))
-            }
-        }.build()
-    }
+        transport[Sctp.ELEMENT]?.let {
+            require(it is ObjectNode) { "Expected object for ${Sctp.ELEMENT}, got ${it.nodeType}" }
+            setSctp(deserializeSctp(it))
+        }
+    }.build()
 
-    private fun deserializeMediaSource(mediaSource: ObjectNode): MediaSource {
-        return MediaSource.getBuilder().apply {
-            mediaSource[MediaSource.TYPE_ATTR_NAME]?.let {
-                require(it.isTextual) { "Expected string for ${MediaSource.TYPE_ATTR_NAME}, got ${it.nodeType}" }
-                setType(MediaType.parseString(it.asText()))
-            }
+    private fun deserializeMediaSource(mediaSource: ObjectNode): MediaSource = MediaSource.getBuilder().apply {
+        mediaSource[MediaSource.TYPE_ATTR_NAME]?.let {
+            require(it.isTextual) { "Expected string for ${MediaSource.TYPE_ATTR_NAME}, got ${it.nodeType}" }
+            setType(MediaType.parseString(it.asText()))
+        }
 
-            mediaSource[MediaSource.ID_NAME]?.let {
-                require(it.isTextual) { "Expected string for ${MediaSource.ID_NAME}, got ${it.nodeType}" }
-                setId(it.asText())
-            }
+        mediaSource[MediaSource.ID_NAME]?.let {
+            require(it.isTextual) { "Expected string for ${MediaSource.ID_NAME}, got ${it.nodeType}" }
+            setId(it.asText())
+        }
 
-            mediaSource[MediaSource.SYNTHETIC_ATTR_NAME]?.let {
-                require(it.isBoolean) { "Expected boolean for ${MediaSource.SYNTHETIC_ATTR_NAME}, got ${it.nodeType}" }
-                setSynthetic(it.asBoolean())
-            }
+        mediaSource[MediaSource.SYNTHETIC_ATTR_NAME]?.let {
+            require(it.isBoolean) { "Expected boolean for ${MediaSource.SYNTHETIC_ATTR_NAME}, got ${it.nodeType}" }
+            setSynthetic(it.asBoolean())
+        }
 
-            mediaSource[Colibri2JSONSerializer.SOURCES]?.let { sources ->
-                require(sources is ArrayNode) { "Expected array for sources, got ${sources.nodeType}" }
-                sources.forEach { addSource(JSONDeserializer.deserializeSource(it)) }
-            }
+        mediaSource[Colibri2JSONSerializer.SOURCES]?.let { sources ->
+            require(sources is ArrayNode) { "Expected array for sources, got ${sources.nodeType}" }
+            sources.forEach { addSource(JSONDeserializer.deserializeSource(it)) }
+        }
 
-            mediaSource[Colibri2JSONSerializer.SOURCE_GROUPS]?.let { sourceGroups ->
-                require(sourceGroups is ArrayNode) { "Expected array for sourceGroups, got ${sourceGroups.nodeType}" }
-                sourceGroups.forEach { addSsrcGroup(JSONDeserializer.deserializeSourceGroup(it)) }
-            }
-        }.build()
-    }
+        mediaSource[Colibri2JSONSerializer.SOURCE_GROUPS]?.let { sourceGroups ->
+            require(sourceGroups is ArrayNode) { "Expected array for sourceGroups, got ${sourceGroups.nodeType}" }
+            sourceGroups.forEach { addSsrcGroup(JSONDeserializer.deserializeSourceGroup(it)) }
+        }
+    }.build()
 
-    private fun deserializeMedias(medias: ArrayNode): Collection<Media> {
-        return ArrayList<Media>().apply {
-            medias.forEach {
-                require(it is ObjectNode) { "Expected object for media element, got ${it.nodeType}" }
-                add(deserializeMedia(it))
-            }
+    private fun deserializeMedias(medias: ArrayNode): Collection<Media> = ArrayList<Media>().apply {
+        medias.forEach {
+            require(it is ObjectNode) { "Expected object for media element, got ${it.nodeType}" }
+            add(deserializeMedia(it))
         }
     }
 
-    private fun deserializeSources(sources: ArrayNode): Sources {
-        return Sources.getBuilder().apply {
-            sources.forEach {
-                require(it is ObjectNode) { "Expected object for source element, got ${it.nodeType}" }
-                addMediaSource(deserializeMediaSource(it))
-            }
-        }.build()
-    }
+    private fun deserializeSources(sources: ArrayNode): Sources = Sources.getBuilder().apply {
+        sources.forEach {
+            require(it is ObjectNode) { "Expected object for source element, got ${it.nodeType}" }
+            addMediaSource(deserializeMediaSource(it))
+        }
+    }.build()
 
     private fun deserializeAbstractConferenceEntityToBuilder(
         entity: ObjectNode,
@@ -220,81 +208,74 @@ object Colibri2JSONDeserializer {
         )
     }
 
-    private fun deserializeEndpoint(endpoint: ObjectNode): Colibri2Endpoint {
-        return Colibri2Endpoint.getBuilder().apply {
-            deserializeAbstractConferenceEntityToBuilder(endpoint, this)
+    private fun deserializeEndpoint(endpoint: ObjectNode): Colibri2Endpoint = Colibri2Endpoint.getBuilder().apply {
+        deserializeAbstractConferenceEntityToBuilder(endpoint, this)
 
-            endpoint[Colibri2Endpoint.STATS_ID_ATTR_NAME]?.let {
-                require(it.isTextual) {
-                    "Expected string for ${Colibri2Endpoint.STATS_ID_ATTR_NAME}, got ${it.nodeType}"
-                }
-                setStatsId(it.asText())
+        endpoint[Colibri2Endpoint.STATS_ID_ATTR_NAME]?.let {
+            require(it.isTextual) {
+                "Expected string for ${Colibri2Endpoint.STATS_ID_ATTR_NAME}, got ${it.nodeType}"
             }
+            setStatsId(it.asText())
+        }
 
-            endpoint[Colibri2Endpoint.MUC_ROLE_ATTR_NAME]?.let {
-                require(it.isTextual) {
-                    "Expected string for ${Colibri2Endpoint.MUC_ROLE_ATTR_NAME}, got ${it.nodeType}"
-                }
-                setMucRole(MUCRole.fromString(it.asText()))
+        endpoint[Colibri2Endpoint.MUC_ROLE_ATTR_NAME]?.let {
+            require(it.isTextual) {
+                "Expected string for ${Colibri2Endpoint.MUC_ROLE_ATTR_NAME}, got ${it.nodeType}"
             }
+            setMucRole(MUCRole.fromString(it.asText()))
+        }
 
-            endpoint[ForceMute.ELEMENT]?.let {
-                require(it is ObjectNode) { "Expected object for ${ForceMute.ELEMENT}, got ${it.nodeType}" }
-                setForceMute(deserializeForceMute(it))
+        endpoint[ForceMute.ELEMENT]?.let {
+            require(it is ObjectNode) { "Expected object for ${ForceMute.ELEMENT}, got ${it.nodeType}" }
+            setForceMute(deserializeForceMute(it))
+        }
+
+        endpoint[InitialLastN.ELEMENT]?.let {
+            require(it is ObjectNode) { "Expected object for ${InitialLastN.ELEMENT}, got ${it.nodeType}" }
+            setInitialLastN(deserializeInitialLastN(it))
+        }
+
+        endpoint[Colibri2JSONSerializer.CAPABILITIES_LIST]?.let { capabilities ->
+            require(capabilities is ArrayNode) {
+                "Expected array for capabilitiesList, got ${capabilities.nodeType}"
             }
-
-            endpoint[InitialLastN.ELEMENT]?.let {
-                require(it is ObjectNode) { "Expected object for ${InitialLastN.ELEMENT}, got ${it.nodeType}" }
-                setInitialLastN(deserializeInitialLastN(it))
+            capabilities.forEach {
+                require(it.isTextual) { "Expected string capability, got ${it.nodeType}" }
+                addCapability(it.asText())
             }
+        }
+    }.build()
 
-            endpoint[Colibri2JSONSerializer.CAPABILITIES_LIST]?.let { capabilities ->
-                require(capabilities is ArrayNode) {
-                    "Expected array for capabilitiesList, got ${capabilities.nodeType}"
-                }
-                capabilities.forEach {
-                    require(it.isTextual) { "Expected string capability, got ${it.nodeType}" }
-                    addCapability(it.asText())
-                }
-            }
-        }.build()
-    }
+    private fun deserializeRelay(relay: ObjectNode): Colibri2Relay = Colibri2Relay.getBuilder().apply {
+        deserializeAbstractConferenceEntityToBuilder(relay, this)
 
-    private fun deserializeRelay(relay: ObjectNode): Colibri2Relay {
-        return Colibri2Relay.getBuilder().apply {
-            deserializeAbstractConferenceEntityToBuilder(relay, this)
+        relay[Colibri2Relay.MESH_ID_ATTR_NAME]?.let {
+            require(it.isTextual) { "Expected string for ${Colibri2Relay.MESH_ID_ATTR_NAME}, got ${it.nodeType}" }
+            setMeshId(it.asText())
+        }
 
-            relay[Colibri2Relay.MESH_ID_ATTR_NAME]?.let {
-                require(it.isTextual) { "Expected string for ${Colibri2Relay.MESH_ID_ATTR_NAME}, got ${it.nodeType}" }
-                setMeshId(it.asText())
-            }
+        relay[Colibri2JSONSerializer.ENDPOINTS]?.let { endpoints ->
+            require(endpoints is ArrayNode) { "Expected array for endpoints, got ${endpoints.nodeType}" }
+            setEndpoints(
+                Endpoints.getBuilder().apply {
+                    deserializeEndpoints(endpoints).forEach { addEndpoint(it) }
+                }.build()
+            )
+        }
+    }.build()
 
-            relay[Colibri2JSONSerializer.ENDPOINTS]?.let { endpoints ->
-                require(endpoints is ArrayNode) { "Expected array for endpoints, got ${endpoints.nodeType}" }
-                setEndpoints(
-                    Endpoints.getBuilder().apply {
-                        deserializeEndpoints(endpoints).forEach { addEndpoint(it) }
-                    }.build()
-                )
-            }
-        }.build()
-    }
-
-    private fun deserializeEndpoints(endpoints: ArrayNode): Collection<Colibri2Endpoint> {
-        return ArrayList<Colibri2Endpoint>().apply {
+    private fun deserializeEndpoints(endpoints: ArrayNode): Collection<Colibri2Endpoint> =
+        ArrayList<Colibri2Endpoint>().apply {
             endpoints.forEach {
                 require(it is ObjectNode) { "Expected object for endpoint element, got ${it.nodeType}" }
                 add(deserializeEndpoint(it))
             }
         }
-    }
 
-    private fun deserializeRelays(relays: ArrayNode): Collection<Colibri2Relay> {
-        return ArrayList<Colibri2Relay>().apply {
-            relays.forEach {
-                require(it is ObjectNode) { "Expected object for relay element, got ${it.nodeType}" }
-                add(deserializeRelay(it))
-            }
+    private fun deserializeRelays(relays: ArrayNode): Collection<Colibri2Relay> = ArrayList<Colibri2Relay>().apply {
+        relays.forEach {
+            require(it is ObjectNode) { "Expected object for relay element, got ${it.nodeType}" }
+            add(deserializeRelay(it))
         }
     }
 
@@ -314,8 +295,8 @@ object Colibri2JSONDeserializer {
     }
 
     @JvmStatic
-    fun deserializeConferenceModify(conferenceModify: ObjectNode): ConferenceModifyIQ.Builder {
-        return ConferenceModifyIQ.builder("id").apply {
+    fun deserializeConferenceModify(conferenceModify: ObjectNode): ConferenceModifyIQ.Builder =
+        ConferenceModifyIQ.builder("id").apply {
             deserializeAbstractConferenceModificationToBuilder(conferenceModify, this)
 
             conferenceModify[ConferenceModifyIQ.MEETING_ID_ATTR_NAME]?.let {
@@ -437,16 +418,14 @@ object Colibri2JSONDeserializer {
                 if (!added) setEmptyConnects()
             }
         }
-    }
 
     @JvmStatic
-    fun deserializeConferenceModified(conferenceModified: ObjectNode): ConferenceModifiedIQ.Builder {
-        return ConferenceModifiedIQ.builder("id").apply {
+    fun deserializeConferenceModified(conferenceModified: ObjectNode): ConferenceModifiedIQ.Builder =
+        ConferenceModifiedIQ.builder("id").apply {
             deserializeAbstractConferenceModificationToBuilder(conferenceModified, this)
             conferenceModified[Sources.ELEMENT]?.let {
                 require(it is ArrayNode) { "Expected array for ${Sources.ELEMENT}, got ${it.nodeType}" }
                 setSources(deserializeSources(it))
             }
         }
-    }
 }

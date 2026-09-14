@@ -289,6 +289,7 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
                             val sanitizedValue = headerValue.replace("\r", "").replace("\n", "")
                             connect.addHttpHeader(headerName, sanitizedValue)
                         }
+
                         Connect.Ping.ELEMENT -> {
                             val intervalStr = parser.getAttributeValue("", Connect.Ping.INTERVAL_ATTR_NAME)
                                 ?: throw SmackParsingException.RequiredAttributeMissingException(
@@ -310,11 +311,13 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
                             }
                             connect.setPing(interval, timeout)
                         }
+
                         Connect.Exports.ELEMENT -> {
                             connect.setExports(
                                 parseSourceNames(parser, Connect.Exports.ELEMENT, Connect.Export.ELEMENT)
                             )
                         }
+
                         Connect.Requests.ELEMENT -> {
                             connect.setRequests(
                                 parseSourceNames(parser, Connect.Requests.ELEMENT, Connect.Request.ELEMENT)
@@ -322,11 +325,13 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
                         }
                     }
                 }
+
                 XmlPullParser.Event.END_ELEMENT -> {
                     if (parser.name == Connect.ELEMENT && parser.depth <= depth) {
                         done = true
                     }
                 }
+
                 else -> { /* ignore */ }
             }
         }
@@ -353,11 +358,13 @@ class ConnectProvider : DefaultPacketExtensionProvider<Connect>(Connect::class.j
                         names.add(name)
                     }
                 }
+
                 XmlPullParser.Event.END_ELEMENT -> {
                     if (parser.name == containerElement) {
                         done = true
                     }
                 }
+
                 else -> { /* ignore */ }
             }
         }

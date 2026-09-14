@@ -37,9 +37,7 @@ import org.jxmpp.stringprep.XmppStringprepException
  * https://github.com/igniterealtime/jxmpp/blob/master/jxmpp-strings-testframework/src/main/resources/xmpp-strings/jids/invalid/main
  */
 class JidTest : ShouldSpec() {
-    override fun isolationMode(): IsolationMode {
-        return IsolationMode.SingleInstance
-    }
+    override fun isolationMode(): IsolationMode = IsolationMode.SingleInstance
     override suspend fun beforeAny(testCase: TestCase) {
         super.beforeAny(testCase)
         Smack.initialize()

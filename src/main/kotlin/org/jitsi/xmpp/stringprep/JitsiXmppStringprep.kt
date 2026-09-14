@@ -102,14 +102,12 @@ class IDNWithUnderscoreProfile : PrecisProfile(false) {
         /**
          *  Return true if [this] is a code for an ASCII character that is not a Letter/Digit/Hyphen/Underscore/Percent.
          */
-        private fun Int.isNonLDHUPAsciiCodePoint(): Boolean {
-            return (this in 0x0000..0x0024) ||
-                (this in 0x0026..0x002C) ||
-                (this == 0x002F) ||
-                (this in 0x003A..0x0040) ||
-                (this in 0x005B..0x005e) ||
-                (this == 0x0060) ||
-                (this in 0x007B..0x007F)
-        }
+        private fun Int.isNonLDHUPAsciiCodePoint(): Boolean = (this in 0x0000..0x0024) ||
+            (this in 0x0026..0x002C) ||
+            (this == 0x002F) ||
+            (this in 0x003A..0x0040) ||
+            (this in 0x005B..0x005e) ||
+            (this == 0x0060) ||
+            (this in 0x007B..0x007F)
     }
 }

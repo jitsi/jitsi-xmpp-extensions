@@ -80,9 +80,7 @@ class VisitorsIq private constructor(b: Builder) : IQ(b, ELEMENT, NAMESPACE) {
 
         var room: EntityBareJid? = null
 
-        override fun build(): VisitorsIq {
-            return VisitorsIq(this)
-        }
+        override fun build(): VisitorsIq = VisitorsIq(this)
 
         override fun getThis() = this
     }
