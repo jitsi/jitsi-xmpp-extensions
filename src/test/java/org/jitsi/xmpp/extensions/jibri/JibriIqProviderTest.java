@@ -213,6 +213,108 @@ public class JibriIqProviderTest
     }
 
     @Test
+    public void testParseRecordingParams()
+        throws Exception
+    {
+        RecordingParamsPacketExt.registerExtensionProvider();
+        JibriIqProvider provider = new JibriIqProvider();
+
+        String iqXml =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri'" +
+                "   action='start' recording_mode='file'>" +
+                "<recording-params xmlns='http://jitsi.org/protocol/jibri'" +
+                "   tile-resolution='1280x720' tile-count='2' max-full-resolution-participants='3'/>" +
+                "</jibri>" +
+                "</iq>";
+
+        JibriIq jibriIq = IQUtils.parse(iqXml, provider);
+        assertNotNull(jibriIq);
+
+        RecordingParamsPacketExt params = jibriIq.getExtension(RecordingParamsPacketExt.class);
+        assertNotNull(params, "the recording-params extension must be attached to the parsed IQ");
+        assertEquals("1280x720", params.getTileResolution());
+        assertEquals(2, params.getTileCount());
+        assertEquals(3, params.getMaxFullResolutionParticipants());
+    }
+
+    @Test
+    public void testParseRecordingParamsWithoutAttributes()
+        throws Exception
+    {
+        RecordingParamsPacketExt.registerExtensionProvider();
+        JibriIqProvider provider = new JibriIqProvider();
+
+        // A sender which does not know a parameter does not send it. Every parameter must read as "not requested".
+        String iqXml =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri' action='start' recording_mode='file'>" +
+                "<recording-params xmlns='http://jitsi.org/protocol/jibri'/>" +
+                "</jibri>" +
+                "</iq>";
+
+        RecordingParamsPacketExt params =
+            IQUtils.parse(iqXml, provider).getExtension(RecordingParamsPacketExt.class);
+        assertNotNull(params);
+        assertNull(params.getTileResolution());
+        assertNull(params.getTileCount());
+        assertNull(params.getMaxFullResolutionParticipants());
+    }
+
+    @Test
+    public void testParseRecordingParamsWithBadNumber()
+        throws Exception
+    {
+        RecordingParamsPacketExt.registerExtensionProvider();
+        JibriIqProvider provider = new JibriIqProvider();
+
+        // A value which is not a number must not read as "not requested", because the receiver would then record
+        // with the default and nobody would know that the request was not served.
+        String iqXml =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri' action='start' recording_mode='file'>" +
+                "<recording-params xmlns='http://jitsi.org/protocol/jibri' tile-count='two'/>" +
+                "</jibri>" +
+                "</iq>";
+
+        RecordingParamsPacketExt params =
+            IQUtils.parse(iqXml, provider).getExtension(RecordingParamsPacketExt.class);
+        assertNotNull(params);
+        assertThrows(NumberFormatException.class, params::getTileCount);
+    }
+
+    @Test
+    public void testSerializeRecordingParams()
+        throws Exception
+    {
+        RecordingParamsPacketExt.registerExtensionProvider();
+
+        JibriIq iq = new JibriIq();
+        iq.setType(IQ.Type.set);
+        iq.setAction(JibriIq.Action.START);
+        iq.setRecordingMode(JibriIq.RecordingMode.FILE);
+        iq.setTo(JidCreate.from("t@example.com"));
+        iq.setFrom(JidCreate.from("f@example.com"));
+
+        RecordingParamsPacketExt params = new RecordingParamsPacketExt();
+        params.setTileResolution("1280x720");
+        params.setTileCount(2);
+        params.setMaxFullResolutionParticipants(3);
+        iq.addExtension(params);
+
+        String xml = iq.toXML().toString();
+        assertTrue(xml.contains("<recording-params"), "the extension must be nested inside <jibri>: " + xml);
+
+        // The extension must survive a round trip, otherwise the receiver can never act on it.
+        RecordingParamsPacketExt reparsed =
+            IQUtils.parse(xml, new JibriIqProvider()).getExtension(RecordingParamsPacketExt.class);
+        assertNotNull(reparsed);
+        assertEquals("1280x720", reparsed.getTileResolution());
+        assertEquals(2, reparsed.getTileCount());
+        assertEquals(3, reparsed.getMaxFullResolutionParticipants());
+    }
+
+    @Test
     public void testParseExtension()
         throws Exception
     {
