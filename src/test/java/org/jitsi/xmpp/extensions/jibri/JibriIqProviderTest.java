@@ -262,6 +262,38 @@ public class JibriIqProviderTest
     }
 
     @Test
+    public void testParseRecordingParamsWithUnknownParams()
+        throws Exception
+    {
+        RecordingParamsPacketExt.registerExtensionProvider();
+        JibriIqProvider provider = new JibriIqProvider();
+
+        // A newer sender can add a parameter which this release does not know. The request must still parse, and the
+        // parameters which this release does know must still be read. This is what lets Jicofo and Jibri add a
+        // parameter without a lock-step upgrade.
+        String iqXml =
+            "<iq to='t' from='f' type='set'>" +
+                "<jibri xmlns='http://jitsi.org/protocol/jibri' action='start' recording_mode='file'" +
+                "   some_future_attribute='x'>" +
+                "<recording-params xmlns='http://jitsi.org/protocol/jibri'" +
+                "   tile-resolution='1280x720' tile-count='2' some-future-param='7'>" +
+                "<some-future-element xmlns='http://jitsi.org/protocol/jibri' some-attribute='y'/>" +
+                "</recording-params>" +
+                "</jibri>" +
+                "</iq>";
+
+        JibriIq jibriIq = IQUtils.parse(iqXml, provider);
+        assertNotNull(jibriIq);
+        assertEquals(JibriIq.Action.START, jibriIq.getAction());
+
+        RecordingParamsPacketExt params = jibriIq.getExtension(RecordingParamsPacketExt.class);
+        assertNotNull(params, "the recording-params extension must be attached to the parsed IQ");
+        assertEquals("1280x720", params.getTileResolution());
+        assertEquals(2, params.getTileCount());
+        assertNull(params.getMaxFullResolutionParticipants());
+    }
+
+    @Test
     public void testParseRecordingParamsWithBadNumber()
         throws Exception
     {
