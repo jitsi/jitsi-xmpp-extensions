@@ -204,7 +204,10 @@ class Connect(
     enum class Types(val value: String) {
         RECORDER("recorder"),
         TRANSCRIBER("transcriber"),
-        TRANSLATOR("translator")
+        TRANSLATOR("translator"),
+
+        /** A voice agent: receives the exported audio and injects the agent's audio back as the requested sources. */
+        AGENT("agent")
     }
 
     companion object {
