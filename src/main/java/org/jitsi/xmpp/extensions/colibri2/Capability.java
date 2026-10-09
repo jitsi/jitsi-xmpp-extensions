@@ -52,6 +52,12 @@ public class Capability extends AbstractPacketExtension
     public static final String CAP_RTP_MID_DEMUX_SUPPORT = "rtp-mid-demux";
 
     /**
+     * The endpoint is synthetic: a bridge-side entity (e.g. a voice agent) that owns injected sources and has no media
+     * transport. It is created without a {@code <transport>} and never sends or receives media itself.
+     */
+    public static final String CAP_SYNTHETIC_ENDPOINT = "synthetic-endpoint";
+
+    /**
      * Creates an {@link Capability} instance.
      */
     public Capability()
