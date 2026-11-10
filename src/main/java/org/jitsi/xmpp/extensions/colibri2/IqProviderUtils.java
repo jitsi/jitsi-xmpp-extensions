@@ -147,6 +147,10 @@ public class IqProviderUtils
             new ConferenceModifyIQProvider());
         ProviderManager.addIQProvider(ConferenceModifiedIQ.ELEMENT, ConferenceModifiedIQ.NAMESPACE,
             new ConferenceModifiedIQProvider());
+        ProviderManager.addIQProvider(
+                ConferenceNotificationIQ.ELEMENT,
+                ConferenceNotificationIQ.NAMESPACE,
+                new ConferenceNotificationIQ.Provider());
 
         ProviderManager.addExtensionProvider(Colibri2Endpoint.ELEMENT, Colibri2Endpoint.NAMESPACE,
             new Colibri2Endpoint.Provider());
@@ -179,6 +183,7 @@ public class IqProviderUtils
         ProviderManager.addExtensionProvider(Connect.ELEMENT, Connect.NAMESPACE, new ConnectProvider());
         ProviderManager.addExtensionProvider(Connects.ELEMENT, Connects.NAMESPACE, new ConnectsProvider());
         ProviderManager.addExtensionProvider(Capability.ELEMENT, Capability.NAMESPACE, new Capability.Provider());
+        ProviderManager.addExtensionProvider(Notification.ELEMENT, Notification.NAMESPACE, new Notification.Provider());
         ProviderManager.addExtensionProvider(Sctp.ELEMENT, Sctp.NAMESPACE, new Sctp.Provider());
         ProviderManager.addExtensionProvider(Colibri2Error.ELEMENT,
                 Colibri2Error.NAMESPACE,
