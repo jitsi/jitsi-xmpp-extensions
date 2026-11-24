@@ -15,8 +15,8 @@
  */
 package org.jitsi.xmpp.extensions.colibri2.json
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotest.assertions.asClue
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.core.spec.style.ShouldSpec
@@ -60,7 +60,7 @@ class Colibri2JSONSerializerTest : ShouldSpec() {
 
         context("deserializing JSON") {
             expectedMappings.forEach {
-                val json = jacksonObjectMapper().readTree(it.json)
+                val json = ObjectMapper().readTree(it.json)
                 json.shouldBeInstanceOf<ObjectNode>()
 
                 val builder = when (it.clazz) {
